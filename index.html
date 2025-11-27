@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>DIGIY BATISSEUR — Inscription Pros BTP</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  
+  <!-- Firebase compat -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.0/firebase-database-compat.js"></script>
+
+  <style>
+    :root{
+      --bg:#020617;
+      --bg-soft:#0b1220;
+      --card:#020617;
+      --accent:#facc15;
+      --accent-soft:#f97316;
+      --ink:#f9fafb;
+      --muted:#9ca3af;
+      --line:#1f2937;
+      --danger:#ef4444;
+      --good:#22c55e;
+      --info:#38bdf8;
+    }
+    *{
+      box-sizing:border-box;
+      margin:0;
+      padding:0;
+      font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    }
+    body{
+      min-height:100vh;
+      background:radial-gradient(circle at top, #1e293b, #020617);
+      color:var(--ink);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:16px;
+    }
+    .app{
+      width:100%;
+      max-width:520px;
+      background:rgba(15,23,42,0.94);
+      border-radius:24px;
+      padding:20px 18px 18px;
+      box-shadow:0 24px 80px rgba(0,0,0,0.7);
+      border:1px solid rgba(148,163,184,0.35);
+    }
+    .head{
+      display:flex;
+      align-items:flex-start;
+      gap:10px;
+      margin-bottom:14px;
+    }
+    .logo{
+      width:40px;
+      height:40px;
+      border-radius:16px;
+      background:conic-gradient(from 210deg,var(--accent),var(--accent-soft),#22c55e,var(--accent));
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:800;
+      font-size:18px;
+      color:#020617;
+      flex-shrink:0;
+    }
+    h1{
+      font-size:20px;
+      line-height:1.1;
+      margin-bottom:3px;
+    }
+    .subtitle{
+      font-size:13px;
+      color:var(--muted);
+    }
+    .tagline{
+      margin-top:6px;
+      font-size:12px;
+      color:var(--info);
+    }
+    form{
+      margin-top:16px;
+      display:flex;
+      flex-direction:column;
+      gap:12px;
+    }
+    .field{
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+    }
+    label{
+      font-size:13px;
+      color:var(--muted);
+    }
+    input, select, textarea{
+      width:100%;
+      padding:9px 11px;
+      border-radius:10px;
+      border:1px solid var(--line);
+      background:#020617;
+      color:var(--ink);
+      font-size:14px;
+      outline:none;
+    }
+    input:focus, select:focus, textarea:focus{
+      border-color:var(--accent);
+      box-shadow:0 0 0 1px rgba(250,204,21,0.35);
+    }
+    textarea{
+      min-height:60px;
+      resize:vertical;
+    }
+    .helper{
+      font-size:11px;
+      color:var(--muted);
+    }
+    .row{
+      display:flex;
+      gap:10px;
+    }
+    .row > .field{
+      flex:1;
+    }
+    .chips{
+      display:flex;
+      flex-wrap:wrap;
+      gap:6px;
+      margin-top:4px;
+    }
+    .chip{
+      font-size:11px;
+      padding:4px 9px;
+      border-radius:999px;
+      border:1px solid rgba(148,163,184,0.5);
+      color:var(--muted);
+    }
+    .checkbox-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px 12px;
+      margin-top:3px;
+    }
+    .checkbox-row label{
+      font-size:12px;
+      display:flex;
+      align-items:center;
+      gap:4px;
+      color:var(--muted);
+    }
+    .checkbox-row input{
+      width:auto;
+      padding:0;
+    }
+    button{
+      margin-top:6px;
+      padding:10px 12px;
+      border-radius:999px;
+      border:none;
+      font-weight:600;
+      font-size:14px;
+      cursor:pointer;
+      background:linear-gradient(135deg,var(--accent),var(--accent-soft));
+      color:#111827;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:6px;
+    }
+    button:disabled{
+      opacity:0.6;
+      cursor:wait;
+    }
+    .status{
+      margin-top:10px;
+      min-height:18px;
+      font-size:12px;
+    }
+    .status.good{color:var(--good);}
+    .status.bad{color:var(--danger);}
+    .foot{
+      margin-top:10px;
+      border-top:1px dashed rgba(51,65,85,0.9);
+      padding-top:8px;
+      font-size:11px;
+      color:var(--muted);
+      line-height:1.4;
+    }
+    .hl{
+      color:var(--accent);
+      font-weight:500;
+    }
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:5px;
+      font-size:11px;
+      padding:3px 8px;
+      border-radius:999px;
+      background:rgba(15,23,42,0.9);
+      border:1px solid rgba(148,163,184,0.5);
+      margin-top:4px;
+      color:var(--muted);
+    }
+    .dot{
+      width:7px;
+      height:7px;
+      border-radius:999px;
+      background:var(--good);
+      box-shadow:0 0 0 4px rgba(34,197,94,0.25);
+    }
+
+    @media (max-width:480px){
+      .app{
+        padding:16px 14px 14px;
+        border-radius:20px;
+      }
+      .row{
+        flex-direction:column;
+      }
+      h1{font-size:18px;}
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div class="head">
+      <div class="logo">B</div>
+      <div>
+        <h1>DIGIY BATISSEUR</h1>
+        <div class="subtitle">Inscription des entrepreneurs du bâtiment et artisans qualifiés.</div>
+        <div class="badge">
+          <span class="dot"></span>
+          <span>Connecté au HUB DIGIYLYFE</span>
+        </div>
+        <div class="tagline">Plombier, électricien, maçon, carreleur, peintre, menuisier… On vous voit 👷🏽‍♂️🧱</div>
+      </div>
+    </div>
+
+    <form id="batisseurForm">
+      <div class="field">
+        <label for="nom">Nom & prénom</label>
+        <input type="text" id="nom" placeholder="Ex. Mamadou Ndiaye" required>
+        <div class="helper">Ton nom tel que le client doit te voir.</div>
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label for="metier">Métier principal</label>
+          <select id="metier" required>
+            <option value="">Sélectionner…</option>
+            <option>Plombier</option>
+            <option>Électricien</option>
+            <option>Maçon</option>
+            <option>Carreleur</option>
+            <option>Peintre</option>
+            <option>Menuisier</option>
+            <option>Serrurier</option>
+            <option>Multi-services</option>
+            <option>Autre</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="structure">Type de structure</label>
+          <select id="structure">
+            <option value="">Sélectionner…</option>
+            <option>Indépendant</option>
+            <option>Petite équipe (2–5)</option>
+            <option>Entreprise (+5)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label for="zone">Zone d’intervention</label>
+          <input type="text" id="zone" placeholder="Ex. Saly, Ngaparou, Mbour" required>
+        </div>
+        <div class="field">
+          <label for="dispo">Disponibilité</label>
+          <select id="dispo">
+            <option value="">Sélectionner…</option>
+            <option>Immédiate</option>
+            <option>Sous 48h</option>
+            <option>Sous 1 semaine</option>
+            <option>Sur rendez-vous</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label for="tel">Téléphone / WhatsApp</label>
+          <input type="tel" id="tel" placeholder="Ex. +221 77 000 00 00" required>
+          <div class="helper">Numéro joignable sur appel ou WhatsApp.</div>
+        </div>
+        <div class="field">
+          <label for="email">Email (optionnel)</label>
+          <input type="email" id="email" placeholder="Ex. contact@monatelier.sn">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="field">
+          <label for="experience">Expérience</label>
+          <select id="experience">
+            <option value="">Sélectionner…</option>
+            <option>&lt; 1 an</option>
+            <option>1–3 ans</option>
+            <option>3–5 ans</option>
+            <option>5+ ans</option>
+          </select>
+        </div>
+        <div class="field">
+          <label for="chantier">Types de chantiers</label>
+          <select id="chantier">
+            <option value="">Sélectionner…</option>
+            <option>Petits dépannages</option>
+            <option>Rénovation</option>
+            <option>Construction neuve</option>
+            <option>Gros chantier BTP</option>
+            <option>Sous-traitance</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Langues parlées</label>
+        <div class="checkbox-row">
+          <label><input type="checkbox" value="Français" class="lang">Français</label>
+          <label><input type="checkbox" value="Wolof" class="lang">Wolof</label>
+          <label><input type="checkbox" value="Anglais" class="lang">Anglais</label>
+          <label><input type="checkbox" value="Autre" class="lang">Autre</label>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="notes">Présentation / remarques</label>
+        <textarea id="notes" placeholder="Ex. Spécialiste en rénovation de villas, dépannage rapide, devis sur visite…"></textarea>
+      </div>
+
+      <div class="field">
+        <label>Tu cherches plutôt :</label>
+        <div class="chips">
+          <span class="chip">Clients particuliers</span>
+          <span class="chip">Hôtels / résidences</span>
+          <span class="chip">Promoteurs</span>
+          <span class="chip">Sous-traitance</span>
+        </div>
+        <div class="helper">C’est pour guider le HUB, pas pour te limiter.</div>
+      </div>
+
+      <button type="submit" id="btnSubmit">
+        🚀 Enregistrer mon profil Batisseur
+      </button>
+
+      <div id="status" class="status"></div>
+    </form>
+
+    <div class="foot">
+      Les données sont stockées dans <span class="hl">DIGIYLYFE Ecosystem</span> sous
+      <code>/batisseurs</code>. Le HUB peut ensuite filtrer par métier, zone, expérience
+      et alimenter DIGIY DRIVER, LOC, MARKET, RESA, etc.
+    </div>
+  </div>
+
+  <script>
+    // ===== CONFIG FIREBASE DIGIYLYFE ECOSYSTEM =====
+    const firebaseConfig = {
+      apiKey: "AIzaSyBqEQWoE2iC7_rp-u4riilNVHolcP2o0B0",
+      authDomain: "digiylyfe-ecosystem.firebaseapp.com",
+      databaseURL: "https://digiylyfe-ecosystem-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "digiylyfe-ecosystem"
+      // storageBucket, messagingSenderId, appId non obligatoires pour ce module
+    };
+
+    if (!firebase.apps.length) {
+      firebase.initializeApp(firebaseConfig);
+      console.log("🔥 Firebase DIGIYLYFE connecté (BATISSEUR)");
+    }
+
+    const db = firebase.database();
+    const form = document.getElementById("batisseurForm");
+    const statusEl = document.getElementById("status");
+    const btnSubmit = document.getElementById("btnSubmit");
+
+    function setStatus(msg, type){
+      statusEl.textContent = msg;
+      statusEl.className = "status" + (type ? " " + type : "");
+    }
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+
+      const nom = document.getElementById("nom").value.trim();
+      const metier = document.getElementById("metier").value;
+      const structure = document.getElementById("structure").value;
+      const zone = document.getElementById("zone").value.trim();
+      const dispo = document.getElementById("dispo").value;
+      const tel = document.getElementById("tel").value.trim();
+      const email = document.getElementById("email").value.trim();
+      const experience = document.getElementById("experience").value;
+      const chantier = document.getElementById("chantier").value;
+      const notes = document.getElementById("notes").value.trim();
+
+      // Langues
+      const langEls = document.querySelectorAll(".lang");
+      const langues = [];
+      langEls.forEach(c => { if(c.checked) langues.push(c.value); });
+
+      if (!nom || !metier || !zone || !tel){
+        setStatus("Merci de renseigner au minimum nom, métier, zone et téléphone.", "bad");
+        return;
+      }
+
+      const now = new Date();
+      const payload = {
+        nom,
+        metier,
+        structure: structure || null,
+        zone,
+        dispo: dispo || null,
+        tel,
+        email: email || null,
+        experience: experience || null,
+        chantier: chantier || null,
+        langues,
+        notes: notes || null,
+        statut: "nouveau",
+        source: "DIGIY BATISSEUR V1",
+        createdAt: now.toISOString(),
+        createdAtTs: now.getTime()
+      };
+
+      try {
+        btnSubmit.disabled = true;
+        setStatus("Enregistrement en cours…", "");
+
+        const ref = await db.ref("batisseurs").push(payload);
+        setStatus("✅ Profil enregistré avec succès. ID: " + ref.key, "good");
+        form.reset();
+      } catch (err) {
+        console.error(err);
+        setStatus("❌ Erreur lors de l’enregistrement. Réessaie plus tard.", "bad");
+      } finally {
+        btnSubmit.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>
