@@ -563,7 +563,7 @@
                         <span class="tag" style="background: rgba(250, 204, 21, 0.2); color: #facc15; border-color: #facc15;">🏙️ Dakar</span>
                     </div>
                     <div class="artisan-footer">
-                        <button class="btn btn-primary btn-small" onclick="contactArtisan('Mbaye', '+221XXXXXXXXX')">
+                        <button class="btn btn-primary btn-small" onclick="contactArtisan('Mbaye', '+221776427113')">
                             📞 Contacter
                         </button>
                         <button class="btn btn-secondary btn-small" onclick="openDevisModal('Mbaye')">
@@ -606,7 +606,7 @@
                         <span class="tag" style="background: rgba(56, 189, 248, 0.2); color: #38bdf8; border-color: #38bdf8;">🏖️ Petite Côte</span>
                     </div>
                     <div class="artisan-footer">
-                        <button class="btn btn-primary btn-small" onclick="contactArtisan('Helage', '+221XXXXXXXXX')">
+                        <button class="btn btn-primary btn-small" onclick="contactArtisan('Helage', '+221774513523')">
                             📞 Contacter
                         </button>
                         <button class="btn btn-secondary btn-small" onclick="openDevisModal('Helage')">
@@ -649,7 +649,7 @@
                         <span class="tag" style="background: rgba(34, 197, 94, 0.2); color: #22c55e; border-color: #22c55e;">🇸🇳 National</span>
                     </div>
                     <div class="artisan-footer">
-                        <button class="btn btn-primary btn-small" onclick="contactArtisan('Zal Kourant', '+221XXXXXXXXX')">
+                        <button class="btn btn-primary btn-small" onclick="contactArtisan('Zal Kourant', '+221772084781')">
                             📞 Contacter
                         </button>
                         <button class="btn btn-secondary btn-small" onclick="openDevisModal('Zal Kourant')">
@@ -767,7 +767,7 @@
                         <input type="number" id="proExp" placeholder="Ex: 10">
                     </div>
                     <button type="submit" class="btn btn-primary" style="width: 100%;">
-                        ✅ Envoyer ma candidature
+                        ✅ Continuer vers le paiement
                     </button>
                 </form>
             </div>
@@ -858,14 +858,39 @@
             document.getElementById('inscriptionForm').reset();
         }
 
+        // ✅ MODIFIÉ : Redirection vers page paiement après inscription
         function submitInscription() {
             const name = document.getElementById('proName').value;
             const specialty = document.getElementById('proSpecialty').value;
             const phone = document.getElementById('proPhone').value;
+            const email = document.getElementById('proEmail').value;
+            const zone = document.getElementById('proZone').value;
+            const exp = document.getElementById('proExp').value;
 
-            alert(`✅ Candidature envoyée !\n\n${name} - ${specialty}\n\nNous vous contacterons au ${phone} pour valider votre profil.\n\nBienvenue dans DIGIY BUILD ! 🔥`);
+            // Stocker les données dans localStorage pour les récupérer sur la page paiement
+            const partnerData = {
+                name: name,
+                specialty: specialty,
+                phone: phone,
+                email: email,
+                zone: zone,
+                experience: exp,
+                module: 'DIGIY BUILD',
+                timestamp: new Date().toISOString()
+            };
             
+            localStorage.setItem('digiy_partner_data', JSON.stringify(partnerData));
+
+            // Fermer la modal
             closeInscriptionModal();
+
+            // Message de confirmation
+            alert(`✅ Informations enregistrées !\n\nNom: ${name}\nSpécialité: ${specialty}\n\nVous allez être redirigé vers la page de paiement.`);
+
+            // Redirection vers la page paiement après 1 seconde
+            setTimeout(() => {
+                window.location.href = 'https://beauville.github.io/commencer-a-payer/';
+            }, 1000);
         }
 
         // Fermer modal en cliquant à l'extérieur
