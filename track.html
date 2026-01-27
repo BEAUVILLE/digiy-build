@@ -5,9 +5,8 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
   <meta name="theme-color" content="#0b2a1f"/>
   <title>DIGIY BUILD — Suivi de demande</title>
-  <meta name="description" content="Suivre une demande DIGIY BUILD avec votre code public.">
+  <meta name="description" content="Suivre une demande DIGIY BUILD avec votre code public (mode safe).">
 
-  <!-- Supabase JS v2 -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
@@ -151,7 +150,7 @@
         <div class="logo">♾️</div>
         <div>
           <h1>DIGIY BUILD</h1>
-          <p>Suivi de demande</p>
+          <p>Suivi (safe)</p>
         </div>
       </div>
       <div style="display:flex;gap:10px;flex-wrap:wrap">
@@ -163,7 +162,7 @@
     <div class="card">
       <div class="hd">
         <p class="t">Entre ton code public</p>
-        <p class="s">Ex: <span class="mono">B7KQ2M9PZ</span> — (le code affiché après envoi).</p>
+        <p class="s">Ex: <span class="mono">B7KQ2M9PZ</span> — suivi sans exposer tes données privées.</p>
       </div>
       <div class="bd">
         <label>Code</label>
@@ -176,7 +175,7 @@
         </div>
 
         <div class="hint">
-          Si ta demande est très ancienne, refais une demande ou contacte le support.
+          Le mode safe affiche seulement : statut, ville, métier, budget, date, et éventuellement le slug pro.
         </div>
       </div>
     </div>
@@ -190,7 +189,7 @@
     </div>
 
     <div class="hint">
-      <b>Note :</b> Si ta demande a été clôturée, l’accès public peut être limité (protection).
+      Besoin d’aide ? WhatsApp support disponible.
     </div>
   </div>
 
@@ -227,7 +226,7 @@
   function statusPill(status){
     const s = String(status||"").toLowerCase();
     if(["new","open"].includes(s)) return `<span class="pill ok">🟢 ${esc(s)}</span>`;
-    if(["assigned","quoted","in_progress","progress"].includes(s)) return `<span class="pill warn">🟠 ${esc(s)}</span>`;
+    if(["assigned","quoted","in_progress","progress"].includes(s)) return `<span class="pill.warn pill warn">🟠 ${esc(s)}</span>`;
     if(["done","closed","cancelled","canceled"].includes(s)) return `<span class="pill bad">🔴 ${esc(s)}</span>`;
     return `<span class="pill">${esc(s || "—")}</span>`;
   }
@@ -237,10 +236,9 @@
   }
 
   async function fetchByCode(code){
-    // NOTE: dépend de ta RLS public_select_open_requests (new/open)
     return await sb
-      .from("digiy_build_requests")
-      .select("id, created_at, status, city, zone, trade, description, budget_min, budget_max, urgency, desired_date, contact_pref, assigned_pro_slug")
+      .from("v_digiy_build_requests_public_safe")
+      .select("public_code, created_at, status, city, zone, trade, budget_min, budget_max, urgency, desired_date, assigned_pro_slug")
       .eq("public_code", code)
       .limit(1);
   }
@@ -250,6 +248,8 @@
 
     const waMsg = `Bonjour 👋\nJe veux suivre ma demande DIGIY BUILD.\nCode: ${code}\nVille: ${row.city || ""}\nMétier: ${row.trade || ""}\nMerci.`;
     const wa = buildWhatsAppLink(SUPPORT_WHATSAPP, waMsg);
+
+    const proSlug = row.assigned_pro_slug ? row.assigned_pro_slug : "—";
 
     $("resultSub").innerHTML = `Code <span class="mono">${esc(code)}</span> • ${fmtDate(row.created_at)} • ${statusPill(row.status)}`;
 
@@ -263,16 +263,11 @@
 
       <div class="sep"></div>
 
-      <div class="item">
-        <div class="k">Description</div>
-        <div class="v" style="font-weight:800;line-height:1.35">${esc(row.description||"—")}</div>
-      </div>
-
-      <div class="grid" style="margin-top:12px">
+      <div class="grid">
         <div class="item"><div class="k">Budget min</div><div class="v">${row.budget_min ?? "—"}</div></div>
         <div class="item"><div class="k">Budget max</div><div class="v">${row.budget_max ?? "—"}</div></div>
         <div class="item"><div class="k">Date souhaitée</div><div class="v">${esc(row.desired_date||"—")}</div></div>
-        <div class="item"><div class="k">Contact</div><div class="v">${esc(row.contact_pref||"—")}</div></div>
+        <div class="item"><div class="k">Pro assigné (slug)</div><div class="v">${esc(proSlug)}</div></div>
       </div>
 
       <div class="row" style="margin-top:12px">
@@ -280,7 +275,7 @@
         <button class="btn" id="copyCode">📋 Copier le code</button>
       </div>
 
-      <div class="hint">Si un pro est assigné, tu verras son identifiant (slug) quand l’accès public le permet.</div>
+      <div class="hint">Mode safe : aucune donnée privée (téléphone, description, liens) n’est affichée ici.</div>
     `;
 
     $("copyCode").addEventListener("click", async ()=>{
@@ -300,7 +295,7 @@
       <div class="item" style="border-color: rgba(239,68,68,.35); background: rgba(239,68,68,.10)">
         <div class="k">Erreur</div>
         <div class="v">${esc(msg)}</div>
-        <div class="hint" style="margin-top:8px">Astuce : vérifie le code, ou utilise “Dernière demande”.</div>
+        <div class="hint" style="margin-top:8px">Vérifie le code, ou utilise “Dernière demande”.</div>
       </div>
     `;
   }
@@ -316,7 +311,7 @@
       if(error) throw error;
 
       if(!data || data.length === 0){
-        showError("Aucune demande trouvée (ou accès public limité).");
+        showError("Aucune demande trouvée.");
       } else {
         showResult(data[0], code);
       }
@@ -329,7 +324,6 @@
     }
   }
 
-  // Buttons
   $("btnTrack").addEventListener("click", runTrack);
 
   $("btnPaste").addEventListener("click", async ()=>{
@@ -357,7 +351,6 @@
     }
   });
 
-  // Auto: ?code=...
   (function init(){
     const c = new URL(location.href).searchParams.get("code");
     if(c){
