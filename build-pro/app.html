@@ -5,401 +5,172 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
   <meta name="theme-color" content="#0b2a1f"/>
   <title>DIGIY BUILD PRO — Cockpit</title>
-  <meta name="description" content="Cockpit DIGIY BUILD PRO — demandes assignées, actions terrain.">
 
-  <!-- Supabase JS v2 -->
+  <!-- Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-  <!-- ✅ GUARD -->
-  <script src="./guard.js?v=buildpro-2"></script>
+  <script src="./guard.js?v=buildpro-final"></script>
 
   <style>
-    :root{
-      --bg:#061b14;
-      --card:#0b2a1f;
-      --card2:#0a241b;
-      --line:rgba(255,255,255,.12);
-      --text:#eafff1;
-      --muted:rgba(234,255,241,.72);
-      --gold:#facc15;
-      --orange:#f59e0b;
-      --green:#22c55e;
-      --red:#ef4444;
-      --shadow: 0 18px 40px rgba(0,0,0,.45);
-      --radius: 18px;
-    }
-    *{box-sizing:border-box;margin:0;padding:0}
     body{
-      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-      background:
-        radial-gradient(circle at 20% 10%, rgba(250,204,21,0.14), transparent 55%),
-        radial-gradient(circle at 80% 90%, rgba(34,197,94,0.10), transparent 55%),
-        linear-gradient(180deg, #04140f 0%, var(--bg) 55%, #020c09 100%);
-      color:var(--text);
-      min-height:100vh;
-      padding:18px 14px 36px;
+      margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto;
+      background:#061b14;color:#eafff1;padding:16px
     }
-    .wrap{max-width:980px;margin:0 auto}
     header{
-      display:flex;align-items:center;justify-content:space-between;
-      gap:12px;margin-bottom:14px;flex-wrap:wrap;
+      display:flex;justify-content:space-between;align-items:center;
+      gap:12px;flex-wrap:wrap;margin-bottom:16px
     }
     .brand{
-      display:flex;align-items:center;gap:10px;
-      padding:10px 12px;border:1px solid var(--line);
-      border-radius:999px;background:rgba(0,0,0,.18)
+      display:flex;gap:10px;align-items:center;
+      padding:10px 14px;border-radius:999px;
+      border:1px solid rgba(255,255,255,.12)
     }
     .logo{
-      width:34px;height:34px;border-radius:12px;
+      width:32px;height:32px;border-radius:10px;
       display:grid;place-items:center;
-      background:linear-gradient(135deg, rgba(34,197,94,.25), rgba(250,204,21,.22));
-      border:1px solid rgba(250,204,21,.25);
-      box-shadow:0 10px 26px rgba(0,0,0,.35);
-      font-weight:900;
+      background:#22c55e;color:#062014;font-weight:900
     }
-    .brand b{display:block;letter-spacing:.4px}
-    .brand small{display:block;color:var(--muted);margin-top:1px}
-    .actions{display:flex;gap:10px;flex-wrap:wrap}
     .btn{
-      border:1px solid var(--line);
-      background:rgba(0,0,0,.18);
-      color:var(--text);
-      padding:10px 12px;border-radius:999px;
-      cursor:pointer;text-decoration:none;
-      display:inline-flex;align-items:center;gap:8px;
+      padding:10px 14px;border-radius:999px;
+      border:1px solid rgba(255,255,255,.14);
+      background:rgba(0,0,0,.25);color:#eafff1;
+      cursor:pointer
     }
     .btn.primary{
-      border:none;
-      background:linear-gradient(135deg, rgba(34,197,94,.95), rgba(250,204,21,.88));
-      color:#062014;font-weight:900;
+      background:#22c55e;color:#062014;font-weight:900;border:none
     }
-
-    .hero{
-      padding:16px;border-radius:var(--radius);
-      border:1px solid var(--line);
-      background:linear-gradient(180deg, rgba(11,42,31,.92), rgba(10,36,27,.75));
-      box-shadow:var(--shadow);
-      margin-bottom:14px;
-      display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;
-    }
-    .hero h1{font-size:18px;line-height:1.15;margin-bottom:6px}
-    .hero p{color:var(--muted);font-size:13px;line-height:1.35}
-    .pill{
-      font-size:12px;color:var(--text);
-      border:1px solid var(--line);
-      background:rgba(0,0,0,.18);
-      padding:7px 10px;border-radius:999px;
-      display:inline-flex;align-items:center;gap:8px;
-      white-space:nowrap;
-    }
-
-    .bar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:12px 0 14px}
-    select, input{
-      border-radius:14px;
-      border:1px solid rgba(255,255,255,.14);
-      background:rgba(0,0,0,.22);
-      color:var(--text);
-      padding:10px 12px;
-      outline:none;
-      font-size:13px;
-    }
-
-    .info{
-      margin-top:12px;border-radius:14px;padding:12px 12px;
-      border:1px solid rgba(255,255,255,.14);
-      background:rgba(0,0,0,.22);
-      font-size:13px;color:var(--muted);display:none;
-    }
-    .info.show{display:block}
-
-    .grid{display:grid;grid-template-columns:repeat(12,1fr);gap:12px}
     .card{
-      grid-column: span 12;
-      padding:14px;border-radius:var(--radius);
-      border:1px solid var(--line);
-      background:rgba(3,12,9,.55);
-      box-shadow:var(--shadow);
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:18px;padding:14px;margin-bottom:14px;
+      background:rgba(0,0,0,.25)
     }
-    @media (min-width: 860px){ .card{grid-column: span 6;} }
-
-    .toprow{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:flex-start;margin-bottom:10px}
-    .title{display:flex;flex-direction:column;gap:3px}
-    .title b{font-size:15px}
-    .title small{color:var(--muted);font-size:12px}
-    .meta{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-    .tag{
-      font-size:12px;padding:6px 10px;border-radius:999px;
-      border:1px solid var(--line);
-      background:rgba(0,0,0,.18);
-      color:var(--text);
+    .row{margin-top:8px;font-size:14px;color:rgba(234,255,241,.8)}
+    .actions{
+      display:flex;gap:10px;flex-wrap:wrap;margin-top:12px
     }
-    .tag.new{border-color:rgba(250,204,21,.35)}
-    .tag.doing{border-color:rgba(59,130,246,.35)}
-    .tag.done{border-color:rgba(34,197,94,.35)}
-    .tag.bad{border-color:rgba(239,68,68,.35)}
-
-    .kv{font-size:13px;color:var(--muted);line-height:1.25;margin-top:6px}
-    .kv b{color:var(--text);font-weight:800}
-
-    .cardActions{margin-top:12px;display:flex;gap:10px;flex-wrap:wrap}
     .a{
-      border:1px solid var(--line);
-      background:rgba(0,0,0,.18);
-      color:var(--text);
       padding:10px 12px;border-radius:14px;
-      cursor:pointer;text-decoration:none;
-      display:inline-flex;align-items:center;gap:8px;
-      font-weight:700;
+      border:1px solid rgba(255,255,255,.14);
+      background:rgba(0,0,0,.25);
+      color:#eafff1;cursor:pointer
     }
-    .a.green{
-      border:none;
-      background:linear-gradient(135deg, rgba(34,197,94,.95), rgba(250,204,21,.78));
-      color:#062014;font-weight:900;
+    .a.green{background:#22c55e;color:#062014;border:none;font-weight:900}
+    .a.red{border-color:#ef4444;color:#ef4444}
+    .status{
+      display:inline-block;padding:6px 10px;border-radius:999px;
+      font-size:12px;margin-bottom:6px
     }
-    .a.red{border-color:rgba(239,68,68,.35)}
-    .empty{
-      border:1px dashed rgba(255,255,255,.18);
-      background:rgba(0,0,0,.12);
-      border-radius:var(--radius);
-      padding:18px;text-align:center;color:var(--muted);
-      grid-column:1/-1;
-    }
+    .status.new{background:#facc15;color:#062014}
+    .status.doing{background:#3b82f6}
+    .status.done{background:#22c55e;color:#062014}
+    .status.cancel{background:#ef4444}
   </style>
 </head>
 
 <body>
-  <div class="wrap">
-    <header>
-      <div class="brand">
-        <div class="logo">🧱</div>
-        <div>
-          <b>DIGIY BUILD PRO</b>
-          <small id="sub">Cockpit terrain — demandes assignées</small>
-        </div>
-      </div>
-
-      <div class="actions">
-        <button class="btn" id="refresh">🔄 Rafraîchir</button>
-        <a class="btn" id="goPin" href="./pin.html">🔐 PIN</a>
-        <button class="btn" id="logout">🚪 Sortir</button>
-        <button class="btn primary" id="unlock">🔓 Débloquer PRO complet</button>
-      </div>
-    </header>
-
-    <section class="hero">
-      <div>
-        <h1 id="hello">Bienvenue</h1>
-        <p>
-          Entrée <b>slug</b> pour le chemin, et <b>owner_id</b> pour la sécurité/assignation.
-          <span style="opacity:.75">(Mode light)</span>
-        </p>
-      </div>
-      <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center">
-        <span class="pill" id="pillSlug">slug: —</span>
-        <span class="pill" id="pillCount">demandes: —</span>
-        <span class="pill" id="pillMode">mode: light</span>
-      </div>
-    </section>
-
-    <div class="bar">
-      <select id="filterStatus" title="Filtrer par statut">
-        <option value="">Tous statuts</option>
-        <option value="new">Nouvelles</option>
-        <option value="doing">En cours</option>
-        <option value="done">Terminées</option>
-        <option value="cancel">Annulées</option>
-      </select>
-
-      <input id="search" placeholder="Recherche (service, zone, note…)" />
-      <span class="pill" id="last">Dernière sync: —</span>
+<header>
+  <div class="brand">
+    <div class="logo">🧱</div>
+    <div>
+      <b>DIGIY BUILD PRO</b><br>
+      <small id="slugLabel"></small>
     </div>
-
-    <div id="info" class="info"></div>
-    <div id="grid" class="grid"></div>
   </div>
+  <div>
+    <button class="btn" id="refresh">🔄 Rafraîchir</button>
+    <button class="btn" id="logout">🚪 Sortir</button>
+    <button class="btn primary">🔓 PRO complet</button>
+  </div>
+</header>
 
-  <script>
-    const BUILD = window.DIGIY?.BUILD;
-    const guardErr = BUILD?.guardError;
+<div id="list"></div>
 
-    const TBL = "digiy_build_requests";
+<script>
+/* =============================
+   INIT SESSION
+============================= */
+const BUILD = window.DIGIY?.BUILD;
+const SB = BUILD?.sb;
+const SESSION = BUILD.requireSession({ redirectTo:"./pin.html", allowNoSlug:true });
+const OWNER_ID = SESSION.owner_id;
+document.getElementById("slugLabel").textContent =
+  SESSION.slug ? "slug : " + SESSION.slug : "mode terrain";
 
-    const grid = document.getElementById("grid");
-    const info = document.getElementById("info");
-    const filterStatus = document.getElementById("filterStatus");
-    const searchEl = document.getElementById("search");
-    const lastEl = document.getElementById("last");
+/* =============================
+   UTILS
+============================= */
+const list = document.getElementById("list");
+function esc(v){return String(v??"").replace(/[&<>"']/g,c=>({
+  "&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"
+}[c]));}
 
-    let SB, SESSION, CACHE = [];
+function badge(status){
+  status = status || "new";
+  return `<span class="status ${status}">${status}</span>`;
+}
 
-    function showInfo(text){
-      info.textContent = text;
-      info.classList.add("show");
-    }
-    function hideInfo(){
-      info.classList.remove("show");
-      info.textContent = "";
-    }
+/* =============================
+   LOAD REQUESTS
+============================= */
+async function load(){
+  list.innerHTML = "Chargement…";
 
-    function esc(s){
-      return String(s ?? "").replace(/[&<>"']/g, (c)=>({
-        "&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"
-      }[c]));
-    }
+  const { data, error } = await SB
+    .from("digiy_build_requests")
+    .select("*")
+    .eq("owner_id", OWNER_ID)
+    .order("created_at", { ascending:false });
 
-    function fmtDate(x){
-      if(!x) return "—";
-      const d = new Date(x);
-      if(!isFinite(d.getTime())) return "—";
-      return d.toLocaleString("fr-FR", { dateStyle:"medium", timeStyle:"short" });
-    }
+  if(error){
+    list.innerHTML = "Erreur chargement";
+    console.error(error);
+    return;
+  }
 
-    function normStatus(v){
-      const s = String(v ?? "").toLowerCase().trim();
-      if(!s) return "new";
-      if(["new","doing","done","cancel"].includes(s)) return s;
-      if(["en_cours","encours","in_progress"].includes(s)) return "doing";
-      if(["terminee","terminée","finished"].includes(s)) return "done";
-      if(["annulee","annulée","canceled"].includes(s)) return "cancel";
-      return "new";
-    }
+  if(!data.length){
+    list.innerHTML = "<div class='card'>Aucune demande pour l’instant.</div>";
+    return;
+  }
 
-    function tagStatus(status){
-      const s = normStatus(status);
-      if(s === "doing") return {label:"En cours", cls:"doing"};
-      if(s === "done") return {label:"Terminée", cls:"done"};
-      if(s === "cancel") return {label:"Annulée", cls:"bad"};
-      return {label:"Nouvelle", cls:"new"};
-    }
+  list.innerHTML = data.map(r=>{
+    return `
+      <section class="card" data-id="${esc(r.id)}">
+        ${badge(r.status)}
+        <div class="row"><b>Service :</b> ${esc(r.service || "—")}</div>
+        <div class="row"><b>Zone :</b> ${esc(r.area || "—")}</div>
+        <div class="row"><b>Client :</b> ${esc(r.customer_name || "—")}</div>
+        <div class="row"><b>Téléphone :</b> ${esc(r.customer_phone || "—")}</div>
+        <div class="row"><b>Note :</b> ${esc(r.note || "")}</div>
 
-    // WhatsApp deep link (si phone existe)
-    function waLink(phone, text){
-      const p = String(phone || "").replace(/\s+/g,"");
-      const t = encodeURIComponent(text || "");
-      return `https://wa.me/${p.replace(/^\+/,"")}?text=${t}`;
-    }
+        <div class="actions">
+          <button class="a green" onclick="setStatus('${r.id}','doing')">🔵 En cours</button>
+          <button class="a green" onclick="setStatus('${r.id}','done')">✅ Terminer</button>
+          <button class="a red" onclick="setStatus('${r.id}','cancel')">🛑 Annuler</button>
+        </div>
+      </section>
+    `;
+  }).join("");
+}
 
-    function pick(row, keys){
-      for(const k of keys){
-        if(row && row[k] != null && String(row[k]).trim() !== "") return row[k];
-      }
-      return null;
-    }
+/* =============================
+   UPDATE STATUS
+============================= */
+async function setStatus(id, status){
+  await SB.from("digiy_build_requests")
+    .update({ status })
+    .eq("id", id);
+  load();
+}
 
-    function mustInit(){
-      if(guardErr) throw new Error("Guard erreur: " + guardErr);
-      SB = BUILD?.sb || window.__digiy_sb__;
-      if(!SB) throw new Error("Supabase pas prêt (guard non prêt).");
+/* =============================
+   EVENTS
+============================= */
+document.getElementById("refresh").onclick = load;
+document.getElementById("logout").onclick = ()=>BUILD.logout("./pin.html");
 
-      SESSION = BUILD.requireSession({ redirectTo:"./pin.html" });
-
-      const slug = BUILD.cleanSlug(BUILD.urlSlug() || SESSION.slug || "");
-      document.getElementById("pillSlug").textContent = "slug: " + (slug || "—");
-      document.getElementById("pillMode").textContent = "mode: " + (SESSION.mode || "light");
-      document.getElementById("hello").textContent =
-        "Bienvenue" + (SESSION.title ? (" — " + SESSION.title) : "");
-
-      document.getElementById("goPin").setAttribute("href", BUILD.withSlug("./pin.html"));
-
-      if(!SESSION.owner_id) throw new Error("Session invalide: owner_id manquant.");
-    }
-
-    async function fetchRequests(){
-      hideInfo();
-      grid.innerHTML = `<div class="empty">Chargement des demandes…</div>`;
-
-      const owner_id = SESSION.owner_id;
-
-      // ✅ select("*") pour éviter les erreurs de colonnes
-      const { data, error } = await SB
-        .from(TBL)
-        .select("*")
-        .eq("owner_id", owner_id)
-        .order("created_at", { ascending:false })
-        .limit(200);
-
-      if(error){
-        console.error(error);
-        grid.innerHTML = `<div class="empty">Erreur chargement. Vérifie RLS / table.</div>`;
-        showInfo("Erreur: " + (error.message || "requête"));
-        return;
-      }
-
-      CACHE = Array.isArray(data) ? data : [];
-      document.getElementById("pillCount").textContent = "demandes: " + CACHE.length;
-      lastEl.textContent = "Dernière sync: " + new Date().toLocaleTimeString("fr-FR");
-      render();
-    }
-
-    function applyFilters(list){
-      const f = (filterStatus.value || "").trim().toLowerCase();
-      const q = (searchEl.value || "").trim().toLowerCase();
-
-      return list.filter(r=>{
-        const st = normStatus(r.status);
-        if(f && st !== f) return false;
-
-        if(q){
-          const blob = Object.values(r || {}).join(" ").toLowerCase();
-          if(!blob.includes(q)) return false;
-        }
-        return true;
-      });
-    }
-
-    function render(){
-      const list = applyFilters(CACHE);
-
-      if(list.length === 0){
-        grid.innerHTML = `<div class="empty">Aucune demande pour l’instant.</div>`;
-        return;
-      }
-
-      grid.innerHTML = list.map(r=>{
-        const st = tagStatus(r.status);
-
-        // champs flex (s’adapte à ton schéma)
-        const service = pick(r, ["service","job","category","type","title","libelle"]) || "Demande BUILD";
-        const area    = pick(r, ["area","zone","city","quartier","location"]) || "—";
-        const addr    = pick(r, ["address","adresse","addr"]) || "—";
-        const whenRaw = pick(r, ["scheduled_at","date","when","rdv_at","appointment_at","start_at"]);
-        const when    = whenRaw ? fmtDate(whenRaw) : "—";
-        const note    = pick(r, ["note","notes","message","details","description"]) || "";
-
-        const cname   = pick(r, ["customer_name","client_name","name","fullname"]) || "Client";
-        const cphone  = pick(r, ["customer_phone","client_phone","phone","tel"]) || "";
-
-        const msg = `Bonjour ${cname} 👋\nJe suis le pro BUILD assigné via DIGIY.\nDemande: ${service}\nZone: ${area}\nRendez-vous: ${when}\nJe te contacte pour confirmer.`;
-
-        return `
-          <section class="card" data-id="${esc(r.id)}">
-            <div class="toprow">
-              <div class="title">
-                <b>${esc(service)} — ${esc(area)}</b>
-                <small>Client: <b>${esc(cname)}</b> · ${cphone ? ("📞 "+esc(cphone)) : "📞 —"}</small>
-              </div>
-              <div class="meta">
-                <span class="tag ${st.cls}">${esc(st.label)}</span>
-                <span class="tag">🗓️ ${esc(when)}</span>
-              </div>
-            </div>
-
-            <div class="kv"><b>Adresse :</b> ${esc(addr)}</div>
-            ${note ? `<div class="kv"><b>Note :</b> ${esc(note)}</div>` : ""}
-
-            <div class="kv"><b>ID :</b> ${esc(r.id)}</div>
-
-            <div class="cardActions">
-              <a class="a" href="${cphone ? `tel:${esc(cphone)}` : "#"}" ${cphone ? "" : "onclick=\"return false;\""}>📞 Appeler</a>
-              <a class="a" href="${cphone ? waLink(cphone, msg) : "#"}" target="_blank" rel="noopener" ${cphone ? "" : "onclick=\"return false;\""}>💬 WhatsApp</a>
-
-              <button class="a green" data-act="doing">🔵 En cours</button>
-              <button class="a green" data-act="done">✅ Terminer</button>
-              <button class="a red" data-act="cancel">🛑 Annuler</button>
-            </div>
-          </section>
-        `;
-      }).join("");
-
-      grid.querySelectorAll("section.card").forEach(card=>{
-        const id = card.getAttribute("data
+/* =============================
+   BOOT
+============================= */
+load();
+</script>
+</body>
+</html>
