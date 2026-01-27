@@ -4,7 +4,7 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
   <meta name="theme-color" content="#0b2a1f"/>
-  <title>DIGIY BUILD — Demande envoyee</title>
+  <title>DIGIY BUILD — Demande envoyée</title>
   <meta name="description" content="Confirmation demande DIGIY BUILD.">
 
   <style>
@@ -104,19 +104,20 @@
         <div class="logo">✅</div>
         <div>
           <h1>DIGIY BUILD</h1>
-          <p>Demande envoyee</p>
+          <p>Demande envoyée</p>
         </div>
       </div>
+
       <div style="display:flex;gap:10px;flex-wrap:wrap">
-        <a class="btn" href="./index.html">← Vitrine</a>
-        <a class="btn" href="./request.html">📤 Nouvelle demande</a>
+        <a class="btn" id="btnHome" href="#">← Vitrine</a>
+        <a class="btn" id="btnNew" href="#">📤 Nouvelle demande</a>
       </div>
     </div>
 
     <div class="card">
       <div class="hd">
-        <p class="t">Cest bon !</p>
-        <p class="s">Garde ton code, cest ta cle pour le suivi.</p>
+        <p class="t">C’est bon !</p>
+        <p class="s">Garde ton code : c’est ta clé pour le suivi.</p>
       </div>
       <div class="bd">
         <div id="codeBox" style="display:none">
@@ -124,21 +125,21 @@
 
           <div class="row">
             <button class="btn primary" id="btnCopy">📋 Copier</button>
-            <a class="btn" id="btnTrack" href="./track.html">🔎 Suivi</a>
+            <a class="btn" id="btnTrack" href="#">🔎 Suivi</a>
           </div>
 
           <div class="hint">
-            Conseil terrain : si tu veux accelerer, prepare photos + dimensions, et sois joignable.
+            Conseil terrain : pour accélérer, prépare photos + dimensions, et reste joignable.
           </div>
         </div>
 
         <div id="noCodeBox" style="display:none">
           <div class="hint">
-            Code introuvable. Reviens sur <b>Deposer une demande</b>, ou ouvre le suivi et colle ton code.
+            Code introuvable. Reviens sur <b>Déposer une demande</b>, ou ouvre le suivi et colle ton code.
           </div>
           <div class="row">
-            <a class="btn primary" href="./request.html">📤 Deposer</a>
-            <a class="btn" href="./track.html">🔎 Suivi</a>
+            <a class="btn primary" id="btnDeposit" href="#">📤 Déposer</a>
+            <a class="btn" id="btnTrack2" href="#">🔎 Suivi</a>
           </div>
         </div>
 
@@ -157,6 +158,7 @@
 <script>
   const KEY_LAST = "DIGIY_BUILD_LAST_REQUEST";
   const SUPPORT_WHATSAPP = "+221771342889";
+
   const $ = (id)=>document.getElementById(id);
 
   function toast(title, msg){
@@ -192,12 +194,52 @@
     return "";
   }
 
-  (function init(){
+  // --- NAV robuste (évite 404 selon dossier GitHub Pages)
+  function baseDir(){
+    // URL du dossier courant (…/digiy-build/ si pages)
+    const u = new URL(location.href);
+    u.hash = "";
+    u.search = "";
+    u.pathname = u.pathname.replace(/[^\/]*$/, ""); // garde le dossier
+    return u;
+  }
+
+  async function firstExisting(paths){
+    const base = baseDir();
+    for(const p of paths){
+      const url = new URL(p, base).href;
+      try{
+        const r = await fetch(url, { method:"GET", cache:"no-store" });
+        if(r && r.ok) return url;
+      }catch(_){}
+    }
+    return null;
+  }
+
+  async function initNav(){
+    const HOME_CANDIDATES = ["./", "index.html"];
+    const REQUEST_CANDIDATES = ["request.html", "demande.html", "publish.html"];
+    const TRACK_CANDIDATES = ["track.html", "suivi.html", "follow.html"];
+
+    const homeUrl = await firstExisting(HOME_CANDIDATES);
+    const reqUrl  = await firstExisting(REQUEST_CANDIDATES);
+    const trackUrl= await firstExisting(TRACK_CANDIDATES);
+
+    if($("btnHome")) $("btnHome").href = homeUrl || "./";
+    if($("btnNew")) $("btnNew").href = reqUrl || "./";
+    if($("btnDeposit")) $("btnDeposit").href = reqUrl || "./";
+    if($("btnTrack2")) $("btnTrack2").href = trackUrl || "./";
+    if($("btnTrack")) $("btnTrack").href = trackUrl || "./";
+  }
+
+  (async function init(){
+    await initNav();
+
     const code = getCode();
 
     const waMsg = code
-      ? `Bonjour. J ai envoye une demande DIGIY BUILD.\nCode: ${code}\nMerci.`
-      : `Bonjour. J ai besoin d aide pour DIGIY BUILD.\nMerci.`;
+      ? `Bonjour. J’ai envoyé une demande DIGIY BUILD.\nCode: ${code}\nMerci.`
+      : `Bonjour. J’ai besoin d’aide pour DIGIY BUILD.\nMerci.`;
 
     $("btnWhatsApp").href = buildWhatsAppLink(SUPPORT_WHATSAPP, waMsg);
 
@@ -208,14 +250,17 @@
 
     $("codeBox").style.display = "block";
     $("codeText").textContent = code;
-    $("btnTrack").href = "./track.html?code=" + encodeURIComponent(code);
+
+    // Ajoute ?code= au lien de suivi si track.html existe
+    const currentTrack = $("btnTrack").getAttribute("href") || "./track.html";
+    $("btnTrack").href = currentTrack + (currentTrack.includes("?") ? "&" : "?") + "code=" + encodeURIComponent(code);
 
     $("btnCopy").addEventListener("click", async ()=>{
       try{
         await navigator.clipboard.writeText(code);
-        toast("Copie", "Code copie : " + code);
+        toast("Copié", "Code copié : " + code);
       }catch(e){
-        prompt("Copie le code:", code);
+        prompt("Copie le code :", code);
       }
     });
   })();
