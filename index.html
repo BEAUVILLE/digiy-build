@@ -242,7 +242,7 @@
   </style>
 
   <!-- ✅ Supabase JS v2 -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+ <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2?v=2"></script>
 </head>
 
 <body>
@@ -376,10 +376,8 @@
    ============================= */
 const SUPABASE_URL = "https://wesqmwjjtsefyjnluosj.supabase.co";
 const SUPABASE_ANON_KEY =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsImV4cCI6MjA4MDc1NDg4Mn0.dZfYOc2iL2_wRYL3zExZFsFSBK6AbMeOid2LrIjcTdA";
-
+"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indlc3Ftd2pqdHNlZnlqbmx1b3NqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUxNzg4ODIsImV4cCI6MjA4MDc1NDg4Mn0.dZfYOc2iL2_wRYL3zExZFsFSBK6AbMeOid2LrIjcTdA";
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
 /* =============================
    ANTI-404 LINKS (auto base)
    ============================= */
@@ -464,8 +462,13 @@ async function loadStats(){
     if(error) throw error;
     el.textContent = Array.isArray(data) ? String(data.length) : "0";
   }catch(err){
-    el.textContent = "0";
+    el.textContent = "—";
     console.warn("Stats demandes indisponibles:", err?.message || err);
+
+    // petit message non-bloquant pour toi (pas pour le public)
+    if(String(err?.message || "").toLowerCase().includes("invalid api key")){
+      console.warn("➡️ Vérifie: (1) clé ANON complète (2) URL Supabase du même projet (3) cache GitHub Pages");
+    }
   }
 }
 
