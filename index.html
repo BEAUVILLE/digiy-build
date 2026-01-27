@@ -5,12 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DIGIY BUILD - Artisans & Entrepreneurs du Bâtiment</title>
     <meta name="description" content="Trouvez les meilleurs artisans du bâtiment au Sénégal. 0% commission, contact direct.">
+
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -39,11 +36,7 @@
             gap: 15px;
         }
 
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
+        .logo { display: flex; align-items: center; gap: 12px; }
 
         .logo-icon {
             width: 45px;
@@ -64,16 +57,9 @@
             letter-spacing: 1px;
         }
 
-        .logo-text p {
-            font-size: 0.9em;
-            color: #94a3b8;
-        }
+        .logo-text p { font-size: 0.9em; color: #94a3b8; }
 
-        .header-actions {
-            display: flex;
-            gap: 12px;
-            align-items: center;
-        }
+        .header-actions { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
 
         .btn {
             padding: 10px 20px;
@@ -87,13 +73,13 @@
             display: inline-flex;
             align-items: center;
             gap: 8px;
+            white-space: nowrap;
         }
 
         .btn-primary {
             background: linear-gradient(135deg, #facc15, #f97316);
             color: #0f172a;
         }
-
         .btn-primary:hover {
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(250, 204, 21, 0.4);
@@ -104,17 +90,12 @@
             color: #f1f5f9;
             border: 1px solid #334155;
         }
-
         .btn-secondary:hover {
             background: rgba(148, 163, 184, 0.3);
             border-color: #facc15;
         }
 
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 40px 20px;
-        }
+        .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
 
         .hero {
             text-align: center;
@@ -138,7 +119,15 @@
             font-size: 1.2em;
             color: #94a3b8;
             max-width: 700px;
-            margin: 0 auto 30px;
+            margin: 0 auto 18px;
+        }
+
+        .hero-cta {
+            display:flex;
+            justify-content:center;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-top: 10px;
         }
 
         .hero-stats {
@@ -149,20 +138,9 @@
             margin-top: 30px;
         }
 
-        .stat {
-            text-align: center;
-        }
-
-        .stat-value {
-            font-size: 2.5em;
-            font-weight: 800;
-            color: #facc15;
-        }
-
-        .stat-label {
-            font-size: 0.9em;
-            color: #94a3b8;
-        }
+        .stat { text-align: center; }
+        .stat-value { font-size: 2.5em; font-weight: 800; color: #facc15; }
+        .stat-label { font-size: 0.9em; color: #94a3b8; }
 
         .filters {
             background: rgba(30, 41, 59, 0.6);
@@ -176,12 +154,10 @@
             align-items: center;
         }
 
-        .filter-label {
-            font-weight: 600;
-            color: #facc15;
-        }
+        .filter-label { font-weight: 600; color: #facc15; }
 
-        .filter-btn {
+        .filter-btn,
+        .filter-btn-specialty {
             padding: 8px 16px;
             background: rgba(148, 163, 184, 0.2);
             border: 1px solid #334155;
@@ -193,7 +169,9 @@
         }
 
         .filter-btn:hover,
-        .filter-btn.active {
+        .filter-btn.active,
+        .filter-btn-specialty:hover,
+        .filter-btn-specialty.active {
             background: linear-gradient(135deg, #facc15, #f97316);
             color: #0f172a;
             border-color: #facc15;
@@ -269,9 +247,7 @@
             font-size: 0.9em;
         }
 
-        .artisan-body {
-            padding: 20px;
-        }
+        .artisan-body { padding: 20px; }
 
         .artisan-info {
             display: flex;
@@ -313,17 +289,8 @@
             color: #94a3b8;
         }
 
-        .artisan-footer {
-            display: flex;
-            gap: 10px;
-        }
-
-        .btn-small {
-            flex: 1;
-            padding: 8px 12px;
-            font-size: 0.85em;
-            justify-content: center;
-        }
+        .artisan-footer { display: flex; gap: 10px; }
+        .btn-small { flex: 1; padding: 8px 12px; font-size: 0.85em; justify-content: center; }
 
         .footer {
             background: rgba(15, 23, 42, 0.9);
@@ -333,574 +300,390 @@
             margin-top: 60px;
         }
 
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .footer p {
-            color: #94a3b8;
-            margin-bottom: 10px;
-        }
-
-        .footer strong {
-            color: #facc15;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            z-index: 1000;
-            align-items: center;
-            justify-content: center;
-            padding: 20px;
-        }
-
-        .modal.show {
-            display: flex;
-        }
-
-        .modal-content {
-            background: #1e293b;
-            border: 1px solid #334155;
-            border-radius: 20px;
-            max-width: 600px;
-            width: 100%;
-            max-height: 90vh;
-            overflow-y: auto;
-            position: relative;
-        }
-
-        .modal-header {
-            padding: 25px;
-            border-bottom: 1px solid #334155;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .modal-close {
-            background: none;
-            border: none;
-            color: #94a3b8;
-            font-size: 1.5em;
-            cursor: pointer;
-            width: 35px;
-            height: 35px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 8px;
-            transition: all 0.3s;
-        }
-
-        .modal-close:hover {
-            background: rgba(148, 163, 184, 0.2);
-            color: #facc15;
-        }
-
-        .modal-body {
-            padding: 25px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            color: #facc15;
-            font-weight: 600;
-        }
-
-        .form-group input,
-        .form-group textarea,
-        .form-group select {
-            width: 100%;
-            padding: 12px;
-            background: rgba(15, 23, 42, 0.6);
-            border: 1px solid #334155;
-            border-radius: 8px;
-            color: #f1f5f9;
-            font-size: 0.95em;
-        }
-
-        .form-group textarea {
-            min-height: 100px;
-            resize: vertical;
-        }
+        .footer-content { max-width: 1200px; margin: 0 auto; }
+        .footer p { color: #94a3b8; margin-bottom: 10px; }
+        .footer strong { color: #facc15; }
 
         @media (max-width: 768px) {
-            .hero h2 {
-                font-size: 1.8em;
-            }
-
-            .hero-stats {
-                gap: 20px;
-            }
-
-            .artisans-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .filters {
-                flex-direction: column;
-                align-items: stretch;
-            }
-
-            .filter-btn {
-                text-align: center;
-            }
+            .hero h2 { font-size: 1.8em; }
+            .hero-stats { gap: 20px; }
+            .artisans-grid { grid-template-columns: 1fr; }
+            .filters { flex-direction: column; align-items: stretch; }
+            .filter-btn, .filter-btn-specialty { text-align: center; }
         }
     </style>
 </head>
+
 <body>
-    <header class="header">
-        <div class="header-content">
-            <div class="logo">
-                <div class="logo-icon">🏗️</div>
-                <div class="logo-text">
-                    <h1>DIGIY BUILD</h1>
-                    <p>Artisans & Entrepreneurs du Bâtiment</p>
-                </div>
-            </div>
-            <div class="header-actions">
-                <a href="#" class="btn btn-secondary" onclick="window.history.back(); return false;">← Retour Hub</a>
-                <button class="btn btn-primary" onclick="openInscriptionModal()">
-                    ➕ Devenir Partenaire
-                </button>
+<header class="header">
+    <div class="header-content">
+        <div class="logo">
+            <div class="logo-icon">🏗️</div>
+            <div class="logo-text">
+                <h1>DIGIY BUILD</h1>
+                <p>Artisans & Entrepreneurs du Bâtiment</p>
             </div>
         </div>
-    </header>
 
-    <div class="container">
-        <section class="hero">
-            <h2>Trouvez les Meilleurs Artisans du Sénégal</h2>
-            <p>
-                Plateforme 0% commission. Contact direct avec les professionnels. 
-                Devis gratuits. Artisans vérifiés.
-            </p>
-            <div class="hero-stats">
-                <div class="stat">
-                    <div class="stat-value">3</div>
-                    <div class="stat-label">Artisans Partenaires</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-value">0%</div>
-                    <div class="stat-label">Commission</div>
-                </div>
-                <div class="stat">
-                    <div class="stat-value">100%</div>
-                    <div class="stat-label">Contact Direct</div>
-                </div>
-            </div>
-        </section>
-
-        <section class="filters">
-            <div style="margin-bottom: 15px; width: 100%;">
-                <span class="filter-label">📍 Zone géographique :</span>
-                <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px;">
-                    <button class="filter-btn active" data-zone="all">🇸🇳 Tout le Sénégal</button>
-                    <button class="filter-btn" data-zone="dakar">🏙️ Dakar & Banlieue</button>
-                    <button class="filter-btn" data-zone="petite-cote">🏖️ Petite Côte</button>
-                    <button class="filter-btn" data-zone="thies">📍 Thiès</button>
-                    <button class="filter-btn" data-zone="saint-louis">📍 Saint-Louis</button>
-                    <button class="filter-btn" data-zone="casamance">📍 Casamance</button>
-                </div>
-            </div>
-            
-            <div style="width: 100%;">
-                <span class="filter-label">🔨 Spécialité :</span>
-                <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px;">
-                    <button class="filter-btn-specialty active" data-filter="all">Toutes</button>
-                    <button class="filter-btn-specialty" data-filter="plomberie">Plomberie</button>
-                    <button class="filter-btn-specialty" data-filter="electricite">Électricité</button>
-                    <button class="filter-btn-specialty" data-filter="multi">Multi-services</button>
-                    <button class="filter-btn-specialty" data-filter="maconnerie">Maçonnerie</button>
-                    <button class="filter-btn-specialty" data-filter="peinture">Peinture</button>
-                    <button class="filter-btn-specialty" data-filter="menuiserie">Menuiserie</button>
-                </div>
-            </div>
-        </section>
-
-        <section class="artisans-grid" id="artisansGrid">
-            <!-- PARTENAIRE 1 : MBAYE -->
-            <div class="artisan-card" data-category="multi" data-zone="dakar">
-                <div class="artisan-header">
-                    <div class="artisan-badge">
-                        ✓ Vérifié
-                    </div>
-                    <div class="artisan-avatar">👷</div>
-                    <div class="artisan-name">Mbaye</div>
-                    <div class="artisan-specialty">Multi-services Bâtiment</div>
-                </div>
-                <div class="artisan-body">
-                    <div class="artisan-info">
-                        <div class="info-item">
-                            <div class="info-icon">📍</div>
-                            <span><strong>Dakar & Banlieue</strong> (Pikine, Guédiawaye, Parcelles)</span>
-                        </div>
-                        <div class="info-item">
-                            <div class="info-icon">⭐</div>
-                            <span>5.0/5 - Artisan de confiance</span>
-                        </div>
-                        <div class="info-item">
-                            <div class="info-icon">💼</div>
-                            <span>+10 ans d'expérience</span>
-                        </div>
-                    </div>
-                    <div class="artisan-tags">
-                        <span class="tag">Maçonnerie</span>
-                        <span class="tag">Rénovation</span>
-                        <span class="tag">Peinture</span>
-                        <span class="tag">Gros œuvre</span>
-                        <span class="tag" style="background: rgba(250, 204, 21, 0.2); color: #facc15; border-color: #facc15;">🏙️ Dakar</span>
-                    </div>
-                    <div class="artisan-footer">
-                        <button class="btn btn-primary btn-small" onclick="contactArtisan('Mbaye', '+221776427113')">
-                            📞 Contacter
-                        </button>
-                        <button class="btn btn-secondary btn-small" onclick="openDevisModal('Mbaye')">
-                            📄 Devis
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- PARTENAIRE 2 : HELAGE PLOMBIER -->
-            <div class="artisan-card" data-category="plomberie" data-zone="petite-cote">
-                <div class="artisan-header">
-                    <div class="artisan-badge">
-                        ✓ Vérifié
-                    </div>
-                    <div class="artisan-avatar">🔧</div>
-                    <div class="artisan-name">Helage</div>
-                    <div class="artisan-specialty">Plombier Professionnel</div>
-                </div>
-                <div class="artisan-body">
-                    <div class="artisan-info">
-                        <div class="info-item">
-                            <div class="info-icon">📍</div>
-                            <span><strong>Petite Côte</strong> (Saly, Mbour, Ngaparou, Somone)</span>
-                        </div>
-                        <div class="info-item">
-                            <div class="info-icon">⭐</div>
-                            <span>5.0/5 - Expert plomberie</span>
-                        </div>
-                        <div class="info-item">
-                            <div class="info-icon">💧</div>
-                            <span>Interventions rapides</span>
-                        </div>
-                    </div>
-                    <div class="artisan-tags">
-                        <span class="tag">Plomberie</span>
-                        <span class="tag">Sanitaire</span>
-                        <span class="tag">Dépannage</span>
-                        <span class="tag">Installation</span>
-                        <span class="tag" style="background: rgba(56, 189, 248, 0.2); color: #38bdf8; border-color: #38bdf8;">🏖️ Petite Côte</span>
-                    </div>
-                    <div class="artisan-footer">
-                        <button class="btn btn-primary btn-small" onclick="contactArtisan('Helage', '+221774513523')">
-                            📞 Contacter
-                        </button>
-                        <button class="btn btn-secondary btn-small" onclick="openDevisModal('Helage')">
-                            📄 Devis
-                        </button>
-                    </div>
-                </div>
-            </div>
-
-            <!-- PARTENAIRE 3 : ZAL KOURANT (ÉLECTRICITÉ) -->
-            <div class="artisan-card" data-category="electricite" data-zone="all">
-                <div class="artisan-header">
-                    <div class="artisan-badge">
-                        ✓ Vérifié
-                    </div>
-                    <div class="artisan-avatar">⚡</div>
-                    <div class="artisan-name">Zal Kourant</div>
-                    <div class="artisan-specialty">Électricien Certifié</div>
-                </div>
-                <div class="artisan-body">
-                    <div class="artisan-info">
-                        <div class="info-item">
-                            <div class="info-icon">📍</div>
-                            <span><strong>Tout le Sénégal</strong> (Déplacements possibles)</span>
-                        </div>
-                        <div class="info-item">
-                            <div class="info-icon">⭐</div>
-                            <span>5.0/5 - Pro de l'électricité</span>
-                        </div>
-                        <div class="info-item">
-                            <div class="info-icon">🔌</div>
-                            <span>Disponible 7j/7</span>
-                        </div>
-                    </div>
-                    <div class="artisan-tags">
-                        <span class="tag">Électricité</span>
-                        <span class="tag">Tableau électrique</span>
-                        <span class="tag">Dépannage</span>
-                        <span class="tag">Installation</span>
-                        <span class="tag" style="background: rgba(34, 197, 94, 0.2); color: #22c55e; border-color: #22c55e;">🇸🇳 National</span>
-                    </div>
-                    <div class="artisan-footer">
-                        <button class="btn btn-primary btn-small" onclick="contactArtisan('Zal Kourant', '+221772084781')">
-                            📞 Contacter
-                        </button>
-                        <button class="btn btn-secondary btn-small" onclick="openDevisModal('Zal Kourant')">
-                            📄 Devis
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </div>
-
-    <footer class="footer">
-        <div class="footer-content">
-            <p><strong>DIGIY BUILD</strong> - Plateforme 0% commission</p>
-            <p>Contact direct avec les artisans. Pas d'intermédiaire. Juste vous et le pro.</p>
-            <p style="margin-top: 15px; font-size: 0.9em;">
-                Partie de l'écosystème <strong>DIGIYLYFE</strong> - Au service du peuple, pas des commissions.
-            </p>
-        </div>
-    </footer>
-
-    <!-- MODAL DEVIS -->
-    <div class="modal" id="devisModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>📄 Demander un Devis</h3>
-                <button class="modal-close" onclick="closeDevisModal()">×</button>
-            </div>
-            <div class="modal-body">
-                <form id="devisForm" onsubmit="event.preventDefault(); submitDevis();">
-                    <div class="form-group">
-                        <label>Artisan sélectionné</label>
-                        <input type="text" id="artisanName" readonly>
-                    </div>
-                    <div class="form-group">
-                        <label>Votre nom *</label>
-                        <input type="text" id="clientName" required placeholder="Ex: Astou Diop">
-                    </div>
-                    <div class="form-group">
-                        <label>Téléphone *</label>
-                        <input type="tel" id="clientPhone" required placeholder="+221 77 XXX XX XX">
-                    </div>
-                    <div class="form-group">
-                        <label>Type de travaux *</label>
-                        <select id="workType" required>
-                            <option value="">Choisissez...</option>
-                            <option value="renovation">Rénovation</option>
-                            <option value="construction">Construction</option>
-                            <option value="reparation">Réparation</option>
-                            <option value="installation">Installation</option>
-                            <option value="depannage">Dépannage</option>
-                            <option value="autre">Autre</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Description du projet *</label>
-                        <textarea id="projectDesc" required placeholder="Décrivez votre projet en détail..."></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label>Localisation</label>
-                        <input type="text" id="location" placeholder="Ex: Almadies, Dakar">
-                    </div>
-                    <button type="submit" class="btn btn-primary" style="width: 100%;">
-                        📤 Envoyer la demande
-                    </button>
-                </form>
-            </div>
+        <div class="header-actions">
+            <a href="#" class="btn btn-secondary" onclick="window.history.back(); return false;">← Retour Hub</a>
+            <a class="btn btn-primary" id="btnRequestTop" href="./request.html">📤 Déposer une demande</a>
+            <button class="btn btn-secondary" onclick="openInscriptionModal()">➕ Devenir Partenaire</button>
         </div>
     </div>
+</header>
 
-    <!-- MODAL INSCRIPTION ARTISAN -->
-    <div class="modal" id="inscriptionModal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3>➕ Devenir Partenaire DIGIY BUILD</h3>
-                <button class="modal-close" onclick="closeInscriptionModal()">×</button>
+<div class="container">
+    <section class="hero">
+        <h2>Trouvez les Meilleurs Artisans du Sénégal</h2>
+        <p>
+            Plateforme 0% commission. Contact direct avec les professionnels.
+            Devis gratuits. Artisans vérifiés.
+        </p>
+
+        <div class="hero-cta">
+            <a class="btn btn-primary" id="btnRequestHero" href="./request.html">📤 Déposer une demande maintenant</a>
+            <a class="btn btn-secondary" href="#artisansGrid">🔎 Voir les partenaires</a>
+        </div>
+
+        <div class="hero-stats">
+            <div class="stat">
+                <div class="stat-value">3</div>
+                <div class="stat-label">Artisans Partenaires</div>
             </div>
-            <div class="modal-body">
-                <p style="color: #94a3b8; margin-bottom: 20px;">
-                    Rejoignez notre plateforme et profitez d'une visibilité maximale. 
-                    <strong style="color: #facc15;">0% commission</strong> sur vos projets !
-                </p>
-                <form id="inscriptionForm" onsubmit="event.preventDefault(); submitInscription();">
-                    <div class="form-group">
-                        <label>Nom / Entreprise *</label>
-                        <input type="text" id="proName" required placeholder="Ex: Mbaye Construction">
-                    </div>
-                    <div class="form-group">
-                        <label>Spécialité *</label>
-                        <select id="proSpecialty" required>
-                            <option value="">Choisissez...</option>
-                            <option value="maconnerie">Maçonnerie</option>
-                            <option value="plomberie">Plomberie</option>
-                            <option value="electricite">Électricité</option>
-                            <option value="peinture">Peinture</option>
-                            <option value="menuiserie">Menuiserie</option>
-                            <option value="multi">Multi-services</option>
-                            <option value="autre">Autre</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>Téléphone WhatsApp *</label>
-                        <input type="tel" id="proPhone" required placeholder="+221 77 XXX XX XX">
-                    </div>
-                    <div class="form-group">
-                        <label>Email</label>
-                        <input type="email" id="proEmail" placeholder="votre@email.com">
-                    </div>
-                    <div class="form-group">
-                        <label>Zone d'intervention</label>
-                        <input type="text" id="proZone" placeholder="Ex: Dakar et banlieue">
-                    </div>
-                    <div class="form-group">
-                        <label>Années d'expérience</label>
-                        <input type="number" id="proExp" placeholder="Ex: 10">
-                    </div>
-                    <button type="submit" class="btn btn-primary" style="width: 100%;">
-                        ✅ Continuer vers le paiement
-                    </button>
-                </form>
+            <div class="stat">
+                <div class="stat-value">0%</div>
+                <div class="stat-label">Commission</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">100%</div>
+                <div class="stat-label">Contact Direct</div>
             </div>
         </div>
+    </section>
+
+    <section class="filters">
+        <div style="margin-bottom: 15px; width: 100%;">
+            <span class="filter-label">📍 Zone géographique :</span>
+            <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px;">
+                <button class="filter-btn active" data-zone="all">🇸🇳 Tout le Sénégal</button>
+                <button class="filter-btn" data-zone="dakar">🏙️ Dakar & Banlieue</button>
+                <button class="filter-btn" data-zone="petite-cote">🏖️ Petite Côte</button>
+                <button class="filter-btn" data-zone="thies">📍 Thiès</button>
+                <button class="filter-btn" data-zone="saint-louis">📍 Saint-Louis</button>
+                <button class="filter-btn" data-zone="casamance">📍 Casamance</button>
+            </div>
+        </div>
+
+        <div style="width: 100%;">
+            <span class="filter-label">🔨 Spécialité :</span>
+            <div style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 10px;">
+                <button class="filter-btn-specialty active" data-filter="all">Toutes</button>
+                <button class="filter-btn-specialty" data-filter="plomberie">Plomberie</button>
+                <button class="filter-btn-specialty" data-filter="electricite">Électricité</button>
+                <button class="filter-btn-specialty" data-filter="multi">Multi-services</button>
+                <button class="filter-btn-specialty" data-filter="maconnerie">Maçonnerie</button>
+                <button class="filter-btn-specialty" data-filter="peinture">Peinture</button>
+                <button class="filter-btn-specialty" data-filter="menuiserie">Menuiserie</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="artisans-grid" id="artisansGrid">
+        <!-- PARTENAIRE 1 : MBAYE -->
+        <div class="artisan-card" data-category="multi" data-zone="dakar">
+            <div class="artisan-header">
+                <div class="artisan-badge">✓ Vérifié</div>
+                <div class="artisan-avatar">👷</div>
+                <div class="artisan-name">Mbaye</div>
+                <div class="artisan-specialty">Multi-services Bâtiment</div>
+            </div>
+            <div class="artisan-body">
+                <div class="artisan-info">
+                    <div class="info-item"><div class="info-icon">📍</div>
+                        <span><strong>Dakar & Banlieue</strong> (Pikine, Guédiawaye, Parcelles)</span>
+                    </div>
+                    <div class="info-item"><div class="info-icon">⭐</div>
+                        <span>5.0/5 - Artisan de confiance</span>
+                    </div>
+                    <div class="info-item"><div class="info-icon">💼</div>
+                        <span>+10 ans d'expérience</span>
+                    </div>
+                </div>
+                <div class="artisan-tags">
+                    <span class="tag">Maçonnerie</span>
+                    <span class="tag">Rénovation</span>
+                    <span class="tag">Peinture</span>
+                    <span class="tag">Gros œuvre</span>
+                    <span class="tag" style="background: rgba(250, 204, 21, 0.2); color: #facc15; border-color: #facc15;">🏙️ Dakar</span>
+                </div>
+                <div class="artisan-footer">
+                    <button class="btn btn-primary btn-small" onclick="contactArtisan('Mbaye', '+221776427113')">📞 Contacter</button>
+                    <button class="btn btn-secondary btn-small" onclick="goRequestFromCard(this)">📄 Devis</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- PARTENAIRE 2 : HELAGE PLOMBIER -->
+        <div class="artisan-card" data-category="plomberie" data-zone="petite-cote">
+            <div class="artisan-header">
+                <div class="artisan-badge">✓ Vérifié</div>
+                <div class="artisan-avatar">🔧</div>
+                <div class="artisan-name">Helage</div>
+                <div class="artisan-specialty">Plombier Professionnel</div>
+            </div>
+            <div class="artisan-body">
+                <div class="artisan-info">
+                    <div class="info-item"><div class="info-icon">📍</div>
+                        <span><strong>Petite Côte</strong> (Saly, Mbour, Ngaparou, Somone)</span>
+                    </div>
+                    <div class="info-item"><div class="info-icon">⭐</div>
+                        <span>5.0/5 - Expert plomberie</span>
+                    </div>
+                    <div class="info-item"><div class="info-icon">💧</div>
+                        <span>Interventions rapides</span>
+                    </div>
+                </div>
+                <div class="artisan-tags">
+                    <span class="tag">Plomberie</span>
+                    <span class="tag">Sanitaire</span>
+                    <span class="tag">Dépannage</span>
+                    <span class="tag">Installation</span>
+                    <span class="tag" style="background: rgba(56, 189, 248, 0.2); color: #38bdf8; border-color: #38bdf8;">🏖️ Petite Côte</span>
+                </div>
+                <div class="artisan-footer">
+                    <button class="btn btn-primary btn-small" onclick="contactArtisan('Helage', '+221774513523')">📞 Contacter</button>
+                    <button class="btn btn-secondary btn-small" onclick="goRequestFromCard(this)">📄 Devis</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- PARTENAIRE 3 : ZAL KOURANT (ÉLECTRICITÉ) -->
+        <div class="artisan-card" data-category="electricite" data-zone="all">
+            <div class="artisan-header">
+                <div class="artisan-badge">✓ Vérifié</div>
+                <div class="artisan-avatar">⚡</div>
+                <div class="artisan-name">Zal Kourant</div>
+                <div class="artisan-specialty">Électricien Certifié</div>
+            </div>
+            <div class="artisan-body">
+                <div class="artisan-info">
+                    <div class="info-item"><div class="info-icon">📍</div>
+                        <span><strong>Tout le Sénégal</strong> (Déplacements possibles)</span>
+                    </div>
+                    <div class="info-item"><div class="info-icon">⭐</div>
+                        <span>5.0/5 - Pro de l'électricité</span>
+                    </div>
+                    <div class="info-item"><div class="info-icon">🔌</div>
+                        <span>Disponible 7j/7</span>
+                    </div>
+                </div>
+                <div class="artisan-tags">
+                    <span class="tag">Électricité</span>
+                    <span class="tag">Tableau électrique</span>
+                    <span class="tag">Dépannage</span>
+                    <span class="tag">Installation</span>
+                    <span class="tag" style="background: rgba(34, 197, 94, 0.2); color: #22c55e; border-color: #22c55e;">🇸🇳 National</span>
+                </div>
+                <div class="artisan-footer">
+                    <button class="btn btn-primary btn-small" onclick="contactArtisan('Zal Kourant', '+221772084781')">📞 Contacter</button>
+                    <button class="btn btn-secondary btn-small" onclick="goRequestFromCard(this)">📄 Devis</button>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+<footer class="footer">
+    <div class="footer-content">
+        <p><strong>DIGIY BUILD</strong> - Plateforme 0% commission</p>
+        <p>Contact direct avec les artisans. Pas d'intermédiaire. Juste vous et le pro.</p>
+        <p style="margin-top: 15px; font-size: 0.9em;">
+            Partie de l'écosystème <strong>DIGIYLYFE</strong> - Au service du peuple, pas des commissions.
+        </p>
     </div>
+</footer>
 
-    <script>
-        let currentZone = 'all';
-        let currentSpecialty = 'all';
+<!-- MODAL INSCRIPTION ARTISAN (inchangé) -->
+<div class="modal" id="inscriptionModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);z-index:1000;align-items:center;justify-content:center;padding:20px;">
+  <div class="modal-content" style="background:#1e293b;border:1px solid #334155;border-radius:20px;max-width:600px;width:100%;max-height:90vh;overflow-y:auto;position:relative;">
+    <div class="modal-header" style="padding:25px;border-bottom:1px solid #334155;display:flex;justify-content:space-between;align-items:center;">
+      <h3>➕ Devenir Partenaire DIGIY BUILD</h3>
+      <button class="modal-close" onclick="closeInscriptionModal()" style="background:none;border:none;color:#94a3b8;font-size:1.5em;cursor:pointer;width:35px;height:35px;display:flex;align-items:center;justify-content:center;border-radius:8px;transition:all 0.3s;">×</button>
+    </div>
+    <div class="modal-body" style="padding:25px;">
+      <p style="color:#94a3b8;margin-bottom:20px;">
+        Rejoignez notre plateforme et profitez d'une visibilité maximale.
+        <strong style="color:#facc15;">0% commission</strong> sur vos projets !
+      </p>
+      <form id="inscriptionForm" onsubmit="event.preventDefault(); submitInscription();">
+        <div class="form-group" style="margin-bottom:20px;">
+          <label style="display:block;margin-bottom:8px;color:#facc15;font-weight:600;">Nom / Entreprise *</label>
+          <input type="text" id="proName" required placeholder="Ex: Mbaye Construction" style="width:100%;padding:12px;background:rgba(15,23,42,0.6);border:1px solid #334155;border-radius:8px;color:#f1f5f9;font-size:0.95em;">
+        </div>
+        <div class="form-group" style="margin-bottom:20px;">
+          <label style="display:block;margin-bottom:8px;color:#facc15;font-weight:600;">Spécialité *</label>
+          <select id="proSpecialty" required style="width:100%;padding:12px;background:rgba(15,23,42,0.6);border:1px solid #334155;border-radius:8px;color:#f1f5f9;font-size:0.95em;">
+            <option value="">Choisissez...</option>
+            <option value="maconnerie">Maçonnerie</option>
+            <option value="plomberie">Plomberie</option>
+            <option value="electricite">Électricité</option>
+            <option value="peinture">Peinture</option>
+            <option value="menuiserie">Menuiserie</option>
+            <option value="multi">Multi-services</option>
+            <option value="autre">Autre</option>
+          </select>
+        </div>
+        <div class="form-group" style="margin-bottom:20px;">
+          <label style="display:block;margin-bottom:8px;color:#facc15;font-weight:600;">Téléphone WhatsApp *</label>
+          <input type="tel" id="proPhone" required placeholder="+221 77 XXX XX XX" style="width:100%;padding:12px;background:rgba(15,23,42,0.6);border:1px solid #334155;border-radius:8px;color:#f1f5f9;font-size:0.95em;">
+        </div>
+        <div class="form-group" style="margin-bottom:20px;">
+          <label style="display:block;margin-bottom:8px;color:#facc15;font-weight:600;">Email</label>
+          <input type="email" id="proEmail" placeholder="votre@email.com" style="width:100%;padding:12px;background:rgba(15,23,42,0.6);border:1px solid #334155;border-radius:8px;color:#f1f5f9;font-size:0.95em;">
+        </div>
+        <div class="form-group" style="margin-bottom:20px;">
+          <label style="display:block;margin-bottom:8px;color:#facc15;font-weight:600;">Zone d'intervention</label>
+          <input type="text" id="proZone" placeholder="Ex: Dakar et banlieue" style="width:100%;padding:12px;background:rgba(15,23,42,0.6);border:1px solid #334155;border-radius:8px;color:#f1f5f9;font-size:0.95em;">
+        </div>
+        <div class="form-group" style="margin-bottom:20px;">
+          <label style="display:block;margin-bottom:8px;color:#facc15;font-weight:600;">Années d'expérience</label>
+          <input type="number" id="proExp" placeholder="Ex: 10" style="width:100%;padding:12px;background:rgba(15,23,42,0.6);border:1px solid #334155;border-radius:8px;color:#f1f5f9;font-size:0.95em;">
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%;">✅ Continuer vers le paiement</button>
+      </form>
+    </div>
+  </div>
+</div>
 
-        // FILTRES GÉOGRAPHIQUES
-        document.querySelectorAll('[data-zone]').forEach(btn => {
-            btn.addEventListener('click', () => {
-                document.querySelectorAll('[data-zone]').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                currentZone = btn.dataset.zone;
-                applyFilters();
-            });
-        });
+<script>
+  let currentZone = 'all';
+  let currentSpecialty = 'all';
 
-        // FILTRES SPÉCIALITÉS
-        document.querySelectorAll('.filter-btn-specialty').forEach(btn => {
-            btn.addEventListener('click', () => {
-                document.querySelectorAll('.filter-btn-specialty').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                currentSpecialty = btn.dataset.filter;
-                applyFilters();
-            });
-        });
+  // Map zone -> city par défaut pour pré-remplir request.html
+  const ZONE_TO_CITY = {
+    "all": "Sénégal",
+    "dakar": "Dakar",
+    "petite-cote": "Saly",
+    "thies": "Thiès",
+    "saint-louis": "Saint-Louis",
+    "casamance": "Ziguinchor"
+  };
 
-        // APPLIQUER LES FILTRES COMBINÉS
-        function applyFilters() {
-            const cards = document.querySelectorAll('.artisan-card');
-            
-            cards.forEach(card => {
-                const cardZone = card.dataset.zone;
-                const cardCategory = card.dataset.category;
-                
-                const zoneMatch = currentZone === 'all' || cardZone === 'all' || cardZone === currentZone;
-                const specialtyMatch = currentSpecialty === 'all' || cardCategory === currentSpecialty;
-                
-                if (zoneMatch && specialtyMatch) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-        }
+  // Map category -> libellé trade
+  const CAT_TO_TRADE = {
+    "plomberie": "Plomberie",
+    "electricite": "Électricité",
+    "multi": "Multi-services",
+    "maconnerie": "Maçonnerie",
+    "peinture": "Peinture",
+    "menuiserie": "Menuiserie"
+  };
 
-        // CONTACT ARTISAN
-        function contactArtisan(name, phone) {
-            const message = encodeURIComponent(`Bonjour ${name}, je vous contacte via DIGIY BUILD pour discuter d'un projet.`);
-            const whatsappUrl = `https://wa.me/${phone.replace(/\s/g, '')}?text=${message}`;
-            window.open(whatsappUrl, '_blank');
-        }
+  // FILTRES GÉOGRAPHIQUES
+  document.querySelectorAll('[data-zone]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('[data-zone]').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentZone = btn.dataset.zone;
+      applyFilters();
 
-        // MODAL DEVIS
-        function openDevisModal(artisanName) {
-            document.getElementById('artisanName').value = artisanName;
-            document.getElementById('devisModal').classList.add('show');
-        }
+      // Pré-remplit les CTA vers request.html
+      const city = encodeURIComponent(ZONE_TO_CITY[currentZone] || "Sénégal");
+      document.getElementById("btnRequestTop").href  = `./request.html?city=${city}`;
+      document.getElementById("btnRequestHero").href = `./request.html?city=${city}`;
+    });
+  });
 
-        function closeDevisModal() {
-            document.getElementById('devisModal').classList.remove('show');
-            document.getElementById('devisForm').reset();
-        }
+  // FILTRES SPÉCIALITÉS
+  document.querySelectorAll('.filter-btn-specialty').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn-specialty').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      currentSpecialty = btn.dataset.filter;
+      applyFilters();
+    });
+  });
 
-        function submitDevis() {
-            const artisan = document.getElementById('artisanName').value;
-            const client = document.getElementById('clientName').value;
-            const phone = document.getElementById('clientPhone').value;
-            const workType = document.getElementById('workType').value;
-            const desc = document.getElementById('projectDesc').value;
-            const location = document.getElementById('location').value;
+  // APPLIQUER LES FILTRES
+  function applyFilters() {
+    const cards = document.querySelectorAll('.artisan-card');
+    cards.forEach(card => {
+      const cardZone = card.dataset.zone;
+      const cardCategory = card.dataset.category;
 
-            alert(`✅ Demande envoyée à ${artisan} !\n\nVous serez contacté au ${phone} dans les 24h.\n\nType: ${workType}\nLocalisation: ${location || 'Non précisée'}`);
-            
-            closeDevisModal();
-        }
+      const zoneMatch = currentZone === 'all' || cardZone === 'all' || cardZone === currentZone;
+      const specialtyMatch = currentSpecialty === 'all' || cardCategory === currentSpecialty;
 
-        // MODAL INSCRIPTION
-        function openInscriptionModal() {
-            document.getElementById('inscriptionModal').classList.add('show');
-        }
+      card.style.display = (zoneMatch && specialtyMatch) ? 'block' : 'none';
+    });
+  }
 
-        function closeInscriptionModal() {
-            document.getElementById('inscriptionModal').classList.remove('show');
-            document.getElementById('inscriptionForm').reset();
-        }
+  // CONTACT ARTISAN (WhatsApp)
+  function contactArtisan(name, phone) {
+    const message = encodeURIComponent(`Bonjour ${name}, je vous contacte via DIGIY BUILD pour discuter d'un projet.`);
+    const whatsappUrl = `https://wa.me/${phone.replace(/\s/g, '').replace('+','')}/?text=${message}`;
+    window.open(whatsappUrl, '_blank');
+  }
 
-        // ✅ MODIFIÉ : Redirection vers page paiement après inscription
-        function submitInscription() {
-            const name = document.getElementById('proName').value;
-            const specialty = document.getElementById('proSpecialty').value;
-            const phone = document.getElementById('proPhone').value;
-            const email = document.getElementById('proEmail').value;
-            const zone = document.getElementById('proZone').value;
-            const exp = document.getElementById('proExp').value;
+  // ✅ Devis -> redirection vers request.html pré-remplie
+  function goRequestFromCard(btn){
+    const card = btn.closest(".artisan-card");
+    const cat  = card?.dataset?.category || "multi";
+    const trade = CAT_TO_TRADE[cat] || "Multi-services";
+    const city  = ZONE_TO_CITY[currentZone] || "Sénégal";
 
-            // Stocker les données dans localStorage pour les récupérer sur la page paiement
-            const partnerData = {
-                name: name,
-                specialty: specialty,
-                phone: phone,
-                email: email,
-                zone: zone,
-                experience: exp,
-                module: 'DIGIY BUILD',
-                timestamp: new Date().toISOString()
-            };
-            
-            localStorage.setItem('digiy_partner_data', JSON.stringify(partnerData));
+    const url = `./request.html?city=${encodeURIComponent(city)}&trade=${encodeURIComponent(trade)}`;
+    window.location.href = url;
+  }
 
-            // Fermer la modal
-            closeInscriptionModal();
+  // MODAL INSCRIPTION
+  function openInscriptionModal() {
+    const modal = document.getElementById('inscriptionModal');
+    modal.style.display = "flex";
+  }
 
-            // Message de confirmation
-            alert(`✅ Informations enregistrées !\n\nNom: ${name}\nSpécialité: ${specialty}\n\nVous allez être redirigé vers la page de paiement.`);
+  function closeInscriptionModal() {
+    const modal = document.getElementById('inscriptionModal');
+    modal.style.display = "none";
+    document.getElementById('inscriptionForm').reset();
+  }
 
-            // Redirection vers la page paiement après 1 seconde
-            setTimeout(() => {
-                window.location.href = 'https://beauville.github.io/commencer-a-payer/';
-            }, 1000);
-        }
+  // Inscription -> stockage local + redirect paiement (ton flow)
+  function submitInscription() {
+    const partnerData = {
+      name: document.getElementById('proName').value,
+      specialty: document.getElementById('proSpecialty').value,
+      phone: document.getElementById('proPhone').value,
+      email: document.getElementById('proEmail').value,
+      zone: document.getElementById('proZone').value,
+      experience: document.getElementById('proExp').value,
+      module: 'DIGIY BUILD',
+      timestamp: new Date().toISOString()
+    };
 
-        // Fermer modal en cliquant à l'extérieur
-        document.querySelectorAll('.modal').forEach(modal => {
-            modal.addEventListener('click', (e) => {
-                if (e.target === modal) {
-                    modal.classList.remove('show');
-                }
-            });
-        });
-    </script>
+    localStorage.setItem('digiy_partner_data', JSON.stringify(partnerData));
+    closeInscriptionModal();
+
+    alert(`✅ Informations enregistrées !\n\nVous allez être redirigé vers la page de paiement.`);
+    setTimeout(() => {
+      window.location.href = 'https://beauville.github.io/commencer-a-payer/';
+    }, 600);
+  }
+
+  // Fermer modal clic extérieur
+  document.getElementById('inscriptionModal').addEventListener('click', (e) => {
+    if (e.target === document.getElementById('inscriptionModal')) {
+      closeInscriptionModal();
+    }
+  });
+
+  // init CTA avec zone par défaut
+  (function initCta(){
+    const city = encodeURIComponent(ZONE_TO_CITY[currentZone] || "Sénégal");
+    document.getElementById("btnRequestTop").href  = `./request.html?city=${city}`;
+    document.getElementById("btnRequestHero").href = `./request.html?city=${city}`;
+  })();
+</script>
 </body>
 </html>
