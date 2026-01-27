@@ -553,16 +553,14 @@ $("form").addEventListener("submit", async (e)=>{
 
     toast("Demande envoyée ✅",
       `Garde ton code: ${data.public_code}. Un pro te contacte bientôt.`, true);
-
+setTimeout(()=>{
+  location.href = "./success.html";
+}, 450);
     // petit redirect vers une page "success" si tu veux
     setTimeout(()=>{
       // tu peux créer success.html plus tard
       // location.href = "./success.html";
       // sinon on reset:
-      e.target.reset();
-      mediaUrls = [];
-      renderMedia();
-    }, 900);
 
   }catch(err){
     console.error(err);
