@@ -4,10 +4,8 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
   <meta name="theme-color" content="#0b2a1f"/>
-  <title>DIGIY BUILD — Partenaires & Demandes</title>
-  <meta name="description" content="DIGIY BUILD — Partenaires BTP + Demandes publiques anonymisées. 0% commission.">
-
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <title>DIGIY BUILD — Réseau BTP Sénégal • 0% commission</title>
+  <meta name="description" content="DIGIY BUILD — Réseau d'artisans vérifiés au Sénégal. Construction, plomberie, électricité. 0% commission.">
 
   <style>
     :root{
@@ -114,6 +112,35 @@
     }
     .chip b{color:var(--ink)}
 
+    /* CTA Demandes */
+    .cta-demandes{
+      border:2px solid rgba(250,204,21,.28);
+      background:
+        radial-gradient(circle at 50% 0%, rgba(250,204,21,.12), transparent 70%),
+        linear-gradient(135deg, rgba(34,197,94,.08), rgba(249,115,22,.06));
+      border-radius:20px;
+      padding:22px 18px;
+      margin-bottom:18px;
+      text-align:center;
+    }
+    .cta-demandes h3{
+      font-size:1.15rem;
+      background:linear-gradient(135deg,var(--gold),var(--orange));
+      -webkit-background-clip:text; background-clip:text;
+      -webkit-text-fill-color:transparent;
+      margin-bottom:10px;
+    }
+    .cta-demandes p{
+      color:var(--muted);
+      margin-bottom:16px;
+      line-height:1.4;
+    }
+    .cta-demandes .btn{
+      font-size:1.05rem;
+      padding:14px 24px;
+      box-shadow:0 10px 30px rgba(250,204,21,.22);
+    }
+
     /* Filters */
     .filters{
       border:1px solid var(--line);
@@ -205,14 +232,14 @@
       background:rgba(0,0,0,.55);
       padding:7px 10px;
       border-radius:999px;
-      font-weight:1000;
+      font-weight:900;
       font-size:.82rem;
       color:var(--ink);
       backdrop-filter: blur(8px);
     }
     .p-body{padding:12px}
     .p-title{
-      font-weight:1100;
+      font-weight:1000;
       font-size:1.02rem;
       margin-bottom:4px;
     }
@@ -220,7 +247,7 @@
     .p-desc{color:rgba(234,255,241,.86); font-size:.95rem; line-height:1.35; min-height:44px}
     .p-tags{display:flex; gap:8px; flex-wrap:wrap; margin-top:10px}
     .tag{
-      font-weight:1000; font-size:.78rem;
+      font-weight:900; font-size:.78rem;
       padding:6px 10px;
       border-radius:999px;
       border:1px solid rgba(255,255,255,.14);
@@ -251,83 +278,6 @@
       color:rgba(234,255,241,.92);
     }
 
-    /* Demands Grid */
-    .grid{
-      display:grid;
-      grid-template-columns: repeat(12, 1fr);
-      gap:14px;
-    }
-    .card{
-      grid-column: span 4;
-      border:1px solid var(--line);
-      border-radius:18px;
-      overflow:hidden;
-      background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(0,0,0,.18));
-      box-shadow:0 18px 45px rgba(0,0,0,.35);
-    }
-    @media(max-width:980px){ .card{grid-column: span 6;} }
-    @media(max-width:640px){ .card{grid-column: span 12;} }
-
-    .card-head{
-      padding:12px 12px 0;
-      display:flex; gap:8px; align-items:center; flex-wrap:wrap;
-    }
-    .badge{
-      padding:6px 10px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,.14);
-      background:rgba(0,0,0,.38);
-      color:var(--ink);
-      font-weight:1000;
-      font-size:.82rem;
-    }
-    .badge.sector{border-color:rgba(250,204,21,.30)}
-    .badge.region{border-color:rgba(34,197,94,.30)}
-    .badge.time{border-color:rgba(148,163,184,.30); color:var(--muted)}
-
-    .card-body{padding:12px}
-    .title{
-      font-weight:1100;
-      font-size:1rem;
-      margin:6px 0 6px;
-    }
-    .desc{
-      color:rgba(234,255,241,.85);
-      font-size:.95rem;
-      line-height:1.35;
-      min-height:56px;
-    }
-    .meta{
-      margin-top:10px;
-      display:flex; gap:10px; flex-wrap:wrap;
-      color:var(--muted);
-      font-size:.85rem;
-      font-weight:900;
-    }
-
-    .card-foot{
-      border-top:1px solid var(--line);
-      padding:12px;
-    }
-    .cta{
-      display:flex; gap:10px; flex-wrap:wrap; width:100%;
-    }
-    .cta .btn{
-      flex:1;
-      justify-content:center;
-      border-radius:14px;
-    }
-
-    .empty{
-      border:1px dashed rgba(250,204,21,.35);
-      border-radius:18px;
-      padding:18px;
-      color:var(--muted);
-      background:rgba(0,0,0,.18);
-      grid-column:1/-1;
-      text-align:center;
-    }
-
     .foot{
       border-top:1px solid var(--line);
       color:var(--muted);
@@ -339,6 +289,9 @@
     }
     .foot strong{color:var(--gold)}
   </style>
+
+  <!-- ✅ Supabase JS v2 (OBLIGATOIRE pour createClient) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 
 <body>
@@ -349,13 +302,13 @@
       <div class="logo">🏗️</div>
       <div>
         <h1>DIGIY BUILD</h1>
-        <p>Partenaires • Demandes • Quartier / Région / National • 0% commission</p>
+        <p>Réseau BTP • Quartier / Région / National • 0% commission</p>
       </div>
     </div>
     <div class="actions">
       <a class="btn secondary" href="./request.html">📤 Déposer une demande</a>
-      <a class="btn cockpit" id="btnCockpitTop" href="./build-pro/pin.html">🔐 Accès Cockpit Pro</a>
-      <a class="btn primary" href="#demandes">🧾 Voir les demandes</a>
+      <a class="btn primary" href="./demandes.html">📋 Voir les demandes</a>
+      <a class="btn cockpit" href="./build-pro/pin.html">🔐 Cockpit Pro</a>
     </div>
   </div>
 </header>
@@ -364,18 +317,24 @@
 
   <section class="hero">
     <div>
-      <h2>On construit le réseau, du quartier à la nation</h2>
+      <h2>Le réseau BTP du Sénégal, pierre par pierre</h2>
       <p>
-        Les <b>partenaires</b> (tes pros) sont visibles ici avec leurs fiches.
-        Les <b>demandes</b> sont affichées en dessous (anonymisées). Les pros répondent via le <b>cockpit</b> (PIN + téléphone).
+        Des <b>artisans vérifiés</b> dans toutes les régions. Contact direct, fiches complètes, <b>0% commission</b>.
+        Les pros répondent aux demandes via leur cockpit sécurisé.
       </p>
     </div>
     <div class="stats">
-      <span class="chip">👷 <b id="statPros">3</b> partenaires</span>
-      <span class="chip">📌 <b id="statTotal">0</b> demandes</span>
-      <span class="chip">🕒 <b id="stat24h">0</b> / 24h</span>
-      <span class="chip">✅ <b>Public Safe</b></span>
+      <span class="chip">👷 <b>3</b> partenaires</span>
+      <span class="chip">📌 <b id="statTotal">…</b> demandes</span>
+      <span class="chip">✅ <b>Vérifié</b></span>
     </div>
+  </section>
+
+  <!-- CTA VERS DEMANDES -->
+  <section class="cta-demandes">
+    <h3>📋 Consulter les demandes publiques</h3>
+    <p>Besoin de chantiers ? Accède à toutes les demandes en temps réel (anonymisées). Les pros répondent via le cockpit.</p>
+    <a class="btn primary" href="./demandes.html">Voir toutes les demandes →</a>
   </section>
 
   <!-- FILTRES PARTENAIRES -->
@@ -399,7 +358,7 @@
 
   <div class="section-title">
     <h3>👷 Partenaires vérifiés</h3>
-    <p>Contact direct • fiche • 0% commission</p>
+    <p>Contact direct • fiche complète • 0% commission</p>
   </div>
 
   <!-- GRID PARTENAIRES -->
@@ -428,7 +387,6 @@
       <div class="p-foot">
         <a class="btn whatsapp" href="https://wa.me/221776427113?text=Salam%20Mbaye%20je%20veux%20parler%20d%E2%80%99un%20projet%20🏗️%20(DIGIYLYFE)" target="_blank" rel="noopener">💬 WhatsApp</a>
         <a class="btn view" href="https://digiylyfe.com/partenaires-mbaye/" target="_blank" rel="noopener">🔎 Voir la fiche</a>
-        <a class="btn ghost" href="https://digiylyfe.com/partenaires-mbaye/" target="_blank" rel="noopener">👤 Voir ma fiche</a>
       </div>
     </article>
 
@@ -455,7 +413,6 @@
       <div class="p-foot">
         <a class="btn whatsapp" href="https://wa.me/221772084781?text=Salam%20Zal%20je%20viens%20de%20DIGIYLYFE" target="_blank" rel="noopener">💬 WhatsApp</a>
         <a class="btn view" href="https://digiylyfe.com/partenaires-zal-kourant/" target="_blank" rel="noopener">🔎 Voir la fiche</a>
-        <a class="btn ghost" href="https://digiylyfe.com/partenaires-zal-kourant/" target="_blank" rel="noopener">👤 Voir ma fiche</a>
       </div>
     </article>
 
@@ -482,46 +439,16 @@
       <div class="p-foot">
         <a class="btn whatsapp" href="https://wa.me/221774513523?text=Salam%20Helage%2C%20je%20viens%20de%20DIGIYLYFE" target="_blank" rel="noopener">💬 WhatsApp</a>
         <a class="btn call" href="tel:+221774513523">📞 Appeler</a>
-        <a class="btn ghost" href="tel:+221774513523">👤 Voir ma fiche</a>
       </div>
     </article>
 
   </section>
 
-  <div class="section-title" id="demandes">
-    <h3>🧾 Demandes publiques (anonymisées)</h3>
-    <p>Les pros répondent via cockpit</p>
-  </div>
-
-  <!-- FILTRES DEMANDES -->
-  <section class="filters">
-    <span class="label">Filtrer demandes :</span>
-
-    <button class="pill active" data-sector="all">Tous secteurs</button>
-    <button class="pill" data-sector="construction">Construction</button>
-    <button class="pill" data-sector="plomberie">Plomberie</button>
-    <button class="pill" data-sector="electricite">Électricité</button>
-    <button class="pill" data-sector="multi">Multi</button>
-
-    <button class="pill active" data-region="all">Toute zone</button>
-    <button class="pill" data-region="dakar">Dakar</button>
-    <button class="pill" data-region="petite-cote">Petite Côte</button>
-    <button class="pill" data-region="thies">Thiès</button>
-    <button class="pill" data-region="national">National</button>
-
-    <input class="search" id="q" placeholder="Rechercher une demande (ex: fuite, villa, tableau…)" />
-  </section>
-
-  <!-- GRID DEMANDES -->
-  <section class="grid" id="grid">
-    <div class="empty">Chargement…</div>
-  </section>
-
 </main>
 
 <footer class="foot">
-  <p><strong>DIGIY BUILD</strong> — réseau d’artisans + demandes • 0% commission</p>
-  <p>Partie de <strong>DIGIYLYFE</strong> ♾️</p>
+  <p><strong>DIGIY BUILD</strong> — réseau d'artisans vérifiés • 0% commission</p>
+  <p>Partie de <strong>DIGIYLYFE ♾️</strong></p>
 </footer>
 
 <script>
@@ -532,33 +459,13 @@ const SUPABASE_URL = "https://wesqmwjjtsefyjnluosj.supabase.co";
 const SUPABASE_ANON_KEY =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indlc3Ftd2pqdHNlZnlqbmx1b3NqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUxNzg4ODIsImV4cCI6MjA4MDc1NDg4Mn0.dZfYOc2iL2_wRYL3zExZFsFSBK6AbMeOid2LrIjcTdA";
 
+// supabase-js v2 chargé dans <head>
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 /* =============================
    Helpers
    ============================= */
-function safeText(s){ return (s ?? "").toString(); }
-function norm(v){ return safeText(v).toLowerCase().trim(); }
-function humanWhen(ts){
-  const t = new Date(ts).getTime();
-  if(!isFinite(t)) return "—";
-  const d = Date.now() - t;
-  const m = Math.floor(d/60000);
-  if(m < 1) return "à l’instant";
-  if(m < 60) return `il y a ${m} min`;
-  const h = Math.floor(m/60);
-  if(h < 24) return `il y a ${h}h`;
-  const j = Math.floor(h/24);
-  return `il y a ${j}j`;
-}
-function iconSector(s){
-  const x = norm(s);
-  if(x.includes("plomb")) return "💧";
-  if(x.includes("elect")) return "⚡";
-  if(x.includes("constr") || x.includes("macon")) return "🏗️";
-  if(x.includes("multi")) return "🧰";
-  return "🧱";
-}
+function norm(v){ return (v ?? "").toString().toLowerCase().trim(); }
 
 /* =============================
    PARTNERS FILTERS
@@ -585,7 +492,6 @@ function filterPros(){
   });
 }
 
-// bind pro sector buttons
 document.querySelectorAll("[data-pro-sector]").forEach(btn=>{
   btn.addEventListener("click", ()=>{
     document.querySelectorAll("[data-pro-sector]").forEach(x=>x.classList.remove("active"));
@@ -595,7 +501,6 @@ document.querySelectorAll("[data-pro-sector]").forEach(btn=>{
   });
 });
 
-// bind pro region buttons
 document.querySelectorAll("[data-pro-region]").forEach(btn=>{
   btn.addEventListener("click", ()=>{
     document.querySelectorAll("[data-pro-region]").forEach(x=>x.classList.remove("active"));
@@ -611,127 +516,27 @@ document.getElementById("qPro").addEventListener("input", (e)=>{
 });
 
 /* =============================
-   DEMANDS (RPC SAFE)
+   LOAD STATS DEMANDES (robuste)
    ============================= */
-let ALL = [];
-let sector = "all";
-let region = "all";
-let q = "";
+async function loadStats(){
+  const el = document.getElementById("statTotal");
+  try{
+    // RPC attendue: digiy_build_public_list_v1(p_limit int)
+    const { data, error } = await sb.rpc("digiy_build_public_list_v1", { p_limit: 500 });
+    if(error) throw error;
 
-function filterRows(rows){
-  const qq = norm(q);
-  return rows.filter(r=>{
-    const s = norm(r.sector);
-    const z = norm(r.region);
-    const text = norm(r.title_short) + " " + norm(r.description_short);
-    const okS = (sector==="all" || s===sector);
-    const okR = (region==="all" || z===region);
-    const okQ = (!qq || text.includes(qq));
-    return okS && okR && okQ;
-  });
-}
-
-function renderDemands(){
-  const grid = document.getElementById("grid");
-  const rows = filterRows(ALL);
-
-  document.getElementById("statTotal").textContent = String(ALL.length);
-  const since24 = Date.now() - (24*60*60*1000);
-  document.getElementById("stat24h").textContent =
-    String(ALL.filter(x => new Date(x.created_at).getTime() >= since24).length);
-
-  if(rows.length === 0){
-    grid.innerHTML = `<div class="empty">Aucune demande pour ce filtre.</div>`;
-    return;
+    const n = Array.isArray(data) ? data.length : 0;
+    el.textContent = String(n);
+  }catch(err){
+    // fallback sans casser l’UI
+    el.textContent = "0";
+    console.warn("Stats demandes indisponibles:", err?.message || err);
   }
-
-  grid.innerHTML = rows.map(r=>{
-    const s = safeText(r.sector || "autre");
-    const z = safeText(r.region || "autre");
-    const title = safeText(r.title_short || "Demande");
-    const desc  = safeText(r.description_short || "");
-    const when  = humanWhen(r.created_at);
-    const ico   = iconSector(s);
-
-    return `
-      <article class="card">
-        <div class="card-head">
-          <span class="badge sector">${ico} ${s}</span>
-          <span class="badge region">📍 ${z}</span>
-          <span class="badge time">🕒 ${when}</span>
-        </div>
-
-        <div class="card-body">
-          <div class="title">${title}</div>
-          <div class="desc">${desc}</div>
-          <div class="meta">
-            <span>🧾 statut: ${safeText(r.status||"—")}</span>
-            <span>🆔 ${safeText(r.id).slice(0,8)}…</span>
-          </div>
-        </div>
-
-        <div class="card-foot">
-          <div class="cta">
-            <a class="btn secondary" href="./request.html">📤 Déposer aussi</a>
-            <a class="btn cockpit" href="./build-pro/pin.html">🔐 Pro : répondre</a>
-          </div>
-        </div>
-      </article>
-    `;
-  }).join("");
 }
-
-async function loadDemands(){
-  const grid = document.getElementById("grid");
-  grid.innerHTML = `<div class="empty">Chargement des demandes…</div>`;
-
-  const { data, error } = await sb.rpc("digiy_build_public_list_v1", { p_limit: 200 });
-  if(error){
-    grid.innerHTML = `<div class="empty">
-      <b>Erreur chargement.</b><br/>
-      <div style="margin-top:10px;color:rgba(234,255,241,.65)">Détail: ${safeText(error.message)}</div>
-      <div style="margin-top:10px;color:rgba(234,255,241,.65)">Vérifie que la RPC <code>digiy_build_public_list_v1</code> existe + grant execute anon.</div>
-    </div>`;
-    return;
-  }
-  ALL = data || [];
-  renderDemands();
-}
-
-// bind demand filters
-document.querySelectorAll("[data-sector]").forEach(btn=>{
-  btn.addEventListener("click", ()=>{
-    document.querySelectorAll("[data-sector]").forEach(x=>x.classList.remove("active"));
-    btn.classList.add("active");
-    sector = btn.dataset.sector;
-    renderDemands();
-  });
-});
-document.querySelectorAll("[data-region]").forEach(btn=>{
-  btn.addEventListener("click", ()=>{
-    document.querySelectorAll("[data-region]").forEach(x=>x.classList.remove("active"));
-    btn.classList.add("active");
-    region = btn.dataset.region;
-    renderDemands();
-  });
-});
-document.getElementById("q").addEventListener("input", (e)=>{
-  q = e.target.value || "";
-  renderDemands();
-});
-
-// slug-safe cockpit header (si page?slug=xxx -> cockpit suit)
-(function initCockpitHeader(){
-  const slug = new URL(location.href).searchParams.get("slug");
-  if(!slug) return;
-  const href = "./build-pro/pin.html?slug=" + encodeURIComponent(slug);
-  const top = document.getElementById("btnCockpitTop");
-  if(top) top.href = href;
-})();
 
 // init
 filterPros();
-loadDemands();
+loadStats();
 </script>
 
 </body>
