@@ -1,129 +1,244 @@
 <!doctype html>
 <html lang="fr">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>DIGIY BUILD — Artisans & Bâtisseurs</title>
-<meta name="description" content="DIGIY BUILD — Artisans du bâtiment au Sénégal. 0% commission, contact direct."/>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+  <meta name="theme-color" content="#0b2a1f"/>
+  <title>DIGIY BUILD — Demandes publiques</title>
+  <meta name="description" content="Demandes DIGIY BUILD (quartier/région/national). 0% commission. Contact direct via pros.">
 
-<style>
-:root{
-  --bg:#0b1220; --card:#0f172a; --line:rgba(255,255,255,.12);
-  --ink:#eafff1; --muted:rgba(234,255,241,.72);
-  --gold:#facc15; --orange:#f97316; --green:#22c55e;
-}
-*{box-sizing:border-box;margin:0;padding:0}
-body{
-  font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
-  background:linear-gradient(135deg,#050a14,#0b1220);
-  color:var(--ink);
-}
+  <!-- Supabase JS v2 -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
-/* HEADER */
-.topbar{
-  position:sticky;top:0;z-index:50;
-  background:rgba(5,10,20,.9);
-  border-bottom:1px solid var(--line);
-}
-.topbar-inner{
-  max-width:1200px;margin:auto;
-  display:flex;justify-content:space-between;align-items:center;
-  gap:12px;padding:14px 16px;flex-wrap:wrap;
-}
-.brand{display:flex;gap:10px;align-items:center}
-.logo{
-  width:42px;height:42px;border-radius:14px;
-  display:grid;place-items:center;
-  background:linear-gradient(135deg,var(--gold),var(--orange));
-  color:#081018;font-weight:900;font-size:22px;
-}
-.actions{display:flex;gap:10px;flex-wrap:wrap}
-.btn{
-  padding:10px 14px;border-radius:999px;
-  border:1px solid var(--line);
-  background:rgba(0,0,0,.25);
-  color:var(--ink);text-decoration:none;font-weight:800;
-}
-.btn.primary{
-  border:none;background:linear-gradient(135deg,var(--gold),var(--orange));
-  color:#081018;
-}
-.btn.cockpit{
-  border:none;background:linear-gradient(135deg,var(--green),var(--gold));
-  color:#062014;
-}
+  <style>
+    :root{
+      --bg:#050a14;
+      --card:#0f172a;
+      --card2:#0b1326;
+      --line:rgba(255,255,255,.12);
+      --ink:#eafff1;
+      --muted:rgba(234,255,241,.70);
+      --gold:#facc15;
+      --orange:#f97316;
+      --green:#22c55e;
+      --red:#ef4444;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      background:
+        radial-gradient(circle at 20% 10%, rgba(250,204,21,.12), transparent 55%),
+        radial-gradient(circle at 80% 90%, rgba(34,197,94,.10), transparent 55%),
+        linear-gradient(135deg, var(--bg) 0%, #0b1220 100%);
+      color:var(--ink);
+      min-height:100vh;
+    }
 
-/* LAYOUT */
-.wrap{max-width:1200px;margin:auto;padding:20px 16px 40px}
+    /* Header */
+    .topbar{
+      position:sticky; top:0; z-index:60;
+      background:linear-gradient(135deg, rgba(15,23,42,.92), rgba(2,6,23,.92));
+      border-bottom:1px solid var(--line);
+      backdrop-filter: blur(10px);
+    }
+    .topbar-inner{
+      max-width:1120px; margin:0 auto;
+      display:flex; align-items:center; justify-content:space-between;
+      gap:12px; padding:14px 16px; flex-wrap:wrap;
+    }
+    .brand{display:flex; gap:10px; align-items:center}
+    .logo{
+      width:42px;height:42px;border-radius:14px;
+      display:grid;place-items:center;
+      background:linear-gradient(135deg,var(--gold),var(--orange));
+      color:#081018; font-size:22px; font-weight:900;
+      box-shadow:0 10px 26px rgba(250,204,21,.18);
+    }
+    .brand h1{font-size:1.05rem; letter-spacing:.5px}
+    .brand p{font-size:.85rem; color:var(--muted)}
+    .actions{display:flex; gap:10px; flex-wrap:wrap; align-items:center;}
+    .btn{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:10px 14px; border-radius:999px;
+      border:1px solid var(--line);
+      background:rgba(0,0,0,.20);
+      color:var(--ink); text-decoration:none;
+      font-weight:900; cursor:pointer;
+      transition:transform .15s ease, border-color .15s ease;
+      white-space:nowrap;
+    }
+    .btn:hover{transform:translateY(-1px); border-color:rgba(250,204,21,.35)}
+    .btn.primary{
+      border:none;
+      background:linear-gradient(135deg,var(--gold),ذكر var(--orange));
+      color:#081018;
+    }
+    .btn.cockpit{
+      border:none;
+      background:linear-gradient(135deg, rgba(34,197,94,.95), rgba(250,204,21,.85));
+      color:#062014;
+    }
 
-/* FILTERS */
-.filters{
-  border:1px solid var(--line);
-  border-radius:18px;
-  background:rgba(0,0,0,.25);
-  padding:12px;margin-bottom:16px;
-}
-.filters-row{
-  display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:8px
-}
-.label{color:var(--gold);font-weight:900}
-.pill{
-  padding:8px 12px;border-radius:999px;
-  border:1px solid var(--line);
-  background:rgba(0,0,0,.25);
-  color:var(--ink);cursor:pointer;font-weight:800;
-}
-.pill.active{
-  border:none;background:linear-gradient(135deg,var(--gold),var(--orange));
-  color:#081018;
-}
+    /* Layout */
+    .wrap{max-width:1120px; margin:0 auto; padding:18px 16px 44px;}
+    .hero{
+      border:1px solid rgba(250,204,21,.18);
+      background:linear-gradient(135deg, rgba(250,204,21,.08), rgba(34,197,94,.06));
+      border-radius:20px;
+      padding:18px 16px;
+      margin-bottom:14px;
+      display:flex; gap:12px; align-items:flex-start; justify-content:space-between; flex-wrap:wrap;
+    }
+    .hero h2{
+      font-size:1.25rem;
+      background:linear-gradient(135deg,var(--gold),var(--orange));
+      -webkit-background-clip:text; background-clip:text;
+      -webkit-text-fill-color:transparent;
+      margin-bottom:6px;
+    }
+    .hero p{color:var(--muted); line-height:1.35; max-width:780px}
+    .hero .stats{display:flex; gap:10px; flex-wrap:wrap}
+    .chip{
+      border:1px solid var(--line);
+      background:rgba(0,0,0,.18);
+      padding:7px 10px; border-radius:999px;
+      font-size:.85rem; color:var(--muted);
+      font-weight:800;
+    }
+    .chip b{color:var(--ink)}
+    .filters{
+      border:1px solid var(--line);
+      background:rgba(0,0,0,.18);
+      border-radius:18px;
+      padding:12px;
+      display:flex; gap:10px; flex-wrap:wrap; align-items:center;
+      margin-bottom:14px;
+    }
+    .filters .label{color:var(--gold); font-weight:900}
+    .pill{
+      border:1px solid var(--line);
+      background:rgba(0,0,0,.22);
+      color:var(--ink);
+      padding:8px 12px;
+      border-radius:999px;
+      cursor:pointer;
+      font-weight:900;
+      font-size:.9rem;
+      transition:all .15s ease;
+    }
+    .pill:hover{border-color:rgba(250,204,21,.35)}
+    .pill.active{
+      border:none;
+      background:linear-gradient(135deg,var(--gold),var(--orange));
+      color:#081018;
+    }
+    .search{
+      flex:1;
+      min-width:220px;
+      border:1px solid var(--line);
+      background:rgba(0,0,0,.22);
+      color:var(--ink);
+      padding:10px 12px;
+      border-radius:14px;
+      outline:none;
+      font-weight:800;
+    }
 
-/* GRID */
-.digiy-grid{
-  display:grid;grid-template-columns:repeat(12,1fr);gap:14px
-}
-.digiy-card{
-  grid-column:span 4;
-  border:1px solid var(--line);
-  border-radius:18px;
-  background:linear-gradient(180deg,rgba(255,255,255,.02),rgba(0,0,0,.25));
-  overflow:hidden;
-}
-@media(max-width:900px){.digiy-card{grid-column:span 6}}
-@media(max-width:600px){.digiy-card{grid-column:span 12}}
+    /* Grid */
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap:14px;
+    }
+    .card{
+      grid-column: span 4;
+      border:1px solid var(--line);
+      border-radius:18px;
+      overflow:hidden;
+      background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(0,0,0,.18));
+      box-shadow:0 18px 45px rgba(0,0,0,.35);
+    }
+    @media(max-width:980px){ .card{grid-column: span 6;} }
+    @media(max-width:640px){ .card{grid-column: span 12;} }
 
-.digiy-thumb{position:relative;aspect-ratio:16/10}
-.digiy-thumb img{width:100%;height:100%;object-fit:cover}
-.digiy-badge{
-  position:absolute;top:10px;left:10px;
-  padding:6px 10px;border-radius:999px;
-  background:rgba(0,0,0,.55);
-  border:1px solid var(--line);font-weight:900
-}
-.digiy-body{padding:14px}
-.digiy-title{font-size:1.05rem;margin-bottom:4px}
-.digiy-meta{color:var(--muted);font-weight:700;font-size:.92rem}
-.digiy-desc{margin:6px 0 10px;color:rgba(234,255,241,.85)}
+    .card-head{
+      padding:12px 12px 0;
+      display:flex; gap:8px; align-items:center; flex-wrap:wrap;
+    }
+    .badge{
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.14);
+      background:rgba(0,0,0,.38);
+      color:var(--ink);
+      font-weight:900;
+      font-size:.82rem;
+    }
+    .badge.sector{border-color:rgba(250,204,21,.30)}
+    .badge.region{border-color:rgba(34,197,94,.30)}
+    .badge.time{border-color:rgba(148,163,184,.30); color:var(--muted)}
 
-.digiy-footer{border-top:1px solid var(--line);padding-top:12px;margin-top:12px}
-.digiy-cta{display:flex;gap:10px;flex-wrap:wrap}
-.digiy-btn{
-  flex:1;min-width:140px;
-  padding:10px 12px;border-radius:14px;
-  border:1px solid var(--line);
-  background:rgba(0,0,0,.25);
-  color:var(--ink);text-decoration:none;font-weight:900;
-  display:inline-flex;justify-content:center;align-items:center;gap:8px;
-}
-.digiy-btn.whatsapp{
-  border:none;background:linear-gradient(135deg,var(--green),#16a34a);
-  color:#062014;
-}
-.digiy-btn.cockpit{
-  border:none;background:linear-gradient(135deg,var(--green),var(--gold));
-  color:#062014;
-}
-</style>
+    .card-body{padding:12px}
+    .title{
+      font-weight:1000;
+      font-size:1rem;
+      margin:6px 0 6px;
+    }
+    .desc{
+      color:rgba(234,255,241,.85);
+      font-size:.95rem;
+      line-height:1.35;
+      min-height:56px;
+    }
+    .meta{
+      margin-top:10px;
+      display:flex; gap:10px; flex-wrap:wrap;
+      color:var(--muted);
+      font-size:.85rem;
+      font-weight:800;
+    }
+
+    .card-foot{
+      border-top:1px solid var(--line);
+      padding:12px;
+      display:flex; gap:10px; flex-wrap:wrap;
+      align-items:center; justify-content:space-between;
+    }
+    .cta{
+      display:flex; gap:10px; flex-wrap:wrap; width:100%;
+    }
+    .cta .btn{
+      flex:1;
+      justify-content:center;
+      border-radius:14px;
+    }
+    .btn.secondary{
+      background:rgba(0,0,0,.22);
+      border:1px solid var(--line);
+      color:var(--ink);
+    }
+
+    .empty{
+      border:1px dashed rgba(250,204,21,.35);
+      border-radius:18px;
+      padding:18px;
+      color:var(--muted);
+      background:rgba(0,0,0,.18);
+      grid-column:1/-1;
+      text-align:center;
+    }
+
+    .foot{
+      border-top:1px solid var(--line);
+      color:var(--muted);
+      padding:22px 16px 30px;
+      max-width:1120px;
+      margin:22px auto 0;
+      text-align:center;
+      font-size:.92rem;
+    }
+    .foot strong{color:var(--gold)}
+  </style>
 </head>
 
 <body>
@@ -133,119 +248,260 @@ body{
     <div class="brand">
       <div class="logo">🏗️</div>
       <div>
-        <b>DIGIY BUILD</b><br>
-        <small class="muted">Artisans • Secteurs • Régions</small>
+        <h1>DIGIY BUILD — Demandes publiques</h1>
+        <p>Quartier • Région • National • 0% commission</p>
       </div>
     </div>
     <div class="actions">
-      <a class="btn primary" href="./request.html">📤 Déposer une demande</a>
-      <a class="btn cockpit" id="btnCockpitTop" href="./build-pro/pin.html">🔐 Cockpit Pro</a>
+      <a class="btn" href="#" onclick="history.back();return false;">← Retour</a>
+      <a class="btn secondary" id="btnRequestTop" href="./request.html">📤 Déposer une demande</a>
+      <a class="btn cockpit" id="btnCockpitTop" href="./build-pro/pin.html">🔐 Accès Cockpit Pro</a>
     </div>
   </div>
 </header>
 
 <main class="wrap">
 
-<!-- FILTRES -->
-<section class="filters">
-  <div class="filters-row">
-    <span class="label">Secteur :</span>
-    <button class="pill active" data-sector="all">Tous</button>
+  <section class="hero">
+    <div>
+      <h2>Le tableau d’affichage vivant du BTP</h2>
+      <p>
+        Ici tu vois l’activité du terrain (anonymisée). Pour répondre, les pros passent par le <b>cockpit</b> (PIN + téléphone).
+        Objectif : créer des liens, pas du bruit.
+      </p>
+    </div>
+    <div class="stats">
+      <span class="chip">📌 <b id="statTotal">0</b> demandes</span>
+      <span class="chip">🕒 <b id="stat24h">0</b> dernières 24h</span>
+      <span class="chip">✅ <b>Public Safe</b></span>
+    </div>
+  </section>
+
+  <section class="filters">
+    <span class="label">Filtrer :</span>
+
+    <button class="pill active" data-sector="all">Tous secteurs</button>
     <button class="pill" data-sector="construction">Construction</button>
-    <button class="pill" data-sector="electricite">Électricité</button>
     <button class="pill" data-sector="plomberie">Plomberie</button>
-  </div>
-  <div class="filters-row">
-    <span class="label">Région :</span>
-    <button class="pill active" data-region="all">Tout le Sénégal</button>
+    <button class="pill" data-sector="electricite">Électricité</button>
+    <button class="pill" data-sector="multi">Multi</button>
+
+    <button class="pill active" data-region="all">Toute zone</button>
     <button class="pill" data-region="dakar">Dakar</button>
     <button class="pill" data-region="petite-cote">Petite Côte</button>
+    <button class="pill" data-region="thies">Thiès</button>
     <button class="pill" data-region="national">National</button>
-  </div>
-</section>
 
-<!-- GRID -->
-<section class="digiy-grid" id="grid">
+    <input class="search" id="q" placeholder="Rechercher (ex: fuite, villa, tableau, chantier…)" />
+  </section>
 
-<!-- MBAYE -->
-<article class="digiy-card" data-sector="construction" data-region="dakar">
-  <div class="digiy-thumb">
-    <div class="digiy-badge">🏗️ Construction</div>
-    <img src="https://digiylyfe.com/wp-content/uploads/2025/06/mbaye-diouf.jpeg" alt="Mbaye Diouf"/>
-  </div>
-  <div class="digiy-body">
-    <h3 class="digiy-title">👷 Mbaye Diouf</h3>
-    <p class="digiy-meta">📍 Dakar – Thiès – Petite Côte</p>
-    <p class="digiy-desc">Villas modernes, piscines, finitions pro</p>
-    <div class="digiy-footer">
-      <div class="digiy-cta">
-        <a class="digiy-btn whatsapp" href="https://wa.me/221776427113" target="_blank">💬 WhatsApp</a>
-        <a class="digiy-btn" href="https://digiylyfe.com/partenaires-mbaye/" target="_blank">🔎 Voir ma fiche</a>
-        <a class="digiy-btn cockpit" href="./build-pro/pin.html?slug=mbaye-build">🔐 Cockpit Pro</a>
-      </div>
-    </div>
-  </div>
-</article>
+  <section class="grid" id="grid">
+    <div class="empty">Chargement…</div>
+  </section>
 
-<!-- ZAL -->
-<article class="digiy-card" data-sector="electricite" data-region="national">
-  <div class="digiy-thumb">
-    <div class="digiy-badge">⚡ Électricité</div>
-    <img src="https://digiylyfe.com/wp-content/uploads/2025/06/039-ZAL.png" alt="Zal & Kourant"/>
-  </div>
-  <div class="digiy-body">
-    <h3 class="digiy-title">⚡ Zal & Kourant</h3>
-    <p class="digiy-meta">📍 Sénégal</p>
-    <p class="digiy-desc">Électricité maison & bâtiment</p>
-    <div class="digiy-footer">
-      <div class="digiy-cta">
-        <a class="digiy-btn whatsapp" href="https://wa.me/221772084781" target="_blank">💬 WhatsApp</a>
-        <a class="digiy-btn" href="https://digiylyfe.com/partenaires-zal-kourant/" target="_blank">🔎 Voir ma fiche</a>
-        <a class="digiy-btn cockpit" href="./build-pro/pin.html?slug=zal-kourant">🔐 Cockpit Pro</a>
-      </div>
-    </div>
-  </div>
-</article>
-
-<!-- HELAGE -->
-<article class="digiy-card" data-sector="plomberie" data-region="petite-cote">
-  <div class="digiy-thumb">
-    <div class="digiy-badge">💧 Plomberie</div>
-    <img src="https://digiylyfe.com/wp-content/uploads/2025/06/HELAGE-PLOMBIER.png" alt="Helage"/>
-  </div>
-  <div class="digiy-body">
-    <h3 class="digiy-title">💧 Helage</h3>
-    <p class="digiy-meta">📍 Saly – Petite Côte</p>
-    <p class="digiy-desc">Plomberie, dépannage, installations</p>
-    <div class="digiy-footer">
-      <div class="digiy-cta">
-        <a class="digiy-btn whatsapp" href="https://wa.me/221774513523" target="_blank">💬 WhatsApp</a>
-        <a class="digiy-btn cockpit" href="./build-pro/pin.html?slug=helage-plombier">🔐 Cockpit Pro</a>
-      </div>
-    </div>
-  </div>
-</article>
-
-</section>
 </main>
 
-<script>
-let sector="all", region="all";
-const pills=document.querySelectorAll(".pill");
-const cards=document.querySelectorAll(".digiy-card");
+<footer class="foot">
+  <p><strong>DIGIY BUILD</strong> — demandes anonymisées • action via cockpit pro • Sénégal</p>
+  <p>Partie de <strong>DIGIYLYFE</strong> ♾️</p>
+</footer>
 
-pills.forEach(p=>{
-  p.onclick=()=>{
-    const s=p.dataset.sector, r=p.dataset.region;
-    if(s!==undefined){sector=s; document.querySelectorAll("[data-sector]").forEach(x=>x.classList.remove("active")); p.classList.add("active")}
-    if(r!==undefined){region=r; document.querySelectorAll("[data-region]").forEach(x=>x.classList.remove("active")); p.classList.add("active")}
-    cards.forEach(c=>{
-      const okS=sector==="all"||c.dataset.sector===sector;
-      const okR=region==="all"||c.dataset.region===region;
-      c.style.display=(okS&&okR)?"":"none";
-    });
+<script>
+/* =============================
+   CONFIG SUPABASE (mets tes variables)
+   ============================= */
+const SUPABASE_URL = "https://wesqmwjjtsefyjnluosj.supabase.co";
+const SUPABASE_ANON_KEY = "REPLACE_WITH_YOUR_ANON_KEY"; // <-- frérot remplace par ta clé anon
+
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+/* =============================
+   State
+   ============================= */
+let ALL = [];
+let sector = "all";
+let region = "all";
+let q = "";
+
+/* =============================
+   Helpers
+   ============================= */
+function safeText(s){ return (s ?? "").toString(); }
+
+function humanWhen(ts){
+  const t = new Date(ts).getTime();
+  if(!isFinite(t)) return "—";
+  const d = Date.now() - t;
+  const m = Math.floor(d/60000);
+  if(m < 1) return "à l’instant";
+  if(m < 60) return `il y a ${m} min`;
+  const h = Math.floor(m/60);
+  if(h < 24) return `il y a ${h}h`;
+  const j = Math.floor(h/24);
+  return `il y a ${j}j`;
+}
+
+function iconSector(s){
+  const x = (s||"").toLowerCase();
+  if(x.includes("plomb")) return "💧";
+  if(x.includes("elect")) return "⚡";
+  if(x.includes("constr") || x.includes("macon")) return "🏗️";
+  if(x.includes("peint")) return "🎨";
+  if(x.includes("menuis")) return "🪚";
+  if(x.includes("multi")) return "🧰";
+  return "🧱";
+}
+
+function norm(v){ return (v||"").toLowerCase().trim(); }
+
+function filterRows(rows){
+  const qq = norm(q);
+  return rows.filter(r=>{
+    const s = norm(r.sector);
+    const z = norm(r.region);
+    const text = norm(r.title_short) + " " + norm(r.description_short) + " " + norm(r.city) + " " + norm(r.neighborhood);
+    const okS = (sector==="all" || s===sector);
+    const okR = (region==="all" || z===region);
+    const okQ = (!qq || text.includes(qq));
+    return okS && okR && okQ;
+  });
+}
+
+function cockpitHrefFromRow(r){
+  // Si tu veux router selon secteur/région, tu peux ici.
+  // Pour l’instant: cockpit générique
+  return "./build-pro/pin.html";
+}
+
+/* =============================
+   Render
+   ============================= */
+function render(){
+  const grid = document.getElementById("grid");
+  const rows = filterRows(ALL);
+
+  // stats
+  document.getElementById("statTotal").textContent = ALL.length.toString();
+  const since24 = Date.now() - (24*60*60*1000);
+  const last24 = ALL.filter(x => new Date(x.created_at).getTime() >= since24).length;
+  document.getElementById("stat24h").textContent = last24.toString();
+
+  if(rows.length === 0){
+    grid.innerHTML = `<div class="empty">Aucune demande trouvée pour ce filtre. Essaie “Tous secteurs / Toute zone”.</div>`;
+    return;
+  }
+
+  grid.innerHTML = rows.map(r=>{
+    const s = safeText(r.sector || "autre");
+    const z = safeText(r.region || "autre");
+    const title = safeText(r.title_short || "Demande");
+    const desc  = safeText(r.description_short || "");
+    const when  = humanWhen(r.created_at);
+    const ico   = iconSector(s);
+
+    return `
+      <article class="card">
+        <div class="card-head">
+          <span class="badge sector">${ico} ${s}</span>
+          <span class="badge region">📍 ${z}</span>
+          <span class="badge time">🕒 ${when}</span>
+        </div>
+
+        <div class="card-body">
+          <div class="title">${title}</div>
+          <div class="desc">${desc}</div>
+          <div class="meta">
+            <span>🧾 statut: ${safeText(r.status||"—")}</span>
+            <span>🆔 ${safeText(r.id).slice(0,8)}…</span>
+          </div>
+        </div>
+
+        <div class="card-foot">
+          <div class="cta">
+            <a class="btn secondary" href="./request.html">📤 Déposer aussi</a>
+            <a class="btn cockpit" href="${cockpitHrefFromRow(r)}">🔐 Pro : répondre</a>
+          </div>
+        </div>
+      </article>
+    `;
+  }).join("");
+}
+
+/* =============================
+   Load data from VIEW
+   ============================= */
+async function load(){
+  const grid = document.getElementById("grid");
+  grid.innerHTML = `<div class="empty">Chargement des demandes…</div>`;
+
+  // IMPORTANT: ta vue actuelle ne contient peut-être pas city/neighborhood
+  // On essaye de les sélectionner, si ça échoue on fallback.
+  const trySelect = async (cols) => {
+    const { data, error } = await sb.from("digiy_build_requests_public_v1")
+      .select(cols)
+      .order("created_at", { ascending:false })
+      .limit(200);
+    if(error) throw error;
+    return data || [];
   };
+
+  try{
+    ALL = await trySelect("id,created_at,sector,region,title_short,description_short,status,city,neighborhood");
+  }catch(e1){
+    try{
+      ALL = await trySelect("id,created_at,sector,region,title_short,description_short,status");
+    }catch(e2){
+      grid.innerHTML = `<div class="empty">
+        <b>Erreur chargement.</b><br/>
+        Vérifie :<br/>
+        1) ta clé ANON dans le code<br/>
+        2) que la vue <code>digiy_build_requests_public_v1</code> existe<br/>
+        3) que la vue expose au moins : id, created_at, sector, region, title_short, description_short, status
+        <div style="margin-top:10px;color:rgba(234,255,241,.65)">Détail: ${safeText(e2.message || e1.message)}</div>
+      </div>`;
+      return;
+    }
+  }
+
+  render();
+}
+
+/* =============================
+   UI events
+   ============================= */
+document.querySelectorAll("[data-sector]").forEach(btn=>{
+  btn.addEventListener("click", ()=>{
+    document.querySelectorAll("[data-sector]").forEach(x=>x.classList.remove("active"));
+    btn.classList.add("active");
+    sector = btn.dataset.sector;
+    render();
+  });
 });
+
+document.querySelectorAll("[data-region]").forEach(btn=>{
+  btn.addEventListener("click", ()=>{
+    document.querySelectorAll("[data-region]").forEach(x=>x.classList.remove("active"));
+    btn.classList.add("active");
+    region = btn.dataset.region;
+    render();
+  });
+});
+
+document.getElementById("q").addEventListener("input", (e)=>{
+  q = e.target.value || "";
+  render();
+});
+
+// slug-safe cockpit header (si page?slug=xxx -> cockpit suit)
+(function initCockpitHeader(){
+  const slug = new URL(location.href).searchParams.get("slug");
+  if(!slug) return;
+  const href = "./build-pro/pin.html?slug=" + encodeURIComponent(slug);
+  const top = document.getElementById("btnCockpitTop");
+  if(top) top.href = href;
+})();
+
+load();
 </script>
 
 </body>
