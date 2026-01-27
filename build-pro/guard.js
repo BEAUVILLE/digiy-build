@@ -1,9 +1,8 @@
 /* =========================================================
    DIGIY BUILD PRO — GUARD (repo-safe)
-   - Supabase client init
-   - Session load/validate
-   - slug-safe navigation helpers
-   - logout
+   - Supabase init
+   - Session validate
+   - slug-safe helpers
    ========================================================= */
 
 (() => {
@@ -16,9 +15,6 @@
     sessionHours: 8,
   };
 
-  // ---------------------------------
-  // Utilities
-  // ---------------------------------
   const log = (...a) => console.log("🧱 DIGIY BUILD PRO", ...a);
   const warn = (...a) => console.warn("🧱 DIGIY BUILD PRO", ...a);
 
@@ -41,7 +37,6 @@
       u.searchParams.set("slug", s);
       return u.pathname + "?" + u.searchParams.toString();
     }catch(_){
-      // fallback simple
       const hasQ = String(path).includes("?");
       return path + (hasQ ? "&" : "?") + "slug=" + encodeURIComponent(s);
     }
@@ -55,29 +50,19 @@
     location.href = withSlug(path);
   }
 
-  function nowIso(){ return new Date().toISOString(); }
-
-  function computeExpires(hours){
-    return new Date(Date.now() + hours*60*60*1000).toISOString();
-  }
-
   function readSession(){
     try{
       const raw = localStorage.getItem(CFG.sessionKey);
       if(!raw) return null;
       return JSON.parse(raw);
-    }catch(_){
-      return null;
-    }
+    }catch(_){ return null; }
   }
 
   function writeSession(s){
     try{
       localStorage.setItem(CFG.sessionKey, JSON.stringify(s));
       return true;
-    }catch(_){
-      return false;
-    }
+    }catch(_){ return false; }
   }
 
   function clearSession(){
@@ -91,28 +76,21 @@
     if(!s.expires_at) return false;
     const t = new Date(s.expires_at).getTime();
     if(!isFinite(t)) return false;
-    return Date.now() < t;
+    if(Date.now() >= t) return false;
+    // BUILD: on veut owner_id obligatoire
+    if(!s.owner_id) return false;
+    return true;
   }
 
-  function requireSession({ redirectTo = "./pin.html", allowNoSlug = true } = {}){
+  function requireSession({ redirectTo = "./pin.html" } = {}){
     const s = readSession();
     if(!isSessionValid(s)){
       clearSession();
       location.replace(withSlug(redirectTo));
       throw new Error("No valid session");
     }
-
-    // Optionnel: slug required (si tu veux forcer)
-    if(!allowNoSlug && !cleanSlug(s.slug || urlSlug())){
-      warn("Slug manquant. Redirect pin.");
-      location.replace(withSlug(redirectTo));
-      throw new Error("Slug required");
-    }
-
-    // Garder pro_id en shortcut (comme tes autres modules)
-    if(s.pro_id) {
-      try{ localStorage.setItem("DIGIY_PRO_ID", s.pro_id); }catch(_){}
-    }
+    // shortcut
+    try{ localStorage.setItem("DIGIY_PRO_ID", s.owner_id); }catch(_){}
     return s;
   }
 
@@ -121,36 +99,33 @@
     location.replace(withSlug(redirectTo));
   }
 
-  // ---------------------------------
-  // Supabase init
-  // ---------------------------------
   function initSupabase(){
     const supa = window.supabase;
     if(!supa?.createClient){
       throw new Error("Supabase CDN manquant: window.supabase.createClient indisponible.");
     }
-    const client = supa.createClient(CFG.supabaseUrl, CFG.supabaseAnonKey);
-    return client;
+    return supa.createClient(CFG.supabaseUrl, CFG.supabaseAnonKey);
   }
 
-  // Expose globally (DIGIY style)
   try{
     const sb = initSupabase();
     window.__digiy_build_cfg__ = CFG;
     window.__digiy_sb__ = sb;
+
     window.DIGIY = window.DIGIY || {};
     window.DIGIY.BUILD = {
       cfg: CFG,
       sb,
+      cleanSlug,
+      urlSlug,
+      withSlug,
+      go,
       readSession,
       writeSession,
       requireSession,
       logout,
-      go,
-      withSlug,
-      cleanSlug,
-      urlSlug,
     };
+
     log("Guard loaded ✅");
   }catch(e){
     console.error(e);
