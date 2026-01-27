@@ -11,22 +11,15 @@
 
   <style>
     :root{
-      --bg:#061b14;
-      --card:#0b2a1f;
-      --line:rgba(255,255,255,.12);
-      --text:#eafff1;
-      --muted:rgba(234,255,241,.72);
-      --gold:#facc15;
-      --green:#22c55e;
-      --orange:#f59e0b;
-      --red:#ef4444;
-      --shadow: 0 20px 60px rgba(0,0,0,.35);
-      --radius: 18px;
+      --bg:#061b14; --card:#0b2a1f; --line:rgba(255,255,255,.12);
+      --text:#eafff1; --muted:rgba(234,255,241,.72);
+      --gold:#facc15; --green:#22c55e; --orange:#f59e0b; --red:#ef4444;
+      --shadow: 0 20px 60px rgba(0,0,0,.35); --radius:18px;
     }
     *{box-sizing:border-box}
     body{
       margin:0;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, "Helvetica Neue", Arial;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial;
       color:var(--text);
       background:
         radial-gradient(900px 500px at 12% 10%, rgba(250,204,21,.14), transparent 55%),
@@ -42,24 +35,17 @@
       width:44px;height:44px;border-radius:14px;
       background: radial-gradient(circle at 30% 30%, rgba(250,204,21,.22), transparent 60%),
                   linear-gradient(135deg, rgba(34,197,94,.25), rgba(245,158,11,.18));
-      border:1px solid var(--line);
-      box-shadow: var(--shadow);
-      display:flex;align-items:center;justify-content:center;
-      font-weight:900;
+      border:1px solid var(--line); box-shadow:var(--shadow);
+      display:flex;align-items:center;justify-content:center;font-weight:900;
     }
-    .brand h1{font-size:16px;margin:0;letter-spacing:.2px}
+    .brand h1{font-size:16px;margin:0}
     .brand p{margin:2px 0 0;color:var(--muted);font-size:12.5px}
-
     .btn{
       appearance:none;border:1px solid var(--line);
-      background: rgba(0,0,0,.12);
-      color:var(--text);
+      background: rgba(0,0,0,.12); color:var(--text);
       padding:10px 12px;border-radius:14px;
-      text-decoration:none;
-      display:inline-flex;align-items:center;gap:8px;
-      font-weight:800;font-size:13px;
-      cursor:pointer;
-      white-space:nowrap;
+      text-decoration:none; display:inline-flex; align-items:center; gap:8px;
+      font-weight:800;font-size:13px; cursor:pointer; white-space:nowrap;
     }
     .btn:hover{border-color:rgba(250,204,21,.35)}
     .btn.primary{
@@ -70,7 +56,6 @@
       background: linear-gradient(135deg, rgba(34,197,94,.28), rgba(34,197,94,.14));
       border-color: rgba(34,197,94,.38);
     }
-
     .card{
       background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
       border:1px solid var(--line);
@@ -79,15 +64,10 @@
       overflow:hidden;
       margin-bottom: 14px;
     }
-    .hd{
-      padding:14px 14px 10px;
-      border-bottom:1px solid var(--line);
-      background: rgba(0,0,0,.12);
-    }
+    .hd{padding:14px 14px 10px;border-bottom:1px solid var(--line);background:rgba(0,0,0,.12)}
     .hd .t{font-size:14px;font-weight:900;margin:0}
     .hd .s{margin:6px 0 0;color:var(--muted);font-size:12.5px;line-height:1.35}
     .bd{padding:14px}
-
     label{display:block;font-size:12.5px;color:var(--muted);margin:0 0 6px}
     input{
       width:100%;
@@ -95,39 +75,16 @@
       border:1px solid rgba(255,255,255,.14);
       color:var(--text);
       border-radius:14px;
-      padding:12px 12px;
+      padding:12px;
       font-size:16px;
       outline:none;
-      letter-spacing: 2px;
-      text-transform: uppercase;
+      letter-spacing:2px;
+      text-transform:uppercase;
     }
-    input:focus{
-      border-color: rgba(250,204,21,.42);
-      box-shadow: 0 0 0 3px rgba(250,204,21,.10);
-    }
-
+    input:focus{border-color:rgba(250,204,21,.42);box-shadow:0 0 0 3px rgba(250,204,21,.10)}
     .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:10px}
-    .pill{
-      padding:8px 10px;border-radius:999px;
-      border:1px solid rgba(255,255,255,.14);
-      background: rgba(0,0,0,.12);
-      color: var(--muted);
-      font-size:12.5px;
-    }
-    .pill.ok{border-color: rgba(34,197,94,.35); background: rgba(34,197,94,.12); color: var(--text);}
-    .pill.warn{border-color: rgba(245,158,11,.35); background: rgba(245,158,11,.10); color: var(--text);}
-    .pill.bad{border-color: rgba(239,68,68,.40); background: rgba(239,68,68,.10); color: var(--text);}
-
-    .grid{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap:12px;
-      margin-top: 12px;
-    }
-    @media (max-width: 760px){
-      .grid{grid-template-columns:1fr}
-    }
-
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+    @media (max-width:760px){.grid{grid-template-columns:1fr}}
     .item{
       border:1px solid rgba(255,255,255,.12);
       background: rgba(0,0,0,.12);
@@ -136,10 +93,9 @@
     }
     .item .k{color:var(--muted);font-size:12.5px}
     .item .v{font-weight:900;margin-top:2px}
-
     .hint{font-size:12.5px;color:var(--muted);line-height:1.35;margin-top:8px}
     .sep{height:1px;background:var(--line);margin:12px 0}
-    .mono{font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace}
+    .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace}
   </style>
 </head>
 
@@ -162,34 +118,28 @@
     <div class="card">
       <div class="hd">
         <p class="t">Entre ton code public</p>
-        <p class="s">Ex: <span class="mono">B7KQ2M9PZ</span> — suivi sans exposer tes données privées.</p>
+        <p class="s">Ex: <span class="mono">B7KQ2M9PZ</span></p>
       </div>
       <div class="bd">
         <label>Code</label>
-        <input id="code" placeholder="BXXXXXXX" autocomplete="off" inputmode="text" />
+        <input id="code" placeholder="BXXXXXXX" autocomplete="off"/>
 
         <div class="row">
           <button class="btn primary" id="btnTrack">🔎 Suivre</button>
           <button class="btn" id="btnPaste">📋 Coller</button>
-          <button class="btn" id="btnUseLast">⚡ Dernière demande</button>
+          <button class="btn" id="btnUseLast">⚡ Derniere demande</button>
         </div>
 
-        <div class="hint">
-          Le mode safe affiche seulement : statut, ville, métier, budget, date, et éventuellement le slug pro.
-        </div>
+        <div class="hint">Mode safe : statut + ville + metier + budget + date + slug pro.</div>
       </div>
     </div>
 
     <div class="card" id="resultCard" style="display:none">
       <div class="hd">
-        <p class="t">Résultat</p>
+        <p class="t">Resultat</p>
         <p class="s" id="resultSub">—</p>
       </div>
       <div class="bd" id="resultBody"></div>
-    </div>
-
-    <div class="hint">
-      Besoin d’aide ? WhatsApp support disponible.
     </div>
   </div>
 
@@ -197,8 +147,8 @@
   const SUPABASE_URL = "https://wesqmwjjtsefyjnluosj.supabase.co";
   const SUPABASE_ANON_KEY =
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indlc3Ftd2pqdHNlZnlqbmx1b3NqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUxNzg4ODIsImV4cCI6MjA4MDc1NDg4Mn0.dZfYOc2iL2_wRYL3zExZFsFSBK6AbMeOid2LrIjcTdA";
-
   const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
   const KEY_LAST = "DIGIY_BUILD_LAST_REQUEST";
   const SUPPORT_WHATSAPP = "+221771342889";
 
@@ -209,83 +159,24 @@
       "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
     }[m]));
   }
-
-  function buildWhatsAppLink(phone, msg){
-    const p = String(phone || "").replace(/\s/g,"").replace("+","");
-    const text = encodeURIComponent(msg);
-    return `https://wa.me/${p}?text=${text}`;
-  }
-
+  function normalizeCode(c){ return String(c||"").trim().toUpperCase().replace(/\s+/g,""); }
   function fmtDate(iso){
     try{
       const d = new Date(iso);
       return d.toLocaleString("fr-FR", { year:"numeric", month:"short", day:"2-digit", hour:"2-digit", minute:"2-digit" });
     }catch(e){ return iso || ""; }
   }
-
-  function statusPill(status){
-    const s = String(status||"").toLowerCase();
-    if(["new","open"].includes(s)) return `<span class="pill ok">🟢 ${esc(s)}</span>`;
-    if(["assigned","quoted","in_progress","progress"].includes(s)) return `<span class="pill.warn pill warn">🟠 ${esc(s)}</span>`;
-    if(["done","closed","cancelled","canceled"].includes(s)) return `<span class="pill bad">🔴 ${esc(s)}</span>`;
-    return `<span class="pill">${esc(s || "—")}</span>`;
-  }
-
-  function normalizeCode(c){
-    return String(c||"").trim().toUpperCase().replace(/\s+/g,"");
+  function buildWhatsAppLink(phone, msg){
+    const p = String(phone || "").replace(/\s/g,"").replace("+","");
+    return `https://wa.me/${p}?text=${encodeURIComponent(msg)}`;
   }
 
   async function fetchByCode(code){
     return await sb
       .from("v_digiy_build_requests_public_safe")
-      .select("public_code, created_at, status, city, zone, trade, budget_min, budget_max, urgency, desired_date, assigned_pro_slug")
+      .select("public_code, created_at, status, status_label, eta_hint, city, zone, trade, budget_min, budget_max, urgency, desired_date, assigned_pro_slug")
       .eq("public_code", code)
       .limit(1);
-  }
-
-  function showResult(row, code){
-    $("resultCard").style.display = "block";
-
-    const waMsg = `Bonjour 👋\nJe veux suivre ma demande DIGIY BUILD.\nCode: ${code}\nVille: ${row.city || ""}\nMétier: ${row.trade || ""}\nMerci.`;
-    const wa = buildWhatsAppLink(SUPPORT_WHATSAPP, waMsg);
-
-    const proSlug = row.assigned_pro_slug ? row.assigned_pro_slug : "—";
-
-    $("resultSub").innerHTML = `Code <span class="mono">${esc(code)}</span> • ${fmtDate(row.created_at)} • ${statusPill(row.status)}`;
-
-    $("resultBody").innerHTML = `
-      <div class="grid">
-        <div class="item"><div class="k">Ville</div><div class="v">${esc(row.city||"—")}</div></div>
-        <div class="item"><div class="k">Zone</div><div class="v">${esc(row.zone||"—")}</div></div>
-        <div class="item"><div class="k">Métier</div><div class="v">${esc(row.trade||"—")}</div></div>
-        <div class="item"><div class="k">Urgence</div><div class="v">${esc(row.urgency||"normal")}</div></div>
-      </div>
-
-      <div class="sep"></div>
-
-      <div class="grid">
-        <div class="item"><div class="k">Budget min</div><div class="v">${row.budget_min ?? "—"}</div></div>
-        <div class="item"><div class="k">Budget max</div><div class="v">${row.budget_max ?? "—"}</div></div>
-        <div class="item"><div class="k">Date souhaitée</div><div class="v">${esc(row.desired_date||"—")}</div></div>
-        <div class="item"><div class="k">Pro assigné (slug)</div><div class="v">${esc(proSlug)}</div></div>
-      </div>
-
-      <div class="row" style="margin-top:12px">
-        <a class="btn whatsapp" href="${wa}" target="_blank" rel="noopener">💬 Support WhatsApp</a>
-        <button class="btn" id="copyCode">📋 Copier le code</button>
-      </div>
-
-      <div class="hint">Mode safe : aucune donnée privée (téléphone, description, liens) n’est affichée ici.</div>
-    `;
-
-    $("copyCode").addEventListener("click", async ()=>{
-      try{
-        await navigator.clipboard.writeText(code);
-        alert("✅ Code copié : " + code);
-      }catch(e){
-        prompt("Copie le code :", code);
-      }
-    });
   }
 
   function showError(msg){
@@ -295,29 +186,78 @@
       <div class="item" style="border-color: rgba(239,68,68,.35); background: rgba(239,68,68,.10)">
         <div class="k">Erreur</div>
         <div class="v">${esc(msg)}</div>
-        <div class="hint" style="margin-top:8px">Vérifie le code, ou utilise “Dernière demande”.</div>
+        <div class="hint" style="margin-top:8px">Verifie le code ou utilise Derniere demande.</div>
       </div>
     `;
+  }
+
+  function showResult(row, code){
+    $("resultCard").style.display = "block";
+
+    const waMsg = `Bonjour. Suivi demande DIGIY BUILD.\nCode: ${code}\nVille: ${row.city||""}\nMetier: ${row.trade||""}`;
+    const wa = buildWhatsAppLink(SUPPORT_WHATSAPP, waMsg);
+
+    $("resultSub").innerHTML = `Code <span class="mono">${esc(code)}</span> • ${esc(fmtDate(row.created_at||""))}`;
+
+    const proSlug = row.assigned_pro_slug || "—";
+    const label = row.status_label || row.status || "—";
+    const hint  = row.eta_hint || "—";
+
+    $("resultBody").innerHTML = `
+      <div class="grid">
+        <div class="item"><div class="k">Ville</div><div class="v">${esc(row.city||"—")}</div></div>
+        <div class="item"><div class="k">Zone</div><div class="v">${esc(row.zone||"—")}</div></div>
+        <div class="item"><div class="k">Metier</div><div class="v">${esc(row.trade||"—")}</div></div>
+        <div class="item"><div class="k">Pro assigne (slug)</div><div class="v">${esc(proSlug)}</div></div>
+      </div>
+
+      <div class="sep"></div>
+
+      <div class="grid">
+        <div class="item"><div class="k">Budget min</div><div class="v">${row.budget_min ?? "—"}</div></div>
+        <div class="item"><div class="k">Budget max</div><div class="v">${row.budget_max ?? "—"}</div></div>
+        <div class="item"><div class="k">Urgence</div><div class="v">${esc(row.urgency||"normal")}</div></div>
+        <div class="item"><div class="k">Date souhaitee</div><div class="v">${esc(row.desired_date||"—")}</div></div>
+      </div>
+
+      <div class="sep"></div>
+
+      <div class="item">
+        <div class="k">Etat</div>
+        <div class="v">${esc(label)}</div>
+        <div class="hint" style="margin-top:8px">${esc(hint)}</div>
+      </div>
+
+      <div class="row" style="margin-top:12px">
+        <a class="btn whatsapp" href="${wa}" target="_blank" rel="noopener">💬 Support WhatsApp</a>
+        <button class="btn" id="copyCode">📋 Copier le code</button>
+      </div>
+    `;
+
+    $("copyCode").addEventListener("click", async ()=>{
+      try{
+        await navigator.clipboard.writeText(code);
+        alert("Code copie: " + code);
+      }catch(e){
+        prompt("Copie le code:", code);
+      }
+    });
   }
 
   async function runTrack(){
     const code = normalizeCode($("code").value);
     if(!code) return showError("Entre un code public.");
     $("btnTrack").disabled = true;
-    $("btnTrack").textContent = "Recherche…";
+    $("btnTrack").textContent = "Recherche...";
 
     try{
       const { data, error } = await fetchByCode(code);
       if(error) throw error;
-
-      if(!data || data.length === 0){
-        showError("Aucune demande trouvée.");
-      } else {
-        showResult(data[0], code);
-      }
+      if(!data || data.length === 0) showError("Aucune demande trouvee.");
+      else showResult(data[0], code);
     }catch(err){
       console.error(err);
-      showError(err?.message || "Impossible de récupérer la demande.");
+      showError(err?.message || "Impossible de recuperer la demande.");
     }finally{
       $("btnTrack").disabled = false;
       $("btnTrack").textContent = "🔎 Suivre";
@@ -331,32 +271,27 @@
       const txt = await navigator.clipboard.readText();
       $("code").value = normalizeCode(txt);
     }catch(e){
-      alert("Impossible de coller automatiquement. Colle manuellement.");
+      alert("Coller auto impossible. Colle manuellement.");
     }
   });
 
   $("btnUseLast").addEventListener("click", ()=>{
     const raw = localStorage.getItem(KEY_LAST);
-    if(!raw) return showError("Aucune dernière demande trouvée sur ce téléphone.");
+    if(!raw) return showError("Aucune derniere demande sur ce telephone.");
     try{
       const last = JSON.parse(raw);
       if(last?.public_code){
         $("code").value = normalizeCode(last.public_code);
         runTrack();
-      } else {
-        showError("Dernière demande invalide.");
-      }
+      } else showError("Derniere demande invalide.");
     }catch(e){
-      showError("Dernière demande illisible.");
+      showError("Derniere demande illisible.");
     }
   });
 
   (function init(){
     const c = new URL(location.href).searchParams.get("code");
-    if(c){
-      $("code").value = normalizeCode(c);
-      runTrack();
-    }
+    if(c){ $("code").value = normalizeCode(c); runTrack(); }
   })();
 </script>
 </body>
