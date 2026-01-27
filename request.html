@@ -7,6 +7,9 @@
   <title>DIGIY BUILD — Réseau BTP Sénégal • 0% commission</title>
   <meta name="description" content="DIGIY BUILD — Réseau d'artisans vérifiés au Sénégal. Construction, plomberie, électricité. 0% commission.">
 
+  <!-- Supabase JS v2 (utile pour stats demandes; page reste OK si Supabase KO) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
   <style>
     :root{
       --bg:#050a14;
@@ -304,8 +307,8 @@
     </div>
     <div class="actions">
       <a class="btn ghost" id="btnHome" href="#">← Retour vitrine</a>
-<a class="btn secondary" id="btnDemandes" href="#">📋 Voir les demandes</a>
-<a class="btn secondary" id="btnCockpit" href="#">🔐 Cockpit Pro</a>
+      <a class="btn secondary" id="btnDemandes" href="#">📋 Voir les demandes</a>
+      <a class="btn secondary" id="btnCockpit" href="#">🔐 Cockpit Pro</a>
     </div>
   </div>
 </header>
@@ -322,16 +325,16 @@
     </div>
     <div class="stats">
       <span class="chip">👷 <b>3</b> partenaires</span>
-      <span class="chip">📌 <b id="statTotal">...</b> demandes</span>
+      <span class="chip">📌 <b id="statTotal">—</b> demandes</span>
       <span class="chip">✅ <b>Vérifié</b></span>
     </div>
   </section>
 
-  <!-- CTA VERS DEMANDES -->
+  <!-- CTA VERS DEMANDES (anti-404) -->
   <section class="cta-demandes">
     <h3>📋 Consulter les demandes publiques</h3>
-    <p>Besoin de chantiers ? Accède à toutes les demandes en temps réel (anonymisées). Les pros répondent via le cockpit.</p>
-    <a class="btn primary" href="./demandes.html">Voir toutes les demandes →</a>
+    <p>Besoin de chantiers ? Consulte les annonces anonymisées. Contact direct ensuite.</p>
+    <a class="btn primary" id="btnDemandesCta" href="#">Voir toutes les demandes →</a>
   </section>
 
   <!-- FILTRES PARTENAIRES -->
@@ -450,15 +453,6 @@
 
 <script>
 /* =============================
-   SUPABASE CONFIG
-   ============================= */
-const SUPABASE_URL = "https://wesqmwjjtsefyjnluosj.supabase.co";
-const SUPABASE_ANON_KEY =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indlc3Ftd2pqdHNlZnlqbmx1b3NqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUxNzg4ODIsImV4cCI6MjA4MDc1NDg4Mn0.dZfYOc2iL2_wRYL3zExZFsFSBK6AbMeOid2LrIjcTdA";
-
-const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-/* =============================
    Helpers
    ============================= */
 function norm(v){ return (v ?? "").toString().toLowerCase().trim(); }
@@ -514,17 +508,97 @@ document.getElementById("qPro").addEventListener("input", (e)=>{
 });
 
 /* =============================
-   LOAD STATS DEMANDES
+   NAV anti-404 (vitrine / demandes / cockpit)
    ============================= */
-async function loadStats(){
-  const { data } = await sb.rpc("digiy_build_public_list_v1", { p_limit: 500 });
-  if(data){
-    document.getElementById("statTotal").textContent = String(data.length);
+function dirUrl(){ return new URL("./", location.href); }
+
+async function firstExisting(paths){
+  const base = dirUrl();
+  for(const p of paths){
+    const url = new URL(p, base).href;
+    try{
+      const r = await fetch(url, { method:"GET", cache:"no-store" });
+      if(r && r.ok) return url;
+    }catch(_){}
+  }
+  return null;
+}
+
+async function initNav(){
+  const HOME_CANDIDATES = ["./", "index.html"];
+  const DEMANDES_CANDIDATES = ["demandes.html", "demandes/index.html", "public-demandes.html", "demandes-public.html"];
+  const COCKPIT_CANDIDATES = ["build-pro/pin.html", "build-pro/index.html"];
+
+  const homeUrl = await firstExisting(HOME_CANDIDATES);
+  const demandesUrl = await firstExisting(DEMANDES_CANDIDATES);
+  const cockpitUrl = await firstExisting(COCKPIT_CANDIDATES);
+
+  const slug = new URL(location.href).searchParams.get("slug");
+
+  const btnHome = document.getElementById("btnHome");
+  if(btnHome) btnHome.href = homeUrl || "./";
+
+  const btnDemandes = document.getElementById("btnDemandes");
+  const btnDemandesCta = document.getElementById("btnDemandesCta");
+  const demandesTarget = demandesUrl || homeUrl || "./";
+
+  if(btnDemandes) btnDemandes.href = demandesTarget;
+  if(btnDemandesCta) btnDemandesCta.href = demandesTarget;
+
+  // Si la page demandes n’existe pas, on préfère envoyer vers request.html (utile)
+  if(!demandesUrl){
+    const fallbackReq = await firstExisting(["request.html", "demande.html", "publish.html"]);
+    if(btnDemandes) btnDemandes.href = fallbackReq || (homeUrl || "./");
+    if(btnDemandesCta) btnDemandesCta.href = fallbackReq || (homeUrl || "./");
+  }
+
+  const btnCockpit = document.getElementById("btnCockpit");
+  if(btnCockpit){
+    btnCockpit.href = cockpitUrl || "#";
+    if(slug && cockpitUrl){
+      const u = new URL(cockpitUrl);
+      u.searchParams.set("slug", slug);
+      btnCockpit.href = u.href;
+    }
   }
 }
 
-// init
+/* =============================
+   STATS demandes (ne casse jamais la page)
+   ============================= */
+function safeSetTotal(v){
+  const el = document.getElementById("statTotal");
+  if(el) el.textContent = (v === null || v === undefined) ? "—" : String(v);
+}
+
+async function loadStats(){
+  // si supabase lib pas chargée => on ignore
+  if(!window.supabase) return;
+
+  try{
+    const SUPABASE_URL = "https://wesqmwjjtsefyjnluosj.supabase.co";
+    const SUPABASE_ANON_KEY =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indlc3Ftd2pqdHNlZnlqbmx1b3NqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUxNzg4ODIsImV4cCI6MjA4MDc1NDg4Mn0.dZfYOc2iL2_wRYL3zExZFsFSBK6AbMeOid2LrIjcTdA";
+
+    const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    const { data, error } = await sb.rpc("digiy_build_public_list_v1", { p_limit: 500 });
+
+    if(error){
+      console.warn("Stats demandes indisponibles:", error.message);
+      safeSetTotal("—");
+      return;
+    }
+    safeSetTotal(Array.isArray(data) ? data.length : "—");
+  }catch(e){
+    console.warn("Stats demandes indisponibles:", e?.message || e);
+    safeSetTotal("—");
+  }
+}
+
+/* init */
 filterPros();
+initNav();
 loadStats();
 </script>
 
