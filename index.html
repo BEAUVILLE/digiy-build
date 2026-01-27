@@ -95,6 +95,17 @@
             border-color: #facc15;
         }
 
+        /* ✅ NEW: bouton cockpit (accent vert DIGIY) */
+        .btn-cockpit{
+            background: linear-gradient(135deg, rgba(34,197,94,.95), rgba(250,204,21,.85));
+            color:#062014;
+            font-weight: 800;
+        }
+        .btn-cockpit:hover{
+            transform: translateY(-2px);
+            box-shadow: 0 8px 18px rgba(34,197,94,.25);
+        }
+
         .container { max-width: 1200px; margin: 0 auto; padding: 40px 20px; }
 
         .hero {
@@ -328,6 +339,10 @@
         <div class="header-actions">
             <a href="#" class="btn btn-secondary" onclick="window.history.back(); return false;">← Retour Hub</a>
             <a class="btn btn-primary" id="btnRequestTop" href="./request.html">📤 Déposer une demande</a>
+
+            <!-- ✅ NEW: Accès Cockpit Pro -->
+            <a class="btn btn-cockpit" id="btnCockpitTop" href="./build-pro/pin.html">🔐 Accès Cockpit Pro</a>
+
             <button class="btn btn-secondary" onclick="openInscriptionModal()">➕ Devenir Partenaire</button>
         </div>
     </div>
@@ -344,6 +359,9 @@
         <div class="hero-cta">
             <a class="btn btn-primary" id="btnRequestHero" href="./request.html">📤 Déposer une demande maintenant</a>
             <a class="btn btn-secondary" href="#artisansGrid">🔎 Voir les partenaires</a>
+
+            <!-- ✅ NEW: Accès Cockpit Pro -->
+            <a class="btn btn-cockpit" id="btnCockpitHero" href="./build-pro/pin.html">🔐 Accès Cockpit Pro</a>
         </div>
 
         <div class="hero-stats">
@@ -560,7 +578,6 @@
   let currentZone = 'all';
   let currentSpecialty = 'all';
 
-  // Map zone -> city par défaut pour pré-remplir request.html
   const ZONE_TO_CITY = {
     "all": "Sénégal",
     "dakar": "Dakar",
@@ -570,7 +587,6 @@
     "casamance": "Ziguinchor"
   };
 
-  // Map category -> libellé trade
   const CAT_TO_TRADE = {
     "plomberie": "Plomberie",
     "electricite": "Électricité",
@@ -580,6 +596,20 @@
     "menuiserie": "Menuiserie"
   };
 
+  // ✅ NEW: slug-safe cockpit links
+  function getSlug(){
+    return (new URL(location.href)).searchParams.get("slug") || "";
+  }
+  function applySlugToCockpit(){
+    const slug = getSlug().trim();
+    const top  = document.getElementById("btnCockpitTop");
+    const hero = document.getElementById("btnCockpitHero");
+    const base = "./build-pro/pin.html";
+    const href = slug ? (base + "?slug=" + encodeURIComponent(slug)) : base;
+    if(top) top.href = href;
+    if(hero) hero.href = href;
+  }
+
   // FILTRES GÉOGRAPHIQUES
   document.querySelectorAll('[data-zone]').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -588,7 +618,6 @@
       currentZone = btn.dataset.zone;
       applyFilters();
 
-      // Pré-remplit les CTA vers request.html
       const city = encodeURIComponent(ZONE_TO_CITY[currentZone] || "Sénégal");
       document.getElementById("btnRequestTop").href  = `./request.html?city=${city}`;
       document.getElementById("btnRequestHero").href = `./request.html?city=${city}`;
@@ -605,7 +634,6 @@
     });
   });
 
-  // APPLIQUER LES FILTRES
   function applyFilters() {
     const cards = document.querySelectorAll('.artisan-card');
     cards.forEach(card => {
@@ -619,14 +647,12 @@
     });
   }
 
-  // CONTACT ARTISAN (WhatsApp)
   function contactArtisan(name, phone) {
     const message = encodeURIComponent(`Bonjour ${name}, je vous contacte via DIGIY BUILD pour discuter d'un projet.`);
     const whatsappUrl = `https://wa.me/${phone.replace(/\s/g, '').replace('+','')}/?text=${message}`;
     window.open(whatsappUrl, '_blank');
   }
 
-  // ✅ Devis -> redirection vers request.html pré-remplie
   function goRequestFromCard(btn){
     const card = btn.closest(".artisan-card");
     const cat  = card?.dataset?.category || "multi";
@@ -637,19 +663,15 @@
     window.location.href = url;
   }
 
-  // MODAL INSCRIPTION
   function openInscriptionModal() {
-    const modal = document.getElementById('inscriptionModal');
-    modal.style.display = "flex";
+    document.getElementById('inscriptionModal').style.display = "flex";
   }
 
   function closeInscriptionModal() {
-    const modal = document.getElementById('inscriptionModal');
-    modal.style.display = "none";
+    document.getElementById('inscriptionModal').style.display = "none";
     document.getElementById('inscriptionForm').reset();
   }
 
-  // Inscription -> stockage local + redirect paiement (ton flow)
   function submitInscription() {
     const partnerData = {
       name: document.getElementById('proName').value,
@@ -671,18 +693,17 @@
     }, 600);
   }
 
-  // Fermer modal clic extérieur
   document.getElementById('inscriptionModal').addEventListener('click', (e) => {
     if (e.target === document.getElementById('inscriptionModal')) {
       closeInscriptionModal();
     }
   });
 
-  // init CTA avec zone par défaut
   (function initCta(){
     const city = encodeURIComponent(ZONE_TO_CITY[currentZone] || "Sénégal");
     document.getElementById("btnRequestTop").href  = `./request.html?city=${city}`;
     document.getElementById("btnRequestHero").href = `./request.html?city=${city}`;
+    applySlugToCockpit(); // ✅
   })();
 </script>
 </body>
