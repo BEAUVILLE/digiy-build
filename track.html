@@ -96,6 +96,8 @@
     .hint{font-size:12.5px;color:var(--muted);line-height:1.35;margin-top:8px}
     .sep{height:1px;background:var(--line);margin:12px 0}
     .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace}
+    .badge-ok{border-color: rgba(34,197,94,.35); background: rgba(34,197,94,.10)}
+    .badge-err{border-color: rgba(239,68,68,.35); background: rgba(239,68,68,.10)}
   </style>
 </head>
 
@@ -110,8 +112,8 @@
         </div>
       </div>
       <div style="display:flex;gap:10px;flex-wrap:wrap">
-        <a class="btn" href="./index.html">← Vitrine</a>
-        <a class="btn primary" href="./request.html">📤 Nouvelle demande</a>
+        <a class="btn" id="btnHome" href="#">← Vitrine</a>
+        <a class="btn primary" id="btnRequest" href="#">📤 Nouvelle demande</a>
       </div>
     </div>
 
@@ -127,16 +129,16 @@
         <div class="row">
           <button class="btn primary" id="btnTrack">🔎 Suivre</button>
           <button class="btn" id="btnPaste">📋 Coller</button>
-          <button class="btn" id="btnUseLast">⚡ Derniere demande</button>
+          <button class="btn" id="btnUseLast">⚡ Dernière demande</button>
         </div>
 
-        <div class="hint">Mode safe : statut + ville + metier + budget + date + slug pro.</div>
+        <div class="hint">Mode safe : statut + ville + zone + métier + budget + date + slug pro.</div>
       </div>
     </div>
 
     <div class="card" id="resultCard" style="display:none">
       <div class="hd">
-        <p class="t">Resultat</p>
+        <p class="t">Résultat</p>
         <p class="s" id="resultSub">—</p>
       </div>
       <div class="bd" id="resultBody"></div>
@@ -144,9 +146,13 @@
   </div>
 
 <script>
+  /* =============================
+     SUPABASE CONFIG
+     ============================= */
   const SUPABASE_URL = "https://wesqmwjjtsefyjnluosj.supabase.co";
   const SUPABASE_ANON_KEY =
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indlc3Ftd2pqdHNlZnlqbmx1b3NqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUxNzg4ODIsImV4cCI6MjA4MDc1NDg4Mn0.dZfYOc2iL2_wRYL3zExZFsFSBK6AbMeOid2LrIjcTdA";
+
   const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
   const KEY_LAST = "DIGIY_BUILD_LAST_REQUEST";
@@ -171,6 +177,37 @@
     return `https://wa.me/${p}?text=${encodeURIComponent(msg)}`;
   }
 
+  /* =============================
+     NAV robuste (évite 404 selon dossier GitHub Pages)
+     ============================= */
+  function baseDir(){
+    const u = new URL(location.href);
+    u.hash = "";
+    u.search = "";
+    u.pathname = u.pathname.replace(/[^\/]*$/, "");
+    return u;
+  }
+  async function firstExisting(paths){
+    const base = baseDir();
+    for(const p of paths){
+      const url = new URL(p, base).href;
+      try{
+        const r = await fetch(url, { method:"GET", cache:"no-store" });
+        if(r && r.ok) return url;
+      }catch(_){}
+    }
+    return null;
+  }
+  async function initNav(){
+    const homeUrl = await firstExisting(["./", "index.html"]);
+    const reqUrl  = await firstExisting(["request.html", "demande.html", "publish.html"]);
+    if($("btnHome")) $("btnHome").href = homeUrl || "./";
+    if($("btnRequest")) $("btnRequest").href = reqUrl || "./";
+  }
+
+  /* =============================
+     DATA
+     ============================= */
   async function fetchByCode(code){
     return await sb
       .from("v_digiy_build_requests_public_safe")
@@ -183,10 +220,10 @@
     $("resultCard").style.display = "block";
     $("resultSub").textContent = "—";
     $("resultBody").innerHTML = `
-      <div class="item" style="border-color: rgba(239,68,68,.35); background: rgba(239,68,68,.10)">
+      <div class="item badge-err">
         <div class="k">Erreur</div>
         <div class="v">${esc(msg)}</div>
-        <div class="hint" style="margin-top:8px">Verifie le code ou utilise Derniere demande.</div>
+        <div class="hint" style="margin-top:8px">Vérifie le code ou utilise “Dernière demande”.</div>
       </div>
     `;
   }
@@ -194,7 +231,7 @@
   function showResult(row, code){
     $("resultCard").style.display = "block";
 
-    const waMsg = `Bonjour. Suivi demande DIGIY BUILD.\nCode: ${code}\nVille: ${row.city||""}\nMetier: ${row.trade||""}`;
+    const waMsg = `Bonjour. Suivi demande DIGIY BUILD.\nCode: ${code}\nVille: ${row.city||""}\nMétier: ${row.trade||""}`;
     const wa = buildWhatsAppLink(SUPPORT_WHATSAPP, waMsg);
 
     $("resultSub").innerHTML = `Code <span class="mono">${esc(code)}</span> • ${esc(fmtDate(row.created_at||""))}`;
@@ -207,8 +244,8 @@
       <div class="grid">
         <div class="item"><div class="k">Ville</div><div class="v">${esc(row.city||"—")}</div></div>
         <div class="item"><div class="k">Zone</div><div class="v">${esc(row.zone||"—")}</div></div>
-        <div class="item"><div class="k">Metier</div><div class="v">${esc(row.trade||"—")}</div></div>
-        <div class="item"><div class="k">Pro assigne (slug)</div><div class="v">${esc(proSlug)}</div></div>
+        <div class="item"><div class="k">Métier</div><div class="v">${esc(row.trade||"—")}</div></div>
+        <div class="item"><div class="k">Pro assigné (slug)</div><div class="v">${esc(proSlug)}</div></div>
       </div>
 
       <div class="sep"></div>
@@ -217,13 +254,13 @@
         <div class="item"><div class="k">Budget min</div><div class="v">${row.budget_min ?? "—"}</div></div>
         <div class="item"><div class="k">Budget max</div><div class="v">${row.budget_max ?? "—"}</div></div>
         <div class="item"><div class="k">Urgence</div><div class="v">${esc(row.urgency||"normal")}</div></div>
-        <div class="item"><div class="k">Date souhaitee</div><div class="v">${esc(row.desired_date||"—")}</div></div>
+        <div class="item"><div class="k">Date souhaitée</div><div class="v">${esc(row.desired_date||"—")}</div></div>
       </div>
 
       <div class="sep"></div>
 
-      <div class="item">
-        <div class="k">Etat</div>
+      <div class="item badge-ok">
+        <div class="k">État</div>
         <div class="v">${esc(label)}</div>
         <div class="hint" style="margin-top:8px">${esc(hint)}</div>
       </div>
@@ -237,9 +274,9 @@
     $("copyCode").addEventListener("click", async ()=>{
       try{
         await navigator.clipboard.writeText(code);
-        alert("Code copie: " + code);
+        alert("Code copié : " + code);
       }catch(e){
-        prompt("Copie le code:", code);
+        prompt("Copie le code :", code);
       }
     });
   }
@@ -252,12 +289,19 @@
 
     try{
       const { data, error } = await fetchByCode(code);
-      if(error) throw error;
-      if(!data || data.length === 0) showError("Aucune demande trouvee.");
+      if(error){
+        // message clair si la vue n'existe pas / droits
+        const m = error.message || "Erreur Supabase";
+        if(m.includes("relation") || m.includes("does not exist")){
+          throw new Error("Vue safe introuvable (v_digiy_build_requests_public_safe). Crée-la ou renomme-la.");
+        }
+        throw error;
+      }
+      if(!data || data.length === 0) showError("Aucune demande trouvée.");
       else showResult(data[0], code);
     }catch(err){
       console.error(err);
-      showError(err?.message || "Impossible de recuperer la demande.");
+      showError(err?.message || "Impossible de récupérer la demande.");
     }finally{
       $("btnTrack").disabled = false;
       $("btnTrack").textContent = "🔎 Suivre";
@@ -277,19 +321,20 @@
 
   $("btnUseLast").addEventListener("click", ()=>{
     const raw = localStorage.getItem(KEY_LAST);
-    if(!raw) return showError("Aucune derniere demande sur ce telephone.");
+    if(!raw) return showError("Aucune dernière demande sur ce téléphone.");
     try{
       const last = JSON.parse(raw);
       if(last?.public_code){
         $("code").value = normalizeCode(last.public_code);
         runTrack();
-      } else showError("Derniere demande invalide.");
+      } else showError("Dernière demande invalide.");
     }catch(e){
-      showError("Derniere demande illisible.");
+      showError("Dernière demande illisible.");
     }
   });
 
-  (function init(){
+  (async function init(){
+    await initNav();
     const c = new URL(location.href).searchParams.get("code");
     if(c){ $("code").value = normalizeCode(c); runTrack(); }
   })();
