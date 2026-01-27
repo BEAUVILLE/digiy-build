@@ -5,15 +5,20 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
   <meta name="theme-color" content="#0b2a1f"/>
   <title>DIGIY BUILD — Demandes publiques</title>
-  <meta name="description" content="Demandes DIGIY BUILD (quartier/région/national). 0% commission. Public safe.">
+  <meta name="description" content="Demandes DIGIY BUILD (quartier, région, national). Public safe. 0% commission.">
 
+  <!-- Supabase JS v2 -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
     :root{
-      --bg:#050a14; --line:rgba(255,255,255,.12);
-      --ink:#eafff1; --muted:rgba(234,255,241,.70);
-      --gold:#facc15; --orange:#f97316; --green:#22c55e;
+      --bg:#050a14;
+      --line:rgba(255,255,255,.12);
+      --ink:#eafff1;
+      --muted:rgba(234,255,241,.70);
+      --gold:#facc15;
+      --orange:#f97316;
+      --green:#22c55e;
     }
     *{box-sizing:border-box;margin:0;padding:0}
     body{
@@ -22,9 +27,11 @@
         radial-gradient(circle at 20% 10%, rgba(250,204,21,.12), transparent 55%),
         radial-gradient(circle at 80% 90%, rgba(34,197,94,.10), transparent 55%),
         linear-gradient(135deg, var(--bg) 0%, #0b1220 100%);
-      color:var(--ink); min-height:100vh;
+      color:var(--ink);
+      min-height:100vh;
     }
 
+    /* Topbar */
     .topbar{
       position:sticky; top:0; z-index:60;
       background:linear-gradient(135deg, rgba(15,23,42,.92), rgba(2,6,23,.92));
@@ -38,13 +45,14 @@
     }
     .brand{display:flex; gap:10px; align-items:center}
     .logo{
-      width:42px;height:42px;border-radius:14px; display:grid;place-items:center;
+      width:42px;height:42px;border-radius:14px;
+      display:grid;place-items:center;
       background:linear-gradient(135deg,var(--gold),var(--orange));
       color:#081018; font-size:22px; font-weight:900;
     }
     .brand h1{font-size:1.05rem}
     .brand p{font-size:.85rem; color:var(--muted)}
-    .actions{display:flex; gap:10px; flex-wrap:wrap; align-items:center;}
+    .actions{display:flex; gap:10px; flex-wrap:wrap}
     .btn{
       display:inline-flex; align-items:center; gap:8px;
       padding:10px 14px; border-radius:999px;
@@ -53,6 +61,7 @@
       color:var(--ink); text-decoration:none;
       font-weight:900; cursor:pointer;
     }
+    .btn.secondary{background:rgba(0,0,0,.22)}
     .btn.cockpit{
       border:none;
       background:linear-gradient(135deg, rgba(34,197,94,.95), rgba(250,204,21,.85));
@@ -67,21 +76,25 @@
       border-radius:20px;
       padding:18px 16px;
       margin-bottom:14px;
-      display:flex; gap:12px; align-items:flex-start; justify-content:space-between; flex-wrap:wrap;
+      display:flex; gap:12px; justify-content:space-between; flex-wrap:wrap;
     }
     .hero h2{
       font-size:1.25rem;
       background:linear-gradient(135deg,var(--gold),var(--orange));
-      -webkit-background-clip:text; background-clip:text;
+      -webkit-background-clip:text;
       -webkit-text-fill-color:transparent;
       margin-bottom:6px;
     }
-    .hero p{color:var(--muted); line-height:1.35; max-width:780px}
+    .hero p{color:var(--muted); max-width:760px}
+    .stats{display:flex; gap:10px; flex-wrap:wrap}
     .chip{
       border:1px solid var(--line);
       background:rgba(0,0,0,.18);
-      padding:7px 10px; border-radius:999px;
-      font-size:.85rem; color:var(--muted); font-weight:900;
+      padding:7px 10px;
+      border-radius:999px;
+      font-size:.85rem;
+      color:var(--muted);
+      font-weight:900;
     }
     .chip b{color:var(--ink)}
 
@@ -90,7 +103,7 @@
       background:rgba(0,0,0,.18);
       border-radius:18px;
       padding:12px;
-      display:flex; gap:10px; flex-wrap:wrap; align-items:center;
+      display:flex; gap:10px; flex-wrap:wrap;
       margin-bottom:14px;
     }
     .label{color:var(--gold); font-weight:1000}
@@ -101,7 +114,7 @@
       padding:8px 12px;
       border-radius:999px;
       cursor:pointer;
-      font-weight:1000;
+      font-weight:900;
       font-size:.9rem;
     }
     .pill.active{
@@ -116,88 +129,94 @@
       color:var(--ink);
       padding:10px 12px;
       border-radius:14px;
-      outline:none;
       font-weight:900;
     }
 
-    .grid{display:grid; grid-template-columns: repeat(12, 1fr); gap:14px;}
+    .grid{
+      display:grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap:14px;
+    }
     .card{
       grid-column: span 4;
       border:1px solid var(--line);
       border-radius:18px;
-      overflow:hidden;
       background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(0,0,0,.18));
-      box-shadow:0 18px 45px rgba(0,0,0,.35);
+      overflow:hidden;
     }
-    @media(max-width:980px){ .card{grid-column: span 6;} }
-    @media(max-width:640px){ .card{grid-column: span 12;} }
+    @media(max-width:980px){.card{grid-column:span 6}}
+    @media(max-width:640px){.card{grid-column:span 12}}
 
-    .head{padding:12px 12px 0; display:flex; gap:8px; flex-wrap:wrap}
+    .head{padding:12px; display:flex; gap:8px; flex-wrap:wrap}
     .badge{
-      padding:6px 10px; border-radius:999px;
+      padding:6px 10px;
+      border-radius:999px;
       border:1px solid rgba(255,255,255,.14);
       background:rgba(0,0,0,.38);
-      color:var(--ink); font-weight:1000; font-size:.82rem;
+      font-size:.82rem;
+      font-weight:900;
     }
-    .badge.sector{border-color:rgba(250,204,21,.30)}
-    .badge.region{border-color:rgba(34,197,94,.30)}
-    .badge.time{border-color:rgba(148,163,184,.30); color:var(--muted)}
-
     .body{padding:12px}
-    .title{font-weight:1100; font-size:1rem; margin:6px 0 6px}
-    .desc{color:rgba(234,255,241,.85); font-size:.95rem; line-height:1.35; min-height:56px}
-
+    .title{font-weight:1100; margin-bottom:6px}
+    .desc{color:rgba(234,255,241,.85); font-size:.95rem}
     .foot{border-top:1px solid var(--line); padding:12px}
-    .row{display:flex; gap:10px; flex-wrap:wrap}
-    .row .btn{flex:1; justify-content:center; border-radius:14px}
+    .row{display:flex; gap:10px}
+    .row .btn{flex:1; justify-content:center}
 
     .empty{
-      border:1px dashed rgba(250,204,21,.35);
-      border-radius:18px;
-      padding:18px;
-      color:var(--muted);
-      background:rgba(0,0,0,.18);
       grid-column:1/-1;
       text-align:center;
+      padding:18px;
+      border:1px dashed rgba(250,204,21,.35);
+      border-radius:18px;
+      color:var(--muted);
     }
+
+    .footer{
+      border-top:1px solid var(--line);
+      color:var(--muted);
+      padding:22px;
+      text-align:center;
+      font-size:.9rem;
+    }
+    .footer strong{color:var(--gold)}
   </style>
 </head>
 
 <body>
+
 <header class="topbar">
   <div class="topbar-inner">
     <div class="brand">
       <div class="logo">🏗️</div>
       <div>
         <h1>DIGIY BUILD — Demandes publiques</h1>
-        <p>Visible • anonymisé • action via cockpit</p>
+        <p>Quartier • Région • National • Public safe</p>
       </div>
     </div>
     <div class="actions">
-      <a class="btn" href="#" onclick="history.back();return false;">← Retour</a>
-      <a class="btn" href="./request.html">📤 Déposer une demande</a>
-      <a class="btn cockpit" id="btnCockpitTop" href="./build-pro/pin.html">🔐 Accès Cockpit Pro</a>
+      <a class="btn secondary" href="./request.html">📤 Déposer une demande</a>
+      <a class="btn cockpit" href="./build-pro/pin.html">🔐 Accès Cockpit Pro</a>
     </div>
   </div>
 </header>
 
 <main class="wrap">
+
   <section class="hero">
     <div>
       <h2>Le tableau d’affichage vivant du BTP</h2>
-      <p>Ici : activité du terrain (anonymisée). Pour répondre : cockpit pro (PIN + téléphone). Objectif : créer des liens, pas du bruit.</p>
+      <p>Demandes visibles publiquement (anonymisées). Les pros répondent via leur cockpit sécurisé.</p>
     </div>
-    <div style="display:flex;gap:10px;flex-wrap:wrap">
+    <div class="stats">
       <span class="chip">📌 <b id="statTotal">0</b> demandes</span>
       <span class="chip">🕒 <b id="stat24h">0</b> / 24h</span>
-      <span class="chip">✅ <b>Public Safe</b></span>
     </div>
   </section>
 
   <section class="filters">
     <span class="label">Filtrer :</span>
-
-    <button class="pill active" data-sector="all">Tous secteurs</button>
+    <button class="pill active" data-sector="all">Tous</button>
     <button class="pill" data-sector="construction">Construction</button>
     <button class="pill" data-sector="plomberie">Plomberie</button>
     <button class="pill" data-sector="electricite">Électricité</button>
@@ -207,155 +226,103 @@
     <button class="pill" data-region="dakar">Dakar</button>
     <button class="pill" data-region="petite-cote">Petite Côte</button>
     <button class="pill" data-region="thies">Thiès</button>
-    <button class="pill" data-region="national">National</button>
 
-    <input class="search" id="q" placeholder="Rechercher (ex: fuite, villa, tableau, chantier…)" />
+    <input class="search" id="q" placeholder="Recherche…" />
   </section>
 
   <section class="grid" id="grid">
     <div class="empty">Chargement…</div>
   </section>
+
 </main>
 
-<script>
-  // =============================
-  // CONFIG SUPABASE (mets ta vraie ANON)
-  // =============================
-  const SUPABASE_URL = "https://wesqmwjjtsefyjnluosj.supabase.co";
+<footer class="footer">
+  <p><strong>DIGIY BUILD</strong> — plateforme 0% commission • DIGIYLYFE ♾️</p>
+</footer>
 
+<script>
+const SUPABASE_URL = "https://wesqmwjjtsefyjnluosj.supabase.co";
 const SUPABASE_ANON_KEY =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indlc3Ftd2pqdHNlZnlqbmx1b3NqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUxNzg4ODIsImV4cCI6MjA4MDc1NDg4Mn0.dZfYOc2iL2_wRYL3zExZFsFSBK6AbMeOid2LrIjcTdA";
+"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indlc3Ftd2pqdHNlZnlqbmx1b3NqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUxNzg4ODIsImV4cCI6MjA4MDc1NDg4Mn0.dZfYOc2iL2_wRYL3zExZFsFSBK6AbMeOid2LrIjcTdA";
 
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-  let ALL = [];
-  let sector = "all";
-  let region = "all";
-  let q = "";
+let ALL=[], sector="all", region="all", q="";
 
-  function safeText(s){ return (s ?? "").toString(); }
-  function norm(v){ return safeText(v).toLowerCase().trim(); }
+const norm=v=>(v||"").toLowerCase();
+const human=t=>{
+  const d=Date.now()-new Date(t).getTime();
+  const m=Math.floor(d/6e4);
+  if(m<1) return "à l’instant";
+  if(m<60) return `il y a ${m} min`;
+  const h=Math.floor(m/60);
+  if(h<24) return `il y a ${h}h`;
+  return `il y a ${Math.floor(h/24)}j`;
+};
 
-  function humanWhen(ts){
-    const t = new Date(ts).getTime();
-    if(!isFinite(t)) return "—";
-    const d = Date.now() - t;
-    const m = Math.floor(d/60000);
-    if(m < 1) return "à l’instant";
-    if(m < 60) return `il y a ${m} min`;
-    const h = Math.floor(m/60);
-    if(h < 24) return `il y a ${h}h`;
-    const j = Math.floor(h/24);
-    return `il y a ${j}j`;
-  }
-
-  function iconSector(s){
-    const x = norm(s);
-    if(x.includes("plomb")) return "💧";
-    if(x.includes("elect")) return "⚡";
-    if(x.includes("constr") || x.includes("macon")) return "🏗️";
-    if(x.includes("multi")) return "🧰";
-    return "🧱";
-  }
-
-  function filterRows(rows){
-    const qq = norm(q);
-    return rows.filter(r=>{
-      const s = norm(r.sector);
-      const z = norm(r.region);
-      const text = norm(r.title_short) + " " + norm(r.description_short);
-      const okS = (sector==="all" || s===sector);
-      const okR = (region==="all" || z===region);
-      const okQ = (!qq || text.includes(qq));
-      return okS && okR && okQ;
-    });
-  }
-
-  function render(){
-    const grid = document.getElementById("grid");
-    const rows = filterRows(ALL);
-
-    document.getElementById("statTotal").textContent = String(ALL.length);
-    const since24 = Date.now() - 24*60*60*1000;
-    document.getElementById("stat24h").textContent =
-      String(ALL.filter(x => new Date(x.created_at).getTime() >= since24).length);
-
-    if(rows.length === 0){
-      grid.innerHTML = `<div class="empty">Aucune demande pour ce filtre. Essaie “Tous secteurs / Toute zone”.</div>`;
-      return;
-    }
-
-    grid.innerHTML = rows.map(r=>{
-      const s = safeText(r.sector || "autre");
-      const z = safeText(r.region || "autre");
-      const title = safeText(r.title_short || "Demande");
-      const desc  = safeText(r.description_short || "");
-      const when  = humanWhen(r.created_at);
-      const ico   = iconSector(s);
-
-      return `
-        <article class="card">
-          <div class="head">
-            <span class="badge sector">${ico} ${s}</span>
-            <span class="badge region">📍 ${z}</span>
-            <span class="badge time">🕒 ${when}</span>
-          </div>
-          <div class="body">
-            <div class="title">${title}</div>
-            <div class="desc">${desc}</div>
-          </div>
-          <div class="foot">
-            <div class="row">
-              <a class="btn" href="./request.html">📤 Déposer aussi</a>
-              <a class="btn cockpit" href="./build-pro/pin.html">🔐 Pro : répondre</a>
-            </div>
-          </div>
-        </article>
-      `;
-    }).join("");
-  }
-
-  async function load(){
-    const grid = document.getElementById("grid");
-    grid.innerHTML = `<div class="empty">Chargement des demandes…</div>`;
-
-    const { data, error } = await sb.rpc("digiy_build_public_list_v1", { p_limit: 200 });
-    if(error){
-      grid.innerHTML = `<div class="empty">
-        <b>Erreur chargement.</b><br/>
-        Détail: ${safeText(error.message)}
-      </div>`;
-      return;
-    }
-    ALL = data || [];
-    render();
-  }
-
-  // UI events
-  document.querySelectorAll("[data-sector]").forEach(btn=>{
-    btn.addEventListener("click", ()=>{
-      document.querySelectorAll("[data-sector]").forEach(x=>x.classList.remove("active"));
-      btn.classList.add("active");
-      sector = btn.dataset.sector;
-      render();
-    });
+function render(){
+  const grid=document.getElementById("grid");
+  const rows=ALL.filter(r=>{
+    const okS=sector==="all"||norm(r.sector)===sector;
+    const okR=region==="all"||norm(r.region)===region;
+    const okQ=!q||norm(r.title_short+" "+r.description_short).includes(norm(q));
+    return okS&&okR&&okQ;
   });
 
-  document.querySelectorAll("[data-region]").forEach(btn=>{
-    btn.addEventListener("click", ()=>{
-      document.querySelectorAll("[data-region]").forEach(x=>x.classList.remove("active"));
-      btn.classList.add("active");
-      region = btn.dataset.region;
-      render();
-    });
-  });
+  document.getElementById("statTotal").textContent=ALL.length;
+  const since=Date.now()-864e5;
+  document.getElementById("stat24h").textContent=
+    ALL.filter(r=>new Date(r.created_at).getTime()>=since).length;
 
-  document.getElementById("q").addEventListener("input", (e)=>{
-    q = e.target.value || "";
-    render();
-  });
+  if(!rows.length){
+    grid.innerHTML=`<div class="empty">Aucune demande</div>`;
+    return;
+  }
 
-  load();
+  grid.innerHTML=rows.map(r=>`
+    <article class="card">
+      <div class="head">
+        <span class="badge">🏗️ ${r.sector}</span>
+        <span class="badge">📍 ${r.region}</span>
+        <span class="badge">🕒 ${human(r.created_at)}</span>
+      </div>
+      <div class="body">
+        <div class="title">${r.title_short}</div>
+        <div class="desc">${r.description_short}</div>
+      </div>
+      <div class="foot">
+        <div class="row">
+          <a class="btn secondary" href="./request.html">📤 Déposer</a>
+          <a class="btn cockpit" href="./build-pro/pin.html">🔐 Répondre</a>
+        </div>
+      </div>
+    </article>
+  `).join("");
+}
+
+async function load(){
+  const {data,error}=await sb.rpc("digiy_build_public_list_v1",{p_limit:200});
+  if(error){
+    document.getElementById("grid").innerHTML=
+      `<div class="empty">Erreur : ${error.message}</div>`;
+    return;
+  }
+  ALL=data||[];
+  render();
+}
+
+document.querySelectorAll("[data-sector]").forEach(b=>b.onclick=()=>{
+  document.querySelectorAll("[data-sector]").forEach(x=>x.classList.remove("active"));
+  b.classList.add("active"); sector=b.dataset.sector; render();
+});
+document.querySelectorAll("[data-region]").forEach(b=>b.onclick=()=>{
+  document.querySelectorAll("[data-region]").forEach(x=>x.classList.remove("active"));
+  b.classList.add("active"); region=b.dataset.region; render();
+});
+document.getElementById("q").oninput=e=>{q=e.target.value; render();};
+
+load();
 </script>
+
 </body>
 </html>
