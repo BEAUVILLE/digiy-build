@@ -1,0 +1,351 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+  <meta name="theme-color" content="#0b2a1f"/>
+  <title>DIGIY BUILD PRO — Accès PIN</title>
+  <meta name="description" content="Accès DIGIY BUILD PRO — Téléphone + PIN. Cockpit PRO terrain.">
+
+  <!-- Supabase JS v2 -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    :root{
+      --bg:#061b14;
+      --card:#0b2a1f;
+      --card2:#0a241b;
+      --line:rgba(255,255,255,.12);
+      --text:#eafff1;
+      --muted:rgba(234,255,241,.72);
+      --gold:#facc15;
+      --orange:#f59e0b;
+      --green:#22c55e;
+      --red:#ef4444;
+      --shadow: 0 18px 40px rgba(0,0,0,.45);
+      --radius: 18px;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      background:
+        radial-gradient(circle at 20% 10%, rgba(250,204,21,0.14), transparent 55%),
+        radial-gradient(circle at 80% 90%, rgba(34,197,94,0.10), transparent 55%),
+        linear-gradient(180deg, #04140f 0%, var(--bg) 55%, #020c09 100%);
+      color:var(--text);
+      min-height:100vh;
+      padding:22px 14px 40px;
+    }
+    .wrap{max-width:440px;margin:0 auto}
+    .top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}
+    .brand{
+      display:flex;align-items:center;gap:10px;
+      padding:10px 12px;border:1px solid var(--line);
+      border-radius:999px;background:rgba(0,0,0,.18)
+    }
+    .logo{
+      width:34px;height:34px;border-radius:12px;display:grid;place-items:center;
+      background:linear-gradient(135deg, rgba(34,197,94,.25), rgba(250,204,21,.22));
+      border:1px solid rgba(250,204,21,.25);
+      box-shadow:0 10px 26px rgba(0,0,0,.35);
+      font-weight:900;
+    }
+    .brand b{display:block;letter-spacing:.4px}
+    .brand small{display:block;color:var(--muted);margin-top:1px}
+    .back{
+      text-decoration:none;color:var(--text);
+      border:1px solid var(--line);
+      padding:10px 12px;border-radius:999px;background:rgba(0,0,0,.18)
+    }
+    .hero{
+      margin:10px 0 14px;
+      padding:18px;border-radius:var(--radius);
+      border:1px solid var(--line);
+      background:linear-gradient(180deg, rgba(11,42,31,.92), rgba(10,36,27,.75));
+      box-shadow:var(--shadow);
+    }
+    .hero h1{font-size:20px;line-height:1.15;margin-bottom:8px;letter-spacing:.3px}
+    .hero p{color:var(--muted);font-size:14px;line-height:1.35}
+    .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+    .chip{
+      font-size:12px;color:var(--text);
+      border:1px solid var(--line);
+      background:rgba(0,0,0,.18);
+      padding:7px 10px;border-radius:999px
+    }
+    .card{
+      margin-top:14px;
+      padding:16px;border-radius:var(--radius);
+      border:1px solid var(--line);
+      background:rgba(3,12,9,.55);
+      box-shadow:var(--shadow);
+    }
+    label{display:block;color:var(--muted);font-size:12px;margin:10px 0 6px}
+    .row{display:grid;grid-template-columns:1fr;gap:10px}
+    input{
+      width:100%;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.14);
+      background:rgba(0,0,0,.25);
+      color:var(--text);
+      padding:13px 14px;
+      outline:none;
+      font-size:15px;
+    }
+    input::placeholder{color:rgba(234,255,241,.45)}
+    .split{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+    .btn{
+      width:100%;
+      margin-top:12px;
+      border:none;border-radius:14px;
+      padding:13px 14px;
+      font-weight:800;
+      letter-spacing:.3px;
+      cursor:pointer;
+      background:linear-gradient(135deg, rgba(34,197,94,.95), rgba(250,204,21,.88));
+      color:#062014;
+      box-shadow:0 16px 32px rgba(0,0,0,.35);
+    }
+    .btn:disabled{opacity:.55;cursor:not-allowed;filter:saturate(.6)}
+    .hint{margin-top:10px;font-size:12px;color:var(--muted);line-height:1.35}
+    .msg{
+      margin-top:12px;border-radius:14px;padding:12px 12px;
+      border:1px solid rgba(255,255,255,.14);
+      background:rgba(0,0,0,.22);
+      font-size:13px;line-height:1.35;display:none;
+    }
+    .msg.ok{border-color:rgba(34,197,94,.35)}
+    .msg.err{border-color:rgba(239,68,68,.35)}
+    .foot{
+      margin-top:14px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;
+      color:rgba(234,255,241,.6);font-size:12px;
+    }
+    .link{
+      color:rgba(250,204,21,.95);
+      text-decoration:none;border-bottom:1px dashed rgba(250,204,21,.55);
+      padding-bottom:2px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="top">
+      <div class="brand" role="banner">
+        <div class="logo">♾️</div>
+        <div>
+          <b>DIGIY BUILD PRO</b>
+          <small>Accès rapide — terrain</small>
+        </div>
+      </div>
+      <a class="back" href="../index.html">← Retour</a>
+    </div>
+
+    <section class="hero">
+      <h1>Connexion PRO (Téléphone + PIN)</h1>
+      <p>Entrée par <b>slug</b> (URL), puis on transforme en <b>owner_id</b> pour charger tes demandes assignées.</p>
+      <div class="chips">
+        <span class="chip">slug → owner_id</span>
+        <span class="chip">mode light</span>
+        <span class="chip">demandes assignées</span>
+        <span class="chip">terrain</span>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="row">
+        <div>
+          <label for="phone">Téléphone</label>
+          <input id="phone" inputmode="tel" autocomplete="tel" placeholder="+221771234567" />
+        </div>
+
+        <div class="split">
+          <div>
+            <label for="pin">PIN (4 chiffres)</label>
+            <input id="pin" inputmode="numeric" autocomplete="one-time-code" maxlength="4" placeholder="1234" />
+          </div>
+          <div>
+            <label for="slug">Slug (entrée)</label>
+            <input id="slug" autocomplete="off" placeholder="chez-astou-saly" />
+          </div>
+        </div>
+
+        <button id="btn" class="btn">Entrer dans le Cockpit</button>
+        <div id="msg" class="msg"></div>
+
+        <div class="hint">
+          Le slug vient souvent de l’URL. Le PIN peut être les 4 derniers chiffres au début.
+        </div>
+
+        <div class="foot">
+          <span>🧱 BUILD • PRO</span>
+          <a class="link" href="#" id="help">Besoin d’aide ?</a>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    // =============================
+    // CONFIG SUPABASE (mets tes clés)
+    // =============================
+    const SUPABASE_URL = "https://YOURPROJECT.supabase.co";
+    const SUPABASE_ANON_KEY = "YOUR_ANON_KEY";
+
+    const sb = (window.supabase?.createClient)
+      ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+      : null;
+
+    // =============================
+    // SESSION KEY (build pro)
+    // =============================
+    const SESSION_KEY = "DIGIY_BUILD_PRO_SESSION_V1";
+
+    const $ = (id) => document.getElementById(id);
+    const phoneEl = $("phone");
+    const pinEl   = $("pin");
+    const slugEl  = $("slug");
+    const btn     = $("btn");
+    const msg     = $("msg");
+
+    function showMsg(text, type){
+      msg.style.display = "block";
+      msg.className = "msg " + (type || "");
+      msg.textContent = text;
+    }
+    function hideMsg(){
+      msg.style.display = "none";
+      msg.textContent = "";
+      msg.className = "msg";
+    }
+
+    function cleanPhone(v){
+      v = (v || "").trim();
+      if(!v) return "";
+      if(/^\d{9}$/.test(v)) return "+221" + v;
+      if(/^\+?\d{10,15}$/.test(v)) return v.startsWith("+") ? v : ("+" + v);
+      return v;
+    }
+    function cleanPin(v){ return (v || "").replace(/\D/g,"").slice(0,4); }
+    function cleanSlug(v){
+      v = (v || "").trim().toLowerCase();
+      v = v.replace(/[^a-z0-9\-]/g,"-").replace(/-+/g,"-").replace(/^-|-$/g,"");
+      return v;
+    }
+    function getUrlSlug(){
+      try{ return new URL(location.href).searchParams.get("slug") || ""; }
+      catch(_){ return ""; }
+    }
+
+    (function init(){
+      const uSlug = cleanSlug(getUrlSlug());
+      if(uSlug) slugEl.value = uSlug;
+
+      pinEl.addEventListener("input", () => { pinEl.value = cleanPin(pinEl.value); });
+
+      [phoneEl, pinEl, slugEl].forEach(el=>{
+        el.addEventListener("keydown", (e)=>{ if(e.key === "Enter") doLogin(); });
+      });
+
+      $("help").addEventListener("click", (e)=>{
+        e.preventDefault();
+        showMsg("Si souci PIN : contacte le support DIGIY BUILD.", "");
+      });
+
+      // session existante -> direct cockpit
+      try{
+        const s = JSON.parse(localStorage.getItem(SESSION_KEY) || "null");
+        if(s?.ok && s?.expires_at && Date.now() < new Date(s.expires_at).getTime()){
+          const sslug = cleanSlug(getUrlSlug()) || cleanSlug(s.slug || "");
+          const target = "./app.html" + (sslug ? ("?slug=" + encodeURIComponent(sslug)) : "");
+          location.replace(target);
+        }
+      }catch(_){}
+    })();
+
+    btn.addEventListener("click", doLogin);
+
+    async function doLogin(){
+      hideMsg();
+      if(!sb){
+        showMsg("Supabase non chargé. Vérifie la connexion / script CDN.", "err");
+        return;
+      }
+
+      const phone = cleanPhone(phoneEl.value);
+      const pin   = cleanPin(pinEl.value);
+      const slug  = cleanSlug(slugEl.value || getUrlSlug());
+
+      if(!phone || phone.length < 8){
+        showMsg("Entre un téléphone valide (ex: +221771234567).", "err");
+        return;
+      }
+      if(pin.length !== 4){
+        showMsg("PIN invalide. Mets 4 chiffres.", "err");
+        return;
+      }
+      if(!slug){
+        showMsg("Slug manquant. Ouvre via ?slug=... ou remplis le champ.", "err");
+        return;
+      }
+
+      btn.disabled = true;
+      btn.textContent = "Connexion…";
+
+      try{
+        // RPC: verify_access_pin(module, phone, pin, slug)
+        const payload = { module: "build_pro", phone, pin, slug };
+
+        const { data, error } = await sb.rpc("verify_access_pin", payload);
+
+        if(error){
+          console.error(error);
+          showMsg("Accès refusé. Vérifie PIN / téléphone / slug.", "err");
+          return;
+        }
+        if(!data || !data.ok){
+          showMsg("Accès refusé. Vérifie PIN / téléphone / slug.", "err");
+          return;
+        }
+
+        // ✅ TRANSFORMATION : slug -> owner_id (UUID)
+        const owner_id = data.owner_id || data.pro_id || data.user_id || null;
+        const finalSlug = cleanSlug(data.slug || slug || "");
+        const expires = data.expires_at || new Date(Date.now() + 8*60*60*1000).toISOString();
+
+        if(!owner_id){
+          showMsg("Accès OK mais owner_id manquant (RPC).", "err");
+          return;
+        }
+
+        const session = {
+          ok: true,
+          module: "build_pro",
+          phone: data.phone || phone,
+          owner_id,
+          slug: finalSlug,
+          mode: data.mode || "light",
+          title: data.title || data.business_name || "BUILD PRO",
+          issued_at: new Date().toISOString(),
+          expires_at: expires
+        };
+
+        localStorage.setItem(SESSION_KEY, JSON.stringify(session));
+        try{ localStorage.setItem("DIGIY_PRO_ID", owner_id); }catch(_){}
+
+        showMsg("✅ Connexion OK. Ouverture du cockpit…", "ok");
+
+        const target = "./app.html?slug=" + encodeURIComponent(finalSlug);
+        setTimeout(()=>location.href = target, 300);
+
+      }catch(e){
+        console.error(e);
+        showMsg("Erreur réseau. Réessaie.", "err");
+      }finally{
+        btn.disabled = false;
+        btn.textContent = "Entrer dans le Cockpit";
+      }
+    }
+  </script>
+</body>
+</html>
