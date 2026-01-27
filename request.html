@@ -14,7 +14,6 @@
     :root{
       --bg:#061b14;
       --card:#0b2a1f;
-      --card2:#0a241b;
       --line:rgba(255,255,255,.12);
       --text:#eafff1;
       --muted:rgba(234,255,241,.72);
@@ -38,12 +37,8 @@
       padding:18px 14px 30px;
     }
     .wrap{max-width:920px;margin:0 auto}
-    .top{
-      display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px
-    }
-    .brand{
-      display:flex;align-items:center;gap:10px
-    }
+    .top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
+    .brand{display:flex;align-items:center;gap:10px}
     .logo{
       width:44px;height:44px;border-radius:14px;
       background: radial-gradient(circle at 30% 30%, rgba(250,204,21,.22), transparent 60%),
@@ -63,7 +58,7 @@
       padding:10px 12px;border-radius:14px;
       text-decoration:none;
       display:inline-flex;align-items:center;gap:8px;
-      font-weight:700;font-size:13px;
+      font-weight:800;font-size:13px;
       cursor:pointer;
     }
     .btn:hover{border-color:rgba(250,204,21,.35)}
@@ -72,14 +67,9 @@
       border-color: rgba(250,204,21,.32);
     }
 
-    .grid{
-      display:grid;
-      grid-template-columns: 1.2fr .8fr;
-      gap:14px;
-    }
-    @media (max-width: 900px){
-      .grid{grid-template-columns:1fr}
-    }
+    .grid{display:grid;grid-template-columns: 1.2fr .8fr;gap:14px}
+    @media (max-width: 900px){ .grid{grid-template-columns:1fr} }
+
     .card{
       background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
       border:1px solid var(--line);
@@ -96,14 +86,8 @@
     .card .hd .s{margin:6px 0 0;color:var(--muted);font-size:12.5px;line-height:1.35}
     .card .bd{padding:14px}
 
-    .row{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap:10px;
-    }
-    @media (max-width: 520px){
-      .row{grid-template-columns:1fr}
-    }
+    .row{display:grid;grid-template-columns: 1fr 1fr;gap:10px}
+    @media (max-width: 520px){ .row{grid-template-columns:1fr} }
 
     label{display:block;font-size:12.5px;color:var(--muted);margin:0 0 6px}
     input, select, textarea{
@@ -134,7 +118,6 @@
     }
     .chip strong{color:var(--text)}
     .hint{font-size:12.5px;color:var(--muted);line-height:1.35;margin-top:8px}
-    .hint a{color:var(--gold);text-decoration:none}
 
     .media-box{
       border:1px dashed rgba(255,255,255,.18);
@@ -161,9 +144,7 @@
       font-weight:900;
     }
 
-    .actions{
-      display:flex;gap:10px;flex-wrap:wrap;margin-top:12px
-    }
+    .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
 
     .toast{
       position:fixed;left:50%;bottom:16px;transform:translateX(-50%);
@@ -178,23 +159,12 @@
     .toast.show{display:block}
     .toast .t{font-weight:900}
     .toast .m{color:var(--muted);margin-top:4px;font-size:13px;line-height:1.35}
+    .ok{border-color: rgba(34,197,94,.35) !important; background: rgba(34,197,94,.12) !important;}
+    .danger{border-color: rgba(239,68,68,.40) !important; background: rgba(239,68,68,.10) !important;}
 
-    .ok{
-      border-color: rgba(34,197,94,.35) !important;
-      background: rgba(34,197,94,.12) !important;
-    }
-    .danger{
-      border-color: rgba(239,68,68,.40) !important;
-      background: rgba(239,68,68,.10) !important;
-    }
-
-    .mini{
-      font-size:12px;color:var(--muted);
-      display:flex;align-items:center;gap:8px;margin-top:10px
-    }
+    .mini{font-size:12px;color:var(--muted);display:flex;align-items:center;gap:8px;margin-top:10px;flex-wrap:wrap}
     .badge{
-      font-weight:900;
-      color:var(--text);
+      font-weight:900;color:var(--text);
       border:1px solid rgba(255,255,255,.14);
       padding:6px 10px;border-radius:999px;
       background: rgba(0,0,0,.12);
@@ -217,28 +187,27 @@
     </div>
 
     <div class="grid">
-      <!-- FORM -->
       <div class="card">
         <div class="hd">
           <p class="t">Déposer une demande</p>
-          <p class="s">Décris ton besoin, on transmet aux pros. Tu peux mettre des <b>liens</b> (photos/vidéos) — pas besoin d’upload lourd.</p>
+          <p class="s">Décris ton besoin. Tu peux mettre des <b>liens</b> (photos/vidéos). Pas besoin d’upload lourd.</p>
         </div>
         <div class="bd">
           <form id="form">
             <div class="row">
               <div>
-                <label>Ville</label>
+                <label>Ville *</label>
                 <input id="city" name="city" placeholder="Ex: Saly, Dakar" required />
               </div>
               <div>
                 <label>Zone (quartier)</label>
-                <input id="zone" name="zone" placeholder="Ex: Niakh-Niakhal, Ngaparou" />
+                <input id="zone" name="zone" placeholder="Ex: Ngaparou, Almadies" />
               </div>
             </div>
 
             <div class="row" style="margin-top:10px">
               <div>
-                <label>Métier</label>
+                <label>Métier *</label>
                 <select id="trade" name="trade" required>
                   <option value="">Choisir…</option>
                   <option>Maçonnerie</option>
@@ -250,6 +219,7 @@
                   <option>Climatisation</option>
                   <option>Soudure</option>
                   <option>Toiture</option>
+                  <option>Multi-services</option>
                   <option>Autre</option>
                 </select>
               </div>
@@ -263,9 +233,9 @@
             </div>
 
             <div style="margin-top:10px">
-              <label>Description (le plus concret possible)</label>
-              <textarea id="description" name="description" placeholder="Ex: Refaire plafond salon 20m2 + peinture, fissures à reboucher, travail souhaité avant fin du mois…" required></textarea>
-              <div class="hint">Astuce : mets les dimensions, matériaux, contraintes (accès, étage…), et si tu as déjà acheté des matériaux.</div>
+              <label>Description *</label>
+              <textarea id="description" name="description" placeholder="Ex: Refaire plafond salon 20m2 + peinture, fissures à reboucher…" required></textarea>
+              <div class="hint">Astuce : dimensions, matériaux, contraintes (accès, étage), et si tu as déjà acheté des matériaux.</div>
             </div>
 
             <div class="row" style="margin-top:10px">
@@ -305,14 +275,9 @@
               </div>
             </div>
 
-            <!-- MEDIA URLS -->
             <div style="margin-top:12px" class="media-box">
-              <label>Liens photos/vidéos (Google Drive, WhatsApp, Cloud, site…)</label>
-              <div class="row">
-                <div style="grid-column:1/-1">
-                  <input id="media_url" placeholder="Colle un lien (URL) puis clique Ajouter" />
-                </div>
-              </div>
+              <label>Liens photos/vidéos (Drive, WhatsApp, Cloud…)</label>
+              <input id="media_url" placeholder="Colle un lien (URL) puis clique Ajouter" />
 
               <div class="actions">
                 <button class="btn" type="button" id="addMedia">+ Ajouter lien</button>
@@ -320,11 +285,7 @@
               </div>
 
               <div class="media-list" id="mediaList"></div>
-
-              <div class="hint">
-                Tu peux mettre 1 lien par photo/vidéo, ou un dossier partagé.
-                <br/>Évite les liens privés bloqués.
-              </div>
+              <div class="hint">Tu peux mettre 1 lien par photo/vidéo, ou un dossier partagé (évite les liens bloqués).</div>
             </div>
 
             <div class="mini">
@@ -345,7 +306,6 @@
         </div>
       </div>
 
-      <!-- SIDE INFO -->
       <div class="card">
         <div class="hd">
           <p class="t">Comment ça marche</p>
@@ -358,21 +318,9 @@
             <div class="chip"><strong>3</strong> Tu choisis un devis</div>
             <div class="chip"><strong>4</strong> Chantier suivi</div>
           </div>
-
           <div class="hint" style="margin-top:12px">
-            <b>Conseil :</b> si tu peux, mets des photos du mur/sol/plafond + dimensions.
-            Ça évite 20 questions et ça accélère le devis.
+            <b>Conseil :</b> photos + dimensions = devis plus rapide.
           </div>
-
-          <div class="hint" style="margin-top:12px">
-            <b>Important :</b> DIGIY BUILD ne prend pas l’argent du pro.
-            Le paiement est direct, transparent.
-          </div>
-
-          <div class="hint" style="margin-top:12px">
-            <b>Code public :</b> après envoi, tu reçois un code à garder pour suivi.
-          </div>
-
           <div class="actions" style="margin-top:14px">
             <a class="btn" href="./index.html">← Retour module</a>
             <a class="btn" href="../">🏠 DIGIY HUB</a>
@@ -393,14 +341,11 @@
    ========================= */
 
 const SUPABASE_URL = "https://wesqmwjjtsefyjnluosj.supabase.co";
-
 const SUPABASE_ANON_KEY =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indlc3Ftd2pqdHNlZnlqbmx1b3NqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUxNzg4ODIsImV4cCI6MjA4MDc1NDg4Mn0.dZfYOc2iL2_wRYL3zExZFsFSBK6AbMeOid2LrIjcTdA";
 
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-
-// ---------- helpers ----------
 const $ = (id)=>document.getElementById(id);
 
 function toast(title, msg, ok=true){
@@ -413,9 +358,7 @@ function toast(title, msg, ok=true){
   setTimeout(()=>t.classList.remove("show"), 4200);
 }
 
-function qs(name){
-  return new URL(location.href).searchParams.get(name);
-}
+function qs(name){ return new URL(location.href).searchParams.get(name); }
 
 function randCode(len=8){
   const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
@@ -427,27 +370,28 @@ function randCode(len=8){
 function cleanPhone(p){
   if(!p) return "";
   p = String(p).trim().replace(/\s+/g,"");
-  // si l'utilisateur met 77... on peut préfixer +221 par défaut
   if(/^7\d{8}$/.test(p)) return "+221"+p;
   if(/^(\+221)?7\d{8}$/.test(p) && !p.startsWith("+")) return "+221"+p;
   return p;
 }
 
-function validUrl(u){
-  try{ new URL(u); return true; }catch(e){ return false; }
+function validUrl(u){ try{ new URL(u); return true; }catch(e){ return false; } }
+
+// ✅ Anti-spam token (device)
+function getDeviceToken(){
+  const k = "DIGIY_BUILD_DEVICE_TOKEN_V1";
+  let t = localStorage.getItem(k);
+  if(!t){
+    const arr = new Uint32Array(4);
+    crypto.getRandomValues(arr);
+    t = "db_" + Array.from(arr).join("-");
+    localStorage.setItem(k, t);
+  }
+  return t;
 }
 
 // ---------- state ----------
 let mediaUrls = [];
-
-// ---------- init ----------
-(function init(){
-  const city = qs("city"); const trade = qs("trade");
-  if(city) $("city").value = city;
-  if(trade) $("trade").value = trade;
-
-  renderMedia();
-})();
 
 function renderMedia(){
   const box = $("mediaList");
@@ -475,6 +419,19 @@ function renderMedia(){
   });
 }
 
+// ---------- init ----------
+(function init(){
+  const city = qs("city");
+  const trade = qs("trade");
+  if(city) $("city").value = city;
+  if(trade){
+    // si trade vient en clair (Plomberie), on essaie de le sélectionner
+    const opt = Array.from($("trade").options).find(o => o.value === trade || o.textContent === trade);
+    if(opt) $("trade").value = opt.value;
+  }
+  renderMedia();
+})();
+
 $("addMedia").addEventListener("click", ()=>{
   const u = $("media_url").value.trim();
   if(!u) return toast("Lien manquant", "Colle un lien puis clique Ajouter.", false);
@@ -497,7 +454,7 @@ $("demoFill").addEventListener("click", ()=>{
   $("zone").value = "Ngaparou";
   $("trade").value = "Peinture";
   $("urgency").value = "normal";
-  $("description").value = "Peinture salon + chambre, reboucher fissures, environ 35m2. Accès facile. Peinture blanche mate. Besoin d’un devis rapide.";
+  $("description").value = "Peinture salon + chambre, reboucher fissures, environ 35m2. Accès facile. Besoin d’un devis rapide.";
   $("budget_min").value = "80000";
   $("budget_max").value = "200000";
   $("contact_pref").value = "whatsapp";
@@ -528,8 +485,13 @@ $("form").addEventListener("submit", async (e)=>{
     media_urls: mediaUrls.length ? mediaUrls : null,
     public_code: "B" + randCode(8),
     assigned_pro_slug: null,
-    assigned_pro_id: null
+    assigned_pro_id: null,
+
+    -- client_token: getDeviceToken()  // ← (JS n'accepte pas "--") 
   };
+
+  // ✅ (bonne ligne JS)
+  payload.client_token = getDeviceToken();
 
   if(!payload.city || !payload.trade || !payload.description){
     return toast("Champs requis", "Ville, métier et description sont obligatoires.", false);
@@ -548,29 +510,33 @@ $("form").addEventListener("submit", async (e)=>{
 
     if(error) throw error;
 
-    // Save local for “suivi”
     localStorage.setItem("DIGIY_BUILD_LAST_REQUEST", JSON.stringify(data));
 
-    toast("Demande envoyée ✅",
-      `Garde ton code: ${data.public_code}. Un pro te contacte bientôt.`, true);
-setTimeout(()=>{
-  location.href = "./success.html";
-}, 450);
-    // petit redirect vers une page "success" si tu veux
+    toast("Demande envoyée ✅", `Garde ton code: ${data.public_code}`, true);
+
     setTimeout(()=>{
-      // tu peux créer success.html plus tard
-      // location.href = "./success.html";
-      // sinon on reset:
+      location.href = "./success.html";
+    }, 450);
 
   }catch(err){
     console.error(err);
-    toast("Erreur", (err?.message || "Impossible d’envoyer la demande."), false);
+    const msg = String(err?.message || "");
+
+    if(msg.includes("RATE_LIMIT")){
+      toast("Doucement 😄", "Une demande vient d’être envoyée récemment. Réessaie dans 10 minutes.", false);
+    } else if(msg.includes("DAILY_LIMIT")){
+      toast("Limite atteinte", "Tu as atteint la limite du jour. Réessaie demain.", false);
+    } else if(msg.includes("uq_build_requests_public_code")){
+      toast("Petit bug code", "Réessaie : on régénère un code.", false);
+    } else {
+      toast("Erreur", msg || "Impossible d’envoyer la demande.", false);
+    }
+
   }finally{
     btn.disabled = false;
     btn.textContent = "Envoyer la demande";
   }
 });
 </script>
-
 </body>
 </html>
