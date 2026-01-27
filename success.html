@@ -1,0 +1,275 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+  <meta name="theme-color" content="#0b2a1f"/>
+  <title>DIGIY BUILD — Demande envoyée</title>
+  <meta name="description" content="DIGIY BUILD — Demande envoyée. Conservez votre code public pour le suivi.">
+
+  <style>
+    :root{
+      --bg:#061b14;
+      --card:#0b2a1f;
+      --line:rgba(255,255,255,.12);
+      --text:#eafff1;
+      --muted:rgba(234,255,241,.72);
+      --gold:#facc15;
+      --green:#22c55e;
+      --orange:#f59e0b;
+      --shadow: 0 20px 60px rgba(0,0,0,.35);
+      --radius: 18px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, "Helvetica Neue", Arial;
+      color:var(--text);
+      background:
+        radial-gradient(900px 500px at 12% 10%, rgba(250,204,21,.14), transparent 55%),
+        radial-gradient(900px 500px at 90% 92%, rgba(34,197,94,.10), transparent 55%),
+        linear-gradient(180deg, #04140f 0%, var(--bg) 60%, #04140f 100%);
+      min-height:100vh;
+      padding:18px 14px 30px;
+    }
+    .wrap{max-width:920px;margin:0 auto}
+    .top{
+      display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px
+    }
+    .brand{display:flex;align-items:center;gap:10px}
+    .logo{
+      width:44px;height:44px;border-radius:14px;
+      background: radial-gradient(circle at 30% 30%, rgba(250,204,21,.22), transparent 60%),
+                  linear-gradient(135deg, rgba(34,197,94,.25), rgba(245,158,11,.18));
+      border:1px solid var(--line);
+      box-shadow: var(--shadow);
+      display:flex;align-items:center;justify-content:center;
+      font-weight:900;
+    }
+    .brand h1{font-size:16px;margin:0;letter-spacing:.2px}
+    .brand p{margin:2px 0 0;color:var(--muted);font-size:12.5px}
+
+    .btn{
+      appearance:none;border:1px solid var(--line);
+      background: rgba(0,0,0,.12);
+      color:var(--text);
+      padding:10px 12px;border-radius:14px;
+      text-decoration:none;
+      display:inline-flex;align-items:center;gap:8px;
+      font-weight:800;font-size:13px;
+      cursor:pointer;
+    }
+    .btn:hover{border-color:rgba(250,204,21,.35)}
+    .btn.primary{
+      background: linear-gradient(135deg, rgba(34,197,94,.22), rgba(250,204,21,.18));
+      border-color: rgba(250,204,21,.32);
+    }
+    .btn.whatsapp{
+      background: linear-gradient(135deg, rgba(34,197,94,.28), rgba(34,197,94,.14));
+      border-color: rgba(34,197,94,.38);
+    }
+
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .hd{
+      padding:14px 14px 10px;
+      border-bottom:1px solid var(--line);
+      background: rgba(0,0,0,.12);
+    }
+    .hd .t{font-size:14px;font-weight:900;margin:0}
+    .hd .s{margin:6px 0 0;color:var(--muted);font-size:12.5px;line-height:1.35}
+    .bd{padding:14px}
+
+    .okrow{
+      display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+      margin: 8px 0 2px;
+    }
+    .bigcode{
+      font-size:22px;font-weight:1000;letter-spacing:2px;
+      padding:10px 14px;border-radius:16px;
+      border:1px solid rgba(250,204,21,.35);
+      background: rgba(250,204,21,.10);
+    }
+    .pill{
+      padding:8px 10px;border-radius:999px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.12);
+      color: var(--muted);
+      font-size:12.5px;
+    }
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:12px;
+      margin-top: 12px;
+    }
+    @media (max-width: 760px){
+      .grid{grid-template-columns:1fr}
+    }
+
+    .list{
+      display:flex;flex-direction:column;gap:8px;
+      margin-top: 8px;
+    }
+    .item{
+      border:1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.12);
+      border-radius:16px;
+      padding:12px;
+    }
+    .item .k{color:var(--muted);font-size:12.5px}
+    .item .v{font-weight:900;margin-top:2px}
+
+    .hint{
+      margin-top:10px;
+      color: var(--muted);
+      font-size:12.5px;
+      line-height:1.35;
+    }
+    .hint b{color:var(--text)}
+    .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:14px}
+    .sep{height:1px;background:var(--line);margin:12px 0}
+    .small{font-size:12.5px;color:var(--muted)}
+    .danger{
+      border-color: rgba(239,68,68,.35) !important;
+      background: rgba(239,68,68,.10) !important;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <div class="top">
+      <div class="brand">
+        <div class="logo">♾️</div>
+        <div>
+          <h1>DIGIY BUILD</h1>
+          <p>Demande envoyée</p>
+        </div>
+      </div>
+      <a class="btn" href="./index.html">← Retour vitrine</a>
+    </div>
+
+    <div class="card">
+      <div class="hd">
+        <p class="t">✅ C’est bon !</p>
+        <p class="s">Garde ton code public. C’est ta preuve et ton suivi.</p>
+      </div>
+
+      <div class="bd" id="content">
+        <!-- rempli par JS -->
+      </div>
+    </div>
+
+    <div class="hint">
+      <b>Conseils terrain :</b> si le pro te demande des détails, donne dimensions, photos, accès (étage), et si tu as déjà acheté matériaux.
+    </div>
+  </div>
+
+<script>
+  const SUPPORT_WHATSAPP = "+221771342889"; // si tu veux centraliser l’aide (reset/pivot)
+  const KEY = "DIGIY_BUILD_LAST_REQUEST";
+
+  function esc(s){
+    return String(s ?? "").replace(/[&<>"']/g, (m)=>({
+      "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+    }[m]));
+  }
+
+  function buildWhatsAppLink(phone, msg){
+    const p = String(phone || "").replace(/\s/g,"").replace("+","");
+    const text = encodeURIComponent(msg);
+    return `https://wa.me/${p}?text=${text}`;
+  }
+
+  function fmtDate(iso){
+    try{
+      const d = new Date(iso);
+      return d.toLocaleString("fr-FR", { year:"numeric", month:"short", day:"2-digit", hour:"2-digit", minute:"2-digit" });
+    }catch(e){ return iso || ""; }
+  }
+
+  const raw = localStorage.getItem(KEY);
+  const data = raw ? (()=>{ try{return JSON.parse(raw);}catch(e){return null;} })() : null;
+
+  const el = document.getElementById("content");
+
+  if(!data || !data.public_code){
+    el.innerHTML = `
+      <div class="item danger">
+        <div class="k">Oups</div>
+        <div class="v">Je ne retrouve pas ta dernière demande sur ce téléphone.</div>
+        <div class="small" style="margin-top:8px">
+          Pas grave : tu peux refaire une demande en 1 minute.
+        </div>
+      </div>
+
+      <div class="actions">
+        <a class="btn primary" href="./request.html">📤 Déposer une demande</a>
+        <a class="btn" href="./index.html">← Retour vitrine</a>
+      </div>
+    `;
+  } else {
+    const city = data.city || "";
+    const trade = data.trade || "";
+    const created = data.created_at ? fmtDate(data.created_at) : "";
+
+    const msg = `Bonjour 👋\nJe viens d'envoyer une demande via DIGIY BUILD.\n\nCode: ${data.public_code}\nVille: ${city}\nMétier: ${trade}\n\nJe veux suivre ma demande / confirmer la prise en charge. Merci.`;
+    const wa = buildWhatsAppLink(SUPPORT_WHATSAPP, msg);
+
+    el.innerHTML = `
+      <div class="okrow">
+        <div class="bigcode">${esc(data.public_code)}</div>
+        <div class="pill">0% commission</div>
+        <div class="pill">Paiement direct au pro</div>
+      </div>
+
+      <div class="sep"></div>
+
+      <div class="grid">
+        <div class="item">
+          <div class="k">Ville</div>
+          <div class="v">${esc(city || "—")}</div>
+        </div>
+        <div class="item">
+          <div class="k">Métier</div>
+          <div class="v">${esc(trade || "—")}</div>
+        </div>
+        <div class="item">
+          <div class="k">Statut</div>
+          <div class="v">${esc(data.status || "new")}</div>
+        </div>
+        <div class="item">
+          <div class="k">Date</div>
+          <div class="v">${esc(created || "—")}</div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <a class="btn whatsapp" href="${wa}" target="_blank" rel="noopener">💬 Suivre sur WhatsApp</a>
+        <button class="btn" id="copyBtn">📋 Copier le code</button>
+        <a class="btn primary" href="./request.html">➕ Nouvelle demande</a>
+      </div>
+
+      <div class="hint">
+        <b>Important :</b> garde ce code. Si tu changes de téléphone, fais une capture ou note-le.
+      </div>
+    `;
+
+    document.getElementById("copyBtn").addEventListener("click", async ()=>{
+      try{
+        await navigator.clipboard.writeText(data.public_code);
+        alert("✅ Code copié : " + data.public_code);
+      }catch(e){
+        prompt("Copie le code :", data.public_code);
+      }
+    });
+  }
+</script>
+</body>
+</html>
