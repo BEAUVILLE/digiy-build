@@ -370,4 +370,206 @@
           </div>
 
           <div class="hint" style="margin-top:12px">
-            <b>Code public :</b>
+            <b>Code public :</b> après envoi, tu reçois un code à garder pour suivi.
+          </div>
+
+          <div class="actions" style="margin-top:14px">
+            <a class="btn" href="./index.html">← Retour module</a>
+            <a class="btn" href="../">🏠 DIGIY HUB</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast">
+    <div class="t" id="toastT">Info</div>
+    <div class="m" id="toastM">…</div>
+  </div>
+
+<script>
+/* =========================
+   DIGIY BUILD — request.html
+   ========================= */
+
+const SUPABASE_URL = "https://wesqmwjjtsefyjnluosj.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indlc3Ftd2pqdHNlfyjnluosjIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTk5OTk5OTksImV4cCI6MjAxNTU1NTU1NX0.REPLACE_ME";
+
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+// ---------- helpers ----------
+const $ = (id)=>document.getElementById(id);
+
+function toast(title, msg, ok=true){
+  $("toastT").textContent = title;
+  $("toastM").textContent = msg;
+  const t = $("toast");
+  t.classList.remove("danger","ok","show");
+  t.classList.add(ok ? "ok" : "danger");
+  t.classList.add("show");
+  setTimeout(()=>t.classList.remove("show"), 4200);
+}
+
+function qs(name){
+  return new URL(location.href).searchParams.get(name);
+}
+
+function randCode(len=8){
+  const chars = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789";
+  let out = "";
+  for(let i=0;i<len;i++) out += chars[Math.floor(Math.random()*chars.length)];
+  return out;
+}
+
+function cleanPhone(p){
+  if(!p) return "";
+  p = String(p).trim().replace(/\s+/g,"");
+  // si l'utilisateur met 77... on peut préfixer +221 par défaut
+  if(/^7\d{8}$/.test(p)) return "+221"+p;
+  if(/^(\+221)?7\d{8}$/.test(p) && !p.startsWith("+")) return "+221"+p;
+  return p;
+}
+
+function validUrl(u){
+  try{ new URL(u); return true; }catch(e){ return false; }
+}
+
+// ---------- state ----------
+let mediaUrls = [];
+
+// ---------- init ----------
+(function init(){
+  const city = qs("city"); const trade = qs("trade");
+  if(city) $("city").value = city;
+  if(trade) $("trade").value = trade;
+
+  renderMedia();
+})();
+
+function renderMedia(){
+  const box = $("mediaList");
+  box.innerHTML = "";
+  if(mediaUrls.length === 0){
+    box.innerHTML = `<div class="hint">Aucun lien ajouté.</div>`;
+    return;
+  }
+  mediaUrls.forEach((u, idx)=>{
+    const div = document.createElement("div");
+    div.className = "media-item";
+    div.innerHTML = `
+      <div style="min-width:0">
+        <div style="font-weight:900;color:var(--text);font-size:12.5px">Lien ${idx+1}</div>
+        <code>${u}</code>
+      </div>
+      <button class="x" type="button" data-i="${idx}">✕</button>
+    `;
+    div.querySelector("button").addEventListener("click", (e)=>{
+      const i = parseInt(e.currentTarget.getAttribute("data-i"), 10);
+      mediaUrls.splice(i,1);
+      renderMedia();
+    });
+    box.appendChild(div);
+  });
+}
+
+$("addMedia").addEventListener("click", ()=>{
+  const u = $("media_url").value.trim();
+  if(!u) return toast("Lien manquant", "Colle un lien puis clique Ajouter.", false);
+  if(!validUrl(u)) return toast("Lien invalide", "Ton lien n’est pas une URL valide.", false);
+  if(mediaUrls.includes(u)) return toast("Déjà ajouté", "Ce lien est déjà dans la liste.", false);
+  mediaUrls.push(u);
+  $("media_url").value = "";
+  renderMedia();
+  toast("OK", "Lien ajouté ✅", true);
+});
+
+$("clearMedia").addEventListener("click", ()=>{
+  mediaUrls = [];
+  renderMedia();
+  toast("OK", "Liens vidés.", true);
+});
+
+$("demoFill").addEventListener("click", ()=>{
+  $("city").value = "Saly";
+  $("zone").value = "Ngaparou";
+  $("trade").value = "Peinture";
+  $("urgency").value = "normal";
+  $("description").value = "Peinture salon + chambre, reboucher fissures, environ 35m2. Accès facile. Peinture blanche mate. Besoin d’un devis rapide.";
+  $("budget_min").value = "80000";
+  $("budget_max").value = "200000";
+  $("contact_pref").value = "whatsapp";
+  $("client_name").value = "Client Démo";
+  $("client_phone").value = "+22177XXXXXXX";
+  mediaUrls = ["https://example.com/photo1.jpg"];
+  renderMedia();
+  toast("Démo", "Champs remplis (exemple).", true);
+});
+
+// ---------- submit ----------
+$("form").addEventListener("submit", async (e)=>{
+  e.preventDefault();
+
+  const payload = {
+    status: "new",
+    city: $("city").value.trim(),
+    zone: $("zone").value.trim() || null,
+    trade: $("trade").value.trim(),
+    description: $("description").value.trim(),
+    budget_min: $("budget_min").value ? Number($("budget_min").value) : null,
+    budget_max: $("budget_max").value ? Number($("budget_max").value) : null,
+    urgency: $("urgency").value || "normal",
+    desired_date: $("desired_date").value || null,
+    client_name: $("client_name").value.trim() || null,
+    client_phone: cleanPhone($("client_phone").value),
+    contact_pref: $("contact_pref").value || "whatsapp",
+    media_urls: mediaUrls.length ? mediaUrls : null,
+    public_code: "B" + randCode(8),
+    assigned_pro_slug: null,
+    assigned_pro_id: null
+  };
+
+  if(!payload.city || !payload.trade || !payload.description){
+    return toast("Champs requis", "Ville, métier et description sont obligatoires.", false);
+  }
+
+  const btn = $("submitBtn");
+  btn.disabled = true;
+  btn.textContent = "Envoi…";
+
+  try{
+    const { data, error } = await sb
+      .from("digiy_build_requests")
+      .insert(payload)
+      .select("id, public_code, city, trade, status, created_at")
+      .single();
+
+    if(error) throw error;
+
+    // Save local for “suivi”
+    localStorage.setItem("DIGIY_BUILD_LAST_REQUEST", JSON.stringify(data));
+
+    toast("Demande envoyée ✅",
+      `Garde ton code: ${data.public_code}. Un pro te contacte bientôt.`, true);
+
+    // petit redirect vers une page "success" si tu veux
+    setTimeout(()=>{
+      // tu peux créer success.html plus tard
+      // location.href = "./success.html";
+      // sinon on reset:
+      e.target.reset();
+      mediaUrls = [];
+      renderMedia();
+    }, 900);
+
+  }catch(err){
+    console.error(err);
+    toast("Erreur", (err?.message || "Impossible d’envoyer la demande."), false);
+  }finally{
+    btn.disabled = false;
+    btn.textContent = "Envoyer la demande";
+  }
+});
+</script>
+
+</body>
+</html>
