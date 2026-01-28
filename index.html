@@ -7,6 +7,9 @@
   <title>DIGIY BUILD — Réseau BTP Sénégal • 0% commission</title>
   <meta name="description" content="DIGIY BUILD — Réseau d'artisans vérifiés au Sénégal. Construction, plomberie, électricité. 0% commission.">
 
+  <!-- Supabase (optionnel: stats demandes) -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
   <style>
     :root{
       --bg:#050a14;
@@ -78,10 +81,6 @@
       background:linear-gradient(135deg, rgba(34,197,94,.95), rgba(250,204,21,.85));
       color:#062014;
     }
-    .btn.ghost{
-      background:rgba(255,255,255,.06);
-      border:1px solid rgba(255,255,255,.14);
-    }
 
     /* Layout */
     .wrap{max-width:1180px; margin:0 auto; padding:18px 16px 44px;}
@@ -141,20 +140,20 @@
       box-shadow:0 10px 30px rgba(250,204,21,.22);
     }
 
-    /* Filters (fix visibilité + wrap) */
+    /* Filters */
     .filters{
       border:1px solid var(--line);
       background:rgba(0,0,0,.18);
       border-radius:18px;
       padding:12px;
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      align-items:center;
+      display:flex; gap:10px; flex-wrap:wrap; align-items:center;
       margin-bottom:14px;
-      overflow:visible;
+
+      /* ✅ pour que “secteurs” soient toujours visibles sur mobile */
+      overflow-x:auto;
+      -webkit-overflow-scrolling:touch;
     }
-    .filters .label{color:var(--gold); font-weight:1000; margin-right:2px}
+    .filters .label{color:var(--gold); font-weight:1000}
     .pill{
       border:1px solid var(--line);
       background:rgba(0,0,0,.22);
@@ -165,6 +164,7 @@
       font-weight:1000;
       font-size:.9rem;
       transition:all .15s ease;
+      flex:0 0 auto; /* ✅ évite qu’ils disparaissent */
     }
     .pill:hover{border-color:rgba(250,204,21,.35)}
     .pill.active{
@@ -242,11 +242,7 @@
       backdrop-filter: blur(8px);
     }
     .p-body{padding:12px}
-    .p-title{
-      font-weight:1100;
-      font-size:1.02rem;
-      margin-bottom:4px;
-    }
+    .p-title{font-weight:1100;font-size:1.02rem;margin-bottom:4px}
     .p-meta{color:var(--muted); font-weight:900; font-size:.9rem; margin-bottom:6px}
     .p-desc{color:rgba(234,255,241,.86); font-size:.95rem; line-height:1.35; min-height:44px}
     .p-tags{display:flex; gap:8px; flex-wrap:wrap; margin-top:10px}
@@ -307,10 +303,11 @@
       </div>
     </div>
 
+    <!-- ✅ LIENS FIXÉS SELON TON REPO -->
     <div class="actions">
-      <a class="btn secondary" id="btnRequestTop" href="./request.html">📤 Déposer une demande</a>
-      <a class="btn primary" id="btnDemandesTop" href="./demandes.html">📋 Voir les demandes</a>
-      <a class="btn cockpit" id="btnCockpitTop" href="./build-pro/pin.html">🔐 Cockpit Pro</a>
+      <a class="btn secondary" href="./request.html">📤 Déposer une demande</a>
+      <a class="btn primary" href="./digiy-build/demandes.html">📋 Voir les demandes</a>
+      <a class="btn cockpit" href="./build-pro/pin.html">🔐 Cockpit Pro</a>
     </div>
   </div>
 </header>
@@ -322,27 +319,22 @@
       <h2>Le réseau BTP du Sénégal, pierre par pierre</h2>
       <p>
         Des <b>artisans vérifiés</b> dans toutes les régions. Contact direct, fiches complètes, <b>0% commission</b>.
-        Les demandes sont publiques (anonymisées). Les pros répondent via leur cockpit sécurisé.
+        Simple, fluide, WhatsApp et terrain.
       </p>
     </div>
     <div class="stats">
       <span class="chip">👷 <b>3</b> partenaires</span>
-      <span class="chip">📋 <b>Demandes</b> → page dédiée</span>
-      <span class="chip">✅ <b>Vérifié</b></span>
+      <span class="chip">📌 <b id="statTotal">—</b> demandes</span>
+      <span class="chip">✅ <b>Public safe</b></span>
     </div>
   </section>
 
-  <!-- CTA VERS DEMANDES -->
   <section class="cta-demandes">
     <h3>📋 Consulter les demandes publiques</h3>
-    <p>Besoin d’un devis / visite / dépannage ? Dépose une demande. Les pros voient l’annonce et te contactent.</p>
-    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
-      <a class="btn primary" id="btnDemandesCta" href="./demandes.html">Voir toutes les demandes →</a>
-      <a class="btn secondary" id="btnRequestCta" href="./request.html">Déposer une demande</a>
-    </div>
+    <p>Besoin de chantiers ? Consulte les annonces anonymisées. Contact direct ensuite.</p>
+    <a class="btn primary" href="./digiy-build/demandes.html">Voir toutes les demandes →</a>
   </section>
 
-  <!-- FILTRES PARTENAIRES -->
   <section class="filters" id="partenaires">
     <span class="label">Filtrer :</span>
 
@@ -366,7 +358,6 @@
     <p>Contact direct • fiche complète • 0% commission</p>
   </div>
 
-  <!-- GRID PARTENAIRES -->
   <section class="partners-grid" id="prosGrid">
 
     <!-- MBAYE -->
@@ -458,13 +449,10 @@
 
 <script>
 /* =============================
-   Helpers
+   PARTNERS FILTERS
    ============================= */
 function norm(v){ return (v ?? "").toString().toLowerCase().trim(); }
 
-/* =============================
-   PARTNERS FILTERS
-   ============================= */
 let proSector = "all";
 let proRegion = "all";
 let qPro = "";
@@ -487,7 +475,6 @@ function filterPros(){
   });
 }
 
-// bind pro sector buttons
 document.querySelectorAll("[data-pro-sector]").forEach(btn=>{
   btn.addEventListener("click", ()=>{
     document.querySelectorAll("[data-pro-sector]").forEach(x=>x.classList.remove("active"));
@@ -497,7 +484,6 @@ document.querySelectorAll("[data-pro-sector]").forEach(btn=>{
   });
 });
 
-// bind pro region buttons
 document.querySelectorAll("[data-pro-region]").forEach(btn=>{
   btn.addEventListener("click", ()=>{
     document.querySelectorAll("[data-pro-region]").forEach(x=>x.classList.remove("active"));
@@ -512,10 +498,30 @@ document.getElementById("qPro").addEventListener("input", (e)=>{
   filterPros();
 });
 
+/* =============================
+   STATS DEMANDES (optionnel)
+   - si clé invalide -> on laisse "—" sans casser la page
+   ============================= */
+(async function loadStatsSafe(){
+  try{
+    const SUPABASE_URL = "https://wesqmwjjtsefyjnluosj.supabase.co";
+    const SUPABASE_ANON_KEY =
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indlc3Ftd2pqdHNlZnlqbmx1b3NqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUxNzg4ODIsImV4cCI6MjA4MDc1NDg4Mn0.dZfYOc2iL2_wRYL3zExZFsFSBK6AbMeOid2LrIjcTdA";
+    const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+    const { data, error } = await sb.rpc("digiy_build_public_list_v1", { p_limit: 500 });
+    if(error) throw error;
+    if(Array.isArray(data)){
+      document.getElementById("statTotal").textContent = String(data.length);
+    }
+  }catch(e){
+    console.warn("Stats demandes indisponibles:", e?.message || e);
+  }
+})();
+
 // init
 filterPros();
 </script>
 
 </body>
 </html>
-
