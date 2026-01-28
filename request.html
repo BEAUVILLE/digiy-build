@@ -1,41 +1,521 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+  <meta name="theme-color" content="#0b2a1f"/>
+  <title>DIGIY BUILD — Déposer une demande (public safe)</title>
+  <meta name="description" content="Déposer une demande DIGIY BUILD (mode public safe). Annonces anonymisées. Contact direct ensuite.">
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    :root{
+      --bg:#061b14; --bg2:#04140f;
+      --card:#0b2a1f; --card2:#072318;
+      --line:rgba(255,255,255,.12);
+      --text:#eafff1; --muted:rgba(234,255,241,.72);
+      --gold:#facc15; --orange:#f59e0b; --green:#22c55e; --red:#ef4444; --sky:#38bdf8;
+      --shadow:0 20px 60px rgba(0,0,0,.35);
+      --radius:18px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial;
+      color:var(--text);
+      background:
+        radial-gradient(900px 500px at 12% 10%, rgba(250,204,21,.14), transparent 55%),
+        radial-gradient(900px 500px at 90% 92%, rgba(34,197,94,.10), transparent 55%),
+        linear-gradient(180deg, var(--bg2) 0%, var(--bg) 60%, var(--bg2) 100%);
+      min-height:100vh;
+      padding:18px 14px 30px;
+    }
+    .wrap{max-width:980px;margin:0 auto}
+    .topbar{
+      position:sticky; top:0; z-index:50;
+      backdrop-filter: blur(10px);
+      margin:-18px -14px 14px;
+      padding:12px 14px;
+      background:linear-gradient(135deg, rgba(7,35,24,.88), rgba(4,20,15,.88));
+      border-bottom:1px solid var(--line);
+    }
+    .topbar-inner{max-width:980px;margin:0 auto;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+    .brand{display:flex;align-items:center;gap:10px}
+    .logo{
+      width:44px;height:44px;border-radius:14px;
+      background:
+        radial-gradient(circle at 30% 30%, rgba(250,204,21,.22), transparent 60%),
+        linear-gradient(135deg, rgba(34,197,94,.25), rgba(245,158,11,.18));
+      border:1px solid var(--line);
+      box-shadow:var(--shadow);
+      display:flex;align-items:center;justify-content:center;
+      font-weight:1000;
+    }
+    .brand h1{font-size:15.5px;margin:0}
+    .brand p{margin:2px 0 0;color:var(--muted);font-size:12.5px}
+    .actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+
+    .btn{
+      appearance:none;
+      border:1px solid var(--line);
+      background: rgba(0,0,0,.12);
+      color:var(--text);
+      padding:10px 12px;
+      border-radius:999px;
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      font-weight:900;
+      font-size:13px;
+      cursor:pointer;
+      white-space:nowrap;
+      transition:transform .12s ease, border-color .12s ease, opacity .12s ease;
+    }
+    .btn:hover{transform:translateY(-1px); border-color:rgba(250,204,21,.35)}
+    .btn.primary{
+      border:none;
+      color:#071a12;
+      background:linear-gradient(135deg,var(--gold),var(--orange));
+    }
+    .btn.secondary{
+      background:rgba(0,0,0,.16);
+    }
+    .btn.cockpit{
+      border:none;
+      color:#062014;
+      background:linear-gradient(135deg, rgba(34,197,94,.95), rgba(250,204,21,.85));
+    }
+    .btn.ghost{
+      background:rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.14);
+    }
+    .btn.whatsapp{
+      border-color:rgba(34,197,94,.38);
+      background:linear-gradient(135deg, rgba(34,197,94,.25), rgba(34,197,94,.12));
+    }
+
+    .card{
+      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      border:1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      margin-bottom: 14px;
+    }
+    .hd{padding:14px 14px 10px;border-bottom:1px solid var(--line);background:rgba(0,0,0,.12)}
+    .hd .t{font-size:14px;font-weight:1000;margin:0}
+    .hd .s{margin:6px 0 0;color:var(--muted);font-size:12.5px;line-height:1.35}
+    .bd{padding:14px}
+
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    @media (max-width:860px){.grid{grid-template-columns:1fr}}
+
+    label{display:block;font-size:12.5px;color:var(--muted);margin:0 0 6px}
+    .req{color:rgba(250,204,21,.95);font-weight:1000}
+    select,input,textarea{
+      width:100%;
+      background: rgba(0,0,0,.16);
+      border:1px solid rgba(255,255,255,.14);
+      color:var(--text);
+      border-radius:14px;
+      padding:12px;
+      font-size:14.5px;
+      outline:none;
+      font-weight:800;
+    }
+    textarea{min-height:130px;resize:vertical;font-weight:800}
+    input::placeholder, textarea::placeholder{color:rgba(234,255,241,.45)}
+    select:focus,input:focus,textarea:focus{
+      border-color:rgba(250,204,21,.42);
+      box-shadow:0 0 0 3px rgba(250,204,21,.10);
+    }
+    .help{margin-top:6px;color:var(--muted);font-size:12.5px;line-height:1.35}
+    .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:12px}
+    .pill{
+      display:inline-flex;align-items:center;gap:8px;
+      border:1px solid rgba(255,255,255,.14);
+      background:rgba(0,0,0,.12);
+      border-radius:999px;
+      padding:7px 10px;
+      font-weight:1000;
+      font-size:12.5px;
+      color:rgba(234,255,241,.90);
+    }
+    .pill.safe{border-color:rgba(56,189,248,.30)}
+    .pill.shield{border-color:rgba(34,197,94,.30)}
+    .pill.warn{border-color:rgba(245,158,11,.35)}
+    .sep{height:1px;background:var(--line);margin:12px 0}
+
+    .toast{
+      position:fixed;left:50%;bottom:18px;transform:translateX(-50%);
+      min-width:260px;max-width:92vw;
+      background:#0b2a1f;border:1px solid var(--line);
+      border-radius:14px;box-shadow:var(--shadow);
+      padding:12px 14px;display:none;z-index:9999;
+    }
+    .toast.show{display:block}
+    .toast.ok{border-color:rgba(34,197,94,.45)}
+    .toast.bad{border-color:rgba(239,68,68,.45)}
+    .toast .t{font-weight:1000}
+    .toast .m{margin-top:4px;color:var(--muted);font-size:13px}
+
+    .foot{
+      text-align:center;
+      color:var(--muted);
+      font-size:12.5px;
+      margin-top:10px;
+    }
+    .foot strong{color:var(--gold)}
+  </style>
+</head>
+
+<body>
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <div class="logo">🏗️</div>
+        <div>
+          <h1>DIGIY BUILD</h1>
+          <p>Déposer une demande • Public safe • 0% commission</p>
+        </div>
+      </div>
+      <div class="actions">
+        <a class="btn ghost" id="btnHome" href="./index.html">← Retour vitrine</a>
+        <a class="btn secondary" id="btnDemandes" href="./demandes.html">📋 Voir les demandes</a>
+        <a class="btn cockpit" id="btnCockpit" href="./build-pro/pin.html">🔐 Cockpit Pro</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+
+    <div class="card">
+      <div class="hd">
+        <p class="t">✅ Public safe</p>
+        <p class="s">
+          On collecte seulement le nécessaire pour qu’un pro te rappelle / te propose un devis.
+          Évite noms complets, pièces d’identité, infos bancaires.
+        </p>
+        <div class="row" style="margin-top:10px">
+          <span class="pill safe">🛡️ Pas de données sensibles</span>
+          <span class="pill shield">📌 Annonces anonymisées</span>
+          <span class="pill warn">💬 Diagnostic WhatsApp possible</span>
+        </div>
+      </div>
+      <div class="bd">
+
+        <form id="form">
+          <div class="grid">
+
+            <div>
+              <label>Secteur <span class="req">*</span></label>
+              <select id="sector" required>
+                <option value="">— Choisir —</option>
+                <option value="construction">Construction / Maçonnerie</option>
+                <option value="plomberie">Plomberie</option>
+                <option value="electricite">Électricité</option>
+                <option value="multi">Multi-services</option>
+              </select>
+              <div class="help">Choisis ce qui colle le plus. Les pros filtrent là-dessus.</div>
+            </div>
+
+            <div>
+              <label>Zone <span class="req">*</span></label>
+              <select id="zone" required>
+                <option value="">— Choisir —</option>
+                <option value="dakar">Dakar</option>
+                <option value="petite-cote">Petite Côte</option>
+                <option value="thies">Thiès</option>
+                <option value="national">National</option>
+              </select>
+              <div class="help">La zone aide à dispatcher vite.</div>
+            </div>
+
+            <div>
+              <label>Ville (optionnel)</label>
+              <input id="city" placeholder="Ex: Saly / Dakar / Thiès…"/>
+            </div>
+
+            <div>
+              <label>Quartier (optionnel)</label>
+              <input id="district" placeholder="Ex: Ngaparou / Parcelles / Keur Massar…"/>
+            </div>
+
+            <div style="grid-column: 1 / -1;">
+              <label>Titre court <span class="req">*</span></label>
+              <input id="title" maxlength="80" required placeholder="Ex: Fuite sous évier — intervention urgente"/>
+              <div class="help"><span id="titleCount">0</span>/80 caractères. Simple et clair.</div>
+            </div>
+
+            <div style="grid-column: 1 / -1;">
+              <label>Détails <span class="req">*</span></label>
+              <textarea id="details" maxlength="800" required placeholder="Décris le besoin : contexte, dimensions, urgence, photos possibles sur WhatsApp, disponibilité…"></textarea>
+              <div class="help"><span id="detailsCount">0</span>/800 caractères. Évite noms complets / données privées si possible.</div>
+            </div>
+
+            <div>
+              <label>WhatsApp (optionnel)</label>
+              <input id="whatsapp" inputmode="tel" placeholder="+221 77 XXX XX XX"/>
+              <div class="help">Optionnel. Si tu le mets, les pros peuvent diagnostiquer vite (photo/vidéo).</div>
+            </div>
+
+            <div>
+              <label>Contact préféré</label>
+              <select id="contactPref">
+                <option value="whatsapp">WhatsApp</option>
+                <option value="call">Appel</option>
+              </select>
+            </div>
+
+            <div>
+              <label>Urgence</label>
+              <select id="urgency">
+                <option value="normal">Normal</option>
+                <option value="urgent">Urgent</option>
+                <option value="today">Aujourd’hui</option>
+              </select>
+            </div>
+
+            <div>
+              <label>Budget (optionnel)</label>
+              <select id="budget">
+                <option value="">—</option>
+                <option value="small">Petit</option>
+                <option value="mid">Moyen</option>
+                <option value="big">Gros chantier</option>
+              </select>
+            </div>
+
+          </div>
+
+          <div class="sep"></div>
+
+          <div class="row">
+            <button class="btn" type="button" id="btnCancel">Annuler</button>
+            <button class="btn primary" type="submit" id="btnSubmit">✅ Publier la demande</button>
+            <a class="btn whatsapp" id="btnHelpWa" target="_blank" rel="noopener">💬 Support WhatsApp</a>
+          </div>
+
+          <div class="help" style="margin-top:10px">
+            DIGIY BUILD — demandes anonymisées • contact direct • Sénégal<br/>
+            Partie de <strong>DIGIYLYFE ♾️</strong>
+          </div>
+        </form>
+
+      </div>
+    </div>
+
+    <div class="foot">
+      Si Supabase est indisponible, on garde un mode “terrain” : tu peux envoyer le diagnostic via WhatsApp, et on publie dès que le backend est OK.
+    </div>
+
+  </main>
+
+  <div class="toast" id="toast">
+    <div class="t" id="toastT"></div>
+    <div class="m" id="toastM"></div>
+  </div>
+
 <script>
 /* =============================
-   NAV (simple + solide)
+   CONFIG
    ============================= */
-(function(){
-  // Fix GitHub Pages: évite /digiy-build/digiy-build/...
+const SUPPORT_WHATSAPP = "+221771342889";
+const KEY_LAST = "DIGIY_BUILD_LAST_REQUEST";
+
+// ✅ Supabase (public)
+const SUPABASE_URL = "https://wesqmwjjtsefyjnluosj.supabase.co";
+const SUPABASE_ANON_KEY =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indlc3Ftd2pqdHNlZnlqbmx1b3NqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUxNzg4ODIsImV4cCI6MjA4MDc1NDg4Mn0.dZfYOc2iL2_wRYL3zExZFsFSBK6AbMeOid2LrIjcTdA";
+
+/* =============================
+   HELPERS
+   ============================= */
+const $ = (id)=>document.getElementById(id);
+
+function toast(type, title, msg){
+  const t = $("toast");
+  t.className = "toast show " + (type === "ok" ? "ok" : "bad");
+  $("toastT").textContent = title;
+  $("toastM").textContent = msg;
+  setTimeout(()=>t.classList.remove("show"), 2400);
+}
+
+function buildWhatsAppLink(phone, msg){
+  const p = String(phone||"").replace(/\s/g,"").replace("+","");
+  return `https://wa.me/${p}?text=${encodeURIComponent(msg)}`;
+}
+
+function cleanText(s){
+  return String(s||"").replace(/\s+/g," ").trim();
+}
+
+function normalizePhone(s){
+  const raw = String(s||"").trim();
+  if(!raw) return "";
+  // simple: garde + et chiffres
+  let p = raw.replace(/[^\d+]/g,"");
+  // si commence pas par + et longueur locale -> on laisse tel quel
+  return p;
+}
+
+// Fix GitHub Pages double path /digiy-build/digiy-build/...
+(function fixDoublePath(){
   if(location.pathname.includes("/digiy-build/digiy-build/")){
     location.replace(location.pathname.replace("/digiy-build/digiy-build/", "/digiy-build/") + location.search + location.hash);
+  }
+})();
+
+(function initNav(){
+  const base = new URL("./", location.href);
+  $("btnHome").href = new URL("index.html", base).href;
+  $("btnDemandes").href = new URL("demandes.html", base).href;
+
+  const slug = new URL(location.href).searchParams.get("slug");
+  const cockpit = new URL("build-pro/pin.html", base);
+  if(slug) cockpit.searchParams.set("slug", slug);
+  $("btnCockpit").href = cockpit.href;
+})();
+
+/* =============================
+   UI COUNTERS
+   ============================= */
+$("title").addEventListener("input", ()=>{
+  $("titleCount").textContent = String(($("title").value || "").length);
+});
+$("details").addEventListener("input", ()=>{
+  $("detailsCount").textContent = String(($("details").value || "").length);
+});
+
+/* =============================
+   WhatsApp Support
+   ============================= */
+(function initSupportWA(){
+  const msg = "Bonjour. J’ai besoin d’aide pour déposer une demande DIGIY BUILD. Merci.";
+  $("btnHelpWa").href = buildWhatsAppLink(SUPPORT_WHATSAPP, msg);
+})();
+
+/* =============================
+   SUBMIT (Supabase RPC recommended)
+   ============================= */
+function getPayload(){
+  const payload = {
+    sector: $("sector").value,
+    zone: $("zone").value,
+    city: cleanText($("city").value),
+    district: cleanText($("district").value),
+    title: cleanText($("title").value),
+    details: cleanText($("details").value),
+    whatsapp: normalizePhone($("whatsapp").value),
+    contact_pref: $("contactPref").value,
+    urgency: $("urgency").value,
+    budget: $("budget").value || null,
+    source: "web",
+    country: "SN",
+  };
+  return payload;
+}
+
+function validate(payload){
+  if(!payload.sector) return "Choisis un secteur.";
+  if(!payload.zone) return "Choisis une zone.";
+  if(!payload.title || payload.title.length < 4) return "Titre trop court.";
+  if(!payload.details || payload.details.length < 10) return "Détails trop courts.";
+  if(payload.title.length > 80) return "Titre trop long (80 max).";
+  if(payload.details.length > 800) return "Détails trop longs (800 max).";
+  return "";
+}
+
+async function createRequestSupabase(payload){
+  if(!window.supabase) throw new Error("Supabase non chargé.");
+  const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  // ✅ RECOMMANDÉ: RPC qui génère public_code côté serveur + applique règles safe
+  // Doit retourner au minimum: { public_code: "XXXX..." }
+  const { data, error } = await sb.rpc("digiy_build_public_create_v1", { p: payload });
+  if(error) throw error;
+
+  // data peut être objet ou tableau selon ton RPC
+  const row = Array.isArray(data) ? data[0] : data;
+  const code = row?.public_code || row?.code || row?.publicCode;
+  if(!code) throw new Error("Création OK mais code manquant (RPC).");
+
+  return { public_code: String(code).toUpperCase().trim(), raw: row };
+}
+
+function saveLast(obj){
+  try{ localStorage.setItem(KEY_LAST, JSON.stringify(obj)); }catch(_){}
+}
+
+function goSuccess(code){
+  const base = new URL("./", location.href);
+  const u = new URL("success.html", base);
+  u.searchParams.set("code", code);
+  location.href = u.href;
+}
+
+$("btnCancel").addEventListener("click", ()=>{
+  // reset + retour vitrine
+  $("form").reset();
+  $("titleCount").textContent = "0";
+  $("detailsCount").textContent = "0";
+  location.href = new URL("index.html", new URL("./", location.href)).href;
+});
+
+$("form").addEventListener("submit", async (e)=>{
+  e.preventDefault();
+  const btn = $("btnSubmit");
+  btn.disabled = true;
+  const oldTxt = btn.textContent;
+  btn.textContent = "Publication...";
+
+  const payload = getPayload();
+  const err = validate(payload);
+  if(err){
+    toast("bad","Erreur", err);
+    btn.disabled = false;
+    btn.textContent = oldTxt;
     return;
   }
 
-  const base = new URL("./", location.href); // dossier du site
+  try{
+    const res = await createRequestSupabase(payload);
 
-  // Liens fixes (pas de fetch, pas de surprise)
-  const requestUrl  = new URL("request.html", base).href;
-  const demandesUrl = new URL("demandes.html", base).href;
-  const cockpitUrl  = new URL("build-pro/pin.html", base).href;
+    saveLast({
+      public_code: res.public_code,
+      created_at: new Date().toISOString(),
+      payload: { sector: payload.sector, zone: payload.zone, city: payload.city, title: payload.title }
+    });
 
-  const slug = new URL(location.href).searchParams.get("slug");
+    toast("ok","Envoyé", "Code: " + res.public_code);
+    setTimeout(()=>goSuccess(res.public_code), 450);
 
-  const btnRequest = document.getElementById("btnRequest");
-  if(btnRequest) btnRequest.href = requestUrl;
+  }catch(ex){
+    console.error(ex);
 
-  const btnDemandes = document.getElementById("btnDemandes");
-  if(btnDemandes) btnDemandes.href = demandesUrl;
+    // ✅ fallback terrain: propose WhatsApp
+    const msg =
+`Bonjour. Je veux déposer une demande DIGIY BUILD.
+Secteur: ${payload.sector}
+Zone: ${payload.zone}
+Ville: ${payload.city || "-"}
+Quartier: ${payload.district || "-"}
+Titre: ${payload.title}
+Détails: ${payload.details}
+Contact préféré: ${payload.contact_pref}
+WhatsApp: ${payload.whatsapp || "-"}`;
 
-  const btnDemandesCta = document.getElementById("btnDemandesCta");
-  if(btnDemandesCta) btnDemandesCta.href = demandesUrl;
+    $("btnHelpWa").href = buildWhatsAppLink(SUPPORT_WHATSAPP, msg);
 
-  const btnCockpit = document.getElementById("btnCockpit");
-  if(btnCockpit){
-    if(slug){
-      const u = new URL(cockpitUrl);
-      u.searchParams.set("slug", slug);
-      btnCockpit.href = u.href;
-    }else{
-      btnCockpit.href = cockpitUrl;
-    }
+    toast("bad","Backend KO", "Passe par WhatsApp (bouton support) et on publie dès que c’est OK.");
+  }finally{
+    btn.disabled = false;
+    btn.textContent = oldTxt;
   }
-})();
+});
 </script>
+</body>
+</html>
