@@ -4,23 +4,18 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
   <meta name="theme-color" content="#0b2a1f"/>
-  <title>DIGIY BUILD — Demandes publiques</title>
-  <meta name="description" content="Demandes anonymisées DIGIY BUILD (quartier/région/national). 0% commission. Contact direct.">
+  <title>DIGIY BUILD — Demandes publiques (anonymisées)</title>
+  <meta name="description" content="DIGIY BUILD — demandes publiques anonymisées (mode safe). Contact direct ensuite.">
 
+  <!-- ✅ Supabase JS v2 -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
     :root{
-      --bg:#050a14;
-      --card:#0f172a;
-      --card2:#0b1326;
-      --line:rgba(255,255,255,.12);
-      --ink:#eafff1;
-      --muted:rgba(234,255,241,.70);
-      --gold:#facc15;
-      --orange:#f97316;
-      --green:#22c55e;
-      --red:#ef4444;
+      --bg:#050a14; --card:#0f172a; --card2:#0b1326; --line:rgba(255,255,255,.12);
+      --ink:#eafff1; --muted:rgba(234,255,241,.70);
+      --gold:#facc15; --orange:#f97316; --green:#22c55e; --red:#ef4444; --sky:#38bdf8;
+      --shadow:0 20px 60px rgba(0,0,0,.35);
     }
     *{box-sizing:border-box;margin:0;padding:0}
     body{
@@ -41,7 +36,7 @@
       backdrop-filter: blur(10px);
     }
     .topbar-inner{
-      max-width:1120px; margin:0 auto;
+      max-width:1180px; margin:0 auto;
       display:flex; align-items:center; justify-content:space-between;
       gap:12px; padding:14px 16px; flex-wrap:wrap;
     }
@@ -50,20 +45,21 @@
       width:42px;height:42px;border-radius:14px;
       display:grid;place-items:center;
       background:linear-gradient(135deg,var(--gold),var(--orange));
-      color:#081018; font-size:22px; font-weight:900;
+      color:#081018; font-size:22px; font-weight:1000;
       box-shadow:0 10px 26px rgba(250,204,21,.18);
     }
     .brand h1{font-size:1.05rem; letter-spacing:.5px}
     .brand p{font-size:.85rem; color:var(--muted)}
     .actions{display:flex; gap:10px; flex-wrap:wrap; align-items:center;}
+
     .btn{
-      display:inline-flex; align-items:center; gap:8px;
+      display:inline-flex; align-items:center; justify-content:center; gap:8px;
       padding:10px 14px; border-radius:999px;
       border:1px solid var(--line);
       background:rgba(0,0,0,.20);
       color:var(--ink); text-decoration:none;
-      font-weight:900; cursor:pointer;
-      transition:transform .15s ease, border-color .15s ease;
+      font-weight:1000; cursor:pointer;
+      transition:transform .15s ease, border-color .15s ease, opacity .15s ease;
       white-space:nowrap;
     }
     .btn:hover{transform:translateY(-1px); border-color:rgba(250,204,21,.35)}
@@ -72,19 +68,19 @@
       background:linear-gradient(135deg,var(--gold),var(--orange));
       color:#081018;
     }
-    .btn.secondary{
-      background:rgba(0,0,0,.22);
-      border:1px solid var(--line);
-      color:var(--ink);
-    }
+    .btn.secondary{background:rgba(0,0,0,.22)}
     .btn.cockpit{
       border:none;
       background:linear-gradient(135deg, rgba(34,197,94,.95), rgba(250,204,21,.85));
       color:#062014;
     }
+    .btn.ghost{
+      background:rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.14);
+    }
 
-    /* Layout */
-    .wrap{max-width:1120px; margin:0 auto; padding:18px 16px 44px;}
+    .wrap{max-width:1180px; margin:0 auto; padding:18px 16px 44px;}
+
     .hero{
       border:1px solid rgba(250,204,21,.18);
       background:linear-gradient(135deg, rgba(250,204,21,.08), rgba(34,197,94,.06));
@@ -100,18 +96,18 @@
       -webkit-text-fill-color:transparent;
       margin-bottom:6px;
     }
-    .hero p{color:var(--muted); line-height:1.35; max-width:780px}
-    .hero .stats{display:flex; gap:10px; flex-wrap:wrap}
+    .hero p{color:var(--muted); line-height:1.35; max-width:860px}
+
+    .chips{display:flex; gap:10px; flex-wrap:wrap}
     .chip{
       border:1px solid var(--line);
       background:rgba(0,0,0,.18);
       padding:7px 10px; border-radius:999px;
       font-size:.85rem; color:var(--muted);
-      font-weight:900;
+      font-weight:1000;
     }
     .chip b{color:var(--ink)}
 
-    /* Filters */
     .filters{
       border:1px solid var(--line);
       background:rgba(0,0,0,.18);
@@ -120,7 +116,7 @@
       display:flex; gap:10px; flex-wrap:wrap; align-items:center;
       margin-bottom:14px;
     }
-    .filters .label{color:var(--gold); font-weight:1000}
+    .filters .label{color:var(--gold); font-weight:1100}
     .pill{
       border:1px solid var(--line);
       background:rgba(0,0,0,.22);
@@ -128,7 +124,7 @@
       padding:8px 12px;
       border-radius:999px;
       cursor:pointer;
-      font-weight:1000;
+      font-weight:1100;
       font-size:.9rem;
       transition:all .15s ease;
     }
@@ -139,107 +135,110 @@
       color:#081018;
     }
     .search{
-      flex:1;
-      min-width:220px;
+      flex:1; min-width:240px;
       border:1px solid var(--line);
       background:rgba(0,0,0,.22);
       color:var(--ink);
       padding:10px 12px;
       border-radius:14px;
       outline:none;
-      font-weight:900;
+      font-weight:1000;
     }
 
-    /* Grid */
     .grid{
       display:grid;
       grid-template-columns: repeat(12, 1fr);
       gap:14px;
+      margin-top:10px;
     }
     .card{
-      grid-column: span 4;
+      grid-column: span 6;
       border:1px solid var(--line);
       border-radius:18px;
       overflow:hidden;
-      background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(0,0,0,.18));
+      background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(0,0,0,.20));
       box-shadow:0 18px 45px rgba(0,0,0,.35);
     }
-    @media(max-width:980px){ .card{grid-column: span 6;} }
-    @media(max-width:640px){ .card{grid-column: span 12;} }
+    @media(max-width:980px){ .card{grid-column: span 12;} }
 
-    .card-head{
-      padding:12px 12px 0;
-      display:flex; gap:8px; align-items:center; flex-wrap:wrap;
+    .card-hd{
+      padding:12px 12px 10px;
+      border-bottom:1px solid var(--line);
+      background:rgba(0,0,0,.12);
+      display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap;
     }
+    .title{font-weight:1100; font-size:1.02rem}
+    .meta{color:var(--muted); font-weight:1000; font-size:.88rem}
     .badge{
-      padding:6px 10px;
+      font-weight:1100; font-size:.82rem;
+      padding:7px 10px;
       border-radius:999px;
       border:1px solid rgba(255,255,255,.14);
-      background:rgba(0,0,0,.38);
-      color:var(--ink);
-      font-weight:900;
-      font-size:.82rem;
+      background:rgba(0,0,0,.22);
+      color:rgba(234,255,241,.90);
     }
-    .badge.sector{border-color:rgba(250,204,21,.30)}
-    .badge.region{border-color:rgba(34,197,94,.30)}
-    .badge.time{border-color:rgba(148,163,184,.30); color:var(--muted)}
+    .badge.ok{border-color:rgba(34,197,94,.28)}
+    .badge.warn{border-color:rgba(245,158,11,.32)}
+    .badge.red{border-color:rgba(239,68,68,.32)}
 
-    .card-body{padding:12px}
-    .title{
-      font-weight:1000;
-      font-size:1rem;
-      margin:6px 0 6px;
-    }
-    .desc{
-      color:rgba(234,255,241,.85);
-      font-size:.95rem;
-      line-height:1.35;
-      min-height:56px;
-    }
-    .meta{
-      margin-top:10px;
-      display:flex; gap:10px; flex-wrap:wrap;
+    .card-bd{padding:12px}
+    .desc{color:rgba(234,255,241,.90); line-height:1.35; font-size:.95rem}
+    .tags{display:flex; gap:8px; flex-wrap:wrap; margin-top:10px}
+    .tag{
+      font-weight:1100; font-size:.78rem;
+      padding:6px 10px; border-radius:999px;
+      border:1px solid rgba(255,255,255,.14);
+      background:rgba(0,0,0,.28);
       color:var(--muted);
-      font-size:.85rem;
-      font-weight:900;
     }
+    .tag.zone{border-color:rgba(34,197,94,.28); color:rgba(234,255,241,.85)}
+    .tag.trade{border-color:rgba(250,204,21,.28); color:rgba(234,255,241,.85)}
+    .tag.code{border-color:rgba(56,189,248,.28); color:rgba(234,255,241,.85)}
+    .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace}
 
-    .card-foot{
+    .card-ft{
       border-top:1px solid var(--line);
       padding:12px;
       display:flex; gap:10px; flex-wrap:wrap;
-      align-items:center; justify-content:space-between;
     }
-    .cta{
-      display:flex; gap:10px; flex-wrap:wrap; width:100%;
-    }
-    .cta .btn{
-      flex:1;
-      justify-content:center;
-      border-radius:14px;
+    .card-ft .btn{flex:1; border-radius:14px}
+    .btn.track{
+      border:none;
+      background:linear-gradient(135deg, rgba(56,189,248,.20), rgba(250,204,21,.18));
+      color:rgba(234,255,241,.95);
     }
 
     .empty{
-      border:1px dashed rgba(250,204,21,.35);
-      border-radius:18px;
-      padding:18px;
-      color:var(--muted);
+      border:1px solid var(--line);
       background:rgba(0,0,0,.18);
-      grid-column:1/-1;
+      border-radius:18px;
+      padding:16px;
+      color:var(--muted);
+      font-weight:1000;
       text-align:center;
+      grid-column: 1 / -1;
     }
 
+    .pager{
+      display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:space-between;
+      margin-top:14px;
+      border:1px solid var(--line);
+      background:rgba(0,0,0,.18);
+      border-radius:18px;
+      padding:12px;
+    }
+    .pager .left{color:var(--muted); font-weight:1000}
+    .pager .right{display:flex; gap:10px; flex-wrap:wrap}
     .foot{
       border-top:1px solid var(--line);
       color:var(--muted);
       padding:22px 16px 30px;
-      max-width:1120px;
+      max-width:1180px;
       margin:22px auto 0;
       text-align:center;
       font-size:.92rem;
     }
     .foot strong{color:var(--gold)}
-    code{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace}
   </style>
 </head>
 
@@ -248,15 +247,16 @@
 <header class="topbar">
   <div class="topbar-inner">
     <div class="brand">
-      <div class="logo">🏗️</div>
+      <div class="logo">📋</div>
       <div>
-        <h1>DIGIY BUILD — Demandes publiques</h1>
-        <p>Annonces anonymisées • contact direct • Sénégal</p>
+        <h1>DIGIY BUILD</h1>
+        <p>Demandes publiques • anonymisées • Sénégal</p>
       </div>
     </div>
     <div class="actions">
-      <a class="btn secondary" href="./index.html">← Vitrine</a>
+      <a class="btn ghost" href="./index.html">← Vitrine</a>
       <a class="btn primary" href="./request.html">📤 Déposer une demande</a>
+      <a class="btn secondary" href="./track.html">🔎 Suivi</a>
       <a class="btn cockpit" href="./build-pro/pin.html">🔐 Cockpit Pro</a>
     </div>
   </div>
@@ -266,16 +266,13 @@
 
   <section class="hero">
     <div>
-      <h2>Les annonces atterrissent. La vie circule.</h2>
-      <p>
-        Ici tu vois les demandes du terrain (anonymisées). Les pros peuvent ensuite prendre contact et faire un
-        diagnostic rapide (WhatsApp / appel) — sans friction.
-      </p>
+      <h2>Demandes anonymisées (public safe)</h2>
+      <p>Tu vois les demandes sans données sensibles. Pour suivre une demande précise, utilise <b>Suivi</b> avec le code.</p>
     </div>
-    <div class="stats">
-      <span class="chip">📌 <b id="statTotal">0</b> demandes</span>
-      <span class="chip">🕒 <b id="stat24h">0</b> dernières 24h</span>
-      <span class="chip">✅ <b>Public Safe</b></span>
+    <div class="chips">
+      <span class="chip">📌 Total: <b id="statTotal">—</b></span>
+      <span class="chip">🛡️ Mode safe</span>
+      <span class="chip">0% commission</span>
     </div>
   </section>
 
@@ -288,210 +285,250 @@
     <button class="pill" data-sector="electricite">Électricité</button>
     <button class="pill" data-sector="multi">Multi</button>
 
-    <button class="pill active" data-region="all">Toute zone</button>
-    <button class="pill" data-region="dakar">Dakar</button>
-    <button class="pill" data-region="petite-cote">Petite Côte</button>
-    <button class="pill" data-region="thies">Thiès</button>
-    <button class="pill" data-region="national">National</button>
+    <button class="pill active" data-zone="all">Toute zone</button>
+    <button class="pill" data-zone="dakar">Dakar</button>
+    <button class="pill" data-zone="petite-cote">Petite Côte</button>
+    <button class="pill" data-zone="thies">Thiès</button>
+    <button class="pill" data-zone="national">National</button>
 
-    <input class="search" id="q" placeholder="Rechercher (fuite, villa, tableau, chantier…)" />
+    <input class="search" id="q" placeholder="Recherche (fuite, tableau, piscine, carrelage…)" />
   </section>
 
-  <section class="grid" id="grid">
-    <div class="empty">Chargement…</div>
-  </section>
+  <section class="grid" id="grid"></section>
+
+  <div class="pager">
+    <div class="left" id="pagerLeft">—</div>
+    <div class="right">
+      <button class="btn secondary" id="btnPrev">← Précédent</button>
+      <button class="btn secondary" id="btnNext">Suivant →</button>
+    </div>
+  </div>
 
 </main>
 
 <footer class="foot">
-  <p><strong>DIGIY BUILD</strong> — demandes anonymisées • action via pros • 0% commission</p>
-  <p>Partie de <strong>DIGIYLYFE</strong> ♾️</p>
+  <p><strong>DIGIY BUILD</strong> — demandes anonymisées • contact direct • Sénégal</p>
+  <p>Partie de <strong>DIGIYLYFE ♾️</strong></p>
 </footer>
 
 <script>
-/* =============================
-   SUPABASE CONFIG
-   ============================= */
-const SUPABASE_URL = "https://wesqmwjjtsefyjnluosj.supabase.co";
-const SUPABASE_ANON_KEY =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indlc3Ftd2pqdHNlZnlqbmx1b3NqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUxNzg4ODIsImV4cCI6MjA4MDc1NDg4Mn0.dZfYOc2iL2_wRYL3zExZFsFSBK6AbMeOid2LrIjcTdA";
+document.addEventListener("DOMContentLoaded", async () => {
 
-const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-/* =============================
-   State
-   ============================= */
-let ALL = [];
-let sector = "all";
-let region = "all";
-let q = "";
-
-/* =============================
-   Helpers
-   ============================= */
-function safeText(s){ return (s ?? "").toString(); }
-function norm(v){ return (v||"").toLowerCase().trim(); }
-
-function humanWhen(ts){
-  const t = new Date(ts).getTime();
-  if(!isFinite(t)) return "—";
-  const d = Date.now() - t;
-  const m = Math.floor(d/60000);
-  if(m < 1) return "à l’instant";
-  if(m < 60) return `il y a ${m} min`;
-  const h = Math.floor(m/60);
-  if(h < 24) return `il y a ${h}h`;
-  const j = Math.floor(h/24);
-  return `il y a ${j}j`;
-}
-
-function iconSector(s){
-  const x = (s||"").toLowerCase();
-  if(x.includes("plomb")) return "💧";
-  if(x.includes("elect")) return "⚡";
-  if(x.includes("constr") || x.includes("macon")) return "🏗️";
-  if(x.includes("peint")) return "🎨";
-  if(x.includes("menuis")) return "🪚";
-  if(x.includes("multi")) return "🧰";
-  return "🧱";
-}
-
-function filterRows(rows){
-  const qq = norm(q);
-  return rows.filter(r=>{
-    const s = norm(r.sector);
-    const z = norm(r.region);
-    const text = norm(r.title_short) + " " + norm(r.description_short);
-    const okS = (sector==="all" || s===sector);
-    const okR = (region==="all" || z===region);
-    const okQ = (!qq || text.includes(qq));
-    return okS && okR && okQ;
-  });
-}
-
-/* =============================
-   Render
-   ============================= */
-function render(){
-  const grid = document.getElementById("grid");
-  const rows = filterRows(ALL);
-
-  // stats
-  document.getElementById("statTotal").textContent = String(ALL.length);
-  const since24 = Date.now() - (24*60*60*1000);
-  const last24 = ALL.filter(x => new Date(x.created_at).getTime() >= since24).length;
-  document.getElementById("stat24h").textContent = String(last24);
-
-  if(rows.length === 0){
-    grid.innerHTML = `<div class="empty">Aucune demande trouvée. Mets “Tous secteurs / Toute zone” et réessaie.</div>`;
+  /* ✅ Fix GitHub Pages bug /digiy-build/digiy-build/ */
+  if(location.pathname.includes("/digiy-build/digiy-build/")){
+    location.replace(location.pathname.replace("/digiy-build/digiy-build/", "/digiy-build/") + location.search + location.hash);
     return;
   }
 
-  grid.innerHTML = rows.map(r=>{
-    const s = safeText(r.sector || "autre");
-    const z = safeText(r.region || "autre");
-    const title = safeText(r.title_short || "Demande");
-    const desc  = safeText(r.description_short || "");
-    const when  = humanWhen(r.created_at);
-    const ico   = iconSector(s);
+  /* =============================
+     SUPABASE CONFIG (TONS IDENTIFIANTS)
+     ============================= */
+  const SUPABASE_URL = "https://wesqmwjjtsefyjnluosj.supabase.co";
+  const SUPABASE_ANON_KEY =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indlc3Ftd2pqdHNlZnlqbmx1b3NqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUxNzg4ODIsImV4cCI6MjA4MDc1NDg4Mn0.dZfYOc2iL2_wRYL3zExZFsFSBK6AbMeOid2LrIjcTdA";
 
-    return `
-      <article class="card">
-        <div class="card-head">
-          <span class="badge sector">${ico} ${s}</span>
-          <span class="badge region">📍 ${z}</span>
-          <span class="badge time">🕒 ${when}</span>
-        </div>
+  const sb = (window.supabase?.createClient)
+    ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+    : null;
 
-        <div class="card-body">
-          <div class="title">${title}</div>
-          <div class="desc">${desc}</div>
-          <div class="meta">
-            <span>🧾 statut: ${safeText(r.status||"—")}</span>
-            <span>🆔 ${safeText(r.id).slice(0,8)}…</span>
-          </div>
-        </div>
+  const $ = (id)=>document.getElementById(id);
+  const grid = $("grid");
 
-        <div class="card-foot">
-          <div class="cta">
-            <a class="btn secondary" href="./request.html">📤 Déposer aussi</a>
-            <a class="btn cockpit" href="./build-pro/pin.html">🔐 Pro : cockpit</a>
-          </div>
-        </div>
-      </article>
-    `;
-  }).join("");
-}
-
-/* =============================
-   Load data (VIEW)
-   ============================= */
-async function load(){
-  const grid = document.getElementById("grid");
-  grid.innerHTML = `<div class="empty">Chargement des demandes…</div>`;
-
-  const trySelect = async (viewName) => {
-    const { data, error } = await sb
-      .from(viewName)
-      .select("id,created_at,sector,region,title_short,description_short,status")
-      .order("created_at", { ascending:false })
-      .limit(200);
-    if(error) throw error;
-    return data || [];
-  };
-
-  try{
-    // 1) ton nom principal
-    ALL = await trySelect("digiy_build_requests_public_v1");
-  }catch(e1){
+  function esc(s){
+    return String(s ?? "").replace(/[&<>"']/g, (m)=>({
+      "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+    }[m]));
+  }
+  function norm(v){ return (v ?? "").toString().toLowerCase().trim(); }
+  function fmtDate(iso){
     try{
-      // 2) fallback si tu as choisi un autre nom entre-temps
-      ALL = await trySelect("v_digiy_build_requests_public_v1");
-    }catch(e2){
-      grid.innerHTML = `<div class="empty">
-        <b>Erreur chargement.</b><br/><br/>
-        Vérifie :<br/>
-        1) ta clé ANON dans le code<br/>
-        2) que la vue <code>digiy_build_requests_public_v1</code> existe<br/>
-        3) qu’elle expose : <code>id, created_at, sector, region, title_short, description_short, status</code><br/>
-        <div style="margin-top:10px;color:rgba(234,255,241,.65)">
-          Détail: ${safeText(e2.message || e1.message)}
-        </div>
-      </div>`;
+      const d = new Date(iso);
+      return d.toLocaleString("fr-FR", { year:"numeric", month:"short", day:"2-digit", hour:"2-digit", minute:"2-digit" });
+    }catch(e){ return iso || ""; }
+  }
+  function shortText(s, n){
+    const t = String(s||"").trim();
+    if(t.length <= n) return t;
+    return t.slice(0, n).trim() + "…";
+  }
+  function statusBadge(s){
+    const v = norm(s);
+    if(v.includes("new") || v.includes("nou") || v.includes("attente")) return { cls:"warn", label: s || "Nouveau" };
+    if(v.includes("done") || v.includes("clos") || v.includes("term")) return { cls:"ok", label: s || "Terminé" };
+    if(v.includes("cancel") || v.includes("annul")) return { cls:"red", label: s || "Annulé" };
+    return { cls:"", label: s || "—" };
+  }
+
+  /* =============================
+     DATA + PAGINATION
+     ============================= */
+  let ALL = [];
+  let filtered = [];
+  let page = 1;
+  const PAGE_SIZE = 8;
+
+  let sector = "all";
+  let zone = "all";
+  let q = "";
+
+  function applyFilters(){
+    const qq = norm(q);
+    filtered = ALL.filter(r=>{
+      const s = norm(r.sector || r.trade || "");
+      const z = norm(r.zone || "");
+      const t = norm(r.title || "");
+      const d = norm(r.details || r.description || "");
+      const c = norm(r.city || "");
+
+      const okS = (sector === "all" || s === sector);
+      const okZ = (zone === "all" || z === zone);
+      const okQ = (!qq || (t + " " + d + " " + c).includes(qq));
+      return okS && okZ && okQ;
+    });
+    page = 1;
+    render();
+  }
+
+  function render(){
+    $("statTotal").textContent = String(filtered.length);
+
+    const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+    if(page > totalPages) page = totalPages;
+
+    const start = (page - 1) * PAGE_SIZE;
+    const slice = filtered.slice(start, start + PAGE_SIZE);
+
+    $("btnPrev").disabled = (page <= 1);
+    $("btnNext").disabled = (page >= totalPages);
+
+    $("pagerLeft").textContent =
+      filtered.length
+        ? `Affichage ${start+1}-${Math.min(start + PAGE_SIZE, filtered.length)} / ${filtered.length}`
+        : "Aucune demande pour ce filtre.";
+
+    if(!slice.length){
+      grid.innerHTML = `<div class="empty">Aucune demande trouvée. Essaie un autre filtre, ou dépose une demande.</div>`;
       return;
+    }
+
+    const base = new URL("./", location.href);
+
+    grid.innerHTML = slice.map(r=>{
+      const code = r.public_code || r.code || "";
+      const title = r.title || "Demande";
+      const details = r.details || r.description || "";
+      const city = r.city || "—";
+      const z = r.zone || "—";
+      const s = r.sector || r.trade || "—";
+      const created = r.created_at ? fmtDate(r.created_at) : "—";
+
+      const st = (r.status_label || r.status || "—");
+      const b = statusBadge(st);
+
+      const trackUrl = new URL("track.html", base);
+      if(code) trackUrl.searchParams.set("code", code);
+
+      return `
+        <article class="card">
+          <div class="card-hd">
+            <div>
+              <div class="title">${esc(title)}</div>
+              <div class="meta">📅 ${esc(created)} • 📍 ${esc(city)}</div>
+            </div>
+            <span class="badge ${esc(b.cls)}">${esc(b.label)}</span>
+          </div>
+
+          <div class="card-bd">
+            <div class="desc">${esc(shortText(details, 190))}</div>
+            <div class="tags">
+              <span class="tag trade">🏗️ ${esc(s)}</span>
+              <span class="tag zone">📌 ${esc(z)}</span>
+              ${code ? `<span class="tag code">🔑 <span class="mono">${esc(code)}</span></span>` : ``}
+            </div>
+          </div>
+
+          <div class="card-ft">
+            <a class="btn track" href="${esc(trackUrl.href)}">🔎 Suivi</a>
+            <a class="btn secondary" href="./request.html">📤 Déposer</a>
+          </div>
+        </article>
+      `;
+    }).join("");
+  }
+
+  /* =============================
+     LOAD DATA (RPC -> fallback view)
+     ============================= */
+  async function load(){
+    if(!sb){
+      grid.innerHTML = `<div class="empty">Supabase non chargé (CDN). Recharge la page.</div>`;
+      return;
+    }
+
+    // 1) RPC
+    try{
+      const { data, error } = await sb.rpc("digiy_build_public_list_v1", { p_limit: 500 });
+      if(error) throw error;
+      ALL = Array.isArray(data) ? data : [];
+      applyFilters();
+      return;
+    }catch(e){
+      console.warn("RPC digiy_build_public_list_v1 KO, fallback view:", e?.message || e);
+    }
+
+    // 2) fallback view "safe"
+    try{
+      const { data, error } = await sb
+        .from("v_digiy_build_requests_public_safe")
+        .select("public_code, created_at, status, status_label, city, zone, trade, sector, title, details")
+        .order("created_at", { ascending:false })
+        .limit(500);
+
+      if(error) throw error;
+      ALL = Array.isArray(data) ? data : [];
+      applyFilters();
+      return;
+    }catch(e){
+      console.error("Fallback view KO:", e?.message || e);
+      grid.innerHTML = `<div class="empty">Impossible de charger les demandes (RLS / view / RPC). Vérifie Supabase côté base.</div>`;
     }
   }
 
-  render();
-}
-
-/* =============================
-   UI events
-   ============================= */
-document.querySelectorAll("[data-sector]").forEach(btn=>{
-  btn.addEventListener("click", ()=>{
-    document.querySelectorAll("[data-sector]").forEach(x=>x.classList.remove("active"));
-    btn.classList.add("active");
-    sector = btn.dataset.sector;
+  /* =============================
+     Bind UI
+     ============================= */
+  document.querySelectorAll("[data-sector]").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      document.querySelectorAll("[data-sector]").forEach(x=>x.classList.remove("active"));
+      btn.classList.add("active");
+      sector = btn.dataset.sector;
+      applyFilters();
+    });
+  });
+  document.querySelectorAll("[data-zone]").forEach(btn=>{
+    btn.addEventListener("click", ()=>{
+      document.querySelectorAll("[data-zone]").forEach(x=>x.classList.remove("active"));
+      btn.classList.add("active");
+      zone = btn.dataset.zone;
+      applyFilters();
+    });
+  });
+  $("q").addEventListener("input", (e)=>{
+    q = e.target.value || "";
+    applyFilters();
+  });
+  $("btnPrev").addEventListener("click", ()=>{ page = Math.max(1, page - 1); render(); });
+  $("btnNext").addEventListener("click", ()=>{
+    const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
+    page = Math.min(totalPages, page + 1);
     render();
   });
-});
 
-document.querySelectorAll("[data-region]").forEach(btn=>{
-  btn.addEventListener("click", ()=>{
-    document.querySelectorAll("[data-region]").forEach(x=>x.classList.remove("active"));
-    btn.classList.add("active");
-    region = btn.dataset.region;
-    render();
-  });
-});
+  // init
+  grid.innerHTML = `<div class="empty">Chargement des demandes…</div>`;
+  await load();
 
-document.getElementById("q").addEventListener("input", (e)=>{
-  q = e.target.value || "";
-  render();
 });
-
-load();
 </script>
 
 </body>
