@@ -1,105 +1,274 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
-  <meta name="theme-color" content="#0b2a1f"/>
-  <title>DIGIY BUILD — Réseau BTP Sénégal • 0% commission</title>
-  <meta name="description" content="DIGIY BUILD — Réseau d'artisans vérifiés au Sénégal. Construction, plomberie, électricité. 0% commission.">
-
-  <!-- CSS -->
-  <link rel="stylesheet" href="./build.css?v=build-list-v2"/>
-
-  <!-- Supabase -->
+  <meta charset="utf-8">
+  <title>DIGIY BUILD — Réseau BTP Sénégal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="DIGIY BUILD — Artisans BTP direct, 0% commission.">
+  
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
-  <!-- JS (defer) -->
-  <script defer src="./build.js?v=build-list-v2"></script>
+  
+  <style>
+    :root{
+      --bg:#020617;
+      --accent:#facc15;
+      --orange:#f97316;
+      --ink:#f9fafb;
+      --muted:#9ca3af;
+      --line:#1f2937;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
+      margin:0;
+      background:radial-gradient(circle,#111827,#020617);
+      color:var(--ink);
+      font-family:system-ui,sans-serif;
+      padding:20px;
+    }
+    .container{max-width:1200px;margin:0 auto}
+    .header{text-align:center;margin-bottom:30px}
+    .header h1{font-size:48px;font-weight:900;color:var(--orange);margin:0}
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px;margin-top:30px}
+    .card{
+      background:#0b1220;
+      border:1px solid var(--line);
+      border-radius:16px;
+      padding:20px;
+      box-shadow:0 10px 30px rgba(0,0,0,.5);
+    }
+    .photo{
+      width:100%;
+      height:200px;
+      border-radius:12px;
+      overflow:hidden;
+      background:#111;
+      margin-bottom:15px;
+    }
+    .photo img{width:100%;height:100%;object-fit:cover}
+    .name{font-size:20px;font-weight:800;color:var(--accent);margin-bottom:5px}
+    .entreprise{font-size:14px;color:var(--orange);margin-bottom:10px}
+    .type{font-size:14px;color:var(--muted);margin-bottom:10px}
+    .desc{font-size:14px;color:#e5e7eb;line-height:1.6;margin-bottom:15px}
+    .badges{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:15px}
+    .badge{
+      padding:4px 10px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:700;
+      background:rgba(249,115,22,0.2);
+      color:var(--orange);
+      border:1px solid var(--orange);
+    }
+    .btn{
+      width:100%;
+      padding:12px;
+      border:none;
+      border-radius:8px;
+      font-weight:700;
+      cursor:pointer;
+      margin-top:10px;
+    }
+    .btn-primary{background:var(--orange);color:#111}
+    .btn-wa{background:#25d366;color:#fff}
+    .loading{text-align:center;padding:50px;color:#fff;font-size:18px}
+  </style>
 </head>
-
 <body>
 
-<header class="topbar">
-  <div class="topbar-inner">
-    <div class="brand">
-      <div class="logo">🏗️</div>
-      <div>
-        <h1>DIGIY BUILD</h1>
-        <p>Réseau BTP • Quartier / Région / National • 0% commission</p>
-      </div>
-    </div>
+<div class="container">
+  <div class="header">
+    <h1>🏗️ DIGIY BUILD</h1>
+    <p style="color:var(--muted);font-size:18px">Réseau BTP Sénégal • 0% commission</p>
+  </div>
 
-    <div class="actions">
-  <a class="btn secondary" href="./request.html">📤 Déposer une demande</a>
-  <a class="btn primary" href="./demandes.html">Voir toutes les demandes →</a>
-
-  <!-- ✅ NOUVEAU : générer fiche -->
-  <a class="btn gen" href="./build-pro/pin.html">⚡ Générer ma fiche</a>
-
-  <a class="btn cockpit" href="./build-pro/pin.html">🔐 Cockpit Pro</a>
+  <div id="grid" class="grid"></div>
 </div>
 
-  </div>
-</header>
+<script>
+const SUPABASE_URL = "https://wesqmwjjtsefyjnluosj.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indlc3Ftd2pqdHNlZnlqbmx1b3NqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUxNzg4ODIsImV4cCI6MjA4MDc1NDg4Mn0.dZfYOc2iL2_wRYL3zExZFsFSBK6AbMeOid2LrIjcTdA";
 
-<main class="wrap">
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const grid = document.getElementById("grid");
+const TEAM_WA = "+221771342889";
 
-  <section class="hero">
-    <div>
-      <h2>Le réseau BTP du Sénégal, pierre par pierre</h2>
-      <p>
-        Des <b>artisans vérifiés</b> dans toutes les régions. Contact direct, fiches complètes, <b>0% commission</b>.
-        Simple, fluide, WhatsApp et terrain.
-      </p>
+// ✅ PLACEBOTS (UNIQUE - PAS DE DOUBLONS)
+const PLACEBOTS = [
+  {
+    id: "pb-1",
+    nom_complet: "Moussa DIOP",
+    entreprise: "DIOP MAÇONNERIE",
+    ville: "Dakar",
+    specialite: "Maçonnerie",
+    annees_experience: 15,
+    photo_profil: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800",
+    tarif_journee: 18000,
+    description: "Maçon professionnel depuis 15 ans. Fondations, dalles, murs porteurs.",
+    nb_projets_realises: 120,
+    whatsapp: TEAM_WA,
+    slug: "moussa-diop-dakar"
+  },
+  {
+    id: "pb-2",
+    nom_complet: "Ibrahima FALL",
+    entreprise: "FALL PLOMBERIE",
+    ville: "Thiès",
+    specialite: "Plomberie",
+    annees_experience: 10,
+    photo_profil: "https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=800",
+    tarif_journee: 15000,
+    description: "Plombier qualifié. Installation sanitaire, réparation.",
+    nb_projets_realises: 85,
+    whatsapp: TEAM_WA,
+    slug: "ibrahima-fall-thies"
+  },
+  {
+    id: "pb-3",
+    nom_complet: "Abdoulaye SARR",
+    entreprise: "ÉLECTRICITÉ SARR",
+    ville: "Dakar",
+    specialite: "Électricité",
+    annees_experience: 12,
+    photo_profil: "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=800",
+    tarif_journee: 16000,
+    description: "Électricien certifié. Installation, mise aux normes.",
+    nb_projets_realises: 95,
+    whatsapp: TEAM_WA,
+    slug: "abdoulaye-sarr-dakar"
+  },
+  {
+    id: "pb-4",
+    nom_complet: "Mamadou BA",
+    entreprise: "MENUISERIE BA",
+    ville: "Saly",
+    specialite: "Menuiserie",
+    annees_experience: 18,
+    photo_profil: "https://images.unsplash.com/photo-1590846406792-0adc7f938f1d?w=800",
+    tarif_journee: 20000,
+    description: "Menuisier artisan. Fabrication sur mesure.",
+    nb_projets_realises: 150,
+    whatsapp: TEAM_WA,
+    slug: "mamadou-ba-saly"
+  },
+  {
+    id: "pb-5",
+    nom_complet: "Cheikh NDIAYE",
+    entreprise: "PEINTURE NDIAYE",
+    ville: "Mbour",
+    specialite: "Peinture",
+    annees_experience: 8,
+    photo_profil: "https://images.unsplash.com/photo-1562259949-e8e7689d7828?w=800",
+    tarif_journee: 12000,
+    description: "Peintre professionnel. Intérieur, extérieur, façades.",
+    nb_projets_realises: 70,
+    whatsapp: TEAM_WA,
+    slug: "cheikh-ndiaye-mbour"
+  }
+];
+
+// ✅ FETCH DB
+async function fetchArtisans(){
+  try {
+    const { data, error } = await sb
+      .from("digiy_build_artisans")
+      .select("*")
+      .eq("status", "actif")
+      .eq("is_public", true);
+
+    if (error) {
+      console.warn("Table pas encore créée:", error.message);
+      return [];
+    }
+    return data || [];
+  } catch(e) {
+    console.warn("Fetch error:", e);
+    return [];
+  }
+}
+
+// ✅ MERGE SANS DOUBLONS
+function mergeUnique(dbList, placebots){
+  const all = [...dbList];
+  const seenIds = new Set(dbList.map(x => x.id));
+  const seenSlugs = new Set(dbList.map(x => x.slug).filter(Boolean));
+  
+  for(const pb of placebots){
+    if(seenIds.has(pb.id)) continue;
+    if(pb.slug && seenSlugs.has(pb.slug)) continue;
+    all.push(pb);
+    seenIds.add(pb.id);
+    if(pb.slug) seenSlugs.add(pb.slug);
+  }
+  
+  return all;
+}
+
+// ✅ CARD
+function card(a){
+  const nom = a.nom_complet || "Artisan";
+  const ent = a.entreprise ? `<div class="entreprise">${a.entreprise}</div>` : '';
+  const ville = a.ville || "—";
+  const spec = a.specialite || "Multi";
+  const photo = a.photo_profil || "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800";
+  const tarif = a.tarif_journee ? `${a.tarif_journee.toLocaleString()} F/jour` : "Sur devis";
+  const exp = a.annees_experience ? `${a.annees_experience} ans` : "";
+  const proj = a.nb_projets_realises ? `${a.nb_projets_realises} projets` : "";
+  const wa = a.whatsapp || TEAM_WA;
+  
+  return `
+    <div class="card">
+      <div class="photo">
+        <img src="${photo}" alt="${nom}" loading="lazy">
+      </div>
+      <div class="name">${nom}</div>
+      ${ent}
+      <div class="type">${spec} • ${ville}</div>
+      <div class="badges">
+        <div class="badge">0% commission</div>
+        ${exp ? `<div class="badge">${exp}</div>` : ''}
+        ${proj ? `<div class="badge">${proj}</div>` : ''}
+      </div>
+      <div class="desc">${a.description || "Artisan professionnel. Contact direct."}</div>
+      <div style="color:var(--muted);font-size:14px;margin-bottom:10px">Tarif: ${tarif}</div>
+      <button class="btn btn-primary" onclick="devis('${a.id}','${nom.replace(/'/g,"\\'")}')">📋 Demander devis</button>
+      <button class="btn btn-wa" onclick="wa('${wa}','${nom.replace(/'/g,"\\'")}')">📲 WhatsApp</button>
     </div>
-    <div class="stats">
-      <span class="chip">👷 <b id="statPros">—</b> partenaires</span>
-      <span class="chip">📌 <b id="statTotal">—</b> demandes</span>
-      <span class="chip">✅ <b>Public safe</b></span>
-    </div>
-  </section>
+  `;
+}
 
-  <section class="cta-demandes">
-    <h3>📋 Consulter les demandes publiques</h3>
-    <p>Besoin de chantiers ? Consulte les annonces anonymisées. Contact direct ensuite.</p>
-    <a class="btn primary" href="./demandes.html">Voir toutes les demandes →</a>
-  </section>
+// ✅ ACTIONS
+function wa(phone, nom){
+  const msg = `Bonjour ${nom}, devis via DIGIY BUILD.`;
+  window.open(`https://wa.me/${phone.replace(/\D/g,'')}?text=${encodeURIComponent(msg)}`, '_blank');
+}
+window.wa = wa;
 
-  <section class="filters" id="partenaires">
-    <span class="label">Filtrer :</span>
+function devis(id, nom){
+  if(id.startsWith('pb-')){
+    wa(TEAM_WA, nom);
+  } else {
+    location.href = `./request.html?artisan_id=${id}&nom=${encodeURIComponent(nom)}`;
+  }
+}
+window.devis = devis;
 
-    <!-- Sectors -->
-    <button class="pill active" data-pro-sector="all">Tous secteurs</button>
-    <button class="pill" data-pro-sector="construction">Construction</button>
-    <button class="pill" data-pro-sector="plomberie">Plomberie</button>
-    <button class="pill" data-pro-sector="electricite">Électricité</button>
-    <button class="pill" data-pro-sector="multi">Multi</button>
+// ✅ RENDER
+async function render(){
+  grid.innerHTML = '<div class="loading">Chargement...</div>';
+  
+  const db = await fetchArtisans();
+  const artisans = mergeUnique(db, PLACEBOTS);
+  
+  if(!artisans.length){
+    grid.innerHTML = '<div class="loading">Aucun artisan disponible.</div>';
+    return;
+  }
+  
+  grid.innerHTML = artisans.map(a => card(a)).join('');
+}
 
-    <!-- Regions -->
-    <button class="pill active" data-pro-region="all">Toute zone</button>
-    <button class="pill" data-pro-region="dakar">Dakar</button>
-    <button class="pill" data-pro-region="petite-cote">Petite Côte</button>
-    <button class="pill" data-pro-region="thies">Thiès</button>
-    <button class="pill" data-pro-region="national">National</button>
-
-    <input class="search" id="qPro" placeholder="Rechercher un pro (ex: piscine, fuite, tableau…)" />
-  </section>
-
-  <div class="section-title">
-    <h3>👷 Partenaires vérifiés</h3>
-    <p>Contact direct • fiche complète • 0% commission</p>
-  </div>
-
-  <section class="partners-grid" id="prosGrid">
-    <div class="empty">Chargement des partenaires…</div>
-  </section>
-
-</main>
-
-<footer class="foot">
-  <p><strong>DIGIY BUILD</strong> — réseau d'artisans vérifiés • 0% commission</p>
-  <p>Partie de <strong>DIGIYLYFE ♾️</strong></p>
-</footer>
+render();
+</script>
 
 </body>
 </html>
