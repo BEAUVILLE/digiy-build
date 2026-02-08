@@ -1,75 +1,373 @@
-<!-- build.html -->
-<!DOCTYPE html>
+<!-- index.html -->
+<!doctype html>
 <html lang="fr">
 <head>
-  <meta charset="utf-8">
-  <title>DIGIY BUILD — Réseau BTP Sénégal • 0% commission</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Artisans BTP Sénégal - Direct propriétaire, 0% commission">
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+  <meta name="theme-color" content="#020617"/>
+  <title>DIGIYLYFE ♾️ — 0% commission • Paiement direct • Terrain ready</title>
+  <meta name="description" content="DIGIYLYFE : écosystème digital africain. 0% commission, paiement direct au pro. Modules : LOC, DRIVER, BUILD, MARKET, JOBS, PAY, EXPLORE..."/>
 
-  <meta name="theme-color" content="#020617">
+  <style>
+    :root{
+      --bg:#020617;
+      --card:#0b1220;
+      --card2:#0b1020;
+      --ink:#f9fafb;
+      --muted:rgba(248,250,252,.7);
+      --line:rgba(148,163,184,.22);
+      --gold:#facc15;
+      --orange:#f97316;
+      --green:#22c55e;
+      --shadow:0 22px 60px rgba(0,0,0,.6);
+      --r:20px;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
+      min-height:100vh;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial,sans-serif;
+      color:var(--ink);
+      background:
+        radial-gradient(1200px 600px at 10% 0%, rgba(249,115,22,.20), transparent 60%),
+        radial-gradient(900px 500px at 90% 10%, rgba(250,204,21,.14), transparent 55%),
+        radial-gradient(circle at top,#111827,#020617);
+      padding:18px;
+    }
+    .wrap{max-width:1200px;margin:0 auto}
+    .hero{
+      border:1px solid var(--line);
+      background:rgba(2,6,23,.45);
+      backdrop-filter: blur(10px);
+      border-radius:28px;
+      padding:26px 22px;
+      box-shadow:var(--shadow);
+      position:relative;
+      overflow:hidden;
+    }
+    .hero::before{
+      content:"";
+      position:absolute; inset:0;
+      background:linear-gradient(135deg, rgba(249,115,22,.20), rgba(250,204,21,.10), transparent 55%);
+      pointer-events:none;
+      opacity:.9;
+    }
+    .hero > *{position:relative}
+    .top{
+      display:flex; align-items:flex-start; justify-content:space-between;
+      gap:16px; flex-wrap:wrap;
+    }
+    .brand{
+      display:flex; flex-direction:column; gap:8px;
+    }
+    .brand h1{
+      font-size:34px;
+      line-height:1.05;
+      font-weight:950;
+      background:linear-gradient(135deg,var(--orange),var(--gold));
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+    }
+    .brand p{color:var(--muted); font-weight:650; line-height:1.4; max-width:720px}
+    .pillrow{display:flex; gap:10px; flex-wrap:wrap; margin-top:10px}
+    .pill{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:8px 12px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      background:rgba(11,18,32,.55);
+      font-size:12px;
+      font-weight:850;
+      letter-spacing:.2px;
+      color:#e5e7eb;
+    }
+    .pill .dot{width:8px;height:8px;border-radius:50%}
+    .dot.gold{background:var(--gold)}
+    .dot.green{background:var(--green)}
+    .dot.orange{background:var(--orange)}
+    .cta{
+      display:flex; gap:10px; flex-wrap:wrap; justify-content:flex-end;
+      align-items:center;
+    }
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      padding:12px 16px;
+      border-radius:14px;
+      font-weight:900;
+      border:1px solid var(--line);
+      text-decoration:none;
+      color:var(--ink);
+      background:rgba(148,163,184,.10);
+      transition:.18s;
+      user-select:none;
+    }
+    .btn:hover{transform:translateY(-1px); border-color:rgba(250,204,21,.55)}
+    .btn.primary{
+      background:linear-gradient(135deg,var(--orange),var(--gold));
+      color:#000;
+      border:none;
+      box-shadow:0 10px 24px rgba(249,115,22,.35);
+    }
+    .btn.primary:hover{box-shadow:0 14px 32px rgba(249,115,22,.55)}
+    .btn.wa{
+      background:#25d366;
+      border:none;
+      color:#fff;
+      box-shadow:0 10px 24px rgba(37,211,102,.25);
+    }
+    .btn.wa:hover{box-shadow:0 14px 32px rgba(37,211,102,.45); border-color:transparent}
+    .subline{
+      margin-top:14px;
+      color:rgba(203,213,225,.8);
+      font-size:13px;
+      font-weight:650;
+    }
 
-  <!-- Supabase -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    .section{
+      margin-top:18px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .section h2{
+      font-size:16px;
+      font-weight:950;
+      letter-spacing:.2px;
+      color:#e5e7eb;
+    }
+    .section .hint{
+      font-size:12px;
+      color:rgba(148,163,184,.9);
+      font-weight:750;
+    }
 
-  <!-- Styles -->
-  <link rel="stylesheet" href="./build.css?v=1">
+    .grid{
+      margin-top:14px;
+      display:grid;
+      grid-template-columns:repeat(3, minmax(0,1fr));
+      gap:14px;
+    }
+    @media(max-width:980px){ .grid{grid-template-columns:repeat(2, minmax(0,1fr))} }
+    @media(max-width:640px){ .grid{grid-template-columns:1fr} .brand h1{font-size:30px} }
+
+    .card{
+      border:1px solid var(--line);
+      border-radius:var(--r);
+      padding:16px;
+      background:linear-gradient(135deg, rgba(11,18,32,.9), rgba(2,6,23,.9));
+      box-shadow:0 18px 48px rgba(0,0,0,.45);
+      position:relative;
+      overflow:hidden;
+      transition:.18s;
+      min-height:160px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+    .card:hover{transform:translateY(-2px); border-color:rgba(250,204,21,.45)}
+    .card::before{
+      content:"";
+      position:absolute; left:0; top:0; right:0; height:4px;
+      background:linear-gradient(90deg,var(--orange),var(--gold));
+      opacity:.0;
+      transition:.18s;
+    }
+    .card:hover::before{opacity:1}
+    .tagrow{display:flex; gap:8px; flex-wrap:wrap}
+    .tag{
+      font-size:11px;
+      font-weight:950;
+      letter-spacing:.2px;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid rgba(148,163,184,.22);
+      background:rgba(148,163,184,.08);
+      color:#cbd5e1;
+      text-transform:uppercase;
+    }
+    .tag.gold{border-color:rgba(250,204,21,.35); color:#fde68a; background:rgba(250,204,21,.10)}
+    .tag.green{border-color:rgba(34,197,94,.35); color:#bbf7d0; background:rgba(34,197,94,.10)}
+    .tag.orange{border-color:rgba(249,115,22,.35); color:#fed7aa; background:rgba(249,115,22,.10)}
+    .title{
+      font-size:18px;
+      font-weight:950;
+      color:#f8fafc;
+      display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+    }
+    .desc{
+      color:rgba(203,213,225,.75);
+      font-size:13px;
+      font-weight:650;
+      line-height:1.5;
+    }
+    .card .go{
+      margin-top:auto;
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .mini{
+      flex:1;
+      min-width:140px;
+      padding:11px 12px;
+      border-radius:12px;
+      text-decoration:none;
+      font-weight:950;
+      border:1px solid rgba(148,163,184,.22);
+      background:rgba(148,163,184,.08);
+      color:#f8fafc;
+      display:flex; align-items:center; justify-content:center; gap:8px;
+      transition:.18s;
+    }
+    .mini:hover{transform:translateY(-1px); border-color:rgba(250,204,21,.5)}
+    .mini.primary{
+      border:none;
+      background:linear-gradient(135deg,var(--orange),var(--gold));
+      color:#000;
+      box-shadow:0 10px 24px rgba(249,115,22,.30);
+    }
+    .mini.primary:hover{box-shadow:0 14px 32px rgba(249,115,22,.50)}
+    footer{
+      margin-top:18px;
+      padding:14px 6px;
+      color:rgba(148,163,184,.85);
+      font-size:12px;
+      text-align:center;
+      font-weight:700;
+    }
+  </style>
 </head>
 
 <body>
-  <div class="container">
-    <!-- HEADER -->
-    <header class="header">
-      <h1>🏗️ DIGIY BUILD</h1>
-      <p>Réseau BTP Sénégal • Direct artisan • 0% commission</p>
-      <p class="zones">Dakar • Thiès • Saly • Mbour • Touba</p>
+  <div class="wrap">
+    <section class="hero">
+      <div class="top">
+        <div class="brand">
+          <h1>DIGIYLYFE ♾️</h1>
+          <p>
+            0% commission • Paiement direct • Outils simples pour le terrain.
+            Ici c’est la vitrine : tu choisis un module, tu vas droit au but.
+          </p>
 
-      <!-- CTA BUTTONS -->
-      <div class="header-cta">
-        <a href="./build-gen.html" class="cta-btn">🏗️ Créer ma fiche artisan</a>
-        <a href="https://wa.me/221771342889" class="cta-btn secondary" target="_blank" rel="noopener">
-          📲 Parler à l'équipe DIGIY
-        </a>
-      </div>
+          <div class="pillrow">
+            <span class="pill"><span class="dot gold"></span> 0% commission</span>
+            <span class="pill"><span class="dot green"></span> Paiement direct au pro</span>
+            <span class="pill"><span class="dot orange"></span> Sénégal ready</span>
+          </div>
 
-      <!-- BARRE OUTILS -->
-      <div class="tools">
-        <div class="tool">
-          <label for="q">Recherche</label>
-          <input id="q" type="search" placeholder="Nom, ville, spécialité, entreprise…" autocomplete="off">
+          <div class="subline">Dakar • Thiès • Saly • Mbour • Touba — et on étend, pierre par pierre.</div>
         </div>
 
-        <div class="tool">
-          <label for="ville">Ville</label>
-          <select id="ville">
-            <option value="">Toutes</option>
-          </select>
-        </div>
-
-        <div class="tool">
-          <label for="spec">Spécialité</label>
-          <select id="spec">
-            <option value="">Toutes</option>
-          </select>
-        </div>
-
-        <div class="tool tool-actions">
-          <button id="reset" class="tool-btn" type="button">Réinitialiser</button>
-          <button id="toggleDebug" class="tool-btn ghost" type="button">Debug</button>
+        <div class="cta">
+          <a class="btn primary" href="./build.html">🏗️ Ouvrir DIGIY BUILD</a>
+          <a class="btn wa" href="https://wa.me/221771342889" target="_blank" rel="noopener">📲 WhatsApp équipe</a>
         </div>
       </div>
 
-      <div id="stats" class="stats"></div>
-    </header>
+      <div class="section">
+        <h2>Modules disponibles</h2>
+        <div class="hint">Clique = tu entres. Simple.</div>
+      </div>
 
-    <!-- DEBUG INFO -->
-    <div id="debug" class="debug" hidden></div>
+      <div class="grid">
+        <!-- DIGIY BUILD -->
+        <article class="card">
+          <div class="tagrow">
+            <span class="tag green">public</span>
+            <span class="tag gold">0% commission</span>
+          </div>
+          <div class="title">🏗️ DIGIY BUILD</div>
+          <div class="desc">Réseau artisans BTP. Voir fiches, demander devis, WhatsApp direct.</div>
+          <div class="go">
+            <a class="mini primary" href="./build.html">Ouvrir</a>
+            <a class="mini" href="./build-gen.html">Créer ma fiche</a>
+          </div>
+        </article>
 
-    <!-- GRID -->
-    <main id="grid" class="grid"></main>
+        <!-- DIGIY LOC -->
+        <article class="card">
+          <div class="tagrow">
+            <span class="tag orange">pro</span>
+            <span class="tag gold">direct</span>
+          </div>
+          <div class="title">🏠 DIGIY LOC</div>
+          <div class="desc">Locations & hébergements. Planning, demandes, WhatsApp, 0% commission.</div>
+          <div class="go">
+            <a class="mini" href="./loc.html">Ouvrir</a>
+            <a class="mini" href="https://wa.me/221771342889" target="_blank" rel="noopener">Accès / Support</a>
+          </div>
+        </article>
+
+        <!-- DIGIY DRIVER -->
+        <article class="card">
+          <div class="tagrow">
+            <span class="tag orange">pro</span>
+            <span class="tag gold">terrain</span>
+          </div>
+          <div class="title">🚗 DIGIY DRIVER</div>
+          <div class="desc">Chauffeurs & courses. Contact direct, pas d’intermédiaire.</div>
+          <div class="go">
+            <a class="mini" href="./driver.html">Ouvrir</a>
+            <a class="mini" href="https://wa.me/221771342889" target="_blank" rel="noopener">Accès / Support</a>
+          </div>
+        </article>
+
+        <!-- DIGIY MARKET -->
+        <article class="card">
+          <div class="tagrow">
+            <span class="tag green">public</span>
+            <span class="tag gold">0% commission</span>
+          </div>
+          <div class="title">🛒 DIGIY MARKET</div>
+          <div class="desc">Marketplace locale. Deals, boutiques, produits du coin. Paiement direct.</div>
+          <div class="go">
+            <a class="mini" href="./market.html">Ouvrir</a>
+            <a class="mini" href="https://wa.me/221771342889" target="_blank" rel="noopener">Rejoindre</a>
+          </div>
+        </article>
+
+        <!-- DIGIY JOBS -->
+        <article class="card">
+          <div class="tagrow">
+            <span class="tag orange">pro</span>
+            <span class="tag">accompagnement</span>
+          </div>
+          <div class="title">🧰 DIGIY JOBS</div>
+          <div class="desc">Emploi & dossiers. Accompagnement bureau (Dakar/France) selon le cas.</div>
+          <div class="go">
+            <a class="mini" href="./jobs.html">Ouvrir</a>
+            <a class="mini" href="https://wa.me/221771342889" target="_blank" rel="noopener">Dossier / Info</a>
+          </div>
+        </article>
+
+        <!-- DIGIY EXPLORE -->
+        <article class="card">
+          <div class="tagrow">
+            <span class="tag green">public</span>
+            <span class="tag">tourisme</span>
+          </div>
+          <div class="title">🧭 DIGIY EXPLORE</div>
+          <div class="desc">Spots, activités, bonnes adresses. Le terrain parle.</div>
+          <div class="go">
+            <a class="mini" href="./explore.html">Ouvrir</a>
+            <a class="mini" href="https://wa.me/221771342889" target="_blank" rel="noopener">Ajouter un spot</a>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <footer>
+      DIGIYLYFE ♾️ — Outils simples • Puissants • Sécurisés — 0% commission • Paiement direct au pro.
+    </footer>
   </div>
 
-  <!-- JS -->
-  <script src="./build.js?v=1" defer></script>
+  <script>
+    // Mini confort: si tu veux forcer WhatsApp en 1 clic sur mobile, tu peux le faire ici plus tard.
+  </script>
 </body>
 </html>
