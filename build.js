@@ -1,270 +1,374 @@
-(() => {
-  "use strict";
+// build.js
+/* =============================================
+   DIGIY BUILD — Clean Pack (CSS/JS séparés)
+============================================= */
 
-  /* =============================
-     SUPABASE
-  ============================= */
-  const SUPABASE_URL = "https://wesqmwjjtsefyjnluosj.supabase.co";
-  const SUPABASE_ANON_KEY =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indlc3Ftd2pqdHNlZnlqbmx1b3NqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUxNzg4ODIsImV4cCI6MjA4MDc1NDg4Mn0.dZfYOc2iL2_wRYL3zExZFsFSBK6AbMeOid2LrIjcTdA";
+/* ✅ MODE */
+const MODE = {
+  debug: false,        // true => affiche le bloc debug
+  showExamples: true,  // si DB vide, on garde les exemples visuels
+  limit: 9999
+};
 
-  const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+/* ✅ CONFIG SUPABASE */
+const SUPABASE_URL = "https://wesqmwjjtsefyjnluosj.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indlc3Ftd2pqdHNlZnlqbmx1b3NqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUxNzg4ODIsImV4cCI6MjA4MDc1NDg4Mn0.dZfYOc2iL2_wRYL3zExZFsFSBK6AbMeOid2LrIjcTdA";
 
-  /* =============================
-     HELPERS
-  ============================= */
-  const $ = (id) => document.getElementById(id);
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-  function norm(v){ return (v ?? "").toString().toLowerCase().trim(); }
+/* ✅ DOM */
+const grid = document.getElementById("grid");
+const debugEl = document.getElementById("debug");
+const statsEl = document.getElementById("stats");
 
-  function escapeHtml(str){
-    return String(str||"")
-      .replaceAll("&","&amp;")
-      .replaceAll("<","&lt;")
-      .replaceAll(">","&gt;")
-      .replaceAll('"',"&quot;")
-      .replaceAll("'","&#039;");
+const qEl = document.getElementById("q");
+const villeEl = document.getElementById("ville");
+const specEl = document.getElementById("spec");
+const resetEl = document.getElementById("reset");
+const toggleDebugEl = document.getElementById("toggleDebug");
+
+const TEAM_WA = "+221771342889";
+
+/* =============================================
+   PLACEBOTS (EXEMPLES VISUELS)
+============================================= */
+const PLACEBOTS = [
+  {
+    id: "example-1",
+    nom_complet: "Exemple: Moussa DIOP",
+    entreprise: "EXEMPLE MAÇONNERIE",
+    ville: "Dakar",
+    specialite: "Maçonnerie",
+    annees_experience: 15,
+    photo_profil: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800",
+    tarif_journee: 18000,
+    description: "Ceci est un exemple visuel. Les vrais artisans ont un badge vert.",
+    nb_projets_realises: 120,
+    whatsapp: TEAM_WA,
+    slug: "exemple-moussa-diop",
+    _isExample: true
+  },
+  {
+    id: "example-2",
+    nom_complet: "Exemple: Ibrahima FALL",
+    entreprise: "EXEMPLE PLOMBERIE",
+    ville: "Thiès",
+    specialite: "Plomberie",
+    annees_experience: 10,
+    photo_profil: "https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=800",
+    tarif_journee: 15000,
+    description: "Ceci est un exemple visuel. Les vrais artisans ont un badge vert.",
+    nb_projets_realises: 85,
+    whatsapp: TEAM_WA,
+    slug: "exemple-ibrahima-fall",
+    _isExample: true
+  },
+  {
+    id: "example-3",
+    nom_complet: "Exemple: Abdoulaye SARR",
+    entreprise: "EXEMPLE ÉLECTRICITÉ",
+    ville: "Saly",
+    specialite: "Électricité",
+    annees_experience: 12,
+    photo_profil: "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=800",
+    tarif_journee: 16000,
+    description: "Ceci est un exemple visuel. Les vrais artisans ont un badge vert.",
+    nb_projets_realises: 95,
+    whatsapp: TEAM_WA,
+    slug: "exemple-abdoulaye-sarr",
+    _isExample: true
   }
+];
 
-  function cleanPhone(p){
-    return String(p||"").replace(/\s+/g,"").replace(/^\+/,"");
+/* =============================================
+   LIENS WORDPRESS DES FICHES
+============================================= */
+const FICHES_WORDPRESS = {
+  "elage-plombier-saly": "https://orange-pig-270004.hostingersite.com/partenaires-helage-plombier/",
+  "zal-kourant-electricien-saly": "https://orange-pig-270004.hostingersite.com/partenaires-zal-kourant/",
+  "mbaye-diouf-entrepreneur-saly": "https://orange-pig-270004.hostingersite.com/partenaires-mbaye/"
+};
+
+/* =============================================
+   UTILS
+============================================= */
+function escHtml(s){
+  return String(s ?? "")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+
+function onlyDigitsPhone(phone){
+  return String(phone ?? "").replace(/\D/g,"");
+}
+
+function normalizeText(s){
+  return String(s ?? "")
+    .toLowerCase()
+    .normalize("NFD").replace(/[\u0300-\u036f]/g,""); // retire accents
+}
+
+function moneyFCFA(n){
+  try{
+    return `${Number(n).toLocaleString("fr-FR")} FCFA/jour`;
+  }catch{
+    return "Sur devis";
   }
+}
 
-  function waLink(phone, msg){
-    const ph = cleanPhone(phone);
-    const txt = encodeURIComponent(msg || "");
-    return "https://wa.me/" + ph + (txt ? ("?text=" + txt) : "");
+function uniqSorted(arr){
+  return [...new Set(arr.filter(Boolean))].sort((a,b)=>a.localeCompare(b, "fr"));
+}
+
+function setDebug(html){
+  if(!MODE.debug){
+    debugEl.hidden = true;
+    return;
   }
+  debugEl.hidden = false;
+  debugEl.innerHTML = html;
+}
 
-  function sectorLabel(s){
-    const x = norm(s);
-    if(x==="construction") return "🏗️ Construction";
-    if(x==="plomberie") return "💧 Plomberie";
-    if(x==="electricite") return "⚡ Électricité";
-    return "🧰 Multi";
-  }
+/* =============================================
+   FETCH DATABASE
+============================================= */
+async function fetchArtisans(){
+  try{
+    setDebug("🔍 Fetching artisans from DB…");
 
-  function regionLabel(r){
-    const x = norm(r);
-    if(x==="dakar") return "🏙️ Dakar";
-    if(x==="petite-cote") return "🏖️ Petite Côte";
-    if(x==="thies") return "🌿 Thiès";
-    return "🇸🇳 National";
-  }
+    const { data, error } = await sb
+      .from("digiy_build_artisans")
+      .select("*")
+      .limit(MODE.limit);
 
-  // 🔥 IMPORTANT: si p.sector est souvent NULL, on le déduit du texte/tags
-  function inferSector(p){
-    const s = norm(p.sector);
-    if(s) return s;
-
-    const bag = [
-      p.trade, p.bio, p.display_name,
-      ...(Array.isArray(p.tags) ? p.tags : [])
-    ].map(x => norm(x)).join(" ");
-
-    // plomberie
-    if(
-      bag.includes("plomb") || bag.includes("fuite") || bag.includes("wc") ||
-      bag.includes("douche") || bag.includes("robinet") || bag.includes("chauffe")
-    ) return "plomberie";
-
-    // electricite
-    if(
-      bag.includes("elect") || bag.includes("élect") || bag.includes("tableau") ||
-      bag.includes("cabl") || bag.includes("câbl") || bag.includes("disjonct")
-    ) return "electricite";
-
-    // construction
-    if(
-      bag.includes("maçon") || bag.includes("macon") || bag.includes("beton") ||
-      bag.includes("béton") || bag.includes("carrel") || bag.includes("peint") ||
-      bag.includes("toit") || bag.includes("charpent") || bag.includes("chantier")
-    ) return "construction";
-
-    return "multi";
-  }
-
-  function safeText(p){
-    return [
-      p.display_name, p.trade, p.sector, p.region, p.city, p.bio,
-      ...(Array.isArray(p.tags) ? p.tags : [])
-    ].filter(Boolean).join(" ");
-  }
-
-  /* =============================
-     FILTER STATE
-  ============================= */
-  let proSector = "all";
-  let proRegion = "all";
-  let qPro = "";
-
-  /* =============================
-     RENDER
-  ============================= */
-  function buildCard(p){
-    const name = escapeHtml(p.display_name || "Partenaire");
-    const city = escapeHtml(p.city || "");
-    const trade = escapeHtml(p.trade || "");
-    const bio = escapeHtml(p.bio || "");
-
-    const sector = inferSector(p);
-    const region = norm(p.region || "national");
-
-    const badge = escapeHtml(p.badge || "");
-    const photo = p.photo_url || "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1200&q=80";
-    const whatsapp = p.whatsapp || p.phone || "";
-    const profileUrl = p.profile_url || "";
-
-    const fallbackPay = "https://beauville.github.io/commencer-a-payer/?module=BUILD&offre=BUILD";
-    const viewHref = profileUrl ? profileUrl : fallbackPay;
-
-    const tags = Array.isArray(p.tags) ? p.tags.slice(0,6) : [];
-    const kw = norm(safeText(p));
-
-    const waMsg = `Salam ${p.display_name || "frérot"}, je viens de DIGIY BUILD. Je veux parler d’un chantier.`;
-    const canCall = !!(p.phone || p.whatsapp);
-
-    return `
-    <article class="p-card"
-      data-cat="${escapeHtml(sector)}"
-      data-region="${escapeHtml(region)}"
-      data-keywords="${escapeHtml(kw)}">
-      <div class="p-thumb">
-        ${badge ? `<div class="p-badge">${badge}</div>` : `<div class="p-badge">✅ Partenaire BUILD</div>`}
-        <img src="${escapeHtml(photo)}" alt="${name}" loading="lazy" decoding="async"/>
-      </div>
-      <div class="p-body">
-        <div class="p-title">👷 ${name}</div>
-        <div class="p-meta">${city ? `📍 ${city}` : `📍 ${regionLabel(region)}`}</div>
-        <div class="p-desc">${trade || bio || "Artisan partenaire DIGIY BUILD — contact direct."}</div>
-
-        <div class="p-tags">
-          <span class="tag trade">${sectorLabel(sector)}</span>
-          <span class="tag zone">${regionLabel(region)}</span>
-          ${tags.map(t => `<span class="tag">${escapeHtml(String(t))}</span>`).join("")}
-        </div>
-      </div>
-      <div class="p-foot">
-        ${
-          whatsapp
-            ? `<a class="btn whatsapp" href="${waLink(whatsapp, waMsg)}" target="_blank" rel="noopener">💬 WhatsApp</a>`
-            : `<a class="btn whatsapp" href="${fallbackPay}" target="_blank" rel="noopener">💬 WhatsApp</a>`
-        }
-        <a class="btn view" href="${escapeHtml(viewHref)}" target="_blank" rel="noopener">🔎 Voir la fiche</a>
-        ${canCall ? `<a class="btn call" href="tel:+${escapeHtml(cleanPhone(p.phone || p.whatsapp))}">📞 Appeler</a>` : ``}
-      </div>
-    </article>`;
-  }
-
-  function filterPros(){
-    const cards = Array.from(document.querySelectorAll(".p-card"));
-    const qq = norm(qPro);
-    let visible = 0;
-
-    cards.forEach(card => {
-      const cat = norm(card.dataset.cat);
-      const reg = norm(card.dataset.region);
-      const txt = norm(card.dataset.keywords || "") + " " + norm(card.innerText || "");
-
-      const okS = (proSector === "all" || cat === proSector);
-      const okR = (proRegion === "all" || reg === proRegion);
-      const okQ = (!qq || txt.includes(qq));
-
-      const show = (okS && okR && okQ);
-      card.style.display = show ? "block" : "none";
-      if(show) visible++;
-    });
-
-    if($("statPros")) $("statPros").textContent = String(visible);
-  }
-
-  /* =============================
-     EVENTS
-  ============================= */
-  function bindEvents(){
-    document.querySelectorAll("[data-pro-sector]").forEach(btn => {
-      btn.addEventListener("click", () => {
-        document.querySelectorAll("[data-pro-sector]").forEach(x => x.classList.remove("active"));
-        btn.classList.add("active");
-        proSector = btn.dataset.proSector;
-        filterPros();
-      });
-    });
-
-    document.querySelectorAll("[data-pro-region]").forEach(btn => {
-      btn.addEventListener("click", () => {
-        document.querySelectorAll("[data-pro-region]").forEach(x => x.classList.remove("active"));
-        btn.classList.add("active");
-        proRegion = btn.dataset.proRegion;
-        filterPros();
-      });
-    });
-
-    const q = $("qPro");
-    if(q){
-      q.addEventListener("input", (e) => {
-        qPro = e.target.value || "";
-        filterPros();
-      });
+    if(error){
+      setDebug(`❌ Erreur DB: ${escHtml(error.message)}`);
+      return [];
     }
+
+    const list = Array.isArray(data) ? data : [];
+    setDebug(`
+      ✅ Base de données connectée<br>
+      📊 Artisans en DB: <strong>${list.length}</strong><br>
+      ${list.length ? `📋 Noms: ${escHtml(list.map(a => a.nom_complet).join(", "))}` : "⚠️ Aucun artisan en DB"}
+    `);
+
+    return list;
+  }catch(e){
+    setDebug(`❌ Erreur connexion: ${escHtml(e.message)}`);
+    return [];
   }
+}
 
-  /* =============================
-     LOAD PROS (SUPABASE)
-  ============================= */
-  async function loadPros(){
-    const grid = $("prosGrid");
-    if(!grid) return;
+/* =============================================
+   CARD TEMPLATE
+============================================= */
+function createCard(artisan){
+  const isExample = artisan._isExample === true;
 
-    try{
-      grid.innerHTML = `<div class="empty">Chargement des partenaires…</div>`;
+  const nom = artisan.nom_complet || "Artisan";
+  const entreprise = artisan.entreprise || "";
+  const ville = artisan.ville || "—";
+  const spec = artisan.specialite || "Multi-services";
+  const photo = artisan.photo_profil || "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800";
+  const tarif = artisan.tarif_journee ? moneyFCFA(artisan.tarif_journee) : "Sur devis";
+  const desc = artisan.description || "Artisan professionnel. Contact direct.";
+  const wa = artisan.whatsapp || artisan.phone || TEAM_WA;
 
-      const { data, error } = await sb
-        .from("digiy_build_public_profiles")
-        .select("*")
-        .eq("is_active", true)
-        .eq("is_published", true)
-        .order("priority", { ascending: true });
+  const exp = artisan.annees_experience ? `${artisan.annees_experience} ans` : "";
+  const projets = artisan.nb_projets_realises ? `${artisan.nb_projets_realises} projets` : "";
 
-      if(error) throw error;
+  const cardClass = isExample ? "card example" : "card verified";
 
-      const rows = Array.isArray(data) ? data : [];
-      if(!rows.length){
-        grid.innerHTML = `<div class="empty">Aucun partenaire pour le moment. Reviens bientôt ✨</div>`;
-        if($("statPros")) $("statPros").textContent = "0";
-        return;
-      }
+  const badges = isExample
+    ? `
+      <div class="badge badge-example">📸 EXEMPLE</div>
+      <div class="badge badge-commission">0% commission</div>
+    `
+    : `
+      <div class="badge badge-verified">✅ VÉRIFIÉ</div>
+      <div class="badge badge-commission">0% commission</div>
+      ${exp ? `<div class="badge badge-info">${escHtml(exp)}</div>` : ""}
+      ${projets ? `<div class="badge badge-info">${escHtml(projets)}</div>` : ""}
+    `;
 
-      grid.innerHTML = rows.map(buildCard).join("");
-      if($("statPros")) $("statPros").textContent = String(rows.length);
-      filterPros();
+  // ✅ BOUTON FICHE OU DEVIS
+  const ficheUrl = FICHES_WORDPRESS[artisan.slug] || artisan.public_url || null;
 
-    }catch(e){
-      console.warn("Erreur pros:", e?.message || e);
-      grid.innerHTML = `<div class="empty">⚠️ Impossible de charger les partenaires pour l’instant.</div>`;
-      if($("statPros")) $("statPros").textContent = "—";
-    }
+  const safeNom = escHtml(nom);
+  const safeEntreprise = escHtml(entreprise);
+  const safeVille = escHtml(ville);
+  const safeSpec = escHtml(spec);
+  const safeDesc = escHtml(desc);
+
+  const primaryButton = (ficheUrl && !isExample)
+    ? `<a href="${ficheUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+         👁️ Voir la fiche complète
+       </a>`
+    : `<button class="btn btn-primary" data-action="devis" data-id="${escHtml(artisan.id)}" data-nom="${safeNom}">
+         📋 Demander un devis
+       </button>`;
+
+  return `
+    <article class="${cardClass}">
+      <div class="photo">
+        <img src="${photo}" alt="${safeNom}" loading="lazy"
+             onerror="this.src='https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800'">
+      </div>
+
+      <div class="name">${safeNom}</div>
+      ${entreprise ? `<div class="entreprise">${safeEntreprise}</div>` : ""}
+      <div class="type">${safeSpec} • ${safeVille}</div>
+
+      <div class="badges">${badges}</div>
+
+      <div class="desc">${safeDesc}</div>
+      <div class="tarif">Tarif: ${escHtml(tarif)}</div>
+
+      <div class="actions">
+        ${primaryButton}
+        <button class="btn btn-wa" data-action="wa" data-phone="${escHtml(wa)}" data-nom="${safeNom}">
+          📲 WhatsApp direct
+        </button>
+      </div>
+    </article>
+  `;
+}
+
+/* =============================================
+   ACTIONS
+============================================= */
+function contacterWA(phone, nom){
+  const msg = `Bonjour ${nom}, je souhaite un devis pour des travaux via DIGIY BUILD.`;
+  const digits = onlyDigitsPhone(phone);
+  const url = `https://wa.me/${digits}?text=${encodeURIComponent(msg)}`;
+  window.open(url, "_blank", "noopener,noreferrer");
+}
+
+function demanderDevis(id, nom){
+  if(String(id).startsWith("example-")){
+    contacterWA(TEAM_WA, "l'équipe DIGIY");
+    return;
   }
+  location.href = `./request.html?artisan_id=${encodeURIComponent(id)}&nom=${encodeURIComponent(nom)}`;
+}
 
-  /* =============================
-     STATS DEMANDES (optionnel)
-  ============================= */
-  async function loadStatsSafe(){
-    try{
-      const { data, error } = await sb.rpc("digiy_build_public_list_v1", { p_limit: 500 });
-      if(error) throw error;
-      if(Array.isArray(data) && $("statTotal")){
-        $("statTotal").textContent = String(data.length);
-      }
-    }catch(e){
-      console.warn("Stats demandes indisponibles:", e?.message || e);
-      // on laisse —
-    }
+/* Délégation d’événements (plus clean que onclick inline) */
+document.addEventListener("click", (e) => {
+  const btn = e.target.closest("[data-action]");
+  if(!btn) return;
+
+  const action = btn.getAttribute("data-action");
+  if(action === "wa"){
+    const phone = btn.getAttribute("data-phone");
+    const nom = btn.getAttribute("data-nom");
+    contacterWA(phone, nom);
   }
+  if(action === "devis"){
+    const id = btn.getAttribute("data-id");
+    const nom = btn.getAttribute("data-nom");
+    demanderDevis(id, nom);
+  }
+});
 
-  /* INIT */
-  bindEvents();
-  loadPros();
-  loadStatsSafe();
+/* =============================================
+   FILTERS
+============================================= */
+let ALL = [];
+let DB_COUNT = 0;
+let EX_COUNT = 0;
 
-})();
+function computeOptions(list){
+  const villes = uniqSorted(list.map(a => a.ville).filter(v => v && !String(v).startsWith("—")));
+  const specs  = uniqSorted(list.map(a => a.specialite));
+
+  // Fill selects
+  villeEl.innerHTML = `<option value="">Toutes</option>` + villes.map(v => `<option value="${escHtml(v)}">${escHtml(v)}</option>`).join("");
+  specEl.innerHTML  = `<option value="">Toutes</option>` + specs.map(s => `<option value="${escHtml(s)}">${escHtml(s)}</option>`).join("");
+}
+
+function applyFilters(){
+  const q = normalizeText(qEl.value);
+  const v = villeEl.value;
+  const s = specEl.value;
+
+  const filtered = ALL.filter(a => {
+    if(v && String(a.ville || "") !== v) return false;
+    if(s && String(a.specialite || "") !== s) return false;
+
+    if(!q) return true;
+    const hay = normalizeText(
+      `${a.nom_complet||""} ${a.entreprise||""} ${a.ville||""} ${a.specialite||""} ${a.description||""}`
+    );
+    return hay.includes(q);
+  });
+
+  renderGrid(filtered);
+  renderStats(filtered.length);
+}
+
+function renderStats(currentCount){
+  const txt = `${currentCount} affichés • ${DB_COUNT} vérifiés • ${EX_COUNT} exemples`;
+  statsEl.textContent = txt;
+}
+
+/* =============================================
+   RENDER
+============================================= */
+function renderGrid(list){
+  if(!list.length){
+    grid.innerHTML = `<div class="loading">❌ Aucun artisan ne correspond</div>`;
+    return;
+  }
+  grid.innerHTML = list.map(a => createCard(a)).join("");
+}
+
+async function init(){
+  grid.innerHTML = `<div class="loading">⏳ Chargement des artisans…</div>`;
+
+  // Toggle debug
+  toggleDebugEl.addEventListener("click", () => {
+    MODE.debug = !MODE.debug;
+    debugEl.hidden = !MODE.debug;
+    if(!MODE.debug) debugEl.innerHTML = "";
+  });
+
+  // Reset
+  resetEl.addEventListener("click", () => {
+    qEl.value = "";
+    villeEl.value = "";
+    specEl.value = "";
+    applyFilters();
+  });
+
+  // Listen filters
+  qEl.addEventListener("input", applyFilters);
+  villeEl.addEventListener("change", applyFilters);
+  specEl.addEventListener("change", applyFilters);
+
+  const dbArtisans = await fetchArtisans();
+  DB_COUNT = dbArtisans.length;
+
+  const examples = MODE.showExamples ? PLACEBOTS : [];
+  EX_COUNT = examples.length;
+
+  ALL = [...dbArtisans, ...examples];
+
+  // Options calculées sur tout (DB + exemples) pour avoir Dakar/Thiès/Saly etc direct
+  computeOptions(ALL);
+
+  // First render
+  renderGrid(ALL);
+  renderStats(ALL.length);
+
+  // Si debug, on complète une ligne utile
+  if(MODE.debug){
+    debugEl.hidden = false;
+    debugEl.innerHTML += `<br>✅ Total affiché: <strong>${ALL.length}</strong> (${DB_COUNT} vérifiés + ${EX_COUNT} exemples)`;
+  }
+}
+
+init();
