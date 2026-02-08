@@ -761,4 +761,59 @@
        RENDER
     ========================= */
     async function render(){
-      grid.innerHTML
+      grid.innerHTML = `<div class="bigmsg">Chargement des artisans…</div>`;
+
+      const artisansRes = await fetchArtisans();
+
+      if (!artisansRes.ok){
+        grid.innerHTML = `
+          <div class="bigmsg">
+            ❌ Erreur Supabase : <b>${escapeHtml(artisansRes.error || "inconnue")}</b><br>
+            👉 Si tu vois "Invalid API key", c'est une clé/URL qui ne matchent pas.
+          </div>
+        `;
+        return;
+      }
+
+      // ✅ MERGE DB + PLACEBOTS (minimum 10 artisans)
+      let artisans = artisansRes.rows || [];
+      artisans = mergeArtisansNoDup(artisans, PLACEBOTS_BUILD, 10);
+
+      // ✅ FILTRES
+      const filtered = applyFilters(artisans);
+
+      if (!filtered.length){
+        grid.innerHTML = `
+          <div class="bigmsg">
+            Aucun résultat avec ces filtres. Clique <b>Reset</b> puis relance.
+          </div>
+        `;
+        return;
+      }
+
+      grid.innerHTML = filtered.map(a => cardTemplate(a)).join("");
+    }
+
+    /* =========================
+       EVENTS
+    ========================= */
+    document.getElementById("btnSearch").addEventListener("click", render);
+    document.getElementById("btnReset").addEventListener("click", ()=>{
+      document.getElementById("q").value = "";
+      document.getElementById("specialite").value = "";
+      render();
+    });
+
+    document.getElementById("q").addEventListener("keydown",(e)=>{
+      if (e.key === "Enter") render();
+    });
+
+    document.getElementById("specialite").addEventListener("change", render);
+
+    /* =========================
+       INIT
+    ========================= */
+    render();
+  </script>
+</body>
+</html>
