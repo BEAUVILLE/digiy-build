@@ -1,433 +1,160 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="utf-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
-  <meta name="theme-color" content="#061b14"/>
-  <title>DIGIY BUILD PRO — Générateur de fiche</title>
+<meta charset="utf-8">
+<title>🏗️ GÉNÉRATEUR DIGIY BUILD - Créer ta fiche artisan</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <!-- Supabase + Guard -->
-  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="./guard.js?v=build-pro-gen-v1"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="./guard.js?v=gen-build"></script>
 
-  <style>
-    :root{
-      --bg:#061b14; --card:#0b2a1f; --line:rgba(255,255,255,.14);
-      --text:#eafff1; --muted:rgba(234,255,241,.72);
-      --gold:#facc15; --green:#22c55e; --bad:#fb7185;
-      --r:18px; --shadow:0 18px 55px rgba(0,0,0,.45);
-    }
-    *{box-sizing:border-box}
-    body{
-      margin:0; min-height:100vh;
-      font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;
-      background:
-        radial-gradient(900px 500px at 10% -10%, rgba(34,197,94,.20), transparent 60%),
-        radial-gradient(900px 500px at 110% 0%, rgba(250,204,21,.14), transparent 55%),
-        var(--bg);
-      color:var(--text);
-      padding:18px;
-    }
-    #guard_status{
-      position: fixed;
-      top: 16px; right: 16px;
-      padding: 10px 14px;
-      background: rgba(0,0,0,.88);
-      color:#fff;
-      border-radius: 12px;
-      font-weight: 900;
-      font-size: 13px;
-      z-index: 9999;
-      border: 1px solid rgba(255,255,255,.10);
-    }
-    .app{display:none;}
-    html.access-ok .app{display:block;}
-
-    .wrap{max-width:860px; margin:0 auto; padding:10px 0 44px;}
-    .card{
-      background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.03));
-      border:1px solid var(--line);
-      border-radius:var(--r);
-      padding:20px;
-      box-shadow:var(--shadow);
-    }
-    h1{
-      margin:0 0 6px;
-      font-size:28px;
-      letter-spacing:.2px;
-      background:linear-gradient(135deg, var(--green), var(--gold));
-      -webkit-background-clip:text;
-      -webkit-text-fill-color:transparent;
-      font-weight:1000;
-    }
-    p{margin:0 0 14px; color:var(--muted); line-height:1.55; font-size:15px; font-weight:850;}
-    .row{display:grid; grid-template-columns:1fr 1fr; gap:12px;}
-    @media(max-width:720px){ .row{grid-template-columns:1fr;} }
-    label{display:block; font-size:12px; font-weight:950; color:rgba(234,255,241,.85); margin:8px 0 6px;}
-    input, textarea, select{
-      width:100%;
-      border-radius:14px;
-      border:1px solid rgba(255,255,255,.14);
-      background:rgba(0,0,0,.18);
-      padding:12px 12px;
-      color:var(--text);
-      outline:none;
-      font-weight:900;
-    }
-    textarea{min-height:90px; resize:vertical; font-weight:850;}
-    input:focus, textarea:focus, select:focus{border-color:rgba(250,204,21,.40); box-shadow:0 0 0 3px rgba(250,204,21,.10);}
-    .hr{height:1px; background:rgba(255,255,255,.12); margin:16px 0;}
-    .actions{display:flex; gap:10px; flex-wrap:wrap;}
-    .btn{
-      display:inline-flex; align-items:center; justify-content:center; gap:10px;
-      padding:13px 16px;
-      border-radius:14px;
-      font-weight:1000;
-      text-decoration:none;
-      border:0;
-      cursor:pointer;
-      font-size:15px;
-      transition:all .2s;
-      flex:1;
-      min-width:220px;
-    }
-    .primary{background:linear-gradient(135deg, rgba(34,197,94,.95), rgba(16,185,129,.85)); color:#042012;}
-    .secondary{background:rgba(250,204,21,.14); border:1px solid rgba(250,204,21,.25); color:var(--text);}
-    .ghost{background:rgba(255,255,255,.08); border:1px solid var(--line); color:var(--text);}
-    .primary:hover{transform:translateY(-2px);}
-    .note{
-      margin-top:14px; font-size:13px; color:rgba(234,255,241,.76);
-      line-height:1.55; padding:12px; background:rgba(0,0,0,.20);
-      border-radius:12px; border:1px solid rgba(255,255,255,.08);
-      font-weight:850;
-    }
-    .ok{color:#bbf7d0; font-weight:1000}
-    .bad{color:#fecaca; font-weight:1000}
-  </style>
+<link rel="stylesheet" href="./build-gen.css">
 </head>
-
 <body>
-  <div id="guard_status">🔐 Vérification…</div>
 
-  <div class="app">
-    <div class="wrap">
-      <div class="card">
-        <h1>🏗️ Générateur de fiche — BUILD</h1>
-        <p>
-          Ici tu crées / mets à jour ta fiche publique.
-          <span class="ok">Si tu publies</span> → tu apparais dans la vitrine automatiquement.
-        </p>
+<div id="loading" class="loading">🔒 Vérification accès...</div>
 
-        <div class="hr"></div>
+<div id="app" style="display:none;">
+  <div class="container">
+    <div class="header">
+      <h1>🦅 GÉNÉRATEUR DIGIY BUILD</h1>
+      <p>Créez votre fiche artisan en 2 minutes !</p>
+      <div class="badge">∞ 0% commission - Pierre par pierre ∞</div>
+    </div>
 
-        <div class="row">
-          <div>
-            <label>Nom affiché (display_name)</label>
-            <input id="display_name" placeholder="Ex: Helage" />
+    <div class="form-card">
+      <h2 class="section-title">👷 Informations personnelles</h2>
+      
+      <form id="formArtisan">
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Nom complet <span class="required">*</span></label>
+            <input type="text" name="nom_complet" id="nom_complet" placeholder="Ex: Ibrahima FALL" required>
           </div>
-          <div>
-            <label>Ville / Zone</label>
-            <input id="city" placeholder="Ex: Saly – Petite Côte" />
+
+          <div class="form-group">
+            <label>Nom de l'entreprise (si applicable)</label>
+            <input type="text" name="entreprise" id="entreprise" placeholder="Ex: FALL CONSTRUCTION">
+          </div>
+
+          <div class="form-group">
+            <label>WhatsApp / Téléphone <span class="required">*</span></label>
+            <input type="tel" name="phone" id="phone" placeholder="+221 77 123 45 67" required>
+          </div>
+
+          <div class="form-group">
+            <label>Ville principale <span class="required">*</span></label>
+            <input type="text" name="ville" id="ville" placeholder="Ex: Dakar" required>
           </div>
         </div>
 
-        <div class="row">
-          <div>
-            <label>Métier (trade)</label>
-            <input id="trade" placeholder="Ex: Plombier multi-services" />
-          </div>
-          <div>
-            <label>Région (region)</label>
-            <select id="region">
-              <option value="petite-cote">petite-cote</option>
-              <option value="dakar">dakar</option>
-              <option value="thies">thies</option>
-              <option value="national">national</option>
+        <h2 class="section-title">🔧 Compétences</h2>
+        
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Spécialité principale <span class="required">*</span></label>
+            <select name="specialite" id="specialite" required>
+              <option value="">-- Choisir --</option>
+              <option>Maçonnerie</option>
+              <option>Plomberie</option>
+              <option>Électricité</option>
+              <option>Menuiserie</option>
+              <option>Peinture</option>
+              <option>Carrelage</option>
+              <option>Toiture</option>
+              <option>Climatisation</option>
+              <option>Soudure</option>
+              <option>Multi-services</option>
             </select>
           </div>
-        </div>
 
-        <div class="row">
-          <div>
-            <label>WhatsApp (sans espaces)</label>
-            <input id="whatsapp" placeholder="Ex: 221774513523" />
+          <div class="form-group">
+            <label>Métiers / Compétences</label>
+            <input type="text" name="metiers" id="metiers" placeholder="Ex: Maçon, Carreleur, Peintre">
           </div>
-          <div>
-            <label>Téléphone (optionnel)</label>
-            <input id="phone" placeholder="Ex: +221..." />
-          </div>
-        </div>
 
-        <label>Bio (courte, claire)</label>
-        <textarea id="bio" placeholder="Ex: Dépannage, installation, chauffe-eau, fuite, WC, douche…"></textarea>
-
-        <div class="row">
-          <div>
-            <label>Photo vitrine (photo_url)</label>
-            <input id="photo_url" placeholder="URL image (https://...png/jpg)" />
+          <div class="form-group">
+            <label>Années d'expérience</label>
+            <input type="number" name="annees_experience" id="annees_experience" value="5" min="0" max="50">
           </div>
-          <div>
-            <label>URL fiche (profile_url)</label>
-            <input id="profile_url" placeholder="https://digiylyfe.com/partenaires-..." />
+
+          <div class="form-group">
+            <label>Certifications / Diplômes</label>
+            <input type="text" name="certification" id="certification" placeholder="Ex: CAP Maçonnerie">
+          </div>
+
+          <div class="form-group full">
+            <label>Zone d'intervention</label>
+            <input type="text" name="zone_intervention" id="zone_intervention" placeholder="Ex: Dakar, Thiès, Mbour">
+            <div class="hint">Villes/quartiers où tu interviens</div>
           </div>
         </div>
 
-        <div class="row">
-          <div>
-            <label>Badge (ex: ⚡ Intervention rapide)</label>
-            <input id="badge" placeholder="Ex: 🛠️ Intervention rapide" />
+        <h2 class="section-title">💰 Tarifs</h2>
+        
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Tarif horaire (FCFA)</label>
+            <input type="number" name="tarif_horaire" id="tarif_horaire" placeholder="Ex: 2500">
           </div>
-          <div>
-            <label>Hub badge (ex: ✅ PARTENAIRE BUILD)</label>
-            <input id="hub_badge" placeholder="Ex: ✅ PARTENAIRE BUILD" />
+
+          <div class="form-group">
+            <label>Tarif à la journée (FCFA)</label>
+            <input type="number" name="tarif_journee" id="tarif_journee" placeholder="Ex: 15000">
           </div>
         </div>
 
-        <div class="row">
-          <div>
-            <label>Price label</label>
-            <input id="price_label" placeholder="Ex: 0% commission" />
+        <h2 class="section-title">📝 Présentation</h2>
+        
+        <div class="form-grid">
+          <div class="form-group full">
+            <label>Description / Présentation</label>
+            <textarea name="description" id="description" placeholder="Ex: Maçon professionnel depuis 10 ans. Travail soigné et respect des délais garantis."></textarea>
           </div>
-          <div>
-            <label>Tags (JSON ou liste simple)</label>
-            <input id="tags" placeholder='Ex: pos,build,btp ou ["build","btp"]' />
-          </div>
-        </div>
 
-        <div class="row">
-          <div>
-            <label>Priorité (0–100)</label>
-            <input id="priority" type="number" min="0" max="100" value="1" />
-          </div>
-          <div>
-            <label>Publier maintenant ?</label>
-            <select id="is_published">
-              <option value="true">Oui (visible)</option>
-              <option value="false">Non (brouillon)</option>
-            </select>
+          <div class="form-group">
+            <label>Nombre de projets réalisés</label>
+            <input type="number" name="nb_projets_realises" id="nb_projets_realises" value="0" min="0">
           </div>
         </div>
 
-        <div class="hr"></div>
+        <h2 class="section-title">📸 Photos</h2>
+        
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Photo profil (URL)</label>
+            <input type="url" name="photo_profil" id="photo_profil" placeholder="https://...">
+          </div>
 
-        <div class="actions">
-          <button class="btn primary" id="btnSave" type="button">💾 Enregistrer la fiche</button>
-          <a class="btn secondary" id="btnOpenListing" href="./listing.html">👷 Ouvrir la vitrine</a>
-          <button class="btn ghost" id="btnBack" type="button">↩️ Retour cockpit</button>
+          <div class="form-group">
+            <label>Photo travaux (URL)</label>
+            <input type="url" name="photo_travaux" id="photo_travaux" placeholder="https://...">
+            <div class="hint">Photo d'une de tes réalisations</div>
+          </div>
         </div>
 
-        <div class="note" id="msg">
-          Statut : —
-        </div>
+        <button class="btn btn-generate" type="submit">
+          🚀 CRÉER MA FICHE ARTISAN
+        </button>
+
+        <button class="btn btn-back" type="button" id="btnBack">
+          ⬅️ Retour au cockpit
+        </button>
+      </form>
+
+      <div class="success-msg" id="successMsg">
+        <span class="eagle">🦅</span>
+        <h3>FICHE CRÉÉE AVEC SUCCÈS !</h3>
+        <p>Ta fiche est maintenant visible sur la vitrine publique ! 🔥</p>
+        <button class="btn btn-back" type="button" id="btnRetour">
+          ✅ Retour au cockpit
+        </button>
       </div>
     </div>
   </div>
+</div>
 
-<script>
-(function(){
-  "use strict";
-
-  const MODULE = "build";
-  const PAY_URL = "https://beauville.github.io/commencer-a-payer/?module=BUILD&offre=BUILD";
-
-  const gs = document.getElementById("guard_status");
-  const msg = document.getElementById("msg");
-
-  function setMsg(t, ok=true){
-    if(!msg) return;
-    msg.innerHTML = `Statut : <span class="${ok ? 'ok':'bad'}">${t}</span>`;
-  }
-
-  function slugify(str){
-    return String(str||"")
-      .toLowerCase()
-      .normalize("NFD").replace(/[\u0300-\u036f]/g,"")
-      .replace(/[^a-z0-9]+/g,"-")
-      .replace(/(^-|-$)/g,"")
-      .trim() || ("pro-" + Math.random().toString(16).slice(2,8));
-  }
-
-  function parseTags(raw){
-    const s = String(raw||"").trim();
-    if(!s) return null;
-    // JSON array ?
-    if(s.startsWith("[") && s.endsWith("]")){
-      try{
-        const a = JSON.parse(s);
-        return Array.isArray(a) ? a.map(x=>String(x).trim()).filter(Boolean) : null;
-      }catch(_){}
-    }
-    // simple "a,b,c"
-    return s.split(",").map(x=>x.trim()).filter(Boolean);
-  }
-
-  function getSb(){
-    return window.DIGIY_GUARD?.getSb?.() || null;
-  }
-
-  async function loadExisting(owner_id){
-    const sb = getSb();
-    if(!sb) return;
-
-    const { data, error } = await sb
-      .from("digiy_build_public_profiles")
-      .select("*")
-      .eq("owner_id", owner_id)
-      .maybeSingle();
-
-    if(error){
-      console.warn("loadExisting err:", error);
-      return;
-    }
-    if(!data) return;
-
-    // hydrate form
-    document.getElementById("display_name").value = data.display_name || "";
-    document.getElementById("city").value = data.city || "";
-    document.getElementById("trade").value = data.trade || "";
-    document.getElementById("region").value = data.region || "petite-cote";
-    document.getElementById("whatsapp").value = data.whatsapp || "";
-    document.getElementById("phone").value = data.phone || "";
-    document.getElementById("bio").value = data.bio || "";
-    document.getElementById("photo_url").value = data.photo_url || "";
-    document.getElementById("profile_url").value = data.profile_url || "";
-    document.getElementById("badge").value = data.badge || "";
-    document.getElementById("hub_badge").value = data.hub_badge || "";
-    document.getElementById("price_label").value = data.price_label || "";
-    document.getElementById("priority").value = Number(data.priority ?? 1);
-    document.getElementById("is_published").value = String(!!data.is_published);
-    try{
-      document.getElementById("tags").value = Array.isArray(data.tags) ? JSON.stringify(data.tags) : "";
-    }catch(_){}
-    setMsg("Fiche existante chargée ✅", true);
-  }
-
-  async function saveProfile(session){
-    const sb = getSb();
-    if(!sb) return setMsg("Supabase non dispo (guard)", false);
-
-    const display_name = document.getElementById("display_name").value.trim();
-    const city = document.getElementById("city").value.trim();
-    const trade = document.getElementById("trade").value.trim();
-    const region = document.getElementById("region").value.trim();
-    const whatsapp = document.getElementById("whatsapp").value.trim().replace(/\s+/g,"");
-    const phone = document.getElementById("phone").value.trim();
-    const bio = document.getElementById("bio").value.trim();
-    const photo_url = document.getElementById("photo_url").value.trim();
-    const profile_url = document.getElementById("profile_url").value.trim();
-    const badge = document.getElementById("badge").value.trim();
-    const hub_badge = document.getElementById("hub_badge").value.trim();
-    const price_label = document.getElementById("price_label").value.trim();
-    const priority = Math.max(0, Math.min(100, parseInt(document.getElementById("priority").value,10) || 1));
-    const is_published = (document.getElementById("is_published").value === "true");
-    const tags = parseTags(document.getElementById("tags").value);
-
-    if(!display_name) return setMsg("Nom affiché requis", false);
-    if(!whatsapp) return setMsg("WhatsApp requis (ex: 22177...)", false);
-
-    const slug = slugify(display_name);
-
-    const payload = {
-      owner_id: session.owner_id,
-      slug,
-      display_name,
-      trade: trade || null,
-      sector: null,
-      region: region || null,
-      city: city || null,
-      address: null,
-      whatsapp,
-      phone: phone || null,
-      photo_url: photo_url || null,
-      bio: bio || null,
-      tags: tags || null,
-      profile_url: profile_url || null,
-      is_published,
-      is_active: true,
-      is_verified: true,
-      priority,
-      badge: badge || null,
-      hub_badge: hub_badge || "✅ PARTENAIRE BUILD",
-      price_label: price_label || "0% commission"
-    };
-
-    setMsg("Enregistrement…", true);
-
-    // upsert (onConflict owner_id si contrainte existe)
-    let res = await sb
-      .from("digiy_build_public_profiles")
-      .upsert(payload, { onConflict: "owner_id" })
-      .select("owner_id,slug,display_name,is_published")
-      .maybeSingle();
-
-    // fallback si onConflict owner_id pas accepté
-    if(res?.error){
-      const err = res.error.message || "";
-      if(err.toLowerCase().includes("onconflict") || err.toLowerCase().includes("constraint") || err.toLowerCase().includes("duplicate")){
-        res = await sb
-          .from("digiy_build_public_profiles")
-          .upsert(payload, { onConflict: "slug" })
-          .select("owner_id,slug,display_name,is_published")
-          .maybeSingle();
-      }
-    }
-
-    if(res?.error){
-      console.error(res.error);
-      return setMsg("Erreur: " + (res.error.message || res.error), false);
-    }
-
-    setMsg(`OK ✅ fiche enregistrée (${res.data?.slug || slug}) • publié=${is_published ? "oui" : "non"}`, true);
-  }
-
-  (async function init(){
-    if(!window.DIGIY_GUARD || typeof window.DIGIY_GUARD.boot !== "function"){
-      if(gs) gs.textContent = "❌ guard.js non chargé";
-      return;
-    }
-
-    const guardRes = await window.DIGIY_GUARD.boot({
-      module: MODULE,
-      dashboard: "./build-pro/index.html",
-      login: "./build-pro/pin.html",
-      pay: PAY_URL,
-      requireSlug: true,
-      checkSubscription: true
-    });
-
-    if(!guardRes?.ok){
-      if(gs) gs.textContent = "❌ Accès refusé";
-      return;
-    }
-
-    const session = window.DIGIY_GUARD.getSession?.() || null;
-    if(!session?.owner_id){
-      if(gs) gs.textContent = "❌ Session invalide";
-      location.replace("./build-pro/pin.html");
-      return;
-    }
-
-    document.documentElement.classList.add("access-ok");
-
-    if (gs) {
-      gs.textContent = "✅ PRO OK";
-      setTimeout(() => gs.style.display = "none", 700);
-    }
-
-    setMsg("Prêt ✅ (charge la fiche si elle existe)", true);
-    await loadExisting(session.owner_id);
-
-    document.getElementById("btnSave").addEventListener("click", () => saveProfile(session));
-    document.getElementById("btnBack").addEventListener("click", () => {
-      // retour cockpit avec slug conservé
-      try{
-        if(window.DIGIY_GUARD?.go) return window.DIGIY_GUARD.go("./build-pro/index.html", "assign");
-      }catch(_){}
-      location.href = "./build-pro/index.html";
-    });
-  })();
-})();
-</script>
+<script src="./build-gen.js"></script>
 
 </body>
 </html>
