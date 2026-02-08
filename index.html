@@ -2,8 +2,9 @@
 <html lang="fr">
 <head>
   <meta charset="utf-8">
-  <title>DIGIY BUILD — Réseau BTP Sénégal</title>
+  <title>DIGIY BUILD — Réseau BTP Sénégal • 0% commission</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Artisans BTP Sénégal - Direct propriétaire, 0% commission">
   
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   
@@ -12,6 +13,7 @@
       --bg:#020617;
       --accent:#facc15;
       --orange:#f97316;
+      --green:#22c55e;
       --ink:#f9fafb;
       --muted:#9ca3af;
       --line:#1f2937;
@@ -19,87 +21,253 @@
     *{box-sizing:border-box;margin:0;padding:0}
     body{
       margin:0;
-      background:radial-gradient(circle,#111827,#020617);
+      background:radial-gradient(circle at top,#111827,#020617);
       color:var(--ink);
-      font-family:system-ui,sans-serif;
+      font-family:system-ui,-apple-system,sans-serif;
       padding:20px;
+      min-height:100vh;
     }
-    .container{max-width:1200px;margin:0 auto}
-    .header{text-align:center;margin-bottom:30px}
-    .header h1{font-size:48px;font-weight:900;color:var(--orange);margin:0}
-    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px;margin-top:30px}
+    .container{max-width:1400px;margin:0 auto}
+    
+    /* HEADER */
+    .header{text-align:center;margin-bottom:40px}
+    .header h1{
+      font-size:52px;
+      font-weight:900;
+      background:linear-gradient(135deg,#f97316,#facc15);
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+      margin:0 0 10px;
+    }
+    .header p{color:var(--muted);font-size:18px;margin:5px 0}
+    
+    /* DEBUG */
+    .debug{
+      background:#0a1628;
+      border:2px solid #1e40af;
+      border-radius:12px;
+      padding:15px 20px;
+      margin:20px 0;
+      font-family:'Courier New',monospace;
+      font-size:14px;
+      color:#60a5fa;
+      line-height:1.6;
+    }
+    
+    /* GRID */
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fill,minmax(320px,1fr));
+      gap:24px;
+      margin-top:30px;
+    }
+    @media(max-width:768px){
+      .grid{grid-template-columns:1fr}
+    }
+    
+    /* CARD */
     .card{
-      background:#0b1220;
-      border:1px solid var(--line);
-      border-radius:16px;
+      background:linear-gradient(135deg,#0b1220,#020617);
+      border:2px solid var(--line);
+      border-radius:20px;
       padding:20px;
-      box-shadow:0 10px 30px rgba(0,0,0,.5);
+      box-shadow:0 20px 50px rgba(0,0,0,.6);
+      transition:transform 0.2s, box-shadow 0.2s;
+      position:relative;
+      overflow:hidden;
     }
-    .card.real{border:2px solid #22c55e} /* ✅ Vrais artisans en vert */
-    .card.placeholder{border:2px solid #f97316} /* ✅ Placebots en orange */
+    .card::before{
+      content:'';
+      position:absolute;
+      top:0;left:0;right:0;
+      height:4px;
+      background:linear-gradient(90deg,#f97316,#facc15);
+      opacity:0;
+      transition:opacity 0.2s;
+    }
+    .card:hover{
+      transform:translateY(-4px);
+      box-shadow:0 25px 60px rgba(0,0,0,.7);
+    }
+    .card:hover::before{opacity:1}
+    
+    /* CARD TYPES */
+    .card.verified{border-color:var(--green);border-width:3px}
+    .card.verified::before{background:var(--green);opacity:1}
+    
+    .card.example{border-color:var(--orange);border-style:dashed}
+    
+    /* PHOTO */
     .photo{
       width:100%;
-      height:200px;
-      border-radius:12px;
+      height:220px;
+      border-radius:14px;
       overflow:hidden;
-      background:#111;
-      margin-bottom:15px;
+      background:#000;
+      margin-bottom:16px;
+      position:relative;
     }
-    .photo img{width:100%;height:100%;object-fit:cover}
-    .name{font-size:20px;font-weight:800;color:var(--accent);margin-bottom:5px}
-    .entreprise{font-size:14px;color:var(--orange);margin-bottom:10px}
-    .type{font-size:14px;color:var(--muted);margin-bottom:10px}
-    .desc{font-size:14px;color:#e5e7eb;line-height:1.6;margin-bottom:15px}
-    .badges{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:15px}
+    .photo img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+    .photo::after{
+      content:'';
+      position:absolute;
+      inset:0;
+      background:linear-gradient(to bottom,transparent 50%,rgba(0,0,0,.4));
+      pointer-events:none;
+    }
+    
+    /* TEXT */
+    .name{
+      font-size:24px;
+      font-weight:900;
+      color:var(--accent);
+      margin-bottom:6px;
+      line-height:1.2;
+    }
+    .entreprise{
+      font-size:14px;
+      font-weight:700;
+      color:var(--orange);
+      margin-bottom:12px;
+      text-transform:uppercase;
+      letter-spacing:0.5px;
+    }
+    .type{
+      font-size:15px;
+      color:var(--muted);
+      font-weight:600;
+      margin-bottom:14px;
+    }
+    .desc{
+      font-size:14px;
+      color:#e5e7eb;
+      line-height:1.7;
+      margin-bottom:16px;
+    }
+    .tarif{
+      font-size:14px;
+      color:var(--muted);
+      margin-bottom:16px;
+      font-weight:700;
+    }
+    
+    /* BADGES */
+    .badges{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      margin-bottom:16px;
+    }
     .badge{
-      padding:4px 10px;
+      padding:6px 12px;
       border-radius:999px;
       font-size:12px;
-      font-weight:700;
-      background:rgba(249,115,22,0.2);
+      font-weight:800;
+      text-transform:uppercase;
+      letter-spacing:0.3px;
+    }
+    .badge-verified{
+      background:var(--green);
+      color:#000;
+      box-shadow:0 4px 12px rgba(34,197,94,.3);
+    }
+    .badge-example{
+      background:rgba(249,115,22,.2);
       color:var(--orange);
       border:1px solid var(--orange);
     }
-    .badge.real{background:#22c55e;color:#000;border-color:#22c55e}
+    .badge-commission{
+      background:rgba(250,204,21,.15);
+      color:var(--accent);
+      border:1px solid var(--accent);
+    }
+    .badge-info{
+      background:rgba(148,163,184,.15);
+      color:var(--muted);
+    }
+    
+    /* BUTTONS */
+    .actions{
+      display:flex;
+      gap:10px;
+      flex-direction:column;
+    }
     .btn{
       width:100%;
-      padding:12px;
+      padding:14px 20px;
       border:none;
-      border-radius:8px;
-      font-weight:700;
+      border-radius:12px;
+      font-weight:800;
+      font-size:15px;
       cursor:pointer;
-      margin-top:10px;
+      transition:all 0.2s;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
     }
-    .btn-primary{background:var(--orange);color:#111}
-    .btn-wa{background:#25d366;color:#fff}
-    .loading{text-align:center;padding:50px;color:#fff;font-size:18px}
-    .debug{
-      background:#1a1a2e;
-      border:1px solid #444;
-      border-radius:8px;
-      padding:15px;
-      margin:20px 0;
-      font-family:monospace;
-      font-size:12px;
-      color:#0f0;
+    .btn:active{transform:scale(0.98)}
+    
+    .btn-primary{
+      background:linear-gradient(135deg,#f97316,#facc15);
+      color:#000;
+      box-shadow:0 8px 20px rgba(249,115,22,.4);
+    }
+    .btn-primary:hover{
+      box-shadow:0 12px 28px rgba(249,115,22,.6);
+      transform:translateY(-2px);
+    }
+    
+    .btn-wa{
+      background:#25d366;
+      color:#fff;
+      box-shadow:0 8px 20px rgba(37,211,102,.3);
+    }
+    .btn-wa:hover{
+      background:#20c05c;
+      box-shadow:0 12px 28px rgba(37,211,102,.5);
+      transform:translateY(-2px);
+    }
+    
+    /* LOADING */
+    .loading{
+      text-align:center;
+      padding:80px 20px;
+      color:#fff;
+      font-size:20px;
+      font-weight:700;
+      grid-column:1/-1;
     }
   </style>
 </head>
 <body>
 
 <div class="container">
+  <!-- HEADER -->
   <div class="header">
     <h1>🏗️ DIGIY BUILD</h1>
-    <p style="color:var(--muted);font-size:18px">Réseau BTP Sénégal • 0% commission</p>
+    <p>Réseau BTP Sénégal • Direct artisan • 0% commission</p>
+    <p style="font-size:14px;color:#6b7280;margin-top:10px">
+      Dakar • Thiès • Saly • Mbour • Touba
+    </p>
   </div>
 
-  <!-- ✅ DEBUG INFO -->
+  <!-- DEBUG INFO -->
   <div id="debug" class="debug"></div>
 
+  <!-- GRID -->
   <div id="grid" class="grid"></div>
 </div>
 
 <script>
+/* =============================================
+   CONFIG SUPABASE
+============================================= */
 const SUPABASE_URL = "https://wesqmwjjtsefyjnluosj.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indlc3Ftd2pqdHNlZnlqbmx1b3NqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUxNzg4ODIsImV4cCI6MjA4MDc1NDg4Mn0.dZfYOc2iL2_wRYL3zExZFsFSBK6AbMeOid2LrIjcTdA";
 
@@ -108,198 +276,201 @@ const grid = document.getElementById("grid");
 const debugEl = document.getElementById("debug");
 const TEAM_WA = "+221771342889";
 
-// ✅ PLACEBOTS
+/* =============================================
+   PLACEBOTS (EXEMPLES VISUELS)
+============================================= */
 const PLACEBOTS = [
   {
-    id: "pb-1",
-    nom_complet: "Moussa DIOP",
-    entreprise: "DIOP MAÇONNERIE",
+    id: "example-1",
+    nom_complet: "Exemple: Moussa DIOP",
+    entreprise: "EXEMPLE MAÇONNERIE",
     ville: "Dakar",
     specialite: "Maçonnerie",
     annees_experience: 15,
     photo_profil: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800",
     tarif_journee: 18000,
-    description: "Maçon professionnel depuis 15 ans. Fondations, dalles, murs porteurs.",
+    description: "Ceci est un exemple visuel. Les vrais artisans ont un badge vert.",
     nb_projets_realises: 120,
     whatsapp: TEAM_WA,
-    slug: "moussa-diop-dakar",
-    _isPlaceholder: true
+    slug: "exemple-moussa-diop",
+    _isExample: true
   },
   {
-    id: "pb-2",
-    nom_complet: "Ibrahima FALL",
-    entreprise: "FALL PLOMBERIE",
+    id: "example-2",
+    nom_complet: "Exemple: Ibrahima FALL",
+    entreprise: "EXEMPLE PLOMBERIE",
     ville: "Thiès",
     specialite: "Plomberie",
     annees_experience: 10,
     photo_profil: "https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=800",
     tarif_journee: 15000,
-    description: "Plombier qualifié. Installation sanitaire, réparation.",
+    description: "Ceci est un exemple visuel. Les vrais artisans ont un badge vert.",
     nb_projets_realises: 85,
     whatsapp: TEAM_WA,
-    slug: "ibrahima-fall-thies",
-    _isPlaceholder: true
+    slug: "exemple-ibrahima-fall",
+    _isExample: true
   },
   {
-    id: "pb-3",
-    nom_complet: "Abdoulaye SARR",
-    entreprise: "ÉLECTRICITÉ SARR",
-    ville: "Dakar",
+    id: "example-3",
+    nom_complet: "Exemple: Abdoulaye SARR",
+    entreprise: "EXEMPLE ÉLECTRICITÉ",
+    ville: "Saly",
     specialite: "Électricité",
     annees_experience: 12,
     photo_profil: "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?w=800",
     tarif_journee: 16000,
-    description: "Électricien certifié. Installation, mise aux normes.",
+    description: "Ceci est un exemple visuel. Les vrais artisans ont un badge vert.",
     nb_projets_realises: 95,
     whatsapp: TEAM_WA,
-    slug: "abdoulaye-sarr-dakar",
-    _isPlaceholder: true
-  },
-  {
-    id: "pb-4",
-    nom_complet: "Mamadou BA",
-    entreprise: "MENUISERIE BA",
-    ville: "Saly",
-    specialite: "Menuiserie",
-    annees_experience: 18,
-    photo_profil: "https://images.unsplash.com/photo-1590846406792-0adc7f938f1d?w=800",
-    tarif_journee: 20000,
-    description: "Menuisier artisan. Fabrication sur mesure.",
-    nb_projets_realises: 150,
-    whatsapp: TEAM_WA,
-    slug: "mamadou-ba-saly",
-    _isPlaceholder: true
-  },
-  {
-    id: "pb-5",
-    nom_complet: "Cheikh NDIAYE",
-    entreprise: "PEINTURE NDIAYE",
-    ville: "Mbour",
-    specialite: "Peinture",
-    annees_experience: 8,
-    photo_profil: "https://images.unsplash.com/photo-1562259949-e8e7689d7828?w=800",
-    tarif_journee: 12000,
-    description: "Peintre professionnel. Intérieur, extérieur, façades.",
-    nb_projets_realises: 70,
-    whatsapp: TEAM_WA,
-    slug: "cheikh-ndiaye-mbour",
-    _isPlaceholder: true
+    slug: "exemple-abdoulaye-sarr",
+    _isExample: true
   }
 ];
 
-// ✅ FETCH DB (SANS FILTRES - AFFICHE TOUT)
+/* =============================================
+   FETCH DATABASE
+============================================= */
 async function fetchArtisans(){
   try {
     console.log("🔍 Fetching artisans from DB...");
     
-    // ✅ PAS DE FILTRES - ON PREND TOUT
     const { data, error } = await sb
       .from("digiy_build_artisans")
       .select("*");
 
     if (error) {
-      console.warn("❌ Erreur DB:", error.message);
+      console.warn("❌ DB Error:", error.message);
       debugEl.innerHTML = `❌ Erreur DB: ${error.message}`;
       return [];
     }
     
-    console.log("✅ Artisans trouvés en DB:", data);
+    console.log("✅ Artisans trouvés:", data);
+    
     debugEl.innerHTML = `
-      ✅ DB connectée !<br>
-      📊 Artisans en DB: ${data.length}<br>
-      📋 Détails: ${JSON.stringify(data.map(a => a.nom_complet), null, 2)}
+      ✅ Base de données connectée<br>
+      📊 Artisans vérifiés en DB: <strong>${data.length}</strong><br>
+      ${data.length > 0 ? `📋 Noms: ${data.map(a => a.nom_complet).join(', ')}` : '⚠️ Aucun artisan en DB - Affichage exemples uniquement'}
     `;
     
     return data || [];
     
   } catch(e) {
     console.error("❌ Fetch error:", e);
-    debugEl.innerHTML = `❌ Fetch error: ${e.message}`;
+    debugEl.innerHTML = `❌ Erreur connexion: ${e.message}`;
     return [];
   }
 }
 
-// ✅ CARD
-function card(a){
-  const nom = a.nom_complet || "Artisan";
-  const ent = a.entreprise ? `<div class="entreprise">${a.entreprise}</div>` : '';
-  const ville = a.ville || "—";
-  const spec = a.specialite || "Multi";
-  const photo = a.photo_profil || "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800";
-  const tarif = a.tarif_journee ? `${a.tarif_journee.toLocaleString()} F/jour` : "Sur devis";
-  const exp = a.annees_experience ? `${a.annees_experience} ans` : "";
-  const proj = a.nb_projets_realises ? `${a.nb_projets_realises} projets` : "";
-  const wa = a.whatsapp || a.phone || TEAM_WA;
+/* =============================================
+   CARD TEMPLATE
+============================================= */
+function createCard(artisan){
+  const isExample = artisan._isExample === true;
   
-  // ✅ Distingue vrais artisans des placebots
-  const cardClass = a._isPlaceholder ? 'card placeholder' : 'card real';
-  const badge = a._isPlaceholder 
-    ? '<div class="badge" style="background:#f97316;color:#000">📸 Exemple</div>' 
-    : '<div class="badge real">✅ VÉRIFIÉ</div>';
+  const nom = artisan.nom_complet || "Artisan";
+  const entreprise = artisan.entreprise || "";
+  const ville = artisan.ville || "—";
+  const spec = artisan.specialite || "Multi-services";
+  const photo = artisan.photo_profil || "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800";
+  const tarif = artisan.tarif_journee 
+    ? `${artisan.tarif_journee.toLocaleString('fr-FR')} FCFA/jour`
+    : "Sur devis";
+  const desc = artisan.description || "Artisan professionnel. Contact direct.";
+  const wa = artisan.whatsapp || artisan.phone || TEAM_WA;
+  
+  const exp = artisan.annees_experience ? `${artisan.annees_experience} ans` : "";
+  const projets = artisan.nb_projets_realises ? `${artisan.nb_projets_realises} projets` : "";
+  
+  const cardClass = isExample ? 'card example' : 'card verified';
+  
+  const badges = isExample
+    ? `
+      <div class="badge badge-example">📸 EXEMPLE</div>
+      <div class="badge badge-commission">0% commission</div>
+    `
+    : `
+      <div class="badge badge-verified">✅ VÉRIFIÉ</div>
+      <div class="badge badge-commission">0% commission</div>
+      ${exp ? `<div class="badge badge-info">${exp}</div>` : ''}
+      ${projets ? `<div class="badge badge-info">${projets}</div>` : ''}
+    `;
   
   return `
-    <div class="${cardClass}">
+    <article class="${cardClass}">
       <div class="photo">
-        <img src="${photo}" alt="${nom}" loading="lazy">
+        <img src="${photo}" alt="${nom}" loading="lazy" 
+             onerror="this.src='https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800'">
       </div>
+      
       <div class="name">${nom}</div>
-      ${ent}
+      ${entreprise ? `<div class="entreprise">${entreprise}</div>` : ''}
       <div class="type">${spec} • ${ville}</div>
-      <div class="badges">
-        ${badge}
-        <div class="badge">0% commission</div>
-        ${exp ? `<div class="badge">${exp}</div>` : ''}
-        ${proj ? `<div class="badge">${proj}</div>` : ''}
+      
+      <div class="badges">${badges}</div>
+      
+      <div class="desc">${desc}</div>
+      <div class="tarif">Tarif: ${tarif}</div>
+      
+      <div class="actions">
+        <button class="btn btn-primary" onclick="demanderDevis('${artisan.id}','${nom.replace(/'/g,"\\'")}')">
+          📋 Demander un devis
+        </button>
+        <button class="btn btn-wa" onclick="contacterWA('${wa}','${nom.replace(/'/g,"\\'")}')">
+          📲 WhatsApp direct
+        </button>
       </div>
-      <div class="desc">${a.description || "Artisan professionnel. Contact direct."}</div>
-      <div style="color:var(--muted);font-size:14px;margin-bottom:10px">Tarif: ${tarif}</div>
-      <button class="btn btn-primary" onclick="devis('${String(a.id).replace(/'/g,"\\'")}','${nom.replace(/'/g,"\\'")}')">📋 Demander devis</button>
-      <button class="btn btn-wa" onclick="wa('${wa}','${nom.replace(/'/g,"\\'")}')">📲 WhatsApp</button>
-    </div>
+    </article>
   `;
 }
 
-// ✅ ACTIONS
-function wa(phone, nom){
-  const msg = `Bonjour ${nom}, devis via DIGIY BUILD.`;
-  window.open(`https://wa.me/${phone.replace(/\D/g,'')}?text=${encodeURIComponent(msg)}`, '_blank');
+/* =============================================
+   ACTIONS
+============================================= */
+function contacterWA(phone, nom){
+  const msg = `Bonjour ${nom}, je souhaite un devis pour des travaux via DIGIY BUILD.`;
+  const url = `https://wa.me/${phone.replace(/\D/g,'')}?text=${encodeURIComponent(msg)}`;
+  window.open(url, '_blank', 'noopener,noreferrer');
 }
-window.wa = wa;
+window.contacterWA = contacterWA;
 
-function devis(id, nom){
-  if(String(id).startsWith('pb-')){
-    wa(TEAM_WA, nom);
+function demanderDevis(id, nom){
+  if(String(id).startsWith('example-')){
+    contacterWA(TEAM_WA, "l'équipe DIGIY");
   } else {
     location.href = `./request.html?artisan_id=${id}&nom=${encodeURIComponent(nom)}`;
   }
 }
-window.devis = devis;
+window.demanderDevis = demanderDevis;
 
-// ✅ RENDER
+/* =============================================
+   RENDER
+============================================= */
 async function render(){
-  grid.innerHTML = '<div class="loading">Chargement...</div>';
+  grid.innerHTML = '<div class="loading">⏳ Chargement des artisans...</div>';
   
   const dbArtisans = await fetchArtisans();
   
   console.log("📊 Artisans DB:", dbArtisans.length);
-  console.log("📊 Placebots:", PLACEBOTS.length);
+  console.log("📊 Exemples:", PLACEBOTS.length);
   
-  // ✅ AFFICHE VRAIS ARTISANS EN PREMIER, PUIS PLACEBOTS
-  const artisans = [...dbArtisans, ...PLACEBOTS];
+  // ✅ VRAIS ARTISANS EN PREMIER, PUIS EXEMPLES
+  const all = [...dbArtisans, ...PLACEBOTS];
   
-  console.log("📊 Total à afficher:", artisans.length);
+  console.log("📊 Total affiché:", all.length);
   
-  if(!artisans.length){
-    grid.innerHTML = '<div class="loading">Aucun artisan disponible.</div>';
+  if(!all.length){
+    grid.innerHTML = '<div class="loading">❌ Aucun artisan disponible</div>';
     return;
   }
   
-  grid.innerHTML = artisans.map(a => card(a)).join('');
+  grid.innerHTML = all.map(a => createCard(a)).join('');
   
-  // ✅ Update debug
-  debugEl.innerHTML += `<br>✅ Total affiché: ${artisans.length} (${dbArtisans.length} vrais + ${PLACEBOTS.length} exemples)`;
+  debugEl.innerHTML += `<br>✅ Total affiché: <strong>${all.length}</strong> (${dbArtisans.length} vérifiés + ${PLACEBOTS.length} exemples)`;
 }
 
+/* =============================================
+   INIT
+============================================= */
 render();
 </script>
 
