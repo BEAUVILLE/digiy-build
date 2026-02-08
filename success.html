@@ -1,3 +1,4 @@
+<!-- success.html (repo BEAUVILLE/digiy-build) -->
 <!doctype html>
 <html lang="fr">
 <head>
@@ -6,6 +7,8 @@
   <meta name="theme-color" content="#0b2a1f"/>
   <title>DIGIY BUILD — Demande envoyée</title>
   <meta name="description" content="Confirmation demande DIGIY BUILD.">
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
     :root{
@@ -109,8 +112,8 @@
       </div>
 
       <div style="display:flex;gap:10px;flex-wrap:wrap">
-        <a class="btn" id="btnHome" href="#">← Vitrine</a>
-        <a class="btn" id="btnNew" href="#">📤 Nouvelle demande</a>
+        <a class="btn" id="btnHome" href="./index.html">← Vitrine</a>
+        <a class="btn" id="btnNew" href="./request.html">📤 Nouvelle demande</a>
       </div>
     </div>
 
@@ -120,12 +123,20 @@
         <p class="s">Garde ton code : c’est ta clé pour le suivi.</p>
       </div>
       <div class="bd">
+
+        <!-- Loading -->
+        <div id="loadingBox">
+          <div class="hint">⏳ On prépare ton code…</div>
+        </div>
+
+        <!-- OK -->
         <div id="codeBox" style="display:none">
           <div class="big" id="codeText">—</div>
 
           <div class="row">
             <button class="btn primary" id="btnCopy">📋 Copier</button>
-            <a class="btn" id="btnTrack" href="#">🔎 Suivi</a>
+            <a class="btn" id="btnTrack" href="./track.html">🔎 Suivi</a>
+            <a class="btn" id="btnListing" href="./listing.html">👁️ Voir les artisans</a>
           </div>
 
           <div class="hint">
@@ -133,13 +144,15 @@
           </div>
         </div>
 
+        <!-- NO CODE -->
         <div id="noCodeBox" style="display:none">
           <div class="hint">
             Code introuvable. Reviens sur <b>Déposer une demande</b>, ou ouvre le suivi et colle ton code.
           </div>
           <div class="row">
-            <a class="btn primary" id="btnDeposit" href="#">📤 Déposer</a>
-            <a class="btn" id="btnTrack2" href="#">🔎 Suivi</a>
+            <a class="btn primary" id="btnDeposit" href="./request.html">📤 Déposer</a>
+            <a class="btn" id="btnTrack2" href="./track.html">🔎 Suivi</a>
+            <a class="btn" id="btnListing2" href="./listing.html">👁️ Listing</a>
           </div>
         </div>
 
@@ -156,6 +169,16 @@
   </div>
 
 <script>
+  /* =========================
+     SUPABASE (mêmes clés que tes pages)
+  ========================== */
+  const SUPABASE_URL = "https://wesqmwjjtsefyjnluosj.supabase.co";
+  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indlc3Ftd2pqdHNlZnlqbmx1b3NqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUxNzg4ODIsImV4cCI6MjA4MDc1NDg4Mn0.dZfYOc2iL2_wRYL3zExZFsFSBK6AbMeOid2LrIjcTdA";
+  const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+  /* =========================
+     CONFIG
+  ========================== */
   const KEY_LAST = "DIGIY_BUILD_LAST_REQUEST";
   const SUPPORT_WHATSAPP = "+221771342889";
 
@@ -178,82 +201,62 @@
     return `https://wa.me/${p}?text=${encodeURIComponent(msg)}`;
   }
 
-  function getCode(){
-    // 1) URL ?code=
-    const urlCode = new URL(location.href).searchParams.get("code");
-    if(urlCode) return normalizeCode(urlCode);
+  function getUrlParam(name){
+    return new URL(location.href).searchParams.get(name);
+  }
 
-    // 2) localStorage last request
+  function getCodeFromLocal(){
     const raw = localStorage.getItem(KEY_LAST);
-    if(raw){
-      try{
-        const obj = JSON.parse(raw);
-        if(obj?.public_code) return normalizeCode(obj.public_code);
-      }catch(e){}
-    }
+    if(!raw) return "";
+    try{
+      const obj = JSON.parse(raw);
+      if(obj?.public_code) return normalizeCode(obj.public_code);
+      if(obj?.code) return normalizeCode(obj.code);
+    }catch(e){}
     return "";
   }
 
-  // --- NAV robuste (évite 404 selon dossier GitHub Pages)
-  function baseDir(){
-    // URL du dossier courant (…/digiy-build/ si pages)
-    const u = new URL(location.href);
-    u.hash = "";
-    u.search = "";
-    u.pathname = u.pathname.replace(/[^\/]*$/, ""); // garde le dossier
-    return u;
-  }
+  async function fetchCodeByDemandeId(demandeId){
+    // On tente de lire "public_code" si tu l'as en table
+    // Sinon fallback: code = demandeId (pratique terrain)
+    try{
+      const { data, error } = await sb
+        .from("digiy_build_demandes")
+        .select("id, public_code")
+        .eq("id", demandeId)
+        .single();
 
-  async function firstExisting(paths){
-    const base = baseDir();
-    for(const p of paths){
-      const url = new URL(p, base).href;
-      try{
-        const r = await fetch(url, { method:"GET", cache:"no-store" });
-        if(r && r.ok) return url;
-      }catch(_){}
+      if(error) throw error;
+
+      const code = data?.public_code ? normalizeCode(data.public_code) : normalizeCode(data?.id);
+      return code || "";
+    }catch(e){
+      // si colonne public_code n'existe pas, la requête peut échouer selon RLS/columns
+      // on fallback sur l'id (au moins tu affiches un code)
+      return normalizeCode(demandeId);
     }
-    return null;
   }
 
-  async function initNav(){
-    const HOME_CANDIDATES = ["./", "index.html"];
-    const REQUEST_CANDIDATES = ["request.html", "demande.html", "publish.html"];
-    const TRACK_CANDIDATES = ["track.html", "suivi.html", "follow.html"];
-
-    const homeUrl = await firstExisting(HOME_CANDIDATES);
-    const reqUrl  = await firstExisting(REQUEST_CANDIDATES);
-    const trackUrl= await firstExisting(TRACK_CANDIDATES);
-
-    if($("btnHome")) $("btnHome").href = homeUrl || "./";
-    if($("btnNew")) $("btnNew").href = reqUrl || "./";
-    if($("btnDeposit")) $("btnDeposit").href = reqUrl || "./";
-    if($("btnTrack2")) $("btnTrack2").href = trackUrl || "./";
-    if($("btnTrack")) $("btnTrack").href = trackUrl || "./";
-  }
-
-  (async function init(){
-    await initNav();
-
-    const code = getCode();
-
-    const waMsg = code
-      ? `Bonjour. J’ai envoyé une demande DIGIY BUILD.\nCode: ${code}\nMerci.`
-      : `Bonjour. J’ai besoin d’aide pour DIGIY BUILD.\nMerci.`;
-
-    $("btnWhatsApp").href = buildWhatsAppLink(SUPPORT_WHATSAPP, waMsg);
+  function setUIWithCode(code){
+    $("loadingBox").style.display = "none";
 
     if(!code){
       $("noCodeBox").style.display = "block";
+      const waMsg = `Bonjour. J’ai besoin d’aide pour DIGIY BUILD.\nMerci.`;
+      $("btnWhatsApp").href = buildWhatsAppLink(SUPPORT_WHATSAPP, waMsg);
       return;
     }
 
     $("codeBox").style.display = "block";
     $("codeText").textContent = code;
 
-    // Ajoute ?code= au lien de suivi si track.html existe
-    const currentTrack = $("btnTrack").getAttribute("href") || "./track.html";
-    $("btnTrack").href = currentTrack + (currentTrack.includes("?") ? "&" : "?") + "code=" + encodeURIComponent(code);
+    // Lien de suivi: track.html?code=
+    const trackBase = "./track.html";
+    $("btnTrack").href  = trackBase + "?code=" + encodeURIComponent(code);
+    $("btnTrack2").href = trackBase + "?code=" + encodeURIComponent(code);
+
+    const waMsg = `Bonjour. J’ai envoyé une demande DIGIY BUILD.\nCode: ${code}\nMerci.`;
+    $("btnWhatsApp").href = buildWhatsAppLink(SUPPORT_WHATSAPP, waMsg);
 
     $("btnCopy").addEventListener("click", async ()=>{
       try{
@@ -263,6 +266,31 @@
         prompt("Copie le code :", code);
       }
     });
+  }
+
+  (async function init(){
+    // 1) Si success.html?code=XXXX
+    const urlCode = getUrlParam("code");
+    if(urlCode){
+      setUIWithCode(normalizeCode(urlCode));
+      return;
+    }
+
+    // 2) Si success.html?demande_id=UUID (ton flow request.html)
+    const demandeId = getUrlParam("demande_id");
+    if(demandeId){
+      const code = await fetchCodeByDemandeId(demandeId);
+      // enregistre en local (utile)
+      try{
+        localStorage.setItem(KEY_LAST, JSON.stringify({ demande_id: demandeId, public_code: code, at: new Date().toISOString() }));
+      }catch(_){}
+      setUIWithCode(code);
+      return;
+    }
+
+    // 3) fallback localStorage
+    const localCode = getCodeFromLocal();
+    setUIWithCode(localCode);
   })();
 </script>
 </body>
