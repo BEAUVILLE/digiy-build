@@ -382,7 +382,7 @@
           <option value="soudure">Soudure</option>
           <option value="multi">Multi-services</option>
         </select>
-        <button id="btnSearch">🔎 Chercher</button>
+        <button id="btnSearch" type="button">🔎 Chercher</button>
         <button id="btnReset" class="ghost" type="button">↩︎ Reset</button>
       </section>
 
@@ -412,10 +412,29 @@
     const TEAM_WA = "+221771342889";
 
     /* =========================
+       FICHES WORDPRESS (TES 3 PROS)
+    ========================= */
+    const FICHES_WORDPRESS = {
+      "elage-plombier-saly": "https://orange-pig-270004.hostingersite.com/partenaires-helage-plombier/",
+      "zal-kourant-electricien-saly": "https://orange-pig-270004.hostingersite.com/partenaires-zal-kourant/",
+      "mbaye-diouf-entrepreneur-saly": "https://orange-pig-270004.hostingersite.com/partenaires-mbaye/"
+    };
+
+    /* =========================
+       WHATSAPP PAR SLUG (TES 3 PROS)
+    ========================= */
+    const WHATSAPP_BY_SLUG = {
+      "elage-plombier-saly": "+221774513523",
+      "zal-kourant-electricien-saly": "+221772084781",
+      "mbaye-diouf-entrepreneur-saly": "+221776427113"
+    };
+
+    /* =========================
        PLACEBOTS ARTISANS (PHOTOS PRO)
     ========================= */
     const PLACEBOTS_BUILD = [
       {
+        id: "pb-1",
         nom_complet: "Moussa DIOP",
         entreprise: "DIOP MAÇONNERIE",
         ville: "Dakar",
@@ -434,6 +453,7 @@
         is_public: true
       },
       {
+        id: "pb-2",
         nom_complet: "Ibrahima FALL",
         entreprise: "FALL PLOMBERIE",
         ville: "Thiès",
@@ -452,6 +472,7 @@
         is_public: true
       },
       {
+        id: "pb-3",
         nom_complet: "Abdoulaye SARR",
         entreprise: "ÉLECTRICITÉ SARR",
         ville: "Dakar",
@@ -470,6 +491,7 @@
         is_public: true
       },
       {
+        id: "pb-4",
         nom_complet: "Mamadou BA",
         entreprise: "MENUISERIE BA",
         ville: "Saly",
@@ -484,114 +506,6 @@
         whatsapp: TEAM_WA,
         phone: TEAM_WA,
         slug: "mamadou-ba-menuiserie-saly",
-        status: "actif",
-        is_public: true
-      },
-      {
-        nom_complet: "Cheikh NDIAYE",
-        entreprise: "PEINTURE NDIAYE",
-        ville: "Mbour",
-        specialite: "Peinture",
-        metiers: "Peintre, Façadier, Décorateur",
-        annees_experience: 8,
-        zone_intervention: "Mbour, Saly, Nianing",
-        photo_profil: "https://images.unsplash.com/photo-1562259949-e8e7689d7828?auto=format&fit=crop&w=800&q=80",
-        tarif_journee: 12000,
-        description: "Peintre professionnel. Intérieur, extérieur, façades. Finitions impeccables. Devis gratuit.",
-        nb_projets_realises: 70,
-        whatsapp: TEAM_WA,
-        phone: TEAM_WA,
-        slug: "cheikh-ndiaye-peinture-mbour",
-        status: "actif",
-        is_public: true
-      },
-      {
-        nom_complet: "Ousmane SECK",
-        entreprise: "SECK CARRELAGE",
-        ville: "Dakar",
-        specialite: "Carrelage",
-        metiers: "Carreleur, Faïencier, Mosaïque",
-        annees_experience: 11,
-        zone_intervention: "Dakar, Thiès, Rufisque",
-        photo_profil: "https://images.unsplash.com/photo-1581858726788-75bc0f6a952d?auto=format&fit=crop&w=800&q=80",
-        tarif_journee: 14000,
-        description: "Carreleur expert. Pose de carrelage, faïence, marbre. Travail précis et soigné. Devis détaillé.",
-        nb_projets_realises: 88,
-        whatsapp: TEAM_WA,
-        phone: TEAM_WA,
-        slug: "ousmane-seck-carrelage-dakar",
-        status: "actif",
-        is_public: true
-      },
-      {
-        nom_complet: "Lamine DIALLO",
-        entreprise: "CLIM DIALLO",
-        ville: "Saly",
-        specialite: "Climatisation",
-        metiers: "Frigoriste, Climaticien, SAV",
-        annees_experience: 9,
-        zone_intervention: "Saly, Mbour, Dakar",
-        photo_profil: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=800&q=80",
-        tarif_journee: 17000,
-        description: "Technicien climatisation. Installation, entretien, dépannage. Toutes marques. Intervention rapide.",
-        nb_projets_realises: 65,
-        whatsapp: TEAM_WA,
-        phone: TEAM_WA,
-        slug: "lamine-diallo-climatisation-saly",
-        status: "actif",
-        is_public: true
-      },
-      {
-        nom_complet: "Babacar GUEYE",
-        entreprise: "GUEYE CONSTRUCTION",
-        ville: "Thiès",
-        specialite: "Multi-services",
-        metiers: "Maçon, Plombier, Électricien",
-        annees_experience: 20,
-        zone_intervention: "Thiès, Dakar, Mbour",
-        photo_profil: "https://images.unsplash.com/photo-1534398079543-7ae6d016b86a?auto=format&fit=crop&w=800&q=80",
-        tarif_journee: 25000,
-        description: "Artisan multi-compétences avec 20 ans d'expérience. Gestion complète de chantiers. Équipe qualifiée disponible.",
-        nb_projets_realises: 200,
-        whatsapp: TEAM_WA,
-        phone: TEAM_WA,
-        slug: "babacar-gueye-multiservices-thies",
-        status: "actif",
-        is_public: true
-      },
-      {
-        nom_complet: "Alioune TOURE",
-        entreprise: "TOURE SOUDURE",
-        ville: "Dakar",
-        specialite: "Soudure",
-        metiers: "Soudeur, Métallerie, Ferronnerie",
-        annees_experience: 14,
-        zone_intervention: "Dakar, Pikine, Guédiawaye",
-        photo_profil: "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&w=800&q=80",
-        tarif_journee: 16000,
-        description: "Soudeur qualifié. Portails, grilles, structures métalliques. Travail sur mesure. Garantie qualité.",
-        nb_projets_realises: 75,
-        whatsapp: TEAM_WA,
-        phone: TEAM_WA,
-        slug: "alioune-toure-soudure-dakar",
-        status: "actif",
-        is_public: true
-      },
-      {
-        nom_complet: "Modou FAYE",
-        entreprise: "FAYE TOITURE",
-        ville: "Mbour",
-        specialite: "Toiture",
-        metiers: "Couvreur, Charpentier, Étanchéité",
-        annees_experience: 13,
-        zone_intervention: "Mbour, Saly, Joal",
-        photo_profil: "https://images.unsplash.com/photo-1632778149955-e80f8ceca2e8?auto=format&fit=crop&w=800&q=80",
-        tarif_journee: 18000,
-        description: "Couvreur professionnel. Toitures neuves, rénovation, étanchéité. Matériaux de qualité. Garantie décennale.",
-        nb_projets_realises: 92,
-        whatsapp: TEAM_WA,
-        phone: TEAM_WA,
-        slug: "modou-faye-toiture-mbour",
         status: "actif",
         is_public: true
       }
@@ -623,7 +537,7 @@
     function mergeArtisansNoDup(dbList, placebots, targetCount){
       const merged = [...dbList];
       const seen = new Set(dbList.map(x => String(x.slug || "").toLowerCase()).filter(Boolean));
-      
+
       for (const pb of placebots){
         if (merged.length >= targetCount) break;
         const s = String(pb.slug || "").toLowerCase();
@@ -631,7 +545,7 @@
         merged.push(pb);
         if (s) seen.add(s);
       }
-      
+
       return merged;
     }
 
@@ -650,35 +564,82 @@
         console.warn("[DIGIY BUILD] Supabase error:", error.message);
         return { ok:false, rows:[], error: error.message };
       }
-      
+
       return { ok:true, rows: data || [], error:null };
     }
 
     /* =========================
-       CARD TEMPLATE
+       ACTIONS
+    ========================= */
+    function contactArtisan(phone, nom){
+      const msg = `Bonjour ${nom}, je souhaite un devis pour des travaux via DIGIY BUILD.`;
+      openWa(phone, msg);
+    }
+    window.contactArtisan = contactArtisan;
+
+    function demanderDevis(artisanId, nom){
+      if(artisanId){
+        location.href = `./request.html?artisan_id=${encodeURIComponent(artisanId)}&nom=${encodeURIComponent(nom)}`;
+      } else {
+        contactArtisan(TEAM_WA, nom);
+      }
+    }
+    window.demanderDevis = demanderDevis;
+
+    /* =========================
+       CARD TEMPLATE (AVEC FICHE WP + WA PRO)
     ========================= */
     function cardTemplate(artisan){
       const nom = artisan.nom_complet || "Artisan";
       const entreprise = artisan.entreprise || "";
       const ville = artisan.ville || "—";
       const specialite = artisan.specialite || "Multi-services";
-      const photo = artisan.photo_profil || (artisan.photo_travaux?.[0]) || "https://images.unsplash.com/photo-1504307651254-35680f356dfd";
-      const wa = artisan.whatsapp || artisan.phone || TEAM_WA;
-      const tarif = artisan.tarif_journee 
-        ? `${artisan.tarif_journee.toLocaleString('fr-FR')} FCFA/jour`
-        : artisan.tarif_horaire 
-        ? `${artisan.tarif_horaire.toLocaleString('fr-FR')} FCFA/h`
+
+      const photo =
+        artisan.photo_profil ||
+        (Array.isArray(artisan.photo_travaux) ? artisan.photo_travaux[0] : null) ||
+        "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=800&q=80";
+
+      const slugKey = artisan.slug ? String(artisan.slug).toLowerCase() : "";
+
+      // ✅ WhatsApp : DB > phone > mapping slug > TEAM
+      const wa =
+        artisan.whatsapp ||
+        artisan.phone ||
+        (slugKey ? WHATSAPP_BY_SLUG[slugKey] : null) ||
+        TEAM_WA;
+
+      const tarif = artisan.tarif_journee
+        ? `${Number(artisan.tarif_journee).toLocaleString('fr-FR')} FCFA/jour`
+        : artisan.tarif_horaire
+        ? `${Number(artisan.tarif_horaire).toLocaleString('fr-FR')} FCFA/h`
         : "Sur devis";
-      
+
       const exp = artisan.annees_experience ? `${artisan.annees_experience} ans d'exp.` : "";
       const projets = artisan.nb_projets_realises ? `${artisan.nb_projets_realises} projets` : "";
-      
+
       const badges = [];
       badges.push(`<div class="badge">0% commission DIGIY</div>`);
       badges.push(`<div class="badge free">✅ DISPONIBLE</div>`);
       if(exp) badges.push(`<div class="badge gold">${escapeHtml(exp)}</div>`);
       if(projets) badges.push(`<div class="badge gold">${escapeHtml(projets)}</div>`);
-      
+
+      // ✅ FICHE : public_url DB > mapping slug WP
+      const ficheUrl = artisan.public_url || (slugKey ? FICHES_WORDPRESS[slugKey] : null);
+
+      const btnFiche = ficheUrl
+        ? `
+          <a class="btn btn-primary" href="${escapeAttr(ficheUrl)}" target="_blank" rel="noopener noreferrer">
+            👁️ Voir la fiche
+          </a>
+        `
+        : `
+          <button class="btn btn-primary" type="button"
+            onclick='demanderDevis("${escapeAttr(artisan.id || "")}", "${escapeAttr(nom)}")'>
+            📋 Demander un devis
+          </button>
+        `;
+
       return `
         <article class="card">
           <div class="photo">
@@ -708,10 +669,7 @@
           </div>
 
           <div class="actions">
-            <button class="btn btn-primary" type="button" onclick='demanderDevis("${escapeAttr(artisan.id || '')}", "${escapeAttr(nom)}")'>
-              📋 Demander un devis
-            </button>
-
+            ${btnFiche}
             <button class="btn btn-wa" type="button" onclick='contactArtisan("${escapeAttr(wa)}", "${escapeAttr(nom)}")'>
               📲 WhatsApp direct
             </button>
@@ -719,24 +677,6 @@
         </article>
       `;
     }
-
-    /* =========================
-       ACTIONS
-    ========================= */
-    function contactArtisan(phone, nom){
-      const msg = `Bonjour ${nom}, je souhaite un devis pour des travaux via DIGIY BUILD.`;
-      openWa(phone, msg);
-    }
-    window.contactArtisan = contactArtisan;
-
-    function demanderDevis(artisanId, nom){
-      if(artisanId){
-        location.href = `./request.html?artisan_id=${encodeURIComponent(artisanId)}&nom=${encodeURIComponent(nom)}`;
-      } else {
-        contactArtisan(TEAM_WA, nom);
-      }
-    }
-    window.demanderDevis = demanderDevis;
 
     /* =========================
        FILTRES
