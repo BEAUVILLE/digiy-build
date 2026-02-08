@@ -40,6 +40,37 @@
       margin:0 0 10px;
     }
     .header p{color:var(--muted);font-size:18px;margin:5px 0}
+    .header-cta{
+      margin-top:20px;
+      display:flex;
+      gap:15px;
+      justify-content:center;
+      flex-wrap:wrap;
+    }
+    .cta-btn{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:14px 28px;
+      background:linear-gradient(135deg,#f97316,#facc15);
+      color:#000;
+      text-decoration:none;
+      border-radius:999px;
+      font-weight:800;
+      font-size:15px;
+      box-shadow:0 8px 20px rgba(249,115,22,.4);
+      transition:all 0.2s;
+    }
+    .cta-btn:hover{
+      transform:translateY(-2px);
+      box-shadow:0 12px 28px rgba(249,115,22,.6);
+    }
+    .cta-btn.secondary{
+      background:rgba(148,163,184,.2);
+      color:var(--ink);
+      border:1px solid var(--line);
+      box-shadow:none;
+    }
     
     /* DEBUG */
     .debug{
@@ -210,6 +241,7 @@
       align-items:center;
       justify-content:center;
       gap:8px;
+      text-decoration:none;
     }
     .btn:active{transform:scale(0.98)}
     
@@ -255,6 +287,16 @@
     <p style="font-size:14px;color:#6b7280;margin-top:10px">
       Dakar • Thiès • Saly • Mbour • Touba
     </p>
+    
+    <!-- CTA BUTTONS -->
+    <div class="header-cta">
+      <a href="./build-gen.html" class="cta-btn">
+        🏗️ Créer ma fiche artisan
+      </a>
+      <a href="https://wa.me/221771342889" class="cta-btn secondary" target="_blank" rel="noopener">
+        📲 Parler à l'équipe DIGIY
+      </a>
+    </div>
   </div>
 
   <!-- DEBUG INFO -->
@@ -362,6 +404,15 @@ async function fetchArtisans(){
 }
 
 /* =============================================
+   LIENS WORDPRESS DES FICHES
+============================================= */
+const FICHES_WORDPRESS = {
+  'elage-plombier-saly': 'https://orange-pig-270004.hostingersite.com/partenaires-helage-plombier/',
+  'zal-kourant-electricien-saly': 'https://orange-pig-270004.hostingersite.com/partenaires-zal-kourant/',
+  'mbaye-diouf-entrepreneur-saly': 'https://orange-pig-270004.hostingersite.com/partenaires-mbaye/'
+};
+
+/* =============================================
    CARD TEMPLATE
 ============================================= */
 function createCard(artisan){
@@ -395,6 +446,17 @@ function createCard(artisan){
       ${projets ? `<div class="badge badge-info">${projets}</div>` : ''}
     `;
   
+  // ✅ BOUTON FICHE OU DEVIS
+  const ficheUrl = FICHES_WORDPRESS[artisan.slug] || artisan.public_url || null;
+  
+  const primaryButton = (ficheUrl && !isExample)
+    ? `<a href="${ficheUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+         👁️ Voir la fiche complète
+       </a>`
+    : `<button class="btn btn-primary" onclick="demanderDevis('${artisan.id}','${nom.replace(/'/g,"\\'")}')">
+         📋 Demander un devis
+       </button>`;
+  
   return `
     <article class="${cardClass}">
       <div class="photo">
@@ -412,9 +474,7 @@ function createCard(artisan){
       <div class="tarif">Tarif: ${tarif}</div>
       
       <div class="actions">
-        <button class="btn btn-primary" onclick="demanderDevis('${artisan.id}','${nom.replace(/'/g,"\\'")}')">
-          📋 Demander un devis
-        </button>
+        ${primaryButton}
         <button class="btn btn-wa" onclick="contacterWA('${wa}','${nom.replace(/'/g,"\\'")}')">
           📲 WhatsApp direct
         </button>
