@@ -34,7 +34,6 @@
       min-height:100vh;
     }
 
-    /* Topbar */
     .topbar{
       position:sticky; top:0; z-index:60;
       background:linear-gradient(135deg, rgba(15,23,42,.92), rgba(2,6,23,.92));
@@ -81,7 +80,6 @@
       color:#062014;
     }
 
-    /* Layout */
     .wrap{max-width:1180px; margin:0 auto; padding:18px 16px 44px;}
     .hero{
       border:1px solid rgba(250,204,21,.18);
@@ -110,7 +108,6 @@
     }
     .chip b{color:var(--ink)}
 
-    /* CTA Demandes */
     .cta-demandes{
       border:2px solid rgba(250,204,21,.28);
       background:
@@ -139,7 +136,6 @@
       box-shadow:0 10px 30px rgba(250,204,21,.22);
     }
 
-    /* Pro CTA card */
     .qcard{
       border:1px solid rgba(255,255,255,.12);
       background:rgba(0,0,0,.18);
@@ -153,7 +149,6 @@
     .qcard p{color:var(--muted); font-weight:900; line-height:1.35; max-width:70ch}
     .qcard .row{display:flex; gap:10px; flex-wrap:wrap; align-items:center}
 
-    /* Filters */
     .filters{
       border:1px solid var(--line);
       background:rgba(0,0,0,.18);
@@ -195,7 +190,6 @@
       font-weight:900;
     }
 
-    /* Section titles */
     .section-title{
       display:flex; align-items:center; justify-content:space-between; gap:10px;
       margin:16px 0 10px;
@@ -211,7 +205,6 @@
       font-size:.9rem;
     }
 
-    /* Partner Grid */
     .partners-grid{
       display:grid;
       grid-template-columns: repeat(12, 1fr);
@@ -306,11 +299,6 @@
       background:linear-gradient(135deg, rgba(250,204,21,.92), rgba(249,115,22,.75));
       color:#081018;
     }
-    .btn.call{
-      border:1px solid rgba(56,189,248,.28);
-      background:rgba(56,189,248,.10);
-      color:rgba(234,255,241,.92);
-    }
 
     .empty{
       border:1px dashed rgba(255,255,255,.18);
@@ -372,17 +360,20 @@
   </section>
 
   <section class="qcard">
-  <div>
-    <h3>🔐 Espace Pro</h3>
-    <p>Après paiement → activation → PIN → accès au cockpit + générateur de fiche.</p>
-  </div>
-  <div class="row">
-    <a class="btn cockpit" href="./build-pro/pin.html">Entrer mon PIN</a>
-    <a class="btn secondary" href="./build-pro/generator.html">🧾 Générateur de fiche</a>
-    <a class="btn secondary" href="https://beauville.github.io/commencer-a-payer/?module=BUILD">💳 Commencer à payer</a>
-  </div>
-</section>
-  
+    <div>
+      <h3>🔐 Espace Pro</h3>
+      <p>Après paiement → activation → PIN → accès au cockpit + générateur de fiche.</p>
+    </div>
+    <div class="row">
+      <a class="btn cockpit" href="./build-pro/pin.html">Entrer mon PIN</a>
+      <a class="btn secondary" href="./build-pro/generator.html">🧾 Générateur de fiche</a>
+
+      <!-- ✅ LIEN PAYER FIXE (pas de JS fragile) -->
+      <a class="btn secondary" href="https://beauville.github.io/commencer-a-payer/?module=BUILD">💳 Commencer à payer</a>
+      <!-- ✅ fallback manuel si besoin -->
+      <a class="btn secondary" href="https://beauville.github.io/commencer-a-payer/">(fallback)</a>
+    </div>
+  </section>
 
   <section class="cta-demandes">
     <h3>📋 Consulter les demandes publiques</h3>
@@ -438,14 +429,6 @@ const SUPABASE_ANON_KEY =
 
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-// ⚠️ Lien payer: fallback anti-404
-const PAY_CANDIDATES = [
-  "https://beauville.github.io/commencer-a-payer/?module=BUILD",
-  "https://beauville.github.io/commencer-a-payer/",
-  "https://beauville.github.io/commencer-%C3%A0-payer/?module=BUILD",
-  "https://beauville.github.io/commencer-%C3%A0-payer/"
-];
-
 /* =========================================================
    HELPERS
 ========================================================= */
@@ -464,7 +447,6 @@ function waLink(phone, msg){
   return "https://wa.me/" + clean + (t ? ("?text=" + t) : "");
 }
 function pickTagTrade(row){
-  // on affiche trade si présent, sinon sector
   const t = String(row.trade||"").trim();
   const s = String(row.sector||"").trim();
   return t || s || "Pro BTP";
@@ -588,21 +570,7 @@ document.getElementById("qPro").addEventListener("input", (e)=>{
 });
 
 /* =========================================================
-   PAY LINK (anti-404)
-========================================================= */
-(async function initPayLink(){
-  const a = document.getElementById("btnPay");
-  if(!a) return;
-
-  // par défaut on met la première
-  a.href = PAY_CANDIDATES[0];
-
-  // test rapide: on garde simple (pas de fetch cross origin bloquant en CORS)
-  // => tu me confirmes l'URL final et je le fige.
-})();
-
-/* =========================================================
-   LOAD PROFILES FROM SUPABASE
+   LOAD PROFILES FROM SUPABASE (✅ ANTI-DOUBLON ICI)
 ========================================================= */
 (async function loadProfiles(){
   try{
@@ -611,12 +579,26 @@ document.getElementById("qPro").addEventListener("input", (e)=>{
       .select("id,slug,display_name,trade,sector,region,city,address,whatsapp,phone,photo_url,bio,tags,profile_url,is_published,is_active,is_verified,priority,badge,hub_badge,price_label,created_at,updated_at")
       .eq("is_published", true)
       .eq("is_active", true)
-      .order("priority", { ascending: false })
+      .order("priority", { ascending: true })
       .order("updated_at", { ascending: false });
 
     if(error) throw error;
 
-    ALL = (data || []).map(r => ({
+    // ✅ DEDUPE PAR SLUG (GARDE LE PLUS RÉCENT)
+    const uniq = new Map();
+    (data || []).forEach(r => {
+      const key = (r.slug || "").toLowerCase().trim();
+      if(!key) return;
+
+      const prev = uniq.get(key);
+      if(!prev) return uniq.set(key, r);
+
+      const tPrev = new Date(prev.updated_at || prev.created_at || 0).getTime();
+      const tNow  = new Date(r.updated_at || r.created_at || 0).getTime();
+      if(tNow >= tPrev) uniq.set(key, r);
+    });
+
+    ALL = Array.from(uniq.values()).map(r => ({
       ...r,
       _cat: mapSector(r.sector, r.trade)
     }));
@@ -632,3 +614,4 @@ document.getElementById("qPro").addEventListener("input", (e)=>{
 
 </body>
 </html>
+
