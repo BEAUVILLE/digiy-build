@@ -1,7 +1,146 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>Demande de devis — DIGIY BUILD</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <style>
+    :root{
+      --bg:#020617;
+      --accent:#facc15;
+      --orange:#f97316;
+      --green:#22c55e;
+      --ink:#f9fafb;
+      --muted:#9ca3af;
+      --line:#1f2937;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+    body{
+      background:radial-gradient(circle at top,#111827,#020617);
+      color:var(--ink);
+      font-family:system-ui;
+      padding:20px;
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+    .card{
+      max-width:650px;
+      width:100%;
+      background:linear-gradient(135deg,#0b1220,#020617);
+      border:2px solid var(--line);
+      border-radius:20px;
+      padding:30px;
+      box-shadow:0 20px 60px rgba(0,0,0,.7);
+    }
+    h1{
+      font-size:34px;
+      font-weight:900;
+      background:linear-gradient(135deg,#f97316,#facc15);
+      -webkit-background-clip:text;
+      -webkit-text-fill-color:transparent;
+      margin-bottom:10px;
+      text-align:center;
+    }
+    p{color:var(--muted);text-align:center;margin-bottom:25px}
+
+    label{font-weight:700;margin-top:14px;display:block}
+    input, textarea, select{
+      width:100%;
+      padding:14px;
+      border-radius:12px;
+      border:1px solid var(--line);
+      background:#020617;
+      color:#fff;
+      margin-top:6px;
+      font-size:15px;
+    }
+    textarea{min-height:110px}
+
+    .btn{
+      width:100%;
+      padding:16px;
+      margin-top:22px;
+      border:none;
+      border-radius:12px;
+      font-weight:900;
+      font-size:16px;
+      cursor:pointer;
+      background:linear-gradient(135deg,#f97316,#facc15);
+      color:#000;
+      box-shadow:0 10px 24px rgba(249,115,22,.4);
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="card">
+  <h1>📋 Demande de devis</h1>
+  <p>Décris ton projet. L’artisan recevra la demande.</p>
+
+  <form id="form">
+
+    <label>Nom</label>
+    <input name="nom" required>
+
+    <label>Téléphone WhatsApp</label>
+    <input name="phone" required>
+
+    <label>Ville du chantier</label>
+    <input name="ville" required>
+
+    <label>Type de travaux</label>
+    <select name="type_travaux">
+      <option>Maçonnerie</option>
+      <option>Plomberie</option>
+      <option>Électricité</option>
+      <option>Peinture</option>
+      <option>Carrelage</option>
+      <option>Menuiserie</option>
+      <option>Autre</option>
+    </select>
+
+    <label>Description du projet</label>
+    <textarea name="description" required></textarea>
+
+    <label>Budget estimé (FCFA)</label>
+    <input name="budget" type="number">
+
+    <label>Urgence</label>
+    <select name="urgence">
+      <option>Normal</option>
+      <option>Urgent</option>
+      <option>Très urgent</option>
+    </select>
+
+    <button class="btn">Envoyer la demande</button>
+  </form>
+</div>
+
+<script>
+/* SUPABASE */
+const SUPABASE_URL = "https://wesqmwjjtsefyjnluosj.supabase.co";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indlc3Ftd2pqdHNlZnlqbmx1b3NqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUxNzg4ODIsImV4cCI6MjA4MDc1NDg4Mn0.dZfYOc2iL2_wRYL3zExZFsFSBK6AbMeOid2LrIjcTdA";
+
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+/* SUBMIT */
+document.getElementById('form').addEventListener('submit', async (e)=>{
+  e.preventDefault();
+  const formData = new FormData(e.target);
+  await submitDemande(formData);
+});
+
+/* TA FONCTION */
 async function submitDemande(formData){
   const params = new URLSearchParams(location.search);
   const artisanId = params.get('artisan_id');
-  
+
   try {
     const { data, error } = await sb
       .from('digiy_build_demandes')
@@ -23,12 +162,14 @@ async function submitDemande(formData){
     if(error) throw error;
 
     console.log('✅ Demande créée:', data);
-    
-    // Redirection success
     location.href = './success.html?demande_id=' + data.id;
-    
+
   } catch(err) {
     console.error('❌ Erreur:', err);
     alert('Erreur: ' + (err?.message || err));
   }
 }
+</script>
+
+</body>
+</html>
