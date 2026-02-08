@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Accès BUILD PRO</title>
+<script src="./guard.js"></script>
+
+<style>
+body{
+  background:#061b14;color:white;
+  font-family:system-ui;
+  display:grid;place-items:center;height:100vh;
+}
+.box{
+  background:#0b2a1f;padding:30px;border-radius:16px;
+  width:320px;display:flex;flex-direction:column;gap:10px;
+}
+input,button{
+  padding:12px;border-radius:10px;border:none;font-weight:900;
+}
+button{background:#facc15;color:black;cursor:pointer}
+</style>
+</head>
+
+<body>
+<div class="box">
+  <h2>🔐 Accès BUILD</h2>
+  <input id="slug" placeholder="slug">
+  <input id="pin" placeholder="PIN" type="password">
+  <button onclick="go()">Entrer</button>
+</div>
+
+<script>
+async function go(){
+  const slug = slugInput.value || document.getElementById("slug").value;
+  const pin  = document.getElementById("pin").value;
+
+  const r = await DIGIY_GUARD.loginWithPin(slug,pin);
+  if(!r.ok) return alert(r.error);
+
+  location.href = "./cockpit.html";
+}
+</script>
+</body>
+</html>
