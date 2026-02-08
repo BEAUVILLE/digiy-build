@@ -1,9 +1,13 @@
-<!DOCTYPE html>
+<!-- request.html -->
+<!doctype html>
 <html lang="fr">
 <head>
   <meta charset="utf-8">
-  <title>Demande de devis — DIGIY BUILD</title>
+  <title>DIGIY BUILD — Demande de devis</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Demande de devis DIGIY BUILD - Contact direct, 0% commission.">
+
+  <meta name="theme-color" content="#020617">
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -16,159 +20,379 @@
       --ink:#f9fafb;
       --muted:#9ca3af;
       --line:#1f2937;
+      --shadow:0 20px 60px rgba(0,0,0,.7);
+      --r:20px;
     }
     *{box-sizing:border-box;margin:0;padding:0}
     body{
+      margin:0;
       background:radial-gradient(circle at top,#111827,#020617);
       color:var(--ink);
-      font-family:system-ui;
+      font-family:system-ui,-apple-system,sans-serif;
       padding:20px;
       min-height:100vh;
       display:flex;
       align-items:center;
       justify-content:center;
     }
-    .card{
-      max-width:650px;
-      width:100%;
-      background:linear-gradient(135deg,#0b1220,#020617);
-      border:2px solid var(--line);
-      border-radius:20px;
-      padding:30px;
-      box-shadow:0 20px 60px rgba(0,0,0,.7);
-    }
-    h1{
-      font-size:34px;
+    .wrap{max-width:820px;width:100%}
+    .header{text-align:center;margin-bottom:16px}
+    .header h1{
+      font-size:40px;
       font-weight:900;
       background:linear-gradient(135deg,#f97316,#facc15);
       -webkit-background-clip:text;
       -webkit-text-fill-color:transparent;
-      margin-bottom:10px;
-      text-align:center;
+      margin:0 0 8px;
     }
-    p{color:var(--muted);text-align:center;margin-bottom:25px}
-
-    label{font-weight:700;margin-top:14px;display:block}
-    input, textarea, select{
-      width:100%;
-      padding:14px;
-      border-radius:12px;
+    .header p{color:var(--muted);font-size:15px;line-height:1.4}
+    .toplinks{
+      display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-top:12px
+    }
+    .toplinks a{
+      display:inline-flex;align-items:center;gap:8px;
+      padding:10px 12px;border-radius:12px;
       border:1px solid var(--line);
+      color:var(--ink);
+      text-decoration:none;
+      background:rgba(148,163,184,.08);
+      font-weight:850;font-size:13px;
+      transition:.15s;
+    }
+    .toplinks a:hover{transform:translateY(-1px);border-color:rgba(250,204,21,.45)}
+
+    .card{
+      background:linear-gradient(135deg,#0b1220,#020617);
+      border:2px solid var(--line);
+      border-radius:var(--r);
+      padding:18px;
+      box-shadow:var(--shadow);
+    }
+
+    .info{
+      border:1px solid rgba(250,204,21,.25);
+      background:rgba(250,204,21,.06);
+      border-radius:14px;
+      padding:12px 14px;
+      color:#fde68a;
+      font-weight:800;
+      font-size:13px;
+      line-height:1.4;
+      margin-bottom:14px;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+    }
+    @media(max-width:780px){ .grid{grid-template-columns:1fr} }
+
+    label{
+      display:block;
+      font-weight:900;
+      font-size:12px;
+      letter-spacing:.3px;
+      text-transform:uppercase;
+      color:#cbd5e1;
+      margin:10px 0 6px;
+    }
+    input, select, textarea{
+      width:100%;
+      padding:14px 14px;
+      border-radius:14px;
+      border:1px solid rgba(148,163,184,.25);
       background:#020617;
-      color:#fff;
-      margin-top:6px;
+      color:var(--ink);
+      outline:none;
       font-size:15px;
     }
-    textarea{min-height:110px}
+    textarea{min-height:120px;resize:vertical}
+    input:focus, select:focus, textarea:focus{
+      border-color:rgba(250,204,21,.6);
+      box-shadow:0 0 0 4px rgba(250,204,21,.12);
+    }
 
+    .actions{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:14px;
+    }
     .btn{
-      width:100%;
-      padding:16px;
-      margin-top:22px;
+      flex:1;
+      min-width:180px;
+      padding:14px 16px;
       border:none;
-      border-radius:12px;
-      font-weight:900;
-      font-size:16px;
+      border-radius:14px;
+      font-weight:1000;
+      font-size:15px;
       cursor:pointer;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      text-decoration:none;
+      transition:.15s;
+    }
+    .btn:active{transform:scale(.99)}
+    .btn.primary{
       background:linear-gradient(135deg,#f97316,#facc15);
       color:#000;
-      box-shadow:0 10px 24px rgba(249,115,22,.4);
+      box-shadow:0 10px 24px rgba(249,115,22,.35);
     }
+    .btn.primary:hover{transform:translateY(-2px);box-shadow:0 14px 34px rgba(249,115,22,.55)}
+    .btn.ghost{
+      background:rgba(148,163,184,.12);
+      color:var(--ink);
+      border:1px solid rgba(148,163,184,.25);
+      box-shadow:none;
+    }
+    .btn.ghost:hover{transform:translateY(-2px);border-color:rgba(250,204,21,.35)}
+
+    .mini{
+      margin-top:12px;
+      color:rgba(148,163,184,.9);
+      font-size:12.5px;
+      line-height:1.45;
+    }
+
+    .toast{
+      position:fixed;left:50%;bottom:18px;transform:translateX(-50%);
+      min-width:260px;max-width:92vw;
+      background:#0b1220;border:1px solid rgba(148,163,184,.25);
+      border-radius:14px;box-shadow:var(--shadow);
+      padding:12px 14px;display:none;z-index:9999;
+    }
+    .toast.show{display:block}
+    .toast.ok{border-color:rgba(34,197,94,.45)}
+    .toast.bad{border-color:rgba(239,68,68,.45)}
+    .toast .t{font-weight:950}
+    .toast .m{margin-top:4px;color:rgba(203,213,225,.85);font-size:13px}
   </style>
 </head>
 
 <body>
+  <div class="wrap">
+    <div class="header">
+      <h1>📋 Demande de devis</h1>
+      <p>Tu décris ton projet, ça part direct. <b>0% commission</b>.</p>
+      <div class="toplinks">
+        <a href="./index.html">← Vitrine</a>
+        <a href="./listing.html">👁️ Voir les artisans</a>
+      </div>
+    </div>
 
-<div class="card">
-  <h1>📋 Demande de devis</h1>
-  <p>Décris ton projet. L’artisan recevra la demande.</p>
+    <div class="card">
+      <div class="info" id="artisanInfo">⏳ Récupération artisan…</div>
 
-  <form id="form">
+      <form id="form">
+        <div class="grid">
+          <div>
+            <label for="nom">Nom</label>
+            <input id="nom" name="nom" required placeholder="Ex: Awa Ndiaye">
+          </div>
 
-    <label>Nom</label>
-    <input name="nom" required>
+          <div>
+            <label for="phone">Téléphone WhatsApp</label>
+            <input id="phone" name="phone" required placeholder="Ex: +221 77 000 00 00">
+          </div>
 
-    <label>Téléphone WhatsApp</label>
-    <input name="phone" required>
+          <div>
+            <label for="ville">Ville du chantier</label>
+            <input id="ville" name="ville" required placeholder="Ex: Saly / Dakar / Thiès">
+          </div>
 
-    <label>Ville du chantier</label>
-    <input name="ville" required>
+          <div>
+            <label for="type_travaux">Type de travaux</label>
+            <select id="type_travaux" name="type_travaux" required>
+              <option value="Maçonnerie">Maçonnerie</option>
+              <option value="Plomberie">Plomberie</option>
+              <option value="Électricité">Électricité</option>
+              <option value="Peinture">Peinture</option>
+              <option value="Carrelage">Carrelage</option>
+              <option value="Menuiserie">Menuiserie</option>
+              <option value="Autre">Autre</option>
+            </select>
+          </div>
+        </div>
 
-    <label>Type de travaux</label>
-    <select name="type_travaux">
-      <option>Maçonnerie</option>
-      <option>Plomberie</option>
-      <option>Électricité</option>
-      <option>Peinture</option>
-      <option>Carrelage</option>
-      <option>Menuiserie</option>
-      <option>Autre</option>
-    </select>
+        <label for="description">Description du projet</label>
+        <textarea id="description" name="description" required
+          placeholder="Ex: rénovation cuisine, fuite, construction mur, peinture façade..."></textarea>
 
-    <label>Description du projet</label>
-    <textarea name="description" required></textarea>
+        <div class="grid">
+          <div>
+            <label for="budget">Budget estimé (FCFA)</label>
+            <input id="budget" name="budget" type="number" inputmode="numeric" placeholder="Ex: 150000">
+          </div>
 
-    <label>Budget estimé (FCFA)</label>
-    <input name="budget" type="number">
+          <div>
+            <label for="urgence">Urgence</label>
+            <select id="urgence" name="urgence" required>
+              <option value="Normal">Normal</option>
+              <option value="Urgent">Urgent</option>
+              <option value="Très urgent">Très urgent</option>
+            </select>
+          </div>
+        </div>
 
-    <label>Urgence</label>
-    <select name="urgence">
-      <option>Normal</option>
-      <option>Urgent</option>
-      <option>Très urgent</option>
-    </select>
+        <div class="actions">
+          <button class="btn primary" id="btnSubmit" type="submit">🚀 Envoyer la demande</button>
+          <a class="btn ghost" href="./listing.html">↩️ Retour listing</a>
+        </div>
 
-    <button class="btn">Envoyer la demande</button>
-  </form>
-</div>
+        <div class="mini">
+          Astuce terrain : mets <b>photos + dimensions</b> dans la description, et reste joignable.
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="toast" id="toast">
+    <div class="t" id="toastT"></div>
+    <div class="m" id="toastM"></div>
+  </div>
 
 <script>
-/* SUPABASE */
+/* =============================================
+   CONFIG SUPABASE
+============================================= */
 const SUPABASE_URL = "https://wesqmwjjtsefyjnluosj.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indlc3Ftd2pqdHNlZnlqbmx1b3NqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUxNzg4ODIsImV4cCI6MjA4MDc1NDg4Mn0.dZfYOc2iL2_wRYL3zExZFsFSBK6AbMeOid2LrIjcTdA";
-
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-/* SUBMIT */
-document.getElementById('form').addEventListener('submit', async (e)=>{
-  e.preventDefault();
-  const formData = new FormData(e.target);
-  await submitDemande(formData);
-});
+const TEAM_WA = "+221771342889";
+const KEY_LAST = "DIGIY_BUILD_LAST_REQUEST";
 
-/* TA FONCTION */
-async function submitDemande(formData){
-  const params = new URLSearchParams(location.search);
-  const artisanId = params.get('artisan_id');
+const $ = (id)=>document.getElementById(id);
+function toast(kind, title, msg){
+  const t = $("toast");
+  t.classList.remove("ok","bad");
+  t.classList.add("show", kind === "ok" ? "ok" : "bad");
+  $("toastT").textContent = title;
+  $("toastM").textContent = msg;
+  setTimeout(()=>t.classList.remove("show"), 2400);
+}
 
-  try {
+function onlyDigitsPhone(s){ return String(s||"").replace(/\D/g,""); }
+
+/* =============================================
+   GET PARAMS
+============================================= */
+const params = new URLSearchParams(location.search);
+const artisanId = params.get("artisan_id");
+const artisanNom = params.get("nom"); // optionnel si tu l'envoies depuis listing
+
+/* =============================================
+   UI artisan info
+============================================= */
+function setArtisanInfo(txt, ok=true){
+  const el = $("artisanInfo");
+  el.style.borderColor = ok ? "rgba(34,197,94,.35)" : "rgba(239,68,68,.35)";
+  el.style.background  = ok ? "rgba(34,197,94,.08)" : "rgba(239,68,68,.08)";
+  el.style.color       = ok ? "#bbf7d0" : "#fecaca";
+  el.innerHTML = txt;
+}
+
+async function loadArtisan(){
+  if(!artisanId){
+    setArtisanInfo("⚠️ Artisan introuvable (artisan_id manquant). Reviens au listing.", false);
+    return;
+  }
+
+  // Si on a déjà le nom via URL, on affiche direct (et on ne bloque pas)
+  if(artisanNom){
+    setArtisanInfo(`✅ Artisan : <b>${artisanNom}</b> • ID: <b>${artisanId}</b>`);
+  } else {
+    setArtisanInfo(`✅ Artisan sélectionné • ID: <b>${artisanId}</b>`);
+  }
+
+  // Optionnel: si ta table artisans est lisible, on tente de récupérer le nom (sinon on ignore)
+  try{
     const { data, error } = await sb
-      .from('digiy_build_demandes')
-      .insert({
-        artisan_id: artisanId,
-        client_nom: formData.get('nom'),
-        client_phone: formData.get('phone'),
-        client_ville: formData.get('ville'),
-        type_travaux: formData.get('type_travaux'),
-        description_projet: formData.get('description'),
-        budget_estime: formData.get('budget') ? parseInt(formData.get('budget')) : null,
-        urgence: formData.get('urgence'),
-        status: 'pending',
-        created_at: new Date().toISOString()
-      })
+      .from("digiy_build_artisans")
+      .select("nom_complet, ville, specialite")
+      .eq("id", artisanId)
+      .single();
+
+    if(error) throw error;
+
+    if(data){
+      setArtisanInfo(`✅ Artisan : <b>${data.nom_complet || "—"}</b> • ${data.specialite || ""} • ${data.ville || ""} • ID: <b>${artisanId}</b>`);
+    }
+  }catch(_){
+    // silencieux (RLS/permissions), on garde l'ID
+  }
+}
+
+/* =============================================
+   SUBMIT
+============================================= */
+$("form").addEventListener("submit", async (e)=>{
+  e.preventDefault();
+
+  if(!artisanId){
+    toast("bad","Erreur","artisan_id manquant. Retour au listing.");
+    return;
+  }
+
+  const btn = $("btnSubmit");
+  btn.disabled = true;
+  btn.textContent = "⏳ Envoi…";
+
+  const formData = new FormData(e.target);
+
+  try{
+    const payload = {
+      artisan_id: artisanId,
+      client_nom: formData.get("nom"),
+      client_phone: formData.get("phone"),
+      client_ville: formData.get("ville"),
+      type_travaux: formData.get("type_travaux"),
+      description_projet: formData.get("description"),
+      budget_estime: formData.get("budget") ? parseInt(formData.get("budget"), 10) : null,
+      urgence: formData.get("urgence"),
+      status: "pending",
+      created_at: new Date().toISOString()
+    };
+
+    const { data, error } = await sb
+      .from("digiy_build_demandes")
+      .insert(payload)
       .select()
       .single();
 
     if(error) throw error;
 
-    console.log('✅ Demande créée:', data);
-    location.href = './success.html?demande_id=' + data.id;
+    // ✅ mémoire locale (utile pour success.html & terrain)
+    try{
+      localStorage.setItem(KEY_LAST, JSON.stringify({
+        demande_id: data.id,
+        public_code: data.public_code || null, // si existe
+        at: new Date().toISOString()
+      }));
+    }catch(_){}
 
-  } catch(err) {
-    console.error('❌ Erreur:', err);
-    alert('Erreur: ' + (err?.message || err));
+    toast("ok","Envoyé","Ta demande est partie ✅");
+
+    // Redirection success (ton flow)
+    location.href = "./success.html?demande_id=" + encodeURIComponent(data.id);
+
+  }catch(err){
+    console.error("❌ Erreur:", err);
+    toast("bad","Erreur", (err?.message || String(err)).slice(0,140));
+    alert("Erreur: " + (err?.message || err));
+  }finally{
+    btn.disabled = false;
+    btn.textContent = "🚀 Envoyer la demande";
   }
-}
+});
+
+/* =============================================
+   INIT
+============================================= */
+loadArtisan();
 </script>
 
 </body>
