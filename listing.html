@@ -1,96 +1,764 @@
-/* =========================
-   ✅ FETCH digiy_build_artisans
-========================= */
-async function fetchArtisans(){
-  const { data, error } = await sb
-    .from("digiy_build_artisans")
-    .select("*")
-    .eq("status", "actif")
-    .eq("is_public", true)
-    .order("created_at", { ascending: false });
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>DIGIY BUILD — Galerie des artisans partenaires</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="DIGIY BUILD — Artisans direct, paiement direct, 0% commission.">
+  <meta name="theme-color" content="#020617">
 
-  if (error) {
-    console.warn("[DIGIY BUILD] Supabase error:", error.message);
-    return { ok:false, rows:[], error: error.message };
-  }
-  
-  return { ok:true, rows: data || [], error:null };
-}
+  <style>
+    :root{
+      --bg:#020617;
+      --bg-soft:#020818;
+      --card:#030712;
+      --accent:#facc15;
+      --accent-soft:#f97316;
+      --accent-green:#22c55e;
+      --build-orange:#f97316;
+      --ink:#f9fafb;
+      --muted:#cbd5f5;
+      --line:rgba(148,163,184,0.22);
+      --shadow-soft:0 20px 45px rgba(15,23,42,0.9);
+      --glass:rgba(2,6,23,.68);
+    }
 
-async function render(){
-  grid.innerHTML = `<div class="bigmsg">Chargement des artisans…</div>`;
+    *{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text",system-ui,sans-serif}
+    body{
+      min-height:100vh;
+      background:
+        radial-gradient(circle at top,rgba(249,115,22,0.16),transparent 60%),
+        radial-gradient(circle at bottom,rgba(250,204,21,0.16),transparent 55%),
+        var(--bg);
+      color:var(--ink);
+      display:flex;
+      justify-content:center;
+      padding:10px;
+      font-size:16px;
+    }
 
-  const artisansRes = await fetchArtisans();
+    .app{
+      width:100%;
+      max-width:1100px;
+      min-height:100vh;
+      background:linear-gradient(135deg,#020617 0%,#020818 50%,#020617 100%);
+      border-radius:24px;
+      border:1px solid rgba(148,163,184,0.25);
+      box-shadow:var(--shadow-soft);
+      padding:16px 16px 22px;
+      display:flex;
+      flex-direction:column;
+      position:relative;
+      overflow:hidden;
+    }
 
-  if (!artisansRes.ok){
-    grid.innerHTML = `<div class="bigmsg">❌ Erreur: ${artisansRes.error}</div>`;
-    return;
-  }
+    .app::before{
+      content:"";
+      position:absolute;
+      inset:-40%;
+      background:
+        radial-gradient(circle at 0% 0%,rgba(249,115,22,0.14),transparent 55%),
+        radial-gradient(circle at 100% 100%,rgba(250,204,21,0.14),transparent 45%);
+      opacity:0.8;
+      pointer-events:none;
+    }
 
-  const artisans = artisansRes.rows;
+    header{
+      position:relative;
+      z-index:2;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+      margin-bottom:12px;
+    }
 
-  if (!artisans.length){
-    grid.innerHTML = `<div class="bigmsg">Aucun artisan disponible pour le moment.</div>`;
-    return;
-  }
+    .brand{display:flex;align-items:center;gap:10px}
+    .brand-logo{
+      width:42px;height:42px;border-radius:14px;
+      background:radial-gradient(circle at 30% 0%,#facc15,#f97316);
+      display:flex;align-items:center;justify-content:center;
+      font-size:24px;
+      box-shadow:0 12px 30px rgba(249,115,22,0.65);
+    }
+    .brand-text-title{
+      font-size:20px;font-weight:900;letter-spacing:0.09em;
+      text-transform:uppercase;color:var(--build-orange);
+    }
+    .brand-text-sub{font-size:14px;color:var(--muted);font-weight:650}
 
-  grid.innerHTML = artisans.map(a => cardTemplate(a)).join("");
-}
+    .back-link{
+      font-size:13px;color:var(--muted);text-decoration:none;
+      background:rgba(15,23,42,0.9);
+      border-radius:999px;
+      border:1px solid rgba(148,163,184,0.6);
+      padding:8px 14px;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      font-weight:800;
+      white-space:nowrap;
+    }
+    .back-link:hover{border-color:var(--accent);color:var(--accent)}
 
-function cardTemplate(artisan){
-  const nom = artisan.nom_complet || "Artisan";
-  const entreprise = artisan.entreprise ? ` (${artisan.entreprise})` : "";
-  const ville = artisan.ville || "—";
-  const specialite = artisan.specialite || "Multi-services";
-  const photo = artisan.photo_profil || (artisan.photo_travaux?.[0]) || "https://images.unsplash.com/photo-1504307651254-35680f356dfd";
-  const wa = artisan.whatsapp || artisan.phone || TEAM_WA;
-  const tarif = artisan.tarif_journee 
-    ? `${artisan.tarif_journee} FCFA/jour`
-    : artisan.tarif_horaire 
-    ? `${artisan.tarif_horaire} FCFA/h`
-    : "Sur devis";
-  
-  const exp = artisan.annees_experience ? `${artisan.annees_experience} ans d'exp.` : "";
-  const projets = artisan.nb_projets_realises ? `${artisan.nb_projets_realises} projets` : "";
-  
-  return `
-    <article class="card">
-      <div class="photo">
-        <img src="${escapeAttr(photo)}" alt="${escapeHtml(nom)}" loading="lazy">
+    .hero{
+      background:radial-gradient(circle at top left,rgba(249,115,22,0.18),rgba(3,7,18,0.96));
+      border-radius:22px;
+      border:1px solid rgba(148,163,184,0.6);
+      padding:16px;
+      box-shadow:0 18px 44px rgba(15,23,42,0.95);
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+      position:relative;
+      z-index:2;
+    }
+    .hero-title{
+      font-size:26px;font-weight:950;color:var(--build-orange);
+      line-height:1.15;
+    }
+    .hero-title span{color:var(--accent)}
+    .hero-sub{
+      font-size:16px;color:#e5e7eb;max-width:760px;
+      font-weight:500;line-height:1.6;
+    }
+    .hero-tags{display:flex;flex-wrap:wrap;gap:7px;margin-top:4px}
+    .hero-tag{
+      font-size:13px;padding:5px 11px;border-radius:999px;
+      border:1px solid rgba(148,163,184,0.7);
+      background:rgba(15,23,42,0.95);
+      color:#e5e7eb;font-weight:650;
+    }
+    .hero-tag strong{color:var(--accent)}
+
+    .cta-row{
+      margin-top:14px;
+      display:flex;
+      justify-content:center;
+      flex-wrap:wrap;
+      gap:10px;
+      position:relative;
+      z-index:2;
+    }
+    .cta-btn{
+      background:linear-gradient(135deg,#f97316,#facc15);
+      padding:12px 18px;border-radius:999px;
+      color:#111;font-size:14px;font-weight:950;text-decoration:none;
+      box-shadow:0 8px 20px rgba(249,115,22,0.45);
+      border:1px solid rgba(249,115,22,0.65);
+      transition:transform .2s ease, box-shadow .2s ease;
+      display:inline-flex;align-items:center;gap:8px;
+      cursor:pointer;
+    }
+    .cta-btn:hover{transform:translateY(-2px);box-shadow:0 12px 26px rgba(249,115,22,0.65)}
+    .cta-btn.secondary{
+      background:rgba(249,115,22,0.16);
+      color:#fed7aa;
+      border:1px solid rgba(249,115,22,0.8);
+      box-shadow:none;
+    }
+    .cta-btn.secondary:hover{transform:translateY(-2px);box-shadow:0 12px 26px rgba(249,115,22,0.18)}
+
+    .filters{
+      margin-top:14px;
+      display:grid;
+      grid-template-columns:1.25fr 1fr auto auto;
+      gap:10px;
+      position:relative;
+      z-index:2;
+    }
+    input,select{
+      padding:11px 12px;border-radius:14px;
+      border:1px solid var(--line);
+      background:rgba(2,6,23,0.85);
+      color:var(--ink);
+      outline:none;
+      font-weight:800;
+    }
+    button{
+      padding:11px 14px;border-radius:14px;border:none;
+      background:linear-gradient(135deg,#f97316,#facc15);
+      font-weight:950;cursor:pointer;color:#111;
+      box-shadow:0 10px 22px rgba(249,115,22,0.25);
+      white-space:nowrap;
+    }
+    .ghost{
+      background:rgba(15,23,42,0.75);
+      color:#e5e7eb;
+      border:1px solid var(--line);
+      box-shadow:none;
+    }
+    @media(max-width:900px){.filters{grid-template-columns:1fr 1fr}}
+    @media(max-width:640px){
+      body{padding:0}
+      .app{border-radius:0;border:none;box-shadow:none;padding:12px 12px 18px}
+      .brand-text-title{font-size:18px}
+      .hero-title{font-size:22px}
+    }
+
+    .grid{
+      margin-top:18px;
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:16px;
+      position:relative;
+      z-index:2;
+    }
+    @media(max-width:900px){.grid{grid-template-columns:repeat(2,1fr)}}
+    @media(max-width:640px){.grid{grid-template-columns:1fr}}
+
+    .card{
+      background:radial-gradient(circle at top,rgba(15,23,42,0.98),#020617);
+      border-radius:24px;
+      border:1px solid rgba(249,115,22,0.7);
+      padding:12px;
+      box-shadow:0 14px 34px rgba(15,23,42,0.95);
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      position:relative;
+      overflow:hidden;
+    }
+    .photo{
+      height:220px;
+      border-radius:16px;
+      overflow:hidden;
+      border:2px solid rgba(249,115,22,0.85);
+      background:#0b1220;
+    }
+    .photo img{width:100%;height:100%;object-fit:cover;display:block}
+
+    .name{font-size:22px;font-weight:950;color:var(--accent);line-height:1.1}
+    .entreprise{font-size:14px;color:var(--build-orange);font-weight:700;margin-top:-5px}
+    .type{font-size:15px;color:#e5e7eb;font-weight:800}
+
+    .badges{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+    .badge{
+      width:max-content;padding:5px 9px;font-size:12px;border-radius:999px;
+      border:1px solid rgba(249,115,22,0.9);
+      color:var(--build-orange);
+      background:rgba(15,23,42,0.98);
+      font-weight:950;
+      white-space:nowrap;
+    }
+    .badge.gold{
+      border-color:rgba(250,204,21,0.9);
+      color:var(--accent);
+    }
+    .badge.free{
+      border-color:rgba(34,197,94,0.95);
+      color:#bbf7d0;
+      background:rgba(6,78,59,0.65);
+    }
+
+    .desc{font-size:15px;color:#f3f4f6;line-height:1.6;font-weight:550}
+    .meta{font-size:14px;color:#e5e7eb;font-weight:750;opacity:0.95}
+
+    .contact{
+      margin-top:10px;
+      border-radius:16px;
+      border:1px solid rgba(249,115,22,1);
+      background:rgba(120,53,15,0.98);
+      padding:10px 12px;
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+    }
+    .contact-title{font-size:14px;font-weight:950;color:#fed7aa}
+    .contact-value{font-size:18px;font-weight:950;color:#fff;letter-spacing:0.2px}
+
+    .actions{
+      margin-top:10px;
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .btn{
+      border:none;border-radius:999px;padding:10px 14px;
+      font-size:14px;font-weight:950;cursor:pointer;
+      display:flex;justify-content:center;align-items:center;
+      text-decoration:none;transition:transform .18s ease;
+      flex:1;min-height:44px;white-space:nowrap;
+      touch-action:manipulation;-webkit-tap-highlight-color:transparent;user-select:none;
+    }
+    .btn:active{transform:scale(.99)}
+    .btn-primary{
+      background:linear-gradient(135deg,#f97316,#facc15);
+      color:#111;
+      box-shadow:0 7px 18px rgba(249,115,22,0.55);
+    }
+    .btn-wa{
+      background:rgba(22,163,74,0.2);
+      color:#bbf7d0;
+      border:1px solid rgba(34,197,94,0.85);
+    }
+
+    .bigmsg{
+      grid-column:1/-1;
+      background:rgba(2,6,23,0.72);
+      border:1px solid rgba(148,163,184,0.25);
+      padding:14px;
+      border-radius:18px;
+      font-weight:900;
+      color:#e5e7eb;
+      line-height:1.55;
+    }
+    .bigmsg b{color:var(--accent)}
+
+    footer{
+      margin-top:20px;
+      font-size:12px;
+      color:var(--muted);
+      font-weight:750;
+      display:flex;
+      justify-content:space-between;
+      flex-wrap:wrap;
+      gap:6px;
+      position:relative;
+      z-index:2;
+    }
+    footer span{color:var(--accent);font-weight:950}
+  </style>
+</head>
+
+<body>
+  <div class="app">
+    <header>
+      <div class="brand">
+        <div class="brand-logo">🏗️</div>
+        <div>
+          <div class="brand-text-title">DIGIY BUILD</div>
+          <div class="brand-text-sub">Galerie des artisans partenaires</div>
+        </div>
       </div>
-      <div class="name">${escapeHtml(nom)}${escapeHtml(entreprise)}</div>
-      <div class="type">${escapeHtml(specialite)} • ${escapeHtml(ville)}</div>
-      <div class="badges">
-        <div class="badge">0% commission DIGIY</div>
-        <div class="badge free">✅ DISPONIBLE</div>
-        ${exp ? `<div class="badge gold">${escapeHtml(exp)}</div>` : ''}
-        ${projets ? `<div class="badge gold">${escapeHtml(projets)}</div>` : ''}
-      </div>
-      <p class="desc">${escapeHtml(artisan.description || "Artisan professionnel. Contact direct.")}</p>
-      <div class="meta">Tarif indicatif: ${escapeHtml(tarif)}</div>
-      <div class="contact">
-        <div class="contact-title">Contact WhatsApp</div>
-        <div class="contact-value">${escapeHtml(wa)}</div>
-      </div>
-      <div class="actions">
-        <button class="btn btn-primary" onclick="demanderDevis('${artisan.id}', '${escapeAttr(nom)}')">
-          📋 Demander un devis
-        </button>
-        <button class="btn btn-wa" onclick="contactArtisan('${escapeAttr(wa)}', '${escapeAttr(nom)}')">
-          📲 WhatsApp direct
-        </button>
-      </div>
-    </article>
-  `;
-}
 
-function contactArtisan(phone, nom){
-  const msg = `Bonjour ${nom}, je souhaite un devis pour des travaux via DIGIY BUILD.`;
-  const url = `https://wa.me/${phone.replace(/\D/g, '')}?text=${encodeURIComponent(msg)}`;
-  window.open(url, '_blank');
-}
+      <a href="https://beauville.github.io/digiy-hub/" class="back-link">
+        <span>←</span> Retour DIGIY HUB
+      </a>
+    </header>
 
-function demanderDevis(artisanId, nom){
-  // Redirection vers formulaire de demande
-  location.href = `./request.html?artisan_id=${artisanId}&nom=${encodeURIComponent(nom)}`;
-}
+    <main>
+      <section class="hero">
+        <div class="hero-title">Artisans direct <span>0% commission</span></div>
+        <div class="hero-sub">
+          Paiement direct artisan (Wave/espèces/mobile money). DIGIY ne touche pas l'argent : <b>0% commission</b>.
+          <br><br>
+          🦅 <b>PIERRE PAR PIERRE</b> = Maçons, Plombiers, Électriciens, Menuisiers... Tous les corps de métier du bâtiment.
+        </div>
+        <div class="hero-tags">
+          <div class="hero-tag"><strong>Direct artisan</strong> — pas d'intermédiaire</div>
+          <div class="hero-tag">Dakar • Thiès • Saly • Mbour</div>
+          <div class="hero-tag">WhatsApp en 1 clic</div>
+          <div class="hero-tag"><strong>Devis gratuit</strong> — réponse rapide</div>
+        </div>
+      </section>
+
+      <section class="cta-row">
+        <a href="https://beauville.github.io/inscription-digiy/?module=build" class="cta-btn" target="_blank" rel="noopener noreferrer">
+          🏗️ Publier mon profil artisan • 0% commission
+        </a>
+        <a href="https://wa.me/221771342889" class="cta-btn secondary" target="_blank" rel="noopener noreferrer">
+          📲 Parler à l'équipe DIGIY
+        </a>
+      </section>
+
+      <section class="filters">
+        <input id="q" placeholder="Ville ou métier (Ex: Dakar, Maçon...)" autocomplete="off">
+        <select id="specialite">
+          <option value="">Spécialité : Toutes</option>
+          <option value="maconnerie">Maçonnerie</option>
+          <option value="plomberie">Plomberie</option>
+          <option value="electricite">Électricité</option>
+          <option value="menuiserie">Menuiserie</option>
+          <option value="peinture">Peinture</option>
+          <option value="carrelage">Carrelage</option>
+          <option value="toiture">Toiture</option>
+          <option value="climatisation">Climatisation</option>
+          <option value="soudure">Soudure</option>
+          <option value="multi">Multi-services</option>
+        </select>
+        <button id="btnSearch">🔎 Chercher</button>
+        <button id="btnReset" class="ghost" type="button">↩︎ Reset</button>
+      </section>
+
+      <section id="grid" class="grid"></section>
+    </main>
+
+    <footer>
+      <div>DIGIY BUILD • <span>Super App DIGIYLYFE</span> — Sénégal → Afrique</div>
+      <div>0% commission • Paiement direct artisan • Galerie évolutive</div>
+    </footer>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script>
+    /* =========================
+       SUPABASE
+    ========================= */
+    const SUPABASE_URL = "https://wesqmwjjtsefyjnluosj.supabase.co";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indlc3Ftd2pqdHNlZnlqbmx1b3NqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUxNzg4ODIsImV4cCI6MjA4MDc1NDg4Mn0.dZfYOc2iL2_wRYL3zExZFsFSBK6AbMeOid2LrIjcTdA";
+
+    const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+    const grid = document.getElementById("grid");
+
+    /* =========================
+       CONTACT OFFICIEL
+    ========================= */
+    const TEAM_WA = "+221771342889";
+
+    /* =========================
+       PLACEBOTS ARTISANS (PHOTOS PRO)
+    ========================= */
+    const PLACEBOTS_BUILD = [
+      {
+        nom_complet: "Moussa DIOP",
+        entreprise: "DIOP MAÇONNERIE",
+        ville: "Dakar",
+        specialite: "Maçonnerie",
+        metiers: "Maçon, Carreleur, Coffreur",
+        annees_experience: 15,
+        zone_intervention: "Dakar, Pikine, Guédiawaye",
+        photo_profil: "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=800&q=80",
+        tarif_journee: 18000,
+        description: "Maçon professionnel depuis 15 ans. Spécialiste des fondations, dalles et murs porteurs. Travail soigné et respect des délais.",
+        nb_projets_realises: 120,
+        whatsapp: TEAM_WA,
+        phone: TEAM_WA,
+        slug: "moussa-diop-maconnerie-dakar",
+        status: "actif",
+        is_public: true
+      },
+      {
+        nom_complet: "Ibrahima FALL",
+        entreprise: "FALL PLOMBERIE",
+        ville: "Thiès",
+        specialite: "Plomberie",
+        metiers: "Plombier, Sanitaire, Évacuation",
+        annees_experience: 10,
+        zone_intervention: "Thiès, Mbour, Saly",
+        photo_profil: "https://images.unsplash.com/photo-1621905251918-48416bd8575a?auto=format&fit=crop&w=800&q=80",
+        tarif_journee: 15000,
+        description: "Plombier qualifié. Installation sanitaire, réparation de fuites, pose de canalisations. Intervention rapide.",
+        nb_projets_realises: 85,
+        whatsapp: TEAM_WA,
+        phone: TEAM_WA,
+        slug: "ibrahima-fall-plomberie-thies",
+        status: "actif",
+        is_public: true
+      },
+      {
+        nom_complet: "Abdoulaye SARR",
+        entreprise: "ÉLECTRICITÉ SARR",
+        ville: "Dakar",
+        specialite: "Électricité",
+        metiers: "Électricien, Tableau électrique, Domotique",
+        annees_experience: 12,
+        zone_intervention: "Dakar, Rufisque, Bargny",
+        photo_profil: "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=800&q=80",
+        tarif_journee: 16000,
+        description: "Électricien certifié. Installation complète, mise aux normes, dépannage. Travail propre et sécurisé.",
+        nb_projets_realises: 95,
+        whatsapp: TEAM_WA,
+        phone: TEAM_WA,
+        slug: "abdoulaye-sarr-electricite-dakar",
+        status: "actif",
+        is_public: true
+      },
+      {
+        nom_complet: "Mamadou BA",
+        entreprise: "MENUISERIE BA",
+        ville: "Saly",
+        specialite: "Menuiserie",
+        metiers: "Menuisier, Ébéniste, Pose de portes",
+        annees_experience: 18,
+        zone_intervention: "Saly, Mbour, Somone",
+        photo_profil: "https://images.unsplash.com/photo-1590846406792-0adc7f938f1d?auto=format&fit=crop&w=800&q=80",
+        tarif_journee: 20000,
+        description: "Menuisier artisan. Fabrication sur mesure : portes, fenêtres, meubles. Bois noble et qualité supérieure.",
+        nb_projets_realises: 150,
+        whatsapp: TEAM_WA,
+        phone: TEAM_WA,
+        slug: "mamadou-ba-menuiserie-saly",
+        status: "actif",
+        is_public: true
+      },
+      {
+        nom_complet: "Cheikh NDIAYE",
+        entreprise: "PEINTURE NDIAYE",
+        ville: "Mbour",
+        specialite: "Peinture",
+        metiers: "Peintre, Façadier, Décorateur",
+        annees_experience: 8,
+        zone_intervention: "Mbour, Saly, Nianing",
+        photo_profil: "https://images.unsplash.com/photo-1562259949-e8e7689d7828?auto=format&fit=crop&w=800&q=80",
+        tarif_journee: 12000,
+        description: "Peintre professionnel. Intérieur, extérieur, façades. Finitions impeccables. Devis gratuit.",
+        nb_projets_realises: 70,
+        whatsapp: TEAM_WA,
+        phone: TEAM_WA,
+        slug: "cheikh-ndiaye-peinture-mbour",
+        status: "actif",
+        is_public: true
+      },
+      {
+        nom_complet: "Ousmane SECK",
+        entreprise: "SECK CARRELAGE",
+        ville: "Dakar",
+        specialite: "Carrelage",
+        metiers: "Carreleur, Faïencier, Mosaïque",
+        annees_experience: 11,
+        zone_intervention: "Dakar, Thiès, Rufisque",
+        photo_profil: "https://images.unsplash.com/photo-1581858726788-75bc0f6a952d?auto=format&fit=crop&w=800&q=80",
+        tarif_journee: 14000,
+        description: "Carreleur expert. Pose de carrelage, faïence, marbre. Travail précis et soigné. Devis détaillé.",
+        nb_projets_realises: 88,
+        whatsapp: TEAM_WA,
+        phone: TEAM_WA,
+        slug: "ousmane-seck-carrelage-dakar",
+        status: "actif",
+        is_public: true
+      },
+      {
+        nom_complet: "Lamine DIALLO",
+        entreprise: "CLIM DIALLO",
+        ville: "Saly",
+        specialite: "Climatisation",
+        metiers: "Frigoriste, Climaticien, SAV",
+        annees_experience: 9,
+        zone_intervention: "Saly, Mbour, Dakar",
+        photo_profil: "https://images.unsplash.com/photo-1581094794329-c8112a89af12?auto=format&fit=crop&w=800&q=80",
+        tarif_journee: 17000,
+        description: "Technicien climatisation. Installation, entretien, dépannage. Toutes marques. Intervention rapide.",
+        nb_projets_realises: 65,
+        whatsapp: TEAM_WA,
+        phone: TEAM_WA,
+        slug: "lamine-diallo-climatisation-saly",
+        status: "actif",
+        is_public: true
+      },
+      {
+        nom_complet: "Babacar GUEYE",
+        entreprise: "GUEYE CONSTRUCTION",
+        ville: "Thiès",
+        specialite: "Multi-services",
+        metiers: "Maçon, Plombier, Électricien",
+        annees_experience: 20,
+        zone_intervention: "Thiès, Dakar, Mbour",
+        photo_profil: "https://images.unsplash.com/photo-1534398079543-7ae6d016b86a?auto=format&fit=crop&w=800&q=80",
+        tarif_journee: 25000,
+        description: "Artisan multi-compétences avec 20 ans d'expérience. Gestion complète de chantiers. Équipe qualifiée disponible.",
+        nb_projets_realises: 200,
+        whatsapp: TEAM_WA,
+        phone: TEAM_WA,
+        slug: "babacar-gueye-multiservices-thies",
+        status: "actif",
+        is_public: true
+      },
+      {
+        nom_complet: "Alioune TOURE",
+        entreprise: "TOURE SOUDURE",
+        ville: "Dakar",
+        specialite: "Soudure",
+        metiers: "Soudeur, Métallerie, Ferronnerie",
+        annees_experience: 14,
+        zone_intervention: "Dakar, Pikine, Guédiawaye",
+        photo_profil: "https://images.unsplash.com/photo-1504917595217-d4dc5ebe6122?auto=format&fit=crop&w=800&q=80",
+        tarif_journee: 16000,
+        description: "Soudeur qualifié. Portails, grilles, structures métalliques. Travail sur mesure. Garantie qualité.",
+        nb_projets_realises: 75,
+        whatsapp: TEAM_WA,
+        phone: TEAM_WA,
+        slug: "alioune-toure-soudure-dakar",
+        status: "actif",
+        is_public: true
+      },
+      {
+        nom_complet: "Modou FAYE",
+        entreprise: "FAYE TOITURE",
+        ville: "Mbour",
+        specialite: "Toiture",
+        metiers: "Couvreur, Charpentier, Étanchéité",
+        annees_experience: 13,
+        zone_intervention: "Mbour, Saly, Joal",
+        photo_profil: "https://images.unsplash.com/photo-1632778149955-e80f8ceca2e8?auto=format&fit=crop&w=800&q=80",
+        tarif_journee: 18000,
+        description: "Couvreur professionnel. Toitures neuves, rénovation, étanchéité. Matériaux de qualité. Garantie décennale.",
+        nb_projets_realises: 92,
+        whatsapp: TEAM_WA,
+        phone: TEAM_WA,
+        slug: "modou-faye-toiture-mbour",
+        status: "actif",
+        is_public: true
+      }
+    ];
+
+    /* =========================
+       HELPERS
+    ========================= */
+    function norm(s){ return String(s || "").trim().toLowerCase(); }
+
+    function escapeHtml(str){
+      return String(str ?? "")
+        .replaceAll("&","&amp;")
+        .replaceAll("<","&lt;")
+        .replaceAll(">","&gt;")
+        .replaceAll('"',"&quot;")
+        .replaceAll("'","&#039;");
+    }
+    function escapeAttr(str){ return escapeHtml(str).replaceAll("`","&#096;"); }
+
+    function openWa(phone, message){
+      const txt = encodeURIComponent(message || "");
+      const digits = String(phone || "").replace(/\D/g, "");
+      if (!digits) return;
+      const url = "https://wa.me/" + digits + (txt ? "?text=" + txt : "");
+      window.open(url, "_blank", "noopener,noreferrer");
+    }
+
+    function mergeArtisansNoDup(dbList, placebots, targetCount){
+      const merged = [...dbList];
+      const seen = new Set(dbList.map(x => String(x.slug || "").toLowerCase()).filter(Boolean));
+      
+      for (const pb of placebots){
+        if (merged.length >= targetCount) break;
+        const s = String(pb.slug || "").toLowerCase();
+        if (s && seen.has(s)) continue;
+        merged.push(pb);
+        if (s) seen.add(s);
+      }
+      
+      return merged;
+    }
+
+    /* =========================
+       FETCH digiy_build_artisans
+    ========================= */
+    async function fetchArtisans(){
+      const { data, error } = await sb
+        .from("digiy_build_artisans")
+        .select("*")
+        .eq("status", "actif")
+        .eq("is_public", true)
+        .order("created_at", { ascending: false });
+
+      if (error) {
+        console.warn("[DIGIY BUILD] Supabase error:", error.message);
+        return { ok:false, rows:[], error: error.message };
+      }
+      
+      return { ok:true, rows: data || [], error:null };
+    }
+
+    /* =========================
+       CARD TEMPLATE
+    ========================= */
+    function cardTemplate(artisan){
+      const nom = artisan.nom_complet || "Artisan";
+      const entreprise = artisan.entreprise || "";
+      const ville = artisan.ville || "—";
+      const specialite = artisan.specialite || "Multi-services";
+      const photo = artisan.photo_profil || (artisan.photo_travaux?.[0]) || "https://images.unsplash.com/photo-1504307651254-35680f356dfd";
+      const wa = artisan.whatsapp || artisan.phone || TEAM_WA;
+      const tarif = artisan.tarif_journee 
+        ? `${artisan.tarif_journee.toLocaleString('fr-FR')} FCFA/jour`
+        : artisan.tarif_horaire 
+        ? `${artisan.tarif_horaire.toLocaleString('fr-FR')} FCFA/h`
+        : "Sur devis";
+      
+      const exp = artisan.annees_experience ? `${artisan.annees_experience} ans d'exp.` : "";
+      const projets = artisan.nb_projets_realises ? `${artisan.nb_projets_realises} projets` : "";
+      
+      const badges = [];
+      badges.push(`<div class="badge">0% commission DIGIY</div>`);
+      badges.push(`<div class="badge free">✅ DISPONIBLE</div>`);
+      if(exp) badges.push(`<div class="badge gold">${escapeHtml(exp)}</div>`);
+      if(projets) badges.push(`<div class="badge gold">${escapeHtml(projets)}</div>`);
+      
+      return `
+        <article class="card">
+          <div class="photo">
+            <img
+              loading="lazy"
+              alt="${escapeHtml(nom)}"
+              src="${escapeAttr(photo)}"
+              onerror="this.onerror=null;this.src='https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=800&q=80';"
+            >
+          </div>
+
+          <div class="name">${escapeHtml(nom)}</div>
+          ${entreprise ? `<div class="entreprise">${escapeHtml(entreprise)}</div>` : ''}
+          <div class="type">${escapeHtml(specialite)} • ${escapeHtml(ville)}</div>
+
+          <div class="badges">${badges.join("")}</div>
+
+          <p class="desc">
+            ${escapeHtml(artisan.description || "Artisan professionnel. Contact direct. Paiement direct (Wave/espèces). 0% commission.")}
+          </p>
+
+          <div class="meta">Tarif indicatif: ${escapeHtml(tarif)}</div>
+
+          <div class="contact">
+            <div class="contact-title">Contact WhatsApp</div>
+            <div class="contact-value">${escapeHtml(wa)}</div>
+          </div>
+
+          <div class="actions">
+            <button class="btn btn-primary" type="button" onclick='demanderDevis("${escapeAttr(artisan.id || '')}", "${escapeAttr(nom)}")'>
+              📋 Demander un devis
+            </button>
+
+            <button class="btn btn-wa" type="button" onclick='contactArtisan("${escapeAttr(wa)}", "${escapeAttr(nom)}")'>
+              📲 WhatsApp direct
+            </button>
+          </div>
+        </article>
+      `;
+    }
+
+    /* =========================
+       ACTIONS
+    ========================= */
+    function contactArtisan(phone, nom){
+      const msg = `Bonjour ${nom}, je souhaite un devis pour des travaux via DIGIY BUILD.`;
+      openWa(phone, msg);
+    }
+    window.contactArtisan = contactArtisan;
+
+    function demanderDevis(artisanId, nom){
+      if(artisanId){
+        location.href = `./request.html?artisan_id=${encodeURIComponent(artisanId)}&nom=${encodeURIComponent(nom)}`;
+      } else {
+        contactArtisan(TEAM_WA, nom);
+      }
+    }
+    window.demanderDevis = demanderDevis;
+
+    /* =========================
+       FILTRES
+    ========================= */
+    function applyFilters(list){
+      const q = norm(document.getElementById("q").value);
+      const spec = norm(document.getElementById("specialite").value);
+
+      return list.filter(a => {
+        const nom = norm(a.nom_complet || "");
+        const ville = norm(a.ville || "");
+        const specialite = norm(a.specialite || "");
+        const metiers = norm(a.metiers || "");
+
+        if (q && !(nom.includes(q) || ville.includes(q) || specialite.includes(q) || metiers.includes(q))) return false;
+        if (spec && !specialite.includes(spec)) return false;
+        return true;
+      });
+    }
+
+    /* =========================
+       RENDER
+    ========================= */
+    async function render(){
+      grid.innerHTML
