@@ -3,135 +3,98 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
-  <meta name="theme-color" content="#061b14"/>
-  <title>DIGIY BUILD PRO — Générateur de fiche</title>
+  <meta name="theme-color" content="#0b2a1f"/>
+  <title>DIGIY BUILD — Réseau BTP Sénégal • 0% commission</title>
+  <meta name="description" content="DIGIY BUILD — Réseau d'artisans vérifiés au Sénégal. Construction, plomberie, électricité. 0% commission.">
 
   <!-- CSS -->
-  <link rel="stylesheet" href="./build-gen.css?v=build-pro-gen-v2"/>
+  <link rel="stylesheet" href="./build.css?v=build-list-v2"/>
 
-  <!-- Supabase + Guard -->
+  <!-- Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="./guard.js?v=build-pro-gen-v2"></script>
 
   <!-- JS (defer) -->
-  <script defer src="./build-gen.js?v=build-pro-gen-v2"></script>
+  <script defer src="./build.js?v=build-list-v2"></script>
 </head>
 
 <body>
-  <div id="guard_status">🔐 Vérification…</div>
 
-  <div class="app">
-    <div class="wrap">
-      <div class="card">
-        <h1>🏗️ Générateur de fiche — BUILD</h1>
-        <p>
-          Ici tu crées / mets à jour ta fiche publique.
-          <span class="ok">Si tu publies</span> → tu apparais dans la vitrine automatiquement.
-        </p>
-
-        <div class="hr"></div>
-
-        <div class="row">
-          <div>
-            <label>Nom affiché (display_name)</label>
-            <input id="display_name" placeholder="Ex: Helage" />
-          </div>
-          <div>
-            <label>Ville / Zone</label>
-            <input id="city" placeholder="Ex: Saly – Petite Côte" />
-          </div>
-        </div>
-
-        <div class="row">
-          <div>
-            <label>Métier (trade)</label>
-            <input id="trade" placeholder="Ex: Plombier multi-services" />
-          </div>
-          <div>
-            <label>Région (region)</label>
-            <select id="region">
-              <option value="petite-cote">petite-cote</option>
-              <option value="dakar">dakar</option>
-              <option value="thies">thies</option>
-              <option value="national">national</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="row">
-          <div>
-            <label>WhatsApp (sans espaces)</label>
-            <input id="whatsapp" placeholder="Ex: 221774513523" />
-          </div>
-          <div>
-            <label>Téléphone (optionnel)</label>
-            <input id="phone" placeholder="Ex: +221..." />
-          </div>
-        </div>
-
-        <label>Bio (courte, claire)</label>
-        <textarea id="bio" placeholder="Ex: Dépannage, installation, chauffe-eau, fuite, WC, douche…"></textarea>
-
-        <div class="row">
-          <div>
-            <label>Photo vitrine (photo_url)</label>
-            <input id="photo_url" placeholder="URL image (https://...png/jpg)" />
-          </div>
-          <div>
-            <label>URL fiche (profile_url)</label>
-            <input id="profile_url" placeholder="https://digiylyfe.com/partenaires-..." />
-          </div>
-        </div>
-
-        <div class="row">
-          <div>
-            <label>Badge (ex: ⚡ Intervention rapide)</label>
-            <input id="badge" placeholder="Ex: 🛠️ Intervention rapide" />
-          </div>
-          <div>
-            <label>Hub badge (ex: ✅ PARTENAIRE BUILD)</label>
-            <input id="hub_badge" placeholder="Ex: ✅ PARTENAIRE BUILD" />
-          </div>
-        </div>
-
-        <div class="row">
-          <div>
-            <label>Price label</label>
-            <input id="price_label" placeholder="Ex: 0% commission" />
-          </div>
-          <div>
-            <label>Tags (JSON ou liste simple)</label>
-            <input id="tags" placeholder='Ex: pos,build,btp ou ["build","btp"]' />
-          </div>
-        </div>
-
-        <div class="row">
-          <div>
-            <label>Priorité (0–100)</label>
-            <input id="priority" type="number" min="0" max="100" value="1" />
-          </div>
-          <div>
-            <label>Publier maintenant ?</label>
-            <select id="is_published">
-              <option value="true">Oui (visible)</option>
-              <option value="false">Non (brouillon)</option>
-            </select>
-          </div>
-        </div>
-
-        <div class="hr"></div>
-
-        <div class="actions">
-          <button class="btn primary" id="btnSave" type="button">💾 Enregistrer la fiche</button>
-          <a class="btn secondary" id="btnOpenListing" href="./listing.html">👷 Ouvrir la vitrine</a>
-          <button class="btn ghost" id="btnBack" type="button">↩️ Retour cockpit</button>
-        </div>
-
-        <div class="note" id="msg">
-          Statut : —
-        </div>
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <div class="logo">🏗️</div>
+      <div>
+        <h1>DIGIY BUILD</h1>
+        <p>Réseau BTP • Quartier / Région / National • 0% commission</p>
       </div>
     </div>
+
+    <div class="actions">
+      <a class="btn secondary" href="./request.html">📤 Déposer une demande</a>
+      <a class="btn primary" href="./demandes.html">Voir toutes les demandes →</a>
+      <a class="btn cockpit" href="./build-pro/pin.html">🔐 Cockpit Pro</a>
+    </div>
   </div>
+</header>
+
+<main class="wrap">
+
+  <section class="hero">
+    <div>
+      <h2>Le réseau BTP du Sénégal, pierre par pierre</h2>
+      <p>
+        Des <b>artisans vérifiés</b> dans toutes les régions. Contact direct, fiches complètes, <b>0% commission</b>.
+        Simple, fluide, WhatsApp et terrain.
+      </p>
+    </div>
+    <div class="stats">
+      <span class="chip">👷 <b id="statPros">—</b> partenaires</span>
+      <span class="chip">📌 <b id="statTotal">—</b> demandes</span>
+      <span class="chip">✅ <b>Public safe</b></span>
+    </div>
+  </section>
+
+  <section class="cta-demandes">
+    <h3>📋 Consulter les demandes publiques</h3>
+    <p>Besoin de chantiers ? Consulte les annonces anonymisées. Contact direct ensuite.</p>
+    <a class="btn primary" href="./demandes.html">Voir toutes les demandes →</a>
+  </section>
+
+  <section class="filters" id="partenaires">
+    <span class="label">Filtrer :</span>
+
+    <!-- Sectors -->
+    <button class="pill active" data-pro-sector="all">Tous secteurs</button>
+    <button class="pill" data-pro-sector="construction">Construction</button>
+    <button class="pill" data-pro-sector="plomberie">Plomberie</button>
+    <button class="pill" data-pro-sector="electricite">Électricité</button>
+    <button class="pill" data-pro-sector="multi">Multi</button>
+
+    <!-- Regions -->
+    <button class="pill active" data-pro-region="all">Toute zone</button>
+    <button class="pill" data-pro-region="dakar">Dakar</button>
+    <button class="pill" data-pro-region="petite-cote">Petite Côte</button>
+    <button class="pill" data-pro-region="thies">Thiès</button>
+    <button class="pill" data-pro-region="national">National</button>
+
+    <input class="search" id="qPro" placeholder="Rechercher un pro (ex: piscine, fuite, tableau…)" />
+  </section>
+
+  <div class="section-title">
+    <h3>👷 Partenaires vérifiés</h3>
+    <p>Contact direct • fiche complète • 0% commission</p>
+  </div>
+
+  <section class="partners-grid" id="prosGrid">
+    <div class="empty">Chargement des partenaires…</div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <p><strong>DIGIY BUILD</strong> — réseau d'artisans vérifiés • 0% commission</p>
+  <p>Partie de <strong>DIGIYLYFE ♾️</strong></p>
+</footer>
+
 </body>
 </html>
