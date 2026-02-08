@@ -4,7 +4,6 @@
   <meta charset="utf-8">
   <title>DIGIY BUILD — Réseau BTP Sénégal</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="DIGIY BUILD — Artisans BTP direct, 0% commission.">
   
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   
@@ -36,6 +35,8 @@
       padding:20px;
       box-shadow:0 10px 30px rgba(0,0,0,.5);
     }
+    .card.real{border:2px solid #22c55e} /* ✅ Vrais artisans en vert */
+    .card.placeholder{border:2px solid #f97316} /* ✅ Placebots en orange */
     .photo{
       width:100%;
       height:200px;
@@ -59,6 +60,7 @@
       color:var(--orange);
       border:1px solid var(--orange);
     }
+    .badge.real{background:#22c55e;color:#000;border-color:#22c55e}
     .btn{
       width:100%;
       padding:12px;
@@ -71,6 +73,16 @@
     .btn-primary{background:var(--orange);color:#111}
     .btn-wa{background:#25d366;color:#fff}
     .loading{text-align:center;padding:50px;color:#fff;font-size:18px}
+    .debug{
+      background:#1a1a2e;
+      border:1px solid #444;
+      border-radius:8px;
+      padding:15px;
+      margin:20px 0;
+      font-family:monospace;
+      font-size:12px;
+      color:#0f0;
+    }
   </style>
 </head>
 <body>
@@ -81,6 +93,9 @@
     <p style="color:var(--muted);font-size:18px">Réseau BTP Sénégal • 0% commission</p>
   </div>
 
+  <!-- ✅ DEBUG INFO -->
+  <div id="debug" class="debug"></div>
+
   <div id="grid" class="grid"></div>
 </div>
 
@@ -90,9 +105,10 @@ const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 const grid = document.getElementById("grid");
+const debugEl = document.getElementById("debug");
 const TEAM_WA = "+221771342889";
 
-// ✅ PLACEBOTS (UNIQUE - PAS DE DOUBLONS)
+// ✅ PLACEBOTS
 const PLACEBOTS = [
   {
     id: "pb-1",
@@ -106,7 +122,8 @@ const PLACEBOTS = [
     description: "Maçon professionnel depuis 15 ans. Fondations, dalles, murs porteurs.",
     nb_projets_realises: 120,
     whatsapp: TEAM_WA,
-    slug: "moussa-diop-dakar"
+    slug: "moussa-diop-dakar",
+    _isPlaceholder: true
   },
   {
     id: "pb-2",
@@ -120,7 +137,8 @@ const PLACEBOTS = [
     description: "Plombier qualifié. Installation sanitaire, réparation.",
     nb_projets_realises: 85,
     whatsapp: TEAM_WA,
-    slug: "ibrahima-fall-thies"
+    slug: "ibrahima-fall-thies",
+    _isPlaceholder: true
   },
   {
     id: "pb-3",
@@ -134,7 +152,8 @@ const PLACEBOTS = [
     description: "Électricien certifié. Installation, mise aux normes.",
     nb_projets_realises: 95,
     whatsapp: TEAM_WA,
-    slug: "abdoulaye-sarr-dakar"
+    slug: "abdoulaye-sarr-dakar",
+    _isPlaceholder: true
   },
   {
     id: "pb-4",
@@ -148,7 +167,8 @@ const PLACEBOTS = [
     description: "Menuisier artisan. Fabrication sur mesure.",
     nb_projets_realises: 150,
     whatsapp: TEAM_WA,
-    slug: "mamadou-ba-saly"
+    slug: "mamadou-ba-saly",
+    _isPlaceholder: true
   },
   {
     id: "pb-5",
@@ -162,45 +182,41 @@ const PLACEBOTS = [
     description: "Peintre professionnel. Intérieur, extérieur, façades.",
     nb_projets_realises: 70,
     whatsapp: TEAM_WA,
-    slug: "cheikh-ndiaye-mbour"
+    slug: "cheikh-ndiaye-mbour",
+    _isPlaceholder: true
   }
 ];
 
-// ✅ FETCH DB
+// ✅ FETCH DB (SANS FILTRES - AFFICHE TOUT)
 async function fetchArtisans(){
   try {
+    console.log("🔍 Fetching artisans from DB...");
+    
+    // ✅ PAS DE FILTRES - ON PREND TOUT
     const { data, error } = await sb
       .from("digiy_build_artisans")
-      .select("*")
-      .eq("status", "actif")
-      .eq("is_public", true);
+      .select("*");
 
     if (error) {
-      console.warn("Table pas encore créée:", error.message);
+      console.warn("❌ Erreur DB:", error.message);
+      debugEl.innerHTML = `❌ Erreur DB: ${error.message}`;
       return [];
     }
+    
+    console.log("✅ Artisans trouvés en DB:", data);
+    debugEl.innerHTML = `
+      ✅ DB connectée !<br>
+      📊 Artisans en DB: ${data.length}<br>
+      📋 Détails: ${JSON.stringify(data.map(a => a.nom_complet), null, 2)}
+    `;
+    
     return data || [];
+    
   } catch(e) {
-    console.warn("Fetch error:", e);
+    console.error("❌ Fetch error:", e);
+    debugEl.innerHTML = `❌ Fetch error: ${e.message}`;
     return [];
   }
-}
-
-// ✅ MERGE SANS DOUBLONS
-function mergeUnique(dbList, placebots){
-  const all = [...dbList];
-  const seenIds = new Set(dbList.map(x => x.id));
-  const seenSlugs = new Set(dbList.map(x => x.slug).filter(Boolean));
-  
-  for(const pb of placebots){
-    if(seenIds.has(pb.id)) continue;
-    if(pb.slug && seenSlugs.has(pb.slug)) continue;
-    all.push(pb);
-    seenIds.add(pb.id);
-    if(pb.slug) seenSlugs.add(pb.slug);
-  }
-  
-  return all;
 }
 
 // ✅ CARD
@@ -213,10 +229,16 @@ function card(a){
   const tarif = a.tarif_journee ? `${a.tarif_journee.toLocaleString()} F/jour` : "Sur devis";
   const exp = a.annees_experience ? `${a.annees_experience} ans` : "";
   const proj = a.nb_projets_realises ? `${a.nb_projets_realises} projets` : "";
-  const wa = a.whatsapp || TEAM_WA;
+  const wa = a.whatsapp || a.phone || TEAM_WA;
+  
+  // ✅ Distingue vrais artisans des placebots
+  const cardClass = a._isPlaceholder ? 'card placeholder' : 'card real';
+  const badge = a._isPlaceholder 
+    ? '<div class="badge" style="background:#f97316;color:#000">📸 Exemple</div>' 
+    : '<div class="badge real">✅ VÉRIFIÉ</div>';
   
   return `
-    <div class="card">
+    <div class="${cardClass}">
       <div class="photo">
         <img src="${photo}" alt="${nom}" loading="lazy">
       </div>
@@ -224,13 +246,14 @@ function card(a){
       ${ent}
       <div class="type">${spec} • ${ville}</div>
       <div class="badges">
+        ${badge}
         <div class="badge">0% commission</div>
         ${exp ? `<div class="badge">${exp}</div>` : ''}
         ${proj ? `<div class="badge">${proj}</div>` : ''}
       </div>
       <div class="desc">${a.description || "Artisan professionnel. Contact direct."}</div>
       <div style="color:var(--muted);font-size:14px;margin-bottom:10px">Tarif: ${tarif}</div>
-      <button class="btn btn-primary" onclick="devis('${a.id}','${nom.replace(/'/g,"\\'")}')">📋 Demander devis</button>
+      <button class="btn btn-primary" onclick="devis('${String(a.id).replace(/'/g,"\\'")}','${nom.replace(/'/g,"\\'")}')">📋 Demander devis</button>
       <button class="btn btn-wa" onclick="wa('${wa}','${nom.replace(/'/g,"\\'")}')">📲 WhatsApp</button>
     </div>
   `;
@@ -244,7 +267,7 @@ function wa(phone, nom){
 window.wa = wa;
 
 function devis(id, nom){
-  if(id.startsWith('pb-')){
+  if(String(id).startsWith('pb-')){
     wa(TEAM_WA, nom);
   } else {
     location.href = `./request.html?artisan_id=${id}&nom=${encodeURIComponent(nom)}`;
@@ -256,8 +279,15 @@ window.devis = devis;
 async function render(){
   grid.innerHTML = '<div class="loading">Chargement...</div>';
   
-  const db = await fetchArtisans();
-  const artisans = mergeUnique(db, PLACEBOTS);
+  const dbArtisans = await fetchArtisans();
+  
+  console.log("📊 Artisans DB:", dbArtisans.length);
+  console.log("📊 Placebots:", PLACEBOTS.length);
+  
+  // ✅ AFFICHE VRAIS ARTISANS EN PREMIER, PUIS PLACEBOTS
+  const artisans = [...dbArtisans, ...PLACEBOTS];
+  
+  console.log("📊 Total à afficher:", artisans.length);
   
   if(!artisans.length){
     grid.innerHTML = '<div class="loading">Aucun artisan disponible.</div>';
@@ -265,6 +295,9 @@ async function render(){
   }
   
   grid.innerHTML = artisans.map(a => card(a)).join('');
+  
+  // ✅ Update debug
+  debugEl.innerHTML += `<br>✅ Total affiché: ${artisans.length} (${dbArtisans.length} vrais + ${PLACEBOTS.length} exemples)`;
 }
 
 render();
