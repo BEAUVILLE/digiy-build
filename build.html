@@ -1,0 +1,75 @@
+<!-- build.html -->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>DIGIY BUILD — Réseau BTP Sénégal • 0% commission</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Artisans BTP Sénégal - Direct propriétaire, 0% commission">
+
+  <meta name="theme-color" content="#020617">
+
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="./build.css?v=1">
+</head>
+
+<body>
+  <div class="container">
+    <!-- HEADER -->
+    <header class="header">
+      <h1>🏗️ DIGIY BUILD</h1>
+      <p>Réseau BTP Sénégal • Direct artisan • 0% commission</p>
+      <p class="zones">Dakar • Thiès • Saly • Mbour • Touba</p>
+
+      <!-- CTA BUTTONS -->
+      <div class="header-cta">
+        <a href="./build-gen.html" class="cta-btn">🏗️ Créer ma fiche artisan</a>
+        <a href="https://wa.me/221771342889" class="cta-btn secondary" target="_blank" rel="noopener">
+          📲 Parler à l'équipe DIGIY
+        </a>
+      </div>
+
+      <!-- BARRE OUTILS -->
+      <div class="tools">
+        <div class="tool">
+          <label for="q">Recherche</label>
+          <input id="q" type="search" placeholder="Nom, ville, spécialité, entreprise…" autocomplete="off">
+        </div>
+
+        <div class="tool">
+          <label for="ville">Ville</label>
+          <select id="ville">
+            <option value="">Toutes</option>
+          </select>
+        </div>
+
+        <div class="tool">
+          <label for="spec">Spécialité</label>
+          <select id="spec">
+            <option value="">Toutes</option>
+          </select>
+        </div>
+
+        <div class="tool tool-actions">
+          <button id="reset" class="tool-btn" type="button">Réinitialiser</button>
+          <button id="toggleDebug" class="tool-btn ghost" type="button">Debug</button>
+        </div>
+      </div>
+
+      <div id="stats" class="stats"></div>
+    </header>
+
+    <!-- DEBUG INFO -->
+    <div id="debug" class="debug" hidden></div>
+
+    <!-- GRID -->
+    <main id="grid" class="grid"></main>
+  </div>
+
+  <!-- JS -->
+  <script src="./build.js?v=1" defer></script>
+</body>
+</html>
