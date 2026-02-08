@@ -7,7 +7,6 @@
   <title>DIGIY BUILD — Réseau BTP Sénégal • 0% commission</title>
   <meta name="description" content="DIGIY BUILD — Réseau d'artisans vérifiés au Sénégal. Construction, plomberie, électricité. 0% commission.">
 
-  <!-- Supabase (optionnel: stats demandes) -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
@@ -35,7 +34,6 @@
       min-height:100vh;
     }
 
-    /* Topbar */
     .topbar{
       position:sticky; top:0; z-index:60;
       background:linear-gradient(135deg, rgba(15,23,42,.92), rgba(2,6,23,.92));
@@ -82,7 +80,6 @@
       color:#062014;
     }
 
-    /* Layout */
     .wrap{max-width:1180px; margin:0 auto; padding:18px 16px 44px;}
     .hero{
       border:1px solid rgba(250,204,21,.18);
@@ -111,7 +108,6 @@
     }
     .chip b{color:var(--ink)}
 
-    /* CTA Demandes */
     .cta-demandes{
       border:2px solid rgba(250,204,21,.28);
       background:
@@ -140,7 +136,6 @@
       box-shadow:0 10px 30px rgba(250,204,21,.22);
     }
 
-    /* Filters */
     .filters{
       border:1px solid var(--line);
       background:rgba(0,0,0,.18);
@@ -148,8 +143,6 @@
       padding:12px;
       display:flex; gap:10px; flex-wrap:wrap; align-items:center;
       margin-bottom:14px;
-
-      /* ✅ pour que “secteurs” soient toujours visibles sur mobile */
       overflow-x:auto;
       -webkit-overflow-scrolling:touch;
     }
@@ -164,7 +157,7 @@
       font-weight:1000;
       font-size:.9rem;
       transition:all .15s ease;
-      flex:0 0 auto; /* ✅ évite qu’ils disparaissent */
+      flex:0 0 auto;
     }
     .pill:hover{border-color:rgba(250,204,21,.35)}
     .pill.active{
@@ -183,7 +176,6 @@
       font-weight:900;
     }
 
-    /* Section titles */
     .section-title{
       display:flex; align-items:center; justify-content:space-between; gap:10px;
       margin:16px 0 10px;
@@ -199,7 +191,6 @@
       font-size:.9rem;
     }
 
-    /* Partner Grid */
     .partners-grid{
       display:grid;
       grid-template-columns: repeat(12, 1fr);
@@ -278,6 +269,17 @@
       color:rgba(234,255,241,.92);
     }
 
+    .empty{
+      border:1px dashed rgba(255,255,255,.18);
+      background:rgba(0,0,0,.18);
+      border-radius:18px;
+      padding:16px;
+      color:var(--muted);
+      font-weight:900;
+      text-align:center;
+      grid-column: 1 / -1;
+    }
+
     .foot{
       border-top:1px solid var(--line);
       color:var(--muted);
@@ -303,7 +305,6 @@
       </div>
     </div>
 
-    <!-- ✅ LIENS FIXÉS SELON TON REPO -->
     <div class="actions">
       <a class="btn secondary" href="./request.html">📤 Déposer une demande</a>
       <a class="btn primary" href="./demandes.html">Voir toutes les demandes →</a>
@@ -323,7 +324,7 @@
       </p>
     </div>
     <div class="stats">
-      <span class="chip">👷 <b>3</b> partenaires</span>
+      <span class="chip">👷 <b id="statPros">—</b> partenaires</span>
       <span class="chip">📌 <b id="statTotal">—</b> demandes</span>
       <span class="chip">✅ <b>Public safe</b></span>
     </div>
@@ -359,85 +360,7 @@
   </div>
 
   <section class="partners-grid" id="prosGrid">
-
-    <!-- MBAYE -->
-    <article class="p-card"
-      data-cat="construction"
-      data-region="dakar"
-      data-keywords="batisseur villa piscine travaux renovation maconnerie finitions"
-      id="mbaye">
-      <div class="p-thumb">
-        <div class="p-badge">🏗️ 1 visite chantier</div>
-        <img src="https://digiylyfe.com/wp-content/uploads/2025/06/mbaye-diouf.jpeg"
-             alt="Mbaye Diouf — Bâtisseur villas et piscines" loading="lazy" decoding="async"/>
-      </div>
-      <div class="p-body">
-        <div class="p-title">👷 Mbaye Diouf</div>
-        <div class="p-meta">📍 Dakar – Thiès – Petite Côte</div>
-        <div class="p-desc">Villas modernes, piscines, finitions pro</div>
-        <div class="p-tags">
-          <span class="tag trade">🏗️ Construction</span>
-          <span class="tag zone">🏙️ Dakar</span>
-        </div>
-      </div>
-      <div class="p-foot">
-        <a class="btn whatsapp" href="https://wa.me/221776427113?text=Salam%20Mbaye%20je%20veux%20parler%20d%E2%80%99un%20projet%20🏗️%20(DIGIYLYFE)" target="_blank" rel="noopener">💬 WhatsApp</a>
-        <a class="btn view" href="https://digiylyfe.com/partenaires-mbaye/" target="_blank" rel="noopener">🔎 Voir la fiche</a>
-      </div>
-    </article>
-
-    <!-- ZAL & KOURANT -->
-    <article class="p-card"
-      data-cat="electricite"
-      data-region="national"
-      data-keywords="electricien electricite tableau depannage maison chantier"
-      id="zal">
-      <div class="p-thumb">
-        <div class="p-badge">⚡ Intervention rapide</div>
-        <img src="https://digiylyfe.com/wp-content/uploads/2025/06/039-ZAL.png"
-             alt="Zal &amp; Kourant — électriciens" loading="lazy" decoding="async"/>
-      </div>
-      <div class="p-body">
-        <div class="p-title">⚡ Zal &amp; Kourant</div>
-        <div class="p-meta">📍 Saly — Sénégal</div>
-        <div class="p-desc">Électriciens maison &amp; bâtiment — neuf &amp; ancien</div>
-        <div class="p-tags">
-          <span class="tag trade">⚡ Électricité</span>
-          <span class="tag zone">🇸🇳 National</span>
-        </div>
-      </div>
-      <div class="p-foot">
-        <a class="btn whatsapp" href="https://wa.me/221772084781?text=Salam%20Zal%20je%20viens%20de%20DIGIYLYFE" target="_blank" rel="noopener">💬 WhatsApp</a>
-        <a class="btn view" href="https://digiylyfe.com/partenaires-zal-kourant/" target="_blank" rel="noopener">🔎 Voir la fiche</a>
-      </div>
-    </article>
-
-    <!-- HELAGE -->
-    <article class="p-card"
-      data-cat="plomberie"
-      data-region="petite-cote"
-      data-keywords="plombier plomberie depannage fuite robinet wc douche chauffe eau installation"
-      id="helage">
-      <div class="p-thumb">
-        <div class="p-badge">🛠️ Intervention rapide</div>
-        <img src="https://digiylyfe.com/wp-content/uploads/2025/06/HELAGE-PLOMBIER.png"
-             alt="Helage — Plombier" loading="lazy" decoding="async"/>
-      </div>
-      <div class="p-body">
-        <div class="p-title">💧 Helage</div>
-        <div class="p-meta">📍 Saly – Petite Côte</div>
-        <div class="p-desc">Plombier multi-services — dépannage, installation</div>
-        <div class="p-tags">
-          <span class="tag trade">💧 Plomberie</span>
-          <span class="tag zone">🏖️ Petite Côte</span>
-        </div>
-      </div>
-      <div class="p-foot">
-        <a class="btn whatsapp" href="https://wa.me/221774513523?text=Salam%20Helage%2C%20je%20viens%20de%20DIGIYLYFE" target="_blank" rel="noopener">💬 WhatsApp</a>
-        <a class="btn call" href="tel:+221774513523">📞 Appeler</a>
-      </div>
-    </article>
-
+    <div class="empty">Chargement des partenaires…</div>
   </section>
 
 </main>
@@ -449,32 +372,141 @@
 
 <script>
 /* =============================
-   PARTNERS FILTERS
-   ============================= */
-function norm(v){ return (v ?? "").toString().toLowerCase().trim(); }
+   SUPABASE
+============================= */
+const SUPABASE_URL = "https://wesqmwjjtsefyjnluosj.supabase.co";
+const SUPABASE_ANON_KEY =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indlc3Ftd2pqdHNlZnlqbmx1b3NqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUxNzg4ODIsImV4cCI6MjA4MDc1NDg4Mn0.dZfYOc2iL2_wRYL3zExZFsFSBK6AbMeOid2LrIjcTdA";
 
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+/* =============================
+   HELPERS
+============================= */
+function norm(v){ return (v ?? "").toString().toLowerCase().trim(); }
+function escapeHtml(str){
+  return String(str||"")
+    .replaceAll("&","&amp;")
+    .replaceAll("<","&lt;")
+    .replaceAll(">","&gt;")
+    .replaceAll('"',"&quot;")
+    .replaceAll("'","&#039;");
+}
+function cleanPhone(p){
+  return String(p||"").replace(/\s+/g,"").replace(/^\+/,"");
+}
+function waLink(phone, msg){
+  const ph = cleanPhone(phone);
+  const txt = encodeURIComponent(msg || "");
+  return "https://wa.me/" + ph + (txt ? ("?text=" + txt) : "");
+}
+function sectorLabel(s){
+  const x = norm(s);
+  if(x==="construction") return "🏗️ Construction";
+  if(x==="plomberie") return "💧 Plomberie";
+  if(x==="electricite") return "⚡ Électricité";
+  return "🧰 Multi";
+}
+function regionLabel(r){
+  const x = norm(r);
+  if(x==="dakar") return "🏙️ Dakar";
+  if(x==="petite-cote") return "🏖️ Petite Côte";
+  if(x==="thies") return "🌿 Thiès";
+  return "🇸🇳 National";
+}
+
+/* =============================
+   FILTER STATE
+============================= */
 let proSector = "all";
 let proRegion = "all";
 let qPro = "";
+
+/* =============================
+   RENDER
+============================= */
+function buildCard(p){
+  const name = escapeHtml(p.display_name || "Partenaire");
+  const city = escapeHtml(p.city || "");
+  const trade = escapeHtml(p.trade || "");
+  const bio = escapeHtml(p.bio || "");
+  const sector = norm(p.sector || "multi");
+  const region = norm(p.region || "national");
+
+  const badge = escapeHtml(p.badge || "");
+  const photo = p.photo_url || "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1200&q=80";
+  const whatsapp = p.whatsapp || p.phone || "";
+  const profileUrl = p.profile_url || "";
+
+  const fallbackPay = "https://beauville.github.io/commencer-a-payer/?module=BUILD&offre=BUILD";
+  const viewHref = profileUrl ? profileUrl : fallbackPay;
+
+  const tags = Array.isArray(p.tags) ? p.tags.slice(0,6) : [];
+  const kw = [
+    p.display_name, p.trade, p.sector, p.region, p.city, p.bio,
+    ...(Array.isArray(p.tags) ? p.tags : [])
+  ].filter(Boolean).join(" ");
+
+  const waMsg = `Salam ${p.display_name || "frérot"}, je viens de DIGIY BUILD. Je veux parler d’un chantier.`;
+
+  const canCall = !!(p.phone || p.whatsapp);
+
+  return `
+  <article class="p-card"
+    data-cat="${escapeHtml(sector)}"
+    data-region="${escapeHtml(region)}"
+    data-keywords="${escapeHtml(norm(kw))}">
+    <div class="p-thumb">
+      ${badge ? `<div class="p-badge">${badge}</div>` : `<div class="p-badge">✅ Partenaire BUILD</div>`}
+      <img src="${escapeHtml(photo)}" alt="${name}" loading="lazy" decoding="async"/>
+    </div>
+    <div class="p-body">
+      <div class="p-title">👷 ${name}</div>
+      <div class="p-meta">${city ? `📍 ${city}` : `📍 ${regionLabel(region)}`}</div>
+      <div class="p-desc">${trade || bio || "Artisan partenaire DIGIY BUILD — contact direct."}</div>
+
+      <div class="p-tags">
+        <span class="tag trade">${sectorLabel(sector)}</span>
+        <span class="tag zone">${regionLabel(region)}</span>
+        ${tags.map(t => `<span class="tag">${escapeHtml(String(t))}</span>`).join("")}
+      </div>
+    </div>
+    <div class="p-foot">
+      ${whatsapp ? `<a class="btn whatsapp" href="${waLink(whatsapp, waMsg)}" target="_blank" rel="noopener">💬 WhatsApp</a>`
+                 : `<a class="btn whatsapp" href="${fallbackPay}" target="_blank" rel="noopener">💬 WhatsApp</a>`}
+      <a class="btn view" href="${escapeHtml(viewHref)}" target="_blank" rel="noopener">🔎 Voir la fiche</a>
+      ${canCall ? `<a class="btn call" href="tel:+${escapeHtml(cleanPhone(p.phone || p.whatsapp))}">📞 Appeler</a>` : ``}
+    </div>
+  </article>`;
+}
 
 function filterPros(){
   const cards = Array.from(document.querySelectorAll(".p-card"));
   const qq = norm(qPro);
 
+  let visible = 0;
+
   cards.forEach(card=>{
     const cat = norm(card.dataset.cat);
     const reg = norm(card.dataset.region);
-    const kw  = norm(card.dataset.keywords || "");
-    const txt = norm(card.innerText || "") + " " + kw;
+    const txt = norm(card.innerText || "") + " " + norm(card.dataset.keywords || "");
 
     const okS = (proSector==="all" || cat===proSector);
     const okR = (proRegion==="all" || reg===proRegion);
     const okQ = (!qq || txt.includes(qq));
 
-    card.style.display = (okS && okR && okQ) ? "block" : "none";
+    const show = (okS && okR && okQ);
+    card.style.display = show ? "block" : "none";
+    if(show) visible++;
   });
+
+  const statPros = document.getElementById("statPros");
+  if(statPros) statPros.textContent = String(visible);
 }
 
+/* =============================
+   EVENTS
+============================= */
 document.querySelectorAll("[data-pro-sector]").forEach(btn=>{
   btn.addEventListener("click", ()=>{
     document.querySelectorAll("[data-pro-sector]").forEach(x=>x.classList.remove("active"));
@@ -499,16 +531,47 @@ document.getElementById("qPro").addEventListener("input", (e)=>{
 });
 
 /* =============================
+   LOAD PROS (SUPABASE)
+============================= */
+async function loadPros(){
+  const grid = document.getElementById("prosGrid");
+  if(!grid) return;
+
+  try{
+    grid.innerHTML = `<div class="empty">Chargement des partenaires…</div>`;
+
+    const { data, error } = await sb
+      .from("digiy_build_public_profiles")
+      .select("*")
+      .eq("is_active", true)
+      .eq("is_published", true)
+      .order("priority", { ascending: true });
+
+    if(error) throw error;
+
+    const rows = Array.isArray(data) ? data : [];
+    if(!rows.length){
+      grid.innerHTML = `<div class="empty">Aucun partenaire pour le moment. Reviens bientôt ✨</div>`;
+      document.getElementById("statPros").textContent = "0";
+      return;
+    }
+
+    grid.innerHTML = rows.map(buildCard).join("");
+    document.getElementById("statPros").textContent = String(rows.length);
+    filterPros();
+
+  }catch(e){
+    console.warn("Erreur pros:", e?.message || e);
+    grid.innerHTML = `<div class="empty">⚠️ Impossible de charger les partenaires pour l’instant.</div>`;
+    document.getElementById("statPros").textContent = "—";
+  }
+}
+
+/* =============================
    STATS DEMANDES (optionnel)
-   - si clé invalide -> on laisse "—" sans casser la page
-   ============================= */
+============================= */
 (async function loadStatsSafe(){
   try{
-    const SUPABASE_URL = "https://wesqmwjjtsefyjnluosj.supabase.co";
-    const SUPABASE_ANON_KEY =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indlc3Ftd2pqdHNlZnlqbmx1b3NqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUxNzg4ODIsImV4cCI6MjA4MDc1NDg4Mn0.dZfYOc2iL2_wRYL3zExZFsFSBK6AbMeOid2LrIjcTdA";
-    const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
     const { data, error } = await sb.rpc("digiy_build_public_list_v1", { p_limit: 500 });
     if(error) throw error;
     if(Array.isArray(data)){
@@ -519,8 +582,8 @@ document.getElementById("qPro").addEventListener("input", (e)=>{
   }
 })();
 
-// init
-filterPros();
+/* INIT */
+loadPros();
 </script>
 
 </body>
