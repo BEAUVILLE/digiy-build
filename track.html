@@ -4,19 +4,28 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
   <meta name="theme-color" content="#0b2a1f"/>
-  <title>DIGIY BUILD — Suivi de demande</title>
-  <meta name="description" content="Suivre une demande DIGIY BUILD avec votre code public (mode safe).">
+  <title>DIGIY BUILD — Suivi MULTI SERVICES</title>
+  <meta name="description" content="Suivre une demande MULTI SERVICES DIGIY BUILD avec votre code public.">
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
     :root{
-      --bg:#061b14; --card:#0b2a1f; --line:rgba(255,255,255,.12);
-      --text:#eafff1; --muted:rgba(234,255,241,.72);
-      --gold:#facc15; --green:#22c55e; --orange:#f59e0b; --red:#ef4444;
-      --shadow: 0 20px 60px rgba(0,0,0,.35); --radius:18px;
+      --bg:#061b14;
+      --card:#0b2a1f;
+      --line:rgba(255,255,255,.12);
+      --text:#eafff1;
+      --muted:rgba(234,255,241,.72);
+      --gold:#facc15;
+      --green:#22c55e;
+      --orange:#f59e0b;
+      --red:#ef4444;
+      --shadow:0 20px 60px rgba(0,0,0,.35);
+      --radius:18px;
     }
+
     *{box-sizing:border-box}
+
     body{
       margin:0;
       font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial;
@@ -28,50 +37,111 @@
       min-height:100vh;
       padding:18px 14px 30px;
     }
+
     .wrap{max-width:920px;margin:0 auto}
-    .top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
-    .brand{display:flex;align-items:center;gap:10px}
+
+    .top{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom:14px;
+      flex-wrap:wrap;
+    }
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+
     .logo{
       width:44px;height:44px;border-radius:14px;
-      background: radial-gradient(circle at 30% 30%, rgba(250,204,21,.22), transparent 60%),
-                  linear-gradient(135deg, rgba(34,197,94,.25), rgba(245,158,11,.18));
-      border:1px solid var(--line); box-shadow:var(--shadow);
-      display:flex;align-items:center;justify-content:center;font-weight:900;
+      background:
+        radial-gradient(circle at 30% 30%, rgba(250,204,21,.22), transparent 60%),
+        linear-gradient(135deg, rgba(34,197,94,.25), rgba(245,158,11,.18));
+      border:1px solid var(--line);
+      box-shadow:var(--shadow);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:900;
     }
+
     .brand h1{font-size:16px;margin:0}
     .brand p{margin:2px 0 0;color:var(--muted);font-size:12.5px}
+
     .btn{
-      appearance:none;border:1px solid var(--line);
-      background: rgba(0,0,0,.12); color:var(--text);
-      padding:10px 12px;border-radius:14px;
-      text-decoration:none; display:inline-flex; align-items:center; gap:8px;
-      font-weight:800;font-size:13px; cursor:pointer; white-space:nowrap;
-    }
-    .btn:hover{border-color:rgba(250,204,21,.35)}
-    .btn.primary{
-      background: linear-gradient(135deg, rgba(34,197,94,.22), rgba(250,204,21,.18));
-      border-color: rgba(250,204,21,.32);
-    }
-    .btn.whatsapp{
-      background: linear-gradient(135deg, rgba(34,197,94,.28), rgba(34,197,94,.14));
-      border-color: rgba(34,197,94,.38);
-    }
-    .card{
-      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      appearance:none;
       border:1px solid var(--line);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      overflow:hidden;
-      margin-bottom: 14px;
+      background:rgba(0,0,0,.12);
+      color:var(--text);
+      padding:10px 12px;
+      border-radius:14px;
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      font-weight:800;
+      font-size:13px;
+      cursor:pointer;
+      white-space:nowrap;
     }
-    .hd{padding:14px 14px 10px;border-bottom:1px solid var(--line);background:rgba(0,0,0,.12)}
-    .hd .t{font-size:14px;font-weight:900;margin:0}
-    .hd .s{margin:6px 0 0;color:var(--muted);font-size:12.5px;line-height:1.35}
+
+    .btn:hover{border-color:rgba(250,204,21,.35)}
+
+    .btn.primary{
+      background:linear-gradient(135deg, rgba(34,197,94,.22), rgba(250,204,21,.18));
+      border-color:rgba(250,204,21,.32);
+    }
+
+    .btn.whatsapp{
+      background:linear-gradient(135deg, rgba(34,197,94,.28), rgba(34,197,94,.14));
+      border-color:rgba(34,197,94,.38);
+    }
+
+    .card{
+      background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      overflow:hidden;
+      margin-bottom:14px;
+    }
+
+    .hd{
+      padding:14px 14px 10px;
+      border-bottom:1px solid var(--line);
+      background:rgba(0,0,0,.12);
+    }
+
+    .hd .t{
+      font-size:14px;
+      font-weight:900;
+      margin:0;
+    }
+
+    .hd .s{
+      margin:6px 0 0;
+      color:var(--muted);
+      font-size:12.5px;
+      line-height:1.35;
+    }
+
     .bd{padding:14px}
-    label{display:block;font-size:12.5px;color:var(--muted);margin:0 0 6px}
+
+    label{
+      display:block;
+      font-size:12.5px;
+      color:var(--muted);
+      margin:0 0 6px;
+      font-weight:800;
+    }
+
     input{
       width:100%;
-      background: rgba(0,0,0,.16);
+      background:rgba(0,0,0,.16);
       border:1px solid rgba(255,255,255,.14);
       color:var(--text);
       border-radius:14px;
@@ -81,23 +151,116 @@
       letter-spacing:2px;
       text-transform:uppercase;
     }
-    input:focus{border-color:rgba(250,204,21,.42);box-shadow:0 0 0 3px rgba(250,204,21,.10)}
-    .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:10px}
-    .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
-    @media (max-width:760px){.grid{grid-template-columns:1fr}}
+
+    input:focus{
+      border-color:rgba(250,204,21,.42);
+      box-shadow:0 0 0 3px rgba(250,204,21,.10);
+    }
+
+    .row{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+      margin-top:10px;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+      margin-top:12px;
+    }
+
+    @media (max-width:760px){
+      .grid{grid-template-columns:1fr}
+    }
+
     .item{
       border:1px solid rgba(255,255,255,.12);
-      background: rgba(0,0,0,.12);
+      background:rgba(0,0,0,.12);
       border-radius:16px;
       padding:12px;
     }
-    .item .k{color:var(--muted);font-size:12.5px}
-    .item .v{font-weight:900;margin-top:2px}
-    .hint{font-size:12.5px;color:var(--muted);line-height:1.35;margin-top:8px}
-    .sep{height:1px;background:var(--line);margin:12px 0}
-    .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace}
-    .badge-ok{border-color: rgba(34,197,94,.35); background: rgba(34,197,94,.10)}
-    .badge-err{border-color: rgba(239,68,68,.35); background: rgba(239,68,68,.10)}
+
+    .item .k{
+      color:var(--muted);
+      font-size:12.5px;
+    }
+
+    .item .v{
+      font-weight:900;
+      margin-top:2px;
+      line-height:1.45;
+      word-break:break-word;
+    }
+
+    .hint{
+      font-size:12.5px;
+      color:var(--muted);
+      line-height:1.4;
+      margin-top:8px;
+    }
+
+    .sep{
+      height:1px;
+      background:var(--line);
+      margin:12px 0;
+    }
+
+    .mono{
+      font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+    }
+
+    .badge-ok{
+      border-color:rgba(34,197,94,.35);
+      background:rgba(34,197,94,.10);
+    }
+
+    .badge-err{
+      border-color:rgba(239,68,68,.35);
+      background:rgba(239,68,68,.10);
+    }
+
+    .status-pill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:8px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.12);
+      font-size:12px;
+      font-weight:900;
+      width:max-content;
+      margin-top:8px;
+    }
+
+    .status-pill.pending{border-color:rgba(245,158,11,.35);color:#fde68a}
+    .status-pill.confirmed{border-color:rgba(34,197,94,.35);color:#bbf7d0}
+    .status-pill.done{border-color:rgba(56,189,248,.35);color:#bae6fd}
+    .status-pill.cancelled{border-color:rgba(239,68,68,.35);color:#fecaca}
+
+    .toast{
+      position:fixed;
+      left:50%;
+      bottom:18px;
+      transform:translateX(-50%);
+      min-width:260px;
+      max-width:90vw;
+      background:#0b2a1f;
+      border:1px solid var(--line);
+      border-radius:14px;
+      box-shadow:var(--shadow);
+      padding:12px 14px;
+      display:none;
+      z-index:9999;
+    }
+
+    .toast.show{display:block}
+    .toast.ok{border-color:rgba(34,197,94,.45)}
+    .toast.bad{border-color:rgba(239,68,68,.45)}
+    .toast .t{font-weight:900}
+    .toast .m{margin-top:4px;color:var(--muted);font-size:13px}
   </style>
 </head>
 
@@ -105,239 +268,339 @@
   <div class="wrap">
     <div class="top">
       <div class="brand">
-        <div class="logo">♾️</div>
+        <div class="logo">🔎</div>
         <div>
           <h1>DIGIY BUILD</h1>
-          <p>Suivi (safe)</p>
+          <p>Suivi MULTI SERVICES</p>
         </div>
       </div>
+
       <div style="display:flex;gap:10px;flex-wrap:wrap">
-        <a class="btn" id="btnHome" href="#">← Vitrine</a>
-        <a class="btn primary" id="btnRequest" href="#">📤 Nouvelle demande</a>
+        <a class="btn" id="btnHome" href="./index.html">← Retour BUILD</a>
+        <a class="btn primary" id="btnRequest" href="./request.html">📤 Nouvelle demande</a>
       </div>
     </div>
 
     <div class="card">
       <div class="hd">
-        <p class="t">Entre ton code public</p>
-        <p class="s">Ex: <span class="mono">B7KQ2M9PZ</span></p>
+        <p class="t">Entre ta référence publique</p>
+        <p class="s">Exemple : <span class="mono">B7KQ2M9PZ</span></p>
       </div>
+
       <div class="bd">
-        <label>Code</label>
+        <label for="code">Référence</label>
         <input id="code" placeholder="BXXXXXXX" autocomplete="off"/>
 
         <div class="row">
-          <button class="btn primary" id="btnTrack">🔎 Suivre</button>
-          <button class="btn" id="btnPaste">📋 Coller</button>
-          <button class="btn" id="btnUseLast">⚡ Dernière demande</button>
+          <button class="btn primary" id="btnTrack" type="button">🔎 Suivre</button>
+          <button class="btn" id="btnPaste" type="button">📋 Coller</button>
+          <button class="btn" id="btnUseLast" type="button">⚡ Dernière demande</button>
         </div>
 
-        <div class="hint">Mode safe : statut + ville + zone + métier + budget + date + slug pro.</div>
+        <div class="hint">
+          Mode safe : on affiche seulement les infos utiles au suivi public.
+        </div>
+
+        <div class="row" style="margin-top:14px">
+          <a class="btn whatsapp" id="btnWhatsAppTop" target="_blank" rel="noopener">💬 Support WhatsApp</a>
+        </div>
       </div>
     </div>
 
     <div class="card" id="resultCard" style="display:none">
       <div class="hd">
-        <p class="t">Résultat</p>
+        <p class="t">Résultat du suivi</p>
         <p class="s" id="resultSub">—</p>
       </div>
       <div class="bd" id="resultBody"></div>
     </div>
   </div>
 
-<script>
-  /* =============================
-     SUPABASE CONFIG
-     ============================= */
-  const SUPABASE_URL = "https://wesqmwjjtsefyjnluosj.supabase.co";
-  const SUPABASE_ANON_KEY =
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indlc3Ftd2pqdHNlZnlqbmx1b3NqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUxNzg4ODIsImV4cCI6MjA4MDc1NDg4Mn0.dZfYOc2iL2_wRYL3zExZFsFSBK6AbMeOid2LrIjcTdA";
+  <div class="toast" id="toast">
+    <div class="t" id="toastT"></div>
+    <div class="m" id="toastM"></div>
+  </div>
 
-  const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  <script>
+    const SUPABASE_URL =
+      window.DIGIY_SUPABASE_URL ||
+      "https://wesqmwjjtsefyjnluosj.supabase.co";
 
-  const KEY_LAST = "DIGIY_BUILD_LAST_REQUEST";
-  const SUPPORT_WHATSAPP = "+221771342889";
+    const SUPABASE_ANON_KEY =
+      window.DIGIY_SUPABASE_ANON ||
+      window.DIGIY_SUPABASE_ANON_KEY ||
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indlc3Ftd2pqdHNlZnlqbmx1b3NqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUxNzg4ODIsImV4cCI6MjA4MDc1NDg4Mn0.dZfYOc2iL2_wRYL3zExZFsFSBK6AbMeOid2LrIjcTdA";
 
-  const $ = (id)=>document.getElementById(id);
+    const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-  function esc(s){
-    return String(s ?? "").replace(/[&<>"']/g, (m)=>({
-      "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
-    }[m]));
-  }
-  function normalizeCode(c){ return String(c||"").trim().toUpperCase().replace(/\s+/g,""); }
-  function fmtDate(iso){
-    try{
-      const d = new Date(iso);
-      return d.toLocaleString("fr-FR", { year:"numeric", month:"short", day:"2-digit", hour:"2-digit", minute:"2-digit" });
-    }catch(e){ return iso || ""; }
-  }
-  function buildWhatsAppLink(phone, msg){
-    const p = String(phone || "").replace(/\s/g,"").replace("+","");
-    return `https://wa.me/${p}?text=${encodeURIComponent(msg)}`;
-  }
+    const KEY_LAST = "DIGIY_BUILD_LAST_REQUEST";
+    const SUPPORT_WHATSAPP = "+221771342889";
 
-  /* =============================
-     NAV robuste (évite 404 selon dossier GitHub Pages)
-     ============================= */
-  function baseDir(){
-    const u = new URL(location.href);
-    u.hash = "";
-    u.search = "";
-    u.pathname = u.pathname.replace(/[^\/]*$/, "");
-    return u;
-  }
-  async function firstExisting(paths){
-    const base = baseDir();
-    for(const p of paths){
-      const url = new URL(p, base).href;
-      try{
-        const r = await fetch(url, { method:"GET", cache:"no-store" });
-        if(r && r.ok) return url;
-      }catch(_){}
+    const $ = (id) => document.getElementById(id);
+
+    function esc(s){
+      return String(s ?? "").replace(/[&<>"']/g, (m) => ({
+        "&":"&amp;",
+        "<":"&lt;",
+        ">":"&gt;",
+        '"':"&quot;",
+        "'":"&#39;"
+      }[m]));
     }
-    return null;
-  }
-  async function initNav(){
-    const homeUrl = await firstExisting(["./", "index.html"]);
-    const reqUrl  = await firstExisting(["request.html", "demande.html", "publish.html"]);
-    if($("btnHome")) $("btnHome").href = homeUrl || "./";
-    if($("btnRequest")) $("btnRequest").href = reqUrl || "./";
-  }
 
-  /* =============================
-     DATA
-     ============================= */
-  async function fetchByCode(code){
-    return await sb
-      .from("v_digiy_build_requests_public_safe")
-      .select("public_code, created_at, status, status_label, eta_hint, city, zone, trade, budget_min, budget_max, urgency, desired_date, assigned_pro_slug")
-      .eq("public_code", code)
-      .limit(1);
-  }
+    function normalizeCode(c){
+      return String(c || "").trim().toUpperCase().replace(/\s+/g, "");
+    }
 
-  function showError(msg){
-    $("resultCard").style.display = "block";
-    $("resultSub").textContent = "—";
-    $("resultBody").innerHTML = `
-      <div class="item badge-err">
-        <div class="k">Erreur</div>
-        <div class="v">${esc(msg)}</div>
-        <div class="hint" style="margin-top:8px">Vérifie le code ou utilise “Dernière demande”.</div>
-      </div>
-    `;
-  }
-
-  function showResult(row, code){
-    $("resultCard").style.display = "block";
-
-    const waMsg = `Bonjour. Suivi demande DIGIY BUILD.\nCode: ${code}\nVille: ${row.city||""}\nMétier: ${row.trade||""}`;
-    const wa = buildWhatsAppLink(SUPPORT_WHATSAPP, waMsg);
-
-    $("resultSub").innerHTML = `Code <span class="mono">${esc(code)}</span> • ${esc(fmtDate(row.created_at||""))}`;
-
-    const proSlug = row.assigned_pro_slug || "—";
-    const label = row.status_label || row.status || "—";
-    const hint  = row.eta_hint || "—";
-
-    $("resultBody").innerHTML = `
-      <div class="grid">
-        <div class="item"><div class="k">Ville</div><div class="v">${esc(row.city||"—")}</div></div>
-        <div class="item"><div class="k">Zone</div><div class="v">${esc(row.zone||"—")}</div></div>
-        <div class="item"><div class="k">Métier</div><div class="v">${esc(row.trade||"—")}</div></div>
-        <div class="item"><div class="k">Pro assigné (slug)</div><div class="v">${esc(proSlug)}</div></div>
-      </div>
-
-      <div class="sep"></div>
-
-      <div class="grid">
-        <div class="item"><div class="k">Budget min</div><div class="v">${row.budget_min ?? "—"}</div></div>
-        <div class="item"><div class="k">Budget max</div><div class="v">${row.budget_max ?? "—"}</div></div>
-        <div class="item"><div class="k">Urgence</div><div class="v">${esc(row.urgency||"normal")}</div></div>
-        <div class="item"><div class="k">Date souhaitée</div><div class="v">${esc(row.desired_date||"—")}</div></div>
-      </div>
-
-      <div class="sep"></div>
-
-      <div class="item badge-ok">
-        <div class="k">État</div>
-        <div class="v">${esc(label)}</div>
-        <div class="hint" style="margin-top:8px">${esc(hint)}</div>
-      </div>
-
-      <div class="row" style="margin-top:12px">
-        <a class="btn whatsapp" href="${wa}" target="_blank" rel="noopener">💬 Support WhatsApp</a>
-        <button class="btn" id="copyCode">📋 Copier le code</button>
-      </div>
-    `;
-
-    $("copyCode").addEventListener("click", async ()=>{
+    function fmtDate(iso){
       try{
-        await navigator.clipboard.writeText(code);
-        alert("Code copié : " + code);
-      }catch(e){
-        prompt("Copie le code :", code);
+        const d = new Date(iso);
+        return d.toLocaleString("fr-FR", {
+          year:"numeric",
+          month:"short",
+          day:"2-digit",
+          hour:"2-digit",
+          minute:"2-digit"
+        });
+      }catch(_){
+        return iso || "";
+      }
+    }
+
+    function buildWhatsAppLink(phone, msg){
+      const p = String(phone || "").replace(/\s/g,"").replace("+","");
+      return `https://wa.me/${p}?text=${encodeURIComponent(msg)}`;
+    }
+
+    function toast(kind, title, msg){
+      const t = $("toast");
+      t.classList.remove("ok","bad");
+      t.classList.add(kind === "ok" ? "ok" : "bad", "show");
+      $("toastT").textContent = title;
+      $("toastM").textContent = msg;
+      setTimeout(() => t.classList.remove("show"), 2200);
+    }
+
+    function statusLabel(status, fallback){
+      const s = String(status || "").toLowerCase().trim();
+      if (fallback) return fallback;
+      if (s === "pending") return "En attente";
+      if (s === "confirmed") return "Confirmée";
+      if (s === "done") return "Terminée";
+      if (s === "cancelled") return "Annulée";
+      return status || "—";
+    }
+
+    function statusClass(status){
+      const s = String(status || "").toLowerCase().trim();
+      if (["pending","confirmed","done","cancelled"].includes(s)) return s;
+      return "pending";
+    }
+
+    function getLastStoredCode(){
+      const raw = localStorage.getItem(KEY_LAST);
+      if(!raw) return "";
+      try{
+        const last = JSON.parse(raw);
+        if(last?.public_code) return normalizeCode(last.public_code);
+        if(last?.code) return normalizeCode(last.code);
+      }catch(_){}
+      return "";
+    }
+
+    async function fetchByCode(code){
+      return await sb
+        .from("v_digiy_build_requests_public_safe")
+        .select("public_code, created_at, status, status_label, eta_hint, city, zone, trade, budget_min, budget_max, urgency, desired_date, assigned_pro_slug")
+        .eq("public_code", code)
+        .limit(1);
+    }
+
+    function setTopWhatsApp(code = ""){
+      const msg = code
+        ? `Bonjour DIGIY BUILD. Je souhaite un suivi sur ma demande.\nRéférence : ${code}`
+        : `Bonjour DIGIY BUILD. J’ai besoin d’aide pour suivre ma demande.`;
+
+      $("btnWhatsAppTop").href = buildWhatsAppLink(SUPPORT_WHATSAPP, msg);
+    }
+
+    function showError(msg){
+      $("resultCard").style.display = "block";
+      $("resultSub").textContent = "—";
+      setTopWhatsApp("");
+
+      $("resultBody").innerHTML = `
+        <div class="item badge-err">
+          <div class="k">Erreur</div>
+          <div class="v">${esc(msg)}</div>
+          <div class="hint" style="margin-top:8px">Vérifie la référence ou utilise “Dernière demande”.</div>
+        </div>
+
+        <div class="row" style="margin-top:12px">
+          <a class="btn whatsapp" href="${buildWhatsAppLink(SUPPORT_WHATSAPP, "Bonjour DIGIY BUILD. J’ai besoin d’aide pour retrouver ma référence.")}" target="_blank" rel="noopener">
+            💬 Support WhatsApp
+          </a>
+        </div>
+      `;
+    }
+
+    function showResult(row, code){
+      $("resultCard").style.display = "block";
+
+      const waMsg = `Bonjour DIGIY BUILD.\nSuivi demande.\nRéférence : ${code}\nVille : ${row.city || ""}\nMétier : ${row.trade || ""}`;
+      const wa = buildWhatsAppLink(SUPPORT_WHATSAPP, waMsg);
+      const label = statusLabel(row.status, row.status_label);
+      const pillClass = statusClass(row.status);
+      const proSlug = row.assigned_pro_slug || "—";
+      const budgetMin = row.budget_min ?? "—";
+      const budgetMax = row.budget_max ?? "—";
+
+      setTopWhatsApp(code);
+      $("resultSub").innerHTML = `Référence <span class="mono">${esc(code)}</span> • ${esc(fmtDate(row.created_at || ""))}`;
+
+      $("resultBody").innerHTML = `
+        <div class="status-pill ${pillClass}">♾️ ${esc(label)}</div>
+
+        <div class="grid">
+          <div class="item">
+            <div class="k">Ville</div>
+            <div class="v">${esc(row.city || "—")}</div>
+          </div>
+
+          <div class="item">
+            <div class="k">Zone</div>
+            <div class="v">${esc(row.zone || "—")}</div>
+          </div>
+
+          <div class="item">
+            <div class="k">Métier</div>
+            <div class="v">${esc(row.trade || "—")}</div>
+          </div>
+
+          <div class="item">
+            <div class="k">Pro assigné (slug)</div>
+            <div class="v">${esc(proSlug)}</div>
+          </div>
+        </div>
+
+        <div class="sep"></div>
+
+        <div class="grid">
+          <div class="item">
+            <div class="k">Budget min</div>
+            <div class="v">${esc(budgetMin)}</div>
+          </div>
+
+          <div class="item">
+            <div class="k">Budget max</div>
+            <div class="v">${esc(budgetMax)}</div>
+          </div>
+
+          <div class="item">
+            <div class="k">Urgence</div>
+            <div class="v">${esc(row.urgency || "normal")}</div>
+          </div>
+
+          <div class="item">
+            <div class="k">Date souhaitée</div>
+            <div class="v">${esc(row.desired_date || "—")}</div>
+          </div>
+        </div>
+
+        <div class="sep"></div>
+
+        <div class="item badge-ok">
+          <div class="k">Lecture terrain</div>
+          <div class="v">${esc(row.eta_hint || "La demande est bien enregistrée dans le rail DIGIY BUILD.")}</div>
+        </div>
+
+        <div class="row" style="margin-top:12px">
+          <a class="btn whatsapp" href="${wa}" target="_blank" rel="noopener">💬 Support WhatsApp</a>
+          <button class="btn" id="copyCode" type="button">📋 Copier la référence</button>
+        </div>
+      `;
+
+      $("copyCode").addEventListener("click", async () => {
+        try{
+          await navigator.clipboard.writeText(code);
+          toast("ok", "Copié", "Référence copiée : " + code);
+        }catch(_){
+          prompt("Copie la référence :", code);
+        }
+      });
+    }
+
+    async function runTrack(){
+      const code = normalizeCode($("code").value);
+      if(!code){
+        showError("Entre une référence publique.");
+        return;
+      }
+
+      $("btnTrack").disabled = true;
+      $("btnTrack").textContent = "Recherche...";
+
+      try{
+        const { data, error } = await fetchByCode(code);
+
+        if(error){
+          const m = error.message || "Erreur Supabase";
+          if(m.includes("relation") || m.includes("does not exist")){
+            throw new Error("Vue safe introuvable : v_digiy_build_requests_public_safe");
+          }
+          throw error;
+        }
+
+        if(!data || data.length === 0){
+          showError("Aucune demande trouvée avec cette référence.");
+        } else {
+          showResult(data[0], code);
+        }
+      }catch(err){
+        console.error(err);
+        showError(err?.message || "Impossible de récupérer la demande.");
+      }finally{
+        $("btnTrack").disabled = false;
+        $("btnTrack").textContent = "🔎 Suivre";
+      }
+    }
+
+    $("btnTrack").addEventListener("click", runTrack);
+
+    $("btnPaste").addEventListener("click", async () => {
+      try{
+        const txt = await navigator.clipboard.readText();
+        $("code").value = normalizeCode(txt);
+      }catch(_){
+        toast("bad", "Impossible", "Colle manuellement la référence.");
       }
     });
-  }
 
-  async function runTrack(){
-    const code = normalizeCode($("code").value);
-    if(!code) return showError("Entre un code public.");
-    $("btnTrack").disabled = true;
-    $("btnTrack").textContent = "Recherche...";
-
-    try{
-      const { data, error } = await fetchByCode(code);
-      if(error){
-        // message clair si la vue n'existe pas / droits
-        const m = error.message || "Erreur Supabase";
-        if(m.includes("relation") || m.includes("does not exist")){
-          throw new Error("Vue safe introuvable (v_digiy_build_requests_public_safe). Crée-la ou renomme-la.");
-        }
-        throw error;
+    $("btnUseLast").addEventListener("click", () => {
+      const lastCode = getLastStoredCode();
+      if(!lastCode){
+        showError("Aucune dernière demande trouvée sur ce téléphone.");
+        return;
       }
-      if(!data || data.length === 0) showError("Aucune demande trouvée.");
-      else showResult(data[0], code);
-    }catch(err){
-      console.error(err);
-      showError(err?.message || "Impossible de récupérer la demande.");
-    }finally{
-      $("btnTrack").disabled = false;
-      $("btnTrack").textContent = "🔎 Suivre";
-    }
-  }
+      $("code").value = lastCode;
+      runTrack();
+    });
 
-  $("btnTrack").addEventListener("click", runTrack);
-
-  $("btnPaste").addEventListener("click", async ()=>{
-    try{
-      const txt = await navigator.clipboard.readText();
-      $("code").value = normalizeCode(txt);
-    }catch(e){
-      alert("Coller auto impossible. Colle manuellement.");
-    }
-  });
-
-  $("btnUseLast").addEventListener("click", ()=>{
-    const raw = localStorage.getItem(KEY_LAST);
-    if(!raw) return showError("Aucune dernière demande sur ce téléphone.");
-    try{
-      const last = JSON.parse(raw);
-      if(last?.public_code){
-        $("code").value = normalizeCode(last.public_code);
+    $("code").addEventListener("keydown", (e) => {
+      if(e.key === "Enter"){
+        e.preventDefault();
         runTrack();
-      } else showError("Dernière demande invalide.");
-    }catch(e){
-      showError("Dernière demande illisible.");
-    }
-  });
+      }
+    });
 
-  (async function init(){
-    await initNav();
-    const c = new URL(location.href).searchParams.get("code");
-    if(c){ $("code").value = normalizeCode(c); runTrack(); }
-  })();
-</script>
+    (function init(){
+      setTopWhatsApp("");
+      const urlCode = new URL(location.href).searchParams.get("code");
+      if(urlCode){
+        $("code").value = normalizeCode(urlCode);
+        runTrack();
+      }
+    })();
+  </script>
 </body>
 </html>
