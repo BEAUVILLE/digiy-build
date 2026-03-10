@@ -1,23 +1,31 @@
-<!-- success.html (repo BEAUVILLE/digiy-build) -->
 <!doctype html>
 <html lang="fr">
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
   <meta name="theme-color" content="#0b2a1f"/>
-  <title>DIGIY BUILD — Demande envoyée</title>
-  <meta name="description" content="Confirmation demande DIGIY BUILD.">
+  <title>DIGIY BUILD — Demande bien envoyée</title>
+  <meta name="description" content="Confirmation demande MULTI SERVICES DIGIY BUILD.">
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
     :root{
-      --bg:#061b14; --card:#0b2a1f; --line:rgba(255,255,255,.12);
-      --text:#eafff1; --muted:rgba(234,255,241,.72);
-      --gold:#facc15; --green:#22c55e; --orange:#f59e0b; --red:#ef4444;
-      --shadow:0 20px 60px rgba(0,0,0,.35); --radius:18px;
+      --bg:#061b14;
+      --card:#0b2a1f;
+      --line:rgba(255,255,255,.12);
+      --text:#eafff1;
+      --muted:rgba(234,255,241,.72);
+      --gold:#facc15;
+      --green:#22c55e;
+      --orange:#f59e0b;
+      --red:#ef4444;
+      --shadow:0 20px 60px rgba(0,0,0,.35);
+      --radius:18px;
     }
+
     *{box-sizing:border-box}
+
     body{
       margin:0;
       font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial;
@@ -29,48 +37,142 @@
       min-height:100vh;
       padding:18px 14px 30px;
     }
+
     .wrap{max-width:920px;margin:0 auto}
-    .top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}
-    .brand{display:flex;align-items:center;gap:10px}
-    .logo{
-      width:44px;height:44px;border-radius:14px;
-      background: radial-gradient(circle at 30% 30%, rgba(250,204,21,.22), transparent 60%),
-                  linear-gradient(135deg, rgba(34,197,94,.25), rgba(245,158,11,.18));
-      border:1px solid var(--line); box-shadow:var(--shadow);
-      display:flex;align-items:center;justify-content:center;font-weight:900;
+
+    .top{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom:14px;
+      flex-wrap:wrap;
     }
-    .brand h1{font-size:16px;margin:0}
-    .brand p{margin:2px 0 0;color:var(--muted);font-size:12.5px}
+
+    .brand{
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+
+    .logo{
+      width:44px;
+      height:44px;
+      border-radius:14px;
+      background:
+        radial-gradient(circle at 30% 30%, rgba(250,204,21,.22), transparent 60%),
+        linear-gradient(135deg, rgba(34,197,94,.25), rgba(245,158,11,.18));
+      border:1px solid var(--line);
+      box-shadow:var(--shadow);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-weight:900;
+    }
+
+    .brand h1{
+      font-size:16px;
+      margin:0;
+    }
+
+    .brand p{
+      margin:2px 0 0;
+      color:var(--muted);
+      font-size:12.5px;
+    }
 
     .btn{
-      appearance:none;border:1px solid var(--line);
-      background: rgba(0,0,0,.12); color:var(--text);
-      padding:10px 12px;border-radius:14px;
-      text-decoration:none; display:inline-flex; align-items:center; gap:8px;
-      font-weight:800;font-size:13px; cursor:pointer; white-space:nowrap;
+      appearance:none;
+      border:1px solid var(--line);
+      background:rgba(0,0,0,.12);
+      color:var(--text);
+      padding:10px 12px;
+      border-radius:14px;
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      font-weight:800;
+      font-size:13px;
+      cursor:pointer;
+      white-space:nowrap;
     }
+
     .btn.primary{
-      background: linear-gradient(135deg, rgba(34,197,94,.22), rgba(250,204,21,.18));
-      border-color: rgba(250,204,21,.32);
+      background:linear-gradient(135deg, rgba(34,197,94,.22), rgba(250,204,21,.18));
+      border-color:rgba(250,204,21,.32);
     }
+
     .btn.whatsapp{
-      background: linear-gradient(135deg, rgba(34,197,94,.28), rgba(34,197,94,.14));
-      border-color: rgba(34,197,94,.38);
+      background:linear-gradient(135deg, rgba(34,197,94,.28), rgba(34,197,94,.14));
+      border-color:rgba(34,197,94,.38);
     }
-    .btn:hover{border-color:rgba(250,204,21,.35)}
+
+    .btn:hover{
+      border-color:rgba(250,204,21,.35);
+    }
 
     .card{
-      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      background:linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
       border:1px solid var(--line);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
       overflow:hidden;
-      margin-bottom: 14px;
+      margin-bottom:14px;
     }
-    .hd{padding:14px 14px 10px;border-bottom:1px solid var(--line);background:rgba(0,0,0,.12)}
-    .hd .t{font-size:14px;font-weight:900;margin:0}
-    .hd .s{margin:6px 0 0;color:var(--muted);font-size:12.5px;line-height:1.35}
-    .bd{padding:14px}
+
+    .hd{
+      padding:14px 14px 10px;
+      border-bottom:1px solid var(--line);
+      background:rgba(0,0,0,.12);
+    }
+
+    .hd .t{
+      font-size:14px;
+      font-weight:900;
+      margin:0;
+    }
+
+    .hd .s{
+      margin:6px 0 0;
+      color:var(--muted);
+      font-size:12.5px;
+      line-height:1.4;
+    }
+
+    .bd{
+      padding:14px;
+    }
+
+    .hero-ok{
+      display:flex;
+      align-items:flex-start;
+      gap:12px;
+      margin-bottom:14px;
+      padding:14px;
+      border-radius:16px;
+      border:1px solid rgba(34,197,94,.28);
+      background:rgba(34,197,94,.08);
+    }
+
+    .hero-ok .icon{
+      width:42px;
+      height:42px;
+      border-radius:14px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:rgba(34,197,94,.15);
+      font-size:20px;
+      flex:0 0 auto;
+    }
+
+    .hero-ok .txt{
+      line-height:1.5;
+      color:#d1fae5;
+      font-size:14px;
+      font-weight:800;
+    }
 
     .big{
       font-size:28px;
@@ -79,22 +181,71 @@
       padding:10px 12px;
       border-radius:16px;
       border:1px dashed rgba(250,204,21,.45);
-      background: rgba(0,0,0,.12);
+      background:rgba(0,0,0,.12);
       display:inline-block;
+      word-break:break-word;
     }
-    .hint{font-size:12.5px;color:var(--muted);line-height:1.35;margin-top:10px}
-    .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:12px}
 
-    /* toast */
-    .toast{
-      position:fixed;left:50%;bottom:18px;transform:translateX(-50%);
-      min-width:260px;max-width:90vw;
-      background:#0b2a1f;border:1px solid var(--line);
-      border-radius:14px;box-shadow:var(--shadow);
-      padding:12px 14px;display:none;z-index:9999;
+    .label{
+      font-size:12px;
+      color:var(--muted);
+      font-weight:900;
+      text-transform:uppercase;
+      letter-spacing:.3px;
+      margin-bottom:8px;
     }
+
+    .hint{
+      font-size:12.5px;
+      color:var(--muted);
+      line-height:1.45;
+      margin-top:10px;
+    }
+
+    .row{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+      margin-top:12px;
+    }
+
+    .mini-box{
+      margin-top:14px;
+      padding:12px 14px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(0,0,0,.10);
+      color:#e5e7eb;
+      font-size:13px;
+      line-height:1.5;
+      font-weight:800;
+    }
+
+    .mini-box b{
+      color:var(--gold);
+    }
+
+    .toast{
+      position:fixed;
+      left:50%;
+      bottom:18px;
+      transform:translateX(-50%);
+      min-width:260px;
+      max-width:90vw;
+      background:#0b2a1f;
+      border:1px solid var(--line);
+      border-radius:14px;
+      box-shadow:var(--shadow);
+      padding:12px 14px;
+      display:none;
+      z-index:9999;
+    }
+
     .toast.show{display:block}
     .toast.ok{border-color:rgba(34,197,94,.45)}
+    .toast.bad{border-color:rgba(239,68,68,.45)}
+
     .toast .t{font-weight:900}
     .toast .m{margin-top:4px;color:var(--muted);font-size:13px}
   </style>
@@ -107,50 +258,57 @@
         <div class="logo">✅</div>
         <div>
           <h1>DIGIY BUILD</h1>
-          <p>Demande envoyée</p>
+          <p>Demande MULTI SERVICES envoyée</p>
         </div>
       </div>
 
       <div style="display:flex;gap:10px;flex-wrap:wrap">
-        <a class="btn" id="btnHome" href="./index.html">← Vitrine</a>
+        <a class="btn" id="btnHome" href="./index.html">← Retour BUILD</a>
         <a class="btn" id="btnNew" href="./request.html">📤 Nouvelle demande</a>
       </div>
     </div>
 
     <div class="card">
       <div class="hd">
-        <p class="t">C’est bon !</p>
-        <p class="s">Garde ton code : c’est ta clé pour le suivi.</p>
+        <p class="t">C’est bon frérot, la demande est partie</p>
+        <p class="s">Garde bien ta référence. C’est ta clé pour le suivi et pour parler au support sans te perdre.</p>
       </div>
-      <div class="bd">
 
-        <!-- Loading -->
-        <div id="loadingBox">
-          <div class="hint">⏳ On prépare ton code…</div>
+      <div class="bd">
+        <div class="hero-ok">
+          <div class="icon">🛠️</div>
+          <div class="txt">
+            Ta demande est bien enregistrée. Le plus important maintenant :
+            <b>garder la référence</b>, rester joignable, et préparer photos + dimensions + quartier.
+          </div>
         </div>
 
-        <!-- OK -->
+        <div id="loadingBox">
+          <div class="hint">⏳ On prépare ta référence…</div>
+        </div>
+
         <div id="codeBox" style="display:none">
+          <div class="label">Référence de suivi</div>
           <div class="big" id="codeText">—</div>
 
           <div class="row">
-            <button class="btn primary" id="btnCopy">📋 Copier</button>
-            <a class="btn" id="btnTrack" href="./track.html">🔎 Suivi</a>
+            <button class="btn primary" id="btnCopy" type="button">📋 Copier</button>
+            <a class="btn" id="btnTrack" href="./track.html">🔎 Ouvrir le suivi</a>
             <a class="btn" id="btnListing" href="./listing.html">👁️ Voir les artisans</a>
           </div>
 
-          <div class="hint">
-            Conseil terrain : pour accélérer, prépare photos + dimensions, et reste joignable.
+          <div class="mini-box">
+            <b>Conseil terrain :</b> si c’est urgent, prépare directement les photos, les dimensions, et l’adresse précise du chantier.
           </div>
         </div>
 
-        <!-- NO CODE -->
         <div id="noCodeBox" style="display:none">
           <div class="hint">
-            Code introuvable. Reviens sur <b>Déposer une demande</b>, ou ouvre le suivi et colle ton code.
+            Référence introuvable. Reviens sur <b>Déposer une demande</b>, ou ouvre le suivi si tu as déjà une référence.
           </div>
+
           <div class="row">
-            <a class="btn primary" id="btnDeposit" href="./request.html">📤 Déposer</a>
+            <a class="btn primary" id="btnDeposit" href="./request.html">📤 Déposer une demande</a>
             <a class="btn" id="btnTrack2" href="./track.html">🔎 Suivi</a>
             <a class="btn" id="btnListing2" href="./listing.html">👁️ Listing</a>
           </div>
@@ -168,130 +326,133 @@
     <div class="m" id="toastM"></div>
   </div>
 
-<script>
-  /* =========================
-     SUPABASE (mêmes clés que tes pages)
-  ========================== */
-  const SUPABASE_URL = "https://wesqmwjjtsefyjnluosj.supabase.co";
-  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indlc3Ftd2pqdHNlZnlqbmx1b3NqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUxNzg4ODIsImV4cCI6MjA4MDc1NDg4Mn0.dZfYOc2iL2_wRYL3zExZFsFSBK6AbMeOid2LrIjcTdA";
-  const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  <script>
+    const SUPABASE_URL =
+      window.DIGIY_SUPABASE_URL ||
+      "https://wesqmwjjtsefyjnluosj.supabase.co";
 
-  /* =========================
-     CONFIG
-  ========================== */
-  const KEY_LAST = "DIGIY_BUILD_LAST_REQUEST";
-  const SUPPORT_WHATSAPP = "+221771342889";
+    const SUPABASE_ANON_KEY =
+      window.DIGIY_SUPABASE_ANON ||
+      window.DIGIY_SUPABASE_ANON_KEY ||
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indlc3Ftd2pqdHNlZnlqbmx1b3NqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUxNzg4ODIsImV4cCI6MjA4MDc1NDg4Mn0.dZfYOc2iL2_wRYL3zExZFsFSBK6AbMeOid2LrIjcTdA";
 
-  const $ = (id)=>document.getElementById(id);
+    const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-  function toast(title, msg){
-    const t = $("toast");
-    $("toastT").textContent = title;
-    $("toastM").textContent = msg;
-    t.classList.add("ok","show");
-    setTimeout(()=>t.classList.remove("show"), 2200);
-  }
+    const KEY_LAST = "DIGIY_BUILD_LAST_REQUEST";
+    const SUPPORT_WHATSAPP = "+221771342889";
 
-  function normalizeCode(c){
-    return String(c||"").trim().toUpperCase().replace(/\s+/g,"");
-  }
+    const $ = (id) => document.getElementById(id);
 
-  function buildWhatsAppLink(phone, msg){
-    const p = String(phone||"").replace(/\s/g,"").replace("+","");
-    return `https://wa.me/${p}?text=${encodeURIComponent(msg)}`;
-  }
-
-  function getUrlParam(name){
-    return new URL(location.href).searchParams.get(name);
-  }
-
-  function getCodeFromLocal(){
-    const raw = localStorage.getItem(KEY_LAST);
-    if(!raw) return "";
-    try{
-      const obj = JSON.parse(raw);
-      if(obj?.public_code) return normalizeCode(obj.public_code);
-      if(obj?.code) return normalizeCode(obj.code);
-    }catch(e){}
-    return "";
-  }
-
-  async function fetchCodeByDemandeId(demandeId){
-    // On tente de lire "public_code" si tu l'as en table
-    // Sinon fallback: code = demandeId (pratique terrain)
-    try{
-      const { data, error } = await sb
-        .from("digiy_build_demandes")
-        .select("id, public_code")
-        .eq("id", demandeId)
-        .single();
-
-      if(error) throw error;
-
-      const code = data?.public_code ? normalizeCode(data.public_code) : normalizeCode(data?.id);
-      return code || "";
-    }catch(e){
-      // si colonne public_code n'existe pas, la requête peut échouer selon RLS/columns
-      // on fallback sur l'id (au moins tu affiches un code)
-      return normalizeCode(demandeId);
-    }
-  }
-
-  function setUIWithCode(code){
-    $("loadingBox").style.display = "none";
-
-    if(!code){
-      $("noCodeBox").style.display = "block";
-      const waMsg = `Bonjour. J’ai besoin d’aide pour DIGIY BUILD.\nMerci.`;
-      $("btnWhatsApp").href = buildWhatsAppLink(SUPPORT_WHATSAPP, waMsg);
-      return;
+    function toast(kind, title, msg){
+      const t = $("toast");
+      t.classList.remove("ok","bad");
+      t.classList.add(kind === "ok" ? "ok" : "bad", "show");
+      $("toastT").textContent = title;
+      $("toastM").textContent = msg;
+      setTimeout(() => t.classList.remove("show"), 2200);
     }
 
-    $("codeBox").style.display = "block";
-    $("codeText").textContent = code;
+    function normalizeCode(c){
+      return String(c || "").trim().toUpperCase().replace(/\s+/g, "");
+    }
 
-    // Lien de suivi: track.html?code=
-    const trackBase = "./track.html";
-    $("btnTrack").href  = trackBase + "?code=" + encodeURIComponent(code);
-    $("btnTrack2").href = trackBase + "?code=" + encodeURIComponent(code);
+    function buildWhatsAppLink(phone, msg){
+      const p = String(phone || "").replace(/\s/g, "").replace("+", "");
+      return `https://wa.me/${p}?text=${encodeURIComponent(msg)}`;
+    }
 
-    const waMsg = `Bonjour. J’ai envoyé une demande DIGIY BUILD.\nCode: ${code}\nMerci.`;
-    $("btnWhatsApp").href = buildWhatsAppLink(SUPPORT_WHATSAPP, waMsg);
+    function getUrlParam(name){
+      return new URL(location.href).searchParams.get(name);
+    }
 
-    $("btnCopy").addEventListener("click", async ()=>{
+    function getCodeFromLocal(){
+      const raw = localStorage.getItem(KEY_LAST);
+      if(!raw) return "";
       try{
-        await navigator.clipboard.writeText(code);
-        toast("Copié", "Code copié : " + code);
-      }catch(e){
-        prompt("Copie le code :", code);
-      }
-    });
-  }
-
-  (async function init(){
-    // 1) Si success.html?code=XXXX
-    const urlCode = getUrlParam("code");
-    if(urlCode){
-      setUIWithCode(normalizeCode(urlCode));
-      return;
-    }
-
-    // 2) Si success.html?demande_id=UUID (ton flow request.html)
-    const demandeId = getUrlParam("demande_id");
-    if(demandeId){
-      const code = await fetchCodeByDemandeId(demandeId);
-      // enregistre en local (utile)
-      try{
-        localStorage.setItem(KEY_LAST, JSON.stringify({ demande_id: demandeId, public_code: code, at: new Date().toISOString() }));
+        const obj = JSON.parse(raw);
+        if(obj?.public_code) return normalizeCode(obj.public_code);
+        if(obj?.code) return normalizeCode(obj.code);
+        if(obj?.demande_id) return normalizeCode(obj.demande_id);
       }catch(_){}
-      setUIWithCode(code);
-      return;
+      return "";
     }
 
-    // 3) fallback localStorage
-    const localCode = getCodeFromLocal();
-    setUIWithCode(localCode);
-  })();
-</script>
+    async function fetchCodeByDemandeId(demandeId){
+      try{
+        const { data, error } = await sb
+          .from("digiy_build_demandes")
+          .select("id, public_code")
+          .eq("id", demandeId)
+          .single();
+
+        if(error) throw error;
+
+        const code = data?.public_code
+          ? normalizeCode(data.public_code)
+          : normalizeCode(data?.id);
+
+        return code || "";
+      }catch(_){
+        return normalizeCode(demandeId);
+      }
+    }
+
+    function setUIWithCode(code){
+      $("loadingBox").style.display = "none";
+
+      if(!code){
+        $("noCodeBox").style.display = "block";
+        const waMsg = `Bonjour DIGIY BUILD. J’ai besoin d’aide pour retrouver ma référence de demande.`;
+        $("btnWhatsApp").href = buildWhatsAppLink(SUPPORT_WHATSAPP, waMsg);
+        return;
+      }
+
+      $("codeBox").style.display = "block";
+      $("codeText").textContent = code;
+
+      const trackBase = "./track.html";
+      $("btnTrack").href = trackBase + "?code=" + encodeURIComponent(code);
+      $("btnTrack2").href = trackBase + "?code=" + encodeURIComponent(code);
+
+      const waMsg = `Bonjour DIGIY BUILD. J’ai envoyé une demande.\nRéférence : ${code}\nMerci.`;
+      $("btnWhatsApp").href = buildWhatsAppLink(SUPPORT_WHATSAPP, waMsg);
+
+      $("btnCopy").addEventListener("click", async () => {
+        try{
+          await navigator.clipboard.writeText(code);
+          toast("ok", "Copié", "Référence copiée : " + code);
+        }catch(_){
+          prompt("Copie la référence :", code);
+        }
+      });
+    }
+
+    (async function init(){
+      const urlCode = getUrlParam("code");
+      if(urlCode){
+        setUIWithCode(normalizeCode(urlCode));
+        return;
+      }
+
+      const demandeId = getUrlParam("demande_id");
+      if(demandeId){
+        const code = await fetchCodeByDemandeId(demandeId);
+
+        try{
+          localStorage.setItem(KEY_LAST, JSON.stringify({
+            demande_id: demandeId,
+            public_code: code,
+            at: new Date().toISOString()
+          }));
+        }catch(_){}
+
+        setUIWithCode(code);
+        return;
+      }
+
+      const localCode = getCodeFromLocal();
+      setUIWithCode(localCode);
+    })();
+  </script>
 </body>
 </html>
