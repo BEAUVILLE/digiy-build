@@ -1,46 +1,170 @@
 <!doctype html>
 <html lang="fr">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Accès BUILD PRO</title>
-<script src="./guard.js"></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Accès BUILD PRO</title>
+  <script src="./guard.js"></script>
 
-<style>
-body{
-  background:#061b14;color:white;
-  font-family:system-ui;
-  display:grid;place-items:center;height:100vh;
-}
-.box{
-  background:#0b2a1f;padding:30px;border-radius:16px;
-  width:320px;display:flex;flex-direction:column;gap:10px;
-}
-input,button{
-  padding:12px;border-radius:10px;border:none;font-weight:900;
-}
-button{background:#facc15;color:black;cursor:pointer}
-</style>
+  <style>
+    body{
+      margin:0;
+      background:#061b14;
+      color:white;
+      font-family:system-ui,-apple-system,sans-serif;
+      display:grid;
+      place-items:center;
+      min-height:100vh;
+      padding:16px;
+    }
+    .box{
+      background:#0b2a1f;
+      padding:30px;
+      border-radius:16px;
+      width:100%;
+      max-width:360px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      border:1px solid rgba(255,255,255,.12);
+      box-shadow:0 20px 50px rgba(0,0,0,.35);
+    }
+    h2{
+      margin:0 0 6px;
+      font-size:24px;
+    }
+    p{
+      margin:0 0 8px;
+      color:rgba(255,255,255,.72);
+      font-size:14px;
+      line-height:1.5;
+    }
+    input,button{
+      padding:12px;
+      border-radius:10px;
+      border:none;
+      font:inherit;
+      font-weight:800;
+    }
+    input{
+      background:#092117;
+      color:white;
+      border:1px solid rgba(255,255,255,.10);
+      outline:none;
+    }
+    input::placeholder{
+      color:rgba(255,255,255,.38);
+    }
+    button{
+      background:#facc15;
+      color:black;
+      cursor:pointer;
+    }
+    button:disabled{
+      opacity:.6;
+      cursor:not-allowed;
+    }
+    .status{
+      min-height:22px;
+      font-size:13px;
+      font-weight:800;
+      color:rgba(255,255,255,.76);
+    }
+    .status.err{ color:#fca5a5; }
+    .status.ok{ color:#86efac; }
+  </style>
 </head>
 
 <body>
-<div class="box">
-  <h2>🔐 Accès BUILD</h2>
-  <input id="slug" placeholder="slug">
-  <input id="pin" placeholder="PIN" type="password">
-  <button onclick="go()">Entrer</button>
-</div>
+  <div class="box">
+    <h2>🔐 Accès BUILD PRO</h2>
+    <p>Entre ton slug pro et ton PIN pour ouvrir le cockpit.</p>
 
-<script>
-async function go(){
-  const slug = slugInput.value || document.getElementById("slug").value;
-  const pin  = document.getElementById("pin").value;
+    <input id="slug" placeholder="slug" autocomplete="username">
+    <input id="pin" placeholder="PIN" type="password" autocomplete="one-time-code">
 
-  const r = await DIGIY_GUARD.loginWithPin(slug,pin);
-  if(!r.ok) return alert(r.error);
+    <button id="btnGo" type="button">Entrer</button>
+    <div id="status" class="status">Prêt.</div>
+  </div>
 
-  location.href = "./cockpit.html";
-}
-</script>
+  <script>
+    const $ = (id) => document.getElementById(id);
+
+    function normSlug(v){
+      return String(v || "")
+        .trim()
+        .toLowerCase()
+        .replace(/\s+/g, "-")
+        .replace(/[^a-z0-9-]/g, "")
+        .replace(/-+/g, "-")
+        .replace(/^-|-$/g, "");
+    }
+
+    function normPin(v){
+      return String(v || "").trim().replace(/\s+/g, "");
+    }
+
+    function setStatus(msg, tone = ""){
+      const box = $("status");
+      box.className = "status" + (tone ? " " + tone : "");
+      box.textContent = msg;
+    }
+
+    function setBusy(on){
+      $("btnGo").disabled = !!on;
+      $("slug").disabled = !!on;
+      $("pin").disabled = !!on;
+    }
+
+    async function go(){
+      const slug = normSlug($("slug").value);
+      const pin = normPin($("pin").value);
+
+      if(!slug){
+        setStatus("Slug manquant.", "err");
+        $("slug").focus();
+        return;
+      }
+
+      if(!pin){
+        setStatus("PIN manquant.", "err");
+        $("pin").focus();
+        return;
+      }
+
+      if(!window.DIGIY_GUARD || typeof window.DIGIY_GUARD.loginWithPin !== "function"){
+        setStatus("guard.js ne fournit pas loginWithPin.", "err");
+        return;
+      }
+
+      setBusy(true);
+      setStatus("Vérification du PIN...");
+
+      try{
+        const r = await window.DIGIY_GUARD.loginWithPin(slug, pin);
+
+        if(!r || !r.ok){
+          setStatus((r && r.error) || "Accès refusé.", "err");
+          return;
+        }
+
+        setStatus("Accès validé. Ouverture du cockpit...", "ok");
+        location.href = "./cockpit.html?slug=" + encodeURIComponent(slug);
+      }catch(e){
+        console.error(e);
+        setStatus("Erreur pendant la vérification.", "err");
+      }finally{
+        setBusy(false);
+      }
+    }
+
+    $("btnGo").addEventListener("click", go);
+    $("slug").addEventListener("keydown", (e) => {
+      if(e.key === "Enter") go();
+    });
+    $("pin").addEventListener("keydown", (e) => {
+      if(e.key === "Enter") go();
+    });
+  </script>
 </body>
 </html>
