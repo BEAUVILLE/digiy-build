@@ -1,12 +1,10 @@
-<!-- index.html (repo BEAUVILLE/digiy-build) -->
 <!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="utf-8">
-  <title>DIGIY BUILD — Accueil • 0% commission</title>
+  <title>DIGIY BUILD — Hommes de métier du quartier</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="DIGIY BUILD : Réseau BTP Sénégal. Artisans vérifiés, contact direct, 0% commission.">
-
+  <meta name="description" content="DIGIY BUILD : plombiers, électriciens, maçons, menuisiers, soudeurs, mécaniciens. Contact direct, 0% commission.">
   <meta name="theme-color" content="#020617">
 
   <style>
@@ -18,118 +16,234 @@
       --ink:#f9fafb;
       --muted:#9ca3af;
       --line:#1f2937;
+      --card:#0b1220;
+      --card2:#111827;
     }
+
     *{box-sizing:border-box;margin:0;padding:0}
+
     body{
       margin:0;
-      background:radial-gradient(circle at top,#111827,#020617);
+      background:
+        radial-gradient(circle at top,#111827,#020617);
       color:var(--ink);
       font-family:system-ui,-apple-system,sans-serif;
       padding:20px;
       min-height:100vh;
     }
+
     .container{max-width:1400px;margin:0 auto}
 
-    /* HEADER */
-    .header{text-align:center;margin-bottom:28px}
+    .header{
+      text-align:center;
+      margin-bottom:28px;
+    }
+
     .header h1{
-      font-size:52px;
+      font-size:clamp(38px,7vw,58px);
       font-weight:900;
       background:linear-gradient(135deg,#f97316,#facc15);
       -webkit-background-clip:text;
       -webkit-text-fill-color:transparent;
       margin:0 0 10px;
+      line-height:1.05;
     }
-    .header p{color:var(--muted);font-size:18px;margin:5px 0}
-    .header .zones{font-size:14px;color:#6b7280;margin-top:10px}
 
-    .header-cta{
-      margin-top:20px;
+    .header p{
+      color:var(--muted);
+      font-size:18px;
+      margin:6px 0;
+      line-height:1.5;
+    }
+
+    .header .zones{
+      font-size:14px;
+      color:#6b7280;
+      margin-top:10px;
+    }
+
+    .hero-pills{
+      margin-top:18px;
       display:flex;
-      gap:15px;
+      gap:10px;
       justify-content:center;
       flex-wrap:wrap;
     }
+
+    .pill{
+      padding:8px 14px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      background:rgba(148,163,184,.10);
+      color:#d1d5db;
+      font-size:12px;
+      font-weight:800;
+      letter-spacing:.2px;
+    }
+
+    .urgent-bar{
+      margin:24px auto 0;
+      max-width:860px;
+      display:flex;
+      gap:12px;
+      justify-content:center;
+      flex-wrap:wrap;
+    }
+
     .cta-btn{
       display:inline-flex;
       align-items:center;
+      justify-content:center;
       gap:8px;
-      padding:14px 28px;
-      background:linear-gradient(135deg,#f97316,#facc15);
-      color:#000;
+      padding:14px 24px;
       text-decoration:none;
       border-radius:999px;
       font-weight:800;
       font-size:15px;
-      box-shadow:0 8px 20px rgba(249,115,22,.4);
-      transition:all 0.2s;
+      transition:all .2s;
+      border:1px solid transparent;
     }
+
     .cta-btn:hover{
       transform:translateY(-2px);
+    }
+
+    .cta-btn.primary{
+      background:linear-gradient(135deg,#f97316,#facc15);
+      color:#000;
+      box-shadow:0 8px 20px rgba(249,115,22,.4);
+    }
+
+    .cta-btn.primary:hover{
       box-shadow:0 12px 28px rgba(249,115,22,.6);
     }
+
+    .cta-btn.wa{
+      background:#25d366;
+      color:#fff;
+      box-shadow:0 8px 20px rgba(37,211,102,.30);
+    }
+
+    .cta-btn.wa:hover{
+      box-shadow:0 12px 28px rgba(37,211,102,.45);
+    }
+
     .cta-btn.secondary{
-      background:rgba(148,163,184,.2);
+      background:rgba(148,163,184,.14);
       color:var(--ink);
-      border:1px solid var(--line);
-      box-shadow:none;
+      border-color:var(--line);
     }
 
-    /* GRID */
-    .grid{
+    .split{
       display:grid;
-      grid-template-columns:repeat(auto-fill,minmax(320px,1fr));
+      grid-template-columns:1fr 1fr;
       gap:24px;
-      margin-top:24px;
-    }
-    @media(max-width:768px){
-      .grid{grid-template-columns:1fr}
+      margin-top:30px;
     }
 
-    /* CARD (même style que listing) */
-    .card{
+    @media(max-width:900px){
+      .split{grid-template-columns:1fr}
+    }
+
+    .panel{
       background:linear-gradient(135deg,#0b1220,#020617);
       border:2px solid var(--line);
-      border-radius:20px;
-      padding:20px;
-      box-shadow:0 20px 50px rgba(0,0,0,.6);
-      transition:transform 0.2s, box-shadow 0.2s;
+      border-radius:24px;
+      padding:24px;
+      box-shadow:0 20px 50px rgba(0,0,0,.55);
       position:relative;
       overflow:hidden;
     }
-    .card::before{
-      content:'';
+
+    .panel::before{
+      content:"";
       position:absolute;
       top:0;left:0;right:0;
       height:4px;
       background:linear-gradient(90deg,#f97316,#facc15);
-      opacity:0;
-      transition:opacity 0.2s;
+      opacity:.95;
     }
+
+    .panel.pro::before{
+      background:linear-gradient(90deg,#22c55e,#facc15);
+    }
+
+    .panel-head{
+      margin-bottom:18px;
+    }
+
+    .panel-kicker{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:7px 12px;
+      border-radius:999px;
+      font-size:12px;
+      font-weight:900;
+      margin-bottom:12px;
+    }
+
+    .panel-kicker.public{
+      background:rgba(249,115,22,.14);
+      color:#fdba74;
+      border:1px solid rgba(249,115,22,.35);
+    }
+
+    .panel-kicker.pro{
+      background:rgba(34,197,94,.14);
+      color:#86efac;
+      border:1px solid rgba(34,197,94,.35);
+    }
+
+    .panel h2{
+      font-size:28px;
+      margin-bottom:10px;
+      line-height:1.15;
+    }
+
+    .panel p{
+      color:var(--muted);
+      line-height:1.65;
+      font-size:15px;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:18px;
+      margin-top:18px;
+    }
+
+    .card{
+      background:linear-gradient(135deg,#111827,#020617);
+      border:1px solid var(--line);
+      border-radius:20px;
+      padding:18px;
+      box-shadow:0 16px 38px rgba(0,0,0,.38);
+      transition:transform .2s, box-shadow .2s;
+    }
+
     .card:hover{
-      transform:translateY(-4px);
-      box-shadow:0 25px 60px rgba(0,0,0,.7);
+      transform:translateY(-3px);
+      box-shadow:0 20px 46px rgba(0,0,0,.52);
     }
-    .card:hover::before{opacity:1}
 
-    .card.verified{border-color:var(--green);border-width:3px}
-    .card.verified::before{background:var(--green);opacity:1}
-    .card.pro{border-color:var(--orange);border-style:dashed}
-
-    .name{
+    .card .name{
       font-size:22px;
       font-weight:900;
       color:var(--accent);
       margin-bottom:8px;
       line-height:1.2;
     }
-    .type{
+
+    .card .type{
       font-size:14px;
       color:var(--muted);
       font-weight:700;
       margin-bottom:12px;
     }
-    .desc{
+
+    .card .desc{
       font-size:14px;
       color:#e5e7eb;
       line-height:1.7;
@@ -142,24 +256,46 @@
       flex-wrap:wrap;
       margin-bottom:16px;
     }
+
     .badge{
       padding:6px 12px;
       border-radius:999px;
       font-size:12px;
       font-weight:800;
       text-transform:uppercase;
-      letter-spacing:0.3px;
+      letter-spacing:.3px;
     }
-    .badge-verified{background:var(--green);color:#000;box-shadow:0 4px 12px rgba(34,197,94,.3)}
-    .badge-pro{background:rgba(249,115,22,.2);color:var(--orange);border:1px solid var(--orange)}
-    .badge-commission{background:rgba(250,204,21,.15);color:var(--accent);border:1px solid var(--accent)}
-    .badge-info{background:rgba(148,163,184,.15);color:var(--muted)}
+
+    .badge-public{
+      background:rgba(250,204,21,.15);
+      color:var(--accent);
+      border:1px solid var(--accent);
+    }
+
+    .badge-verified{
+      background:var(--green);
+      color:#000;
+      box-shadow:0 4px 12px rgba(34,197,94,.3);
+    }
+
+    .badge-pro{
+      background:rgba(249,115,22,.2);
+      color:var(--orange);
+      border:1px solid var(--orange);
+    }
+
+    .badge-info{
+      background:rgba(148,163,184,.15);
+      color:var(--muted);
+      border:1px solid rgba(148,163,184,.15);
+    }
 
     .actions{
       display:flex;
       gap:10px;
       flex-direction:column;
     }
+
     .btn{
       width:100%;
       padding:14px 20px;
@@ -168,20 +304,22 @@
       font-weight:800;
       font-size:15px;
       cursor:pointer;
-      transition:all 0.2s;
+      transition:all .2s;
       display:flex;
       align-items:center;
       justify-content:center;
       gap:8px;
       text-decoration:none;
     }
-    .btn:active{transform:scale(0.98)}
+
+    .btn:active{transform:scale(.98)}
 
     .btn-primary{
       background:linear-gradient(135deg,#f97316,#facc15);
       color:#000;
       box-shadow:0 8px 20px rgba(249,115,22,.4);
     }
+
     .btn-primary:hover{
       box-shadow:0 12px 28px rgba(249,115,22,.6);
       transform:translateY(-2px);
@@ -192,6 +330,7 @@
       color:#fff;
       box-shadow:0 8px 20px rgba(37,211,102,.3);
     }
+
     .btn-wa:hover{
       background:#20c05c;
       box-shadow:0 12px 28px rgba(37,211,102,.5);
@@ -204,14 +343,55 @@
       border:1px solid var(--line);
       box-shadow:none;
     }
-    .btn-ghost:hover{transform:translateY(-2px);border-color:rgba(250,204,21,.45)}
+
+    .btn-ghost:hover{
+      transform:translateY(-2px);
+      border-color:rgba(250,204,21,.45);
+    }
+
+    .metiers{
+      margin-top:26px;
+      background:linear-gradient(135deg,#0b1220,#020617);
+      border:1px solid var(--line);
+      border-radius:22px;
+      padding:22px;
+      box-shadow:0 20px 50px rgba(0,0,0,.45);
+    }
+
+    .metiers h3{
+      font-size:22px;
+      margin-bottom:14px;
+      color:var(--accent);
+    }
+
+    .metiers p{
+      color:var(--muted);
+      line-height:1.6;
+      margin-bottom:14px;
+    }
+
+    .metier-list{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+    }
+
+    .metier{
+      padding:10px 14px;
+      border-radius:999px;
+      background:rgba(148,163,184,.12);
+      border:1px solid var(--line);
+      color:#e5e7eb;
+      font-size:13px;
+      font-weight:800;
+    }
 
     footer{
-      margin-top:26px;
+      margin-top:28px;
       text-align:center;
       color:#6b7280;
       font-size:12px;
-      line-height:1.5;
+      line-height:1.6;
     }
   </style>
 </head>
@@ -219,123 +399,139 @@
 <body>
   <div class="container">
 
-    <!-- HEADER -->
     <div class="header">
       <h1>🏗️ DIGIY BUILD</h1>
-      <p>Réseau BTP Sénégal • Direct artisan • 0% commission</p>
+      <p>Les hommes de métier du quartier • Direct artisan • 0% commission</p>
+      <p>Plombier, électricien, maçon, soudeur, menuisier, mécanicien…</p>
       <p class="zones">Dakar • Thiès • Saly • Mbour • Touba</p>
 
-      <div class="header-cta">
-        <a href="./listing.html" class="cta-btn">👁️ Voir les artisans</a>
-        <a href="./build-gen.html" class="cta-btn secondary">🏗️ Créer ma fiche artisan</a>
-        <a href="https://wa.me/221771342889" class="cta-btn secondary" target="_blank" rel="noopener">
-          📲 Parler à l'équipe DIGIY
+      <div class="hero-pills">
+        <div class="pill">Contact direct</div>
+        <div class="pill">Paiement direct au pro</div>
+        <div class="pill">Besoin terrain</div>
+        <div class="pill">Sans intermédiaire</div>
+      </div>
+
+      <div class="urgent-bar">
+        <a href="./listing.html" class="cta-btn primary">👁️ Voir les artisans</a>
+        <a href="https://wa.me/221771342889?text=Salut%20DIGIY%20BUILD%2C%20j%E2%80%99ai%20un%20besoin%20urgent%20de%20d%C3%A9pannage." class="cta-btn wa" target="_blank" rel="noopener">
+          ⚡ Besoin urgent ? WhatsApp
         </a>
       </div>
     </div>
 
-    <!-- CARDS -->
-    <div class="grid">
+    <section class="split">
 
-      <article class="card verified">
-        <div class="name">👁️ Listing artisans</div>
-        <div class="type">Fiches • Devis • WhatsApp direct</div>
-        <div class="badges">
-          <div class="badge badge-verified">✅ PUBLIC</div>
-          <div class="badge badge-commission">0% commission</div>
-          <div class="badge badge-info">Vérifiés</div>
+      <div class="panel">
+        <div class="panel-head">
+          <div class="panel-kicker public">👁️ CÔTÉ CLIENT</div>
+          <h2>Je cherche un artisan</h2>
+          <p>
+            Trouve rapidement un professionnel du quartier, vois sa fiche, puis demande ton devis ou contacte-le directement.
+          </p>
         </div>
-        <div class="desc">
-          Trouve un artisan par ville et spécialité. Contact direct, sans intermédiaire.
-        </div>
-        <div class="actions">
-          <a class="btn btn-primary" href="./listing.html">👁️ Ouvrir</a>
-          <a class="btn btn-wa" href="https://wa.me/221771342889" target="_blank" rel="noopener">📲 WhatsApp équipe</a>
-        </div>
-      </article>
 
-      <article class="card">
-        <div class="name">🏗️ Créer ma fiche</div>
-        <div class="type">Artisan • Entreprise • Photo • WhatsApp</div>
-        <div class="badges">
-          <div class="badge badge-commission">0% commission</div>
-          <div class="badge badge-info">Rapide</div>
-        </div>
-        <div class="desc">
-          Tu es artisan ? Mets ta fiche en ligne (nom, spécialité, ville, photo, tarif).
-        </div>
-        <div class="actions">
-          <a class="btn btn-primary" href="./build-gen.html">🏗️ Ouvrir</a>
-          <a class="btn btn-ghost" href="./generateur-build.html">⚙️ Générateur (admin)</a>
-        </div>
-      </article>
+        <div class="grid">
+          <article class="card">
+            <div class="name">👁️ Listing artisans</div>
+            <div class="type">Fiches • Villes • Spécialités • WhatsApp direct</div>
+            <div class="badges">
+              <div class="badge badge-verified">✅ PUBLIC</div>
+              <div class="badge badge-public">0% commission</div>
+              <div class="badge badge-info">Terrain</div>
+            </div>
+            <div class="desc">
+              Vois les artisans disponibles par métier et par zone. Le contact se fait directement, sans détour.
+            </div>
+            <div class="actions">
+              <a class="btn btn-primary" href="./listing.html">👁️ Ouvrir le listing</a>
+              <a class="btn btn-wa" href="https://wa.me/221771342889?text=Salut%20DIGIY%20BUILD%2C%20je%20cherche%20un%20artisan." target="_blank" rel="noopener">📲 WhatsApp équipe</a>
+            </div>
+          </article>
 
-      <article class="card pro">
-        <div class="name">📩 Demandes / Suivi</div>
-        <div class="type">Gestion • Tracking • Back-office</div>
-        <div class="badges">
-          <div class="badge badge-pro">🔒 PRO</div>
-          <div class="badge badge-info">Dashboard</div>
+          <article class="card">
+            <div class="name">📄 Demander un devis</div>
+            <div class="type">Formulaire • Besoin • Chantier • Dépannage</div>
+            <div class="badges">
+              <div class="badge badge-public">Public</div>
+              <div class="badge badge-info">Simple</div>
+            </div>
+            <div class="desc">
+              Décris ton besoin et envoie une demande claire pour être rappelé ou orienté vers le bon métier.
+            </div>
+            <div class="actions">
+              <a class="btn btn-primary" href="./request.html">📄 Ouvrir la demande</a>
+              <a class="btn btn-ghost" href="./success.html">✅ Voir la confirmation</a>
+            </div>
+          </article>
         </div>
-        <div class="desc">
-          Voir les demandes envoyées, suivre les devis, gérer le flux.
-        </div>
-        <div class="actions">
-          <a class="btn btn-primary" href="./demandes.html">📩 Ouvrir</a>
-          <a class="btn btn-ghost" href="./track.html">🧲 Tracking</a>
-        </div>
-      </article>
+      </div>
 
-      <article class="card pro">
-        <div class="name">🔑 Accès / PIN</div>
-        <div class="type">Sécurité • Guard • Pro</div>
-        <div class="badges">
-          <div class="badge badge-pro">🔒 PRO</div>
-          <div class="badge badge-info">guard.js</div>
+      <div class="panel pro">
+        <div class="panel-head">
+          <div class="panel-kicker pro">🔒 CÔTÉ ARTISAN / PRO</div>
+          <h2>Je suis artisan</h2>
+          <p>
+            Mets ton métier en ligne, entre par PIN, puis gère ta présence et les demandes reçues.
+          </p>
         </div>
-        <div class="desc">
-          Accès pro sécurisé via PIN. Si souci : WhatsApp équipe.
-        </div>
-        <div class="actions">
-          <a class="btn btn-primary" href="./pin.html">🔑 Ouvrir</a>
-          <a class="btn btn-wa" href="https://wa.me/221771342889" target="_blank" rel="noopener">📲 Support</a>
-        </div>
-      </article>
 
-      <article class="card">
-        <div class="name">✅ Page succès</div>
-        <div class="type">Confirmation • UX</div>
-        <div class="badges">
-          <div class="badge badge-info">UI</div>
-        </div>
-        <div class="desc">
-          Page de confirmation après demande devis / action.
-        </div>
-        <div class="actions">
-          <a class="btn btn-primary" href="./success.html">✅ Ouvrir</a>
-          <a class="btn btn-ghost" href="./request.html">🧾 Tester request</a>
-        </div>
-      </article>
+        <div class="grid">
+          <article class="card">
+            <div class="name">🏗️ Créer ma fiche artisan</div>
+            <div class="type">Métier • Ville • Photo • WhatsApp • Présence locale</div>
+            <div class="badges">
+              <div class="badge badge-public">0% commission</div>
+              <div class="badge badge-info">Rapide</div>
+            </div>
+            <div class="desc">
+              Tu es plombier, maçon, menuisier ou autre ? Mets ta fiche en ligne proprement pour être trouvé dans ton quartier.
+            </div>
+            <div class="actions">
+              <a class="btn btn-primary" href="./build-gen.html">🏗️ Créer ma fiche</a>
+              <a class="btn btn-wa" href="https://wa.me/221771342889?text=Salut%20DIGIY%20BUILD%2C%20je%20veux%20mettre%20mon%20m%C3%A9tier%20en%20ligne." target="_blank" rel="noopener">📲 Parler à l’équipe</a>
+            </div>
+          </article>
 
-      <article class="card">
-        <div class="name">📄 Request (devis)</div>
-        <div class="type">Formulaire • Envoi</div>
-        <div class="badges">
-          <div class="badge badge-info">Public</div>
+          <article class="card">
+            <div class="name">🔑 Entrer par PIN</div>
+            <div class="type">Accès pro • Sécurité • Cockpit</div>
+            <div class="badges">
+              <div class="badge badge-pro">🔒 PRO</div>
+              <div class="badge badge-info">Guard</div>
+            </div>
+            <div class="desc">
+              Ouvre ton espace pro pour retrouver ta fiche, ton cockpit et les demandes reçues.
+            </div>
+            <div class="actions">
+              <a class="btn btn-primary" href="./pin.html">🔑 Ouvrir</a>
+              <a class="btn btn-ghost" href="./demandes.html">📩 Voir les demandes reçues</a>
+            </div>
+          </article>
         </div>
-        <div class="desc">
-          Formulaire de demande devis (arrive depuis le listing).
-        </div>
-        <div class="actions">
-          <a class="btn btn-primary" href="./request.html">📄 Ouvrir</a>
-          <a class="btn btn-wa" href="https://wa.me/221771342889" target="_blank" rel="noopener">📲 Aide</a>
-        </div>
-      </article>
+      </div>
+    </section>
 
-    </div>
+    <section class="metiers">
+      <h3>🧰 Métiers à l’honneur</h3>
+      <p>
+        DIGIY BUILD commence par les besoins les plus vivants du quartier. On va au concret : réparer, brancher, souder, construire, dépanner.
+      </p>
+
+      <div class="metier-list">
+        <span class="metier">Plombier</span>
+        <span class="metier">Électricien</span>
+        <span class="metier">Maçon</span>
+        <span class="metier">Menuisier</span>
+        <span class="metier">Soudeur métal</span>
+        <span class="metier">Soudeur aluminium</span>
+        <span class="metier">Mécanicien</span>
+        <span class="metier">Manoeuvre</span>
+      </div>
+    </section>
 
     <footer>
-      DIGIY BUILD — 0% commission • Contact direct • Paiement direct au pro. <br>
+      DIGIY BUILD — Contact direct • 0% commission • Paiement direct au pro.<br>
       Support WhatsApp : +221 77 134 28 89
     </footer>
 
