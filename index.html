@@ -2,9 +2,9 @@
 <html lang="fr">
 <head>
   <meta charset="utf-8">
-  <title>DIGIY BUILD — Hommes de métier du quartier</title>
+  <title>ENTREPRENEUR MULTI SERVICES — Travaux, dépannage, entretien, chantier et services pratiques</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="DIGIY BUILD : plombiers, électriciens, maçons, menuisiers, soudeurs, mécaniciens. Contact direct, 0% commission.">
+  <meta name="description" content="ENTREPRENEUR MULTI SERVICES : travaux, dépannage, entretien, chantier et services pratiques. Contact direct, paiement direct au pro, sans intermédiaire.">
   <meta name="theme-color" content="#020617">
 
   <style>
@@ -24,15 +24,18 @@
 
     body{
       margin:0;
-      background:
-        radial-gradient(circle at top,#111827,#020617);
+      background:radial-gradient(circle at top,#111827,#020617);
       color:var(--ink);
       font-family:system-ui,-apple-system,sans-serif;
       padding:20px;
       min-height:100vh;
     }
 
-    .container{max-width:1400px;margin:0 auto}
+    .container{
+      max-width:1400px;
+      margin:0 auto;
+      padding-bottom:92px;
+    }
 
     .header{
       text-align:center;
@@ -40,30 +43,39 @@
     }
 
     .header h1{
-      font-size:clamp(38px,7vw,58px);
+      font-size:clamp(34px,6.7vw,58px);
       font-weight:900;
       background:linear-gradient(135deg,#f97316,#facc15);
       -webkit-background-clip:text;
       -webkit-text-fill-color:transparent;
-      margin:0 0 10px;
+      margin:0 0 12px;
       line-height:1.05;
+      letter-spacing:.2px;
+    }
+
+    .header .lead{
+      color:#e5e7eb;
+      font-size:20px;
+      font-weight:800;
+      margin:8px 0 10px;
+      line-height:1.4;
     }
 
     .header p{
       color:var(--muted);
-      font-size:18px;
+      font-size:17px;
       margin:6px 0;
-      line-height:1.5;
+      line-height:1.55;
     }
 
     .header .zones{
       font-size:14px;
       color:#6b7280;
-      margin-top:10px;
+      margin-top:12px;
     }
 
     .hero-pills{
-      margin-top:18px;
+      margin-top:20px;
       display:flex;
       gap:10px;
       justify-content:center;
@@ -83,7 +95,7 @@
 
     .urgent-bar{
       margin:24px auto 0;
-      max-width:860px;
+      max-width:920px;
       display:flex;
       gap:12px;
       justify-content:center;
@@ -391,10 +403,9 @@
       text-align:center;
       color:#6b7280;
       font-size:12px;
-      line-height:1.6;
+      line-height:1.7;
     }
 
-    /* ===== BOUTON FLOTTANT RETOUR SITE ===== */
     .floating-home{
       position:fixed;
       left:16px;
@@ -438,6 +449,14 @@
     }
 
     @media (max-width:640px){
+      .container{
+        padding-bottom:104px;
+      }
+
+      .header .lead{
+        font-size:18px;
+      }
+
       .floating-home{
         left:12px;
         right:12px;
@@ -454,21 +473,23 @@
   <div class="container">
 
     <div class="header">
-      <h1>🏗️ DIGIY MULTI SERVICES</h1>
-      <p>Les hommes de métier du quartier • Direct artisan • 0% commission</p>
-      <p>Plombier, électricien, maçon, soudeur, menuisier, mécanicien…</p>
-      <p class="zones">Dakar • Thiès • Saly • Mbour • Touba</p>
+      <h1>ENTREPRENEUR MULTI SERVICES</h1>
+      <div class="lead">Travaux, dépannage, entretien, chantier et services pratiques</div>
+      <p>Plombier, électricien, maçon, soudeur, menuisier, mécanicien, peintre, manoeuvre, aide chantier et profils polyvalents.</p>
+      <p>Un espace simple pour trouver un pro ou présenter ses services avec contact direct.</p>
+      <p class="zones">Sénégal • Dakar • Thiès • Saly • Mbour • Touba</p>
 
       <div class="hero-pills">
         <div class="pill">Contact direct</div>
         <div class="pill">Paiement direct au pro</div>
-        <div class="pill">Besoin terrain</div>
+        <div class="pill">Travaux & dépannage</div>
+        <div class="pill">Services pratiques</div>
         <div class="pill">Sans intermédiaire</div>
       </div>
 
       <div class="urgent-bar">
-        <a href="./listing.html" class="cta-btn primary">👁️ Voir les artisans</a>
-        <a href="https://wa.me/221771342889?text=Salut%20DIGIY%20BUILD%2C%20j%E2%80%99ai%20un%20besoin%20urgent%20de%20d%C3%A9pannage." class="cta-btn wa" target="_blank" rel="noopener">
+        <a href="./listing.html" class="cta-btn primary">👁️ Voir les profils</a>
+        <a href="https://wa.me/221771342889?text=Bonjour%2C%20j%E2%80%99ai%20un%20besoin%20urgent%20en%20travaux%20ou%20d%C3%A9pannage." class="cta-btn wa" target="_blank" rel="noopener">
           ⚡ Besoin urgent ? WhatsApp
         </a>
       </div>
@@ -479,39 +500,39 @@
       <div class="panel">
         <div class="panel-head">
           <div class="panel-kicker public">👁️ CÔTÉ CLIENT</div>
-          <h2>Je cherche un artisan</h2>
+          <h2>Je cherche un professionnel</h2>
           <p>
-            Trouve rapidement un professionnel du quartier, vois sa fiche, puis demande ton devis ou contacte-le directement.
+            Trouve rapidement le bon profil pour un besoin de maison, chantier, entretien, réparation ou intervention pratique.
           </p>
         </div>
 
         <div class="grid">
           <article class="card">
-            <div class="name">👁️ Listing artisans</div>
-            <div class="type">Fiches • Villes • Spécialités • WhatsApp direct</div>
+            <div class="name">👁️ Voir les profils</div>
+            <div class="type">Profils • Zones • Services • WhatsApp direct</div>
             <div class="badges">
               <div class="badge badge-verified">✅ PUBLIC</div>
-              <div class="badge badge-public">0% commission</div>
-              <div class="badge badge-info">Terrain</div>
+              <div class="badge badge-public">Paiement direct</div>
+              <div class="badge badge-info">Sans détour</div>
             </div>
             <div class="desc">
-              Vois les artisans disponibles par métier et par zone. Le contact se fait directement, sans détour.
+              Parcours les profils disponibles selon le besoin, la zone et le type de service, puis contacte directement le professionnel.
             </div>
             <div class="actions">
               <a class="btn btn-primary" href="./listing.html">👁️ Ouvrir le listing</a>
-              <a class="btn btn-wa" href="https://wa.me/221771342889?text=Salut%20DIGIY%20BUILD%2C%20je%20cherche%20un%20artisan." target="_blank" rel="noopener">📲 WhatsApp équipe</a>
+              <a class="btn btn-wa" href="https://wa.me/221771342889?text=Bonjour%2C%20je%20cherche%20un%20professionnel%20multi%20services." target="_blank" rel="noopener">📲 WhatsApp support</a>
             </div>
           </article>
 
           <article class="card">
-            <div class="name">📄 Demander un devis</div>
-            <div class="type">Formulaire • Besoin • Chantier • Dépannage</div>
+            <div class="name">📄 Décrire mon besoin</div>
+            <div class="type">Demande • Devis • Dépannage • Chantier</div>
             <div class="badges">
               <div class="badge badge-public">Public</div>
               <div class="badge badge-info">Simple</div>
             </div>
             <div class="desc">
-              Décris ton besoin et envoie une demande claire pour être rappelé ou orienté vers le bon métier.
+              Décris ton besoin clairement pour être orienté vers le bon profil ou lancer une demande sérieuse.
             </div>
             <div class="actions">
               <a class="btn btn-primary" href="./request.html">📄 Ouvrir la demande</a>
@@ -523,39 +544,39 @@
 
       <div class="panel pro">
         <div class="panel-head">
-          <div class="panel-kicker pro">🔒 CÔTÉ ARTISAN / PRO</div>
-          <h2>Je suis artisan</h2>
+          <div class="panel-kicker pro">🔒 CÔTÉ PRO</div>
+          <h2>Je propose mes services</h2>
           <p>
-            Mets ton métier en ligne, entre par PIN, puis gère ta présence et les demandes reçues.
+            Mets ton activité en ligne, présente ce que tu sais faire, puis entre dans ton espace pour gérer ta présence.
           </p>
         </div>
 
         <div class="grid">
           <article class="card">
-            <div class="name">🏗️ Créer ma fiche artisan</div>
-            <div class="type">Métier • Ville • Photo • WhatsApp • Présence locale</div>
+            <div class="name">🛠️ Créer ma présence pro</div>
+            <div class="type">Service • Ville • Photo • WhatsApp • Visibilité</div>
             <div class="badges">
-              <div class="badge badge-public">0% commission</div>
-              <div class="badge badge-info">Rapide</div>
+              <div class="badge badge-public">Abonnement pro</div>
+              <div class="badge badge-info">Ouvert large</div>
             </div>
             <div class="desc">
-              Tu es plombier, maçon, menuisier ou autre ? Mets ta fiche en ligne proprement pour être trouvé dans ton quartier.
+              Tu fais les travaux, le dépannage, l’entretien ou les services pratiques ? Présente-toi proprement pour être trouvé plus facilement.
             </div>
             <div class="actions">
-              <a class="btn btn-primary" href="./build-gen.html">🏗️ Créer ma fiche</a>
-              <a class="btn btn-wa" href="https://wa.me/221771342889?text=Salut%20DIGIY%20BUILD%2C%20je%20veux%20mettre%20mon%20m%C3%A9tier%20en%20ligne." target="_blank" rel="noopener">📲 Parler à l’équipe</a>
+              <a class="btn btn-primary" href="./build-gen.html">🛠️ Créer ma fiche</a>
+              <a class="btn btn-wa" href="https://wa.me/221771342889?text=Bonjour%2C%20je%20veux%20mettre%20mes%20services%20en%20ligne." target="_blank" rel="noopener">📲 Parler au support</a>
             </div>
           </article>
 
           <article class="card">
-            <div class="name">🔑 Entrer par PIN</div>
-            <div class="type">Accès pro • Sécurité • Cockpit</div>
+            <div class="name">🔑 Entrer dans mon espace</div>
+            <div class="type">PIN • Accès pro • Espace personnel</div>
             <div class="badges">
               <div class="badge badge-pro">🔒 PRO</div>
-              <div class="badge badge-info">Guard</div>
+              <div class="badge badge-info">Accès sécurisé</div>
             </div>
             <div class="desc">
-              Ouvre ton espace pro pour retrouver ta fiche, ton cockpit et les demandes reçues.
+              Retrouve ta fiche, ton espace de gestion et les demandes reçues depuis ton entrée sécurisée.
             </div>
             <div class="actions">
               <a class="btn btn-primary" href="./pin.html">🔑 Ouvrir</a>
@@ -567,9 +588,9 @@
     </section>
 
     <section class="metiers">
-      <h3>🧰 Métiers à l’honneur</h3>
+      <h3>🧰 Profils concernés</h3>
       <p>
-        DIGIY BUILD commence par les besoins les plus vivants du quartier. On va au concret : réparer, brancher, souder, construire, dépanner.
+        Cette porte est faite pour les travailleurs utiles, visibles et sérieux : métiers techniques, dépannage, entretien, chantier, interventions ponctuelles ou services pratiques.
       </p>
 
       <div class="metier-list">
@@ -580,18 +601,25 @@
         <span class="metier">Soudeur métal</span>
         <span class="metier">Soudeur aluminium</span>
         <span class="metier">Mécanicien</span>
+        <span class="metier">Peintre</span>
+        <span class="metier">Carreleur</span>
+        <span class="metier">Frigoriste</span>
+        <span class="metier">Climatisation</span>
+        <span class="metier">Entretien</span>
+        <span class="metier">Nettoyage</span>
         <span class="metier">Manoeuvre</span>
+        <span class="metier">Aide chantier</span>
+        <span class="metier">Polyvalent</span>
       </div>
     </section>
 
     <footer>
-      DIGIY BUILD — Contact direct • 0% commission • Paiement direct au pro.<br>
-      Support WhatsApp : +221 77 134 28 89
+      ENTREPRENEUR MULTI SERVICES — Travaux, dépannage, entretien, chantier et services pratiques.<br>
+      Contact direct • Paiement direct au pro • Support WhatsApp : +221 77 134 28 89
     </footer>
 
   </div>
 
-  <!-- BOUTON FLOTTANT RETOUR SITE -->
   <a
     href="https://digiylyfe.com"
     class="floating-home"
