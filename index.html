@@ -3,102 +3,159 @@
 <head>
   <meta charset="utf-8">
   <title>ENTREPRENEUR MULTI SERVICES — Travaux, dépannage, entretien, chantier et services pratiques</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="ENTREPRENEUR MULTI SERVICES : travaux, dépannage, entretien, chantier et services pratiques. Contact direct, paiement direct au pro, sans intermédiaire.">
-  <meta name="theme-color" content="#020617">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="Entrepreneur Multi Services : travaux, dépannage, entretien, chantier et services pratiques. Contact direct, paiement direct au pro, sans intermédiaire.">
+  <meta name="theme-color" content="#061b14">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
   <style>
     :root{
-      --bg:#020617;
-      --accent:#facc15;
+      --bg:#061b14;
+      --bg2:#0a2b1f;
+      --card:rgba(8,30,22,.94);
+      --card2:rgba(6,24,18,.98);
+      --line:rgba(255,255,255,.14);
+      --line-soft:rgba(255,255,255,.08);
+      --text:#eafff1;
+      --muted:rgba(234,255,241,.72);
+      --gold:#facc15;
       --orange:#f97316;
       --green:#22c55e;
-      --ink:#f9fafb;
-      --muted:#9ca3af;
-      --line:#1f2937;
-      --card:#0b1220;
-      --card2:#111827;
+      --shadow:0 20px 55px rgba(0,0,0,.45);
+      --radius:24px;
+      --radius-sm:16px;
+      --max:1320px;
     }
 
-    *{box-sizing:border-box;margin:0;padding:0}
+    *{box-sizing:border-box}
+
+    html,body{
+      margin:0;
+      padding:0;
+      min-height:100%;
+      background:
+        radial-gradient(circle at top, rgba(250,204,21,.10), transparent 35%),
+        radial-gradient(circle at right, rgba(249,115,22,.12), transparent 30%),
+        linear-gradient(145deg,var(--bg),var(--bg2));
+      color:var(--text);
+      font-family:Outfit,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+    }
 
     body{
-      margin:0;
-      background:radial-gradient(circle at top,#111827,#020617);
-      color:var(--ink);
-      font-family:system-ui,-apple-system,sans-serif;
-      padding:20px;
-      min-height:100vh;
+      padding:16px;
     }
 
     .container{
-      max-width:1400px;
+      max-width:var(--max);
       margin:0 auto;
-      padding-bottom:92px;
+      padding-bottom:96px;
     }
 
-    .header{
-      text-align:center;
-      margin-bottom:28px;
+    .hero{
+      background:linear-gradient(145deg,rgba(11,42,31,.96),rgba(6,35,25,.96));
+      border:1px solid var(--line);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      padding:18px;
+      overflow:hidden;
+      position:relative;
+      margin-bottom:24px;
     }
 
-    .header h1{
-      font-size:clamp(34px,6.7vw,58px);
+    .hero::before{
+      content:"";
+      position:absolute;
+      inset:auto 0 0 0;
+      height:4px;
+      background:linear-gradient(90deg,var(--orange),var(--gold),var(--green));
+      opacity:.95;
+    }
+
+    .brand{
+      display:flex;
+      gap:16px;
+      align-items:flex-start;
+      flex-wrap:wrap;
+    }
+
+    .brand-logo{
+      width:92px;
+      height:92px;
+      border-radius:24px;
+      object-fit:cover;
+      background:#fff;
+      border:1px solid rgba(250,204,21,.30);
+      box-shadow:0 14px 34px rgba(0,0,0,.28);
+      flex:0 0 auto;
+    }
+
+    .kicker{
+      font-size:11px;
+      font-weight:1000;
+      letter-spacing:.16em;
+      text-transform:uppercase;
+      color:rgba(234,255,241,.62);
+      margin:2px 0 8px;
+    }
+
+    h1{
+      margin:0;
+      font-size:clamp(32px,6vw,58px);
+      line-height:1.03;
+      font-weight:1000;
+      letter-spacing:.01em;
+    }
+
+    .lead{
+      color:#fff3b2;
+      font-size:clamp(16px,2.6vw,22px);
       font-weight:900;
-      background:linear-gradient(135deg,#f97316,#facc15);
-      -webkit-background-clip:text;
-      -webkit-text-fill-color:transparent;
-      margin:0 0 12px;
-      line-height:1.05;
-      letter-spacing:.2px;
-    }
-
-    .header .lead{
-      color:#e5e7eb;
-      font-size:20px;
-      font-weight:800;
-      margin:8px 0 10px;
+      margin:12px 0 8px;
       line-height:1.4;
     }
 
-    .header p{
+    .sub{
       color:var(--muted);
-      font-size:17px;
-      margin:6px 0;
-      line-height:1.55;
+      font-size:16px;
+      line-height:1.7;
+      font-weight:700;
+      max-width:920px;
+      margin:0;
     }
 
-    .header .zones{
-      font-size:14px;
-      color:#6b7280;
+    .zones{
       margin-top:12px;
+      color:rgba(234,255,241,.56);
+      font-size:13px;
+      font-weight:800;
+      line-height:1.6;
     }
 
     .hero-pills{
-      margin-top:20px;
+      margin-top:18px;
       display:flex;
       gap:10px;
-      justify-content:center;
       flex-wrap:wrap;
     }
 
     .pill{
-      padding:8px 14px;
+      padding:8px 12px;
       border-radius:999px;
       border:1px solid var(--line);
-      background:rgba(148,163,184,.10);
-      color:#d1d5db;
+      background:rgba(250,204,21,.08);
+      color:#fff3b2;
       font-size:12px;
-      font-weight:800;
-      letter-spacing:.2px;
+      font-weight:900;
+      white-space:nowrap;
     }
 
-    .urgent-bar{
-      margin:24px auto 0;
-      max-width:920px;
+    .hero-actions{
+      margin-top:18px;
       display:flex;
-      gap:12px;
-      justify-content:center;
+      gap:10px;
       flex-wrap:wrap;
     }
 
@@ -107,13 +164,14 @@
       align-items:center;
       justify-content:center;
       gap:8px;
-      padding:14px 24px;
+      padding:14px 18px;
       text-decoration:none;
-      border-radius:999px;
-      font-weight:800;
-      font-size:15px;
-      transition:all .2s;
+      border-radius:14px;
+      font-weight:1000;
+      font-size:14px;
+      transition:transform .18s ease, border-color .18s ease, box-shadow .18s ease;
       border:1px solid transparent;
+      min-height:50px;
     }
 
     .cta-btn:hover{
@@ -121,48 +179,40 @@
     }
 
     .cta-btn.primary{
-      background:linear-gradient(135deg,#f97316,#facc15);
-      color:#000;
-      box-shadow:0 8px 20px rgba(249,115,22,.4);
-    }
-
-    .cta-btn.primary:hover{
-      box-shadow:0 12px 28px rgba(249,115,22,.6);
+      background:linear-gradient(135deg,var(--orange),var(--gold));
+      color:#111;
+      box-shadow:0 12px 28px rgba(249,115,22,.22);
     }
 
     .cta-btn.wa{
       background:#25d366;
       color:#fff;
-      box-shadow:0 8px 20px rgba(37,211,102,.30);
-    }
-
-    .cta-btn.wa:hover{
-      box-shadow:0 12px 28px rgba(37,211,102,.45);
+      box-shadow:0 12px 28px rgba(37,211,102,.18);
     }
 
     .cta-btn.secondary{
-      background:rgba(148,163,184,.14);
-      color:var(--ink);
+      background:rgba(255,255,255,.07);
+      color:var(--text);
       border-color:var(--line);
     }
 
     .split{
       display:grid;
       grid-template-columns:1fr 1fr;
-      gap:24px;
-      margin-top:30px;
+      gap:20px;
+      margin-top:22px;
     }
 
-    @media(max-width:900px){
+    @media(max-width:980px){
       .split{grid-template-columns:1fr}
     }
 
     .panel{
-      background:linear-gradient(135deg,#0b1220,#020617);
-      border:2px solid var(--line);
+      background:linear-gradient(145deg,rgba(11,42,31,.94),rgba(6,35,25,.94));
+      border:1px solid var(--line);
       border-radius:24px;
-      padding:24px;
-      box-shadow:0 20px 50px rgba(0,0,0,.55);
+      padding:20px;
+      box-shadow:var(--shadow);
       position:relative;
       overflow:hidden;
     }
@@ -170,18 +220,18 @@
     .panel::before{
       content:"";
       position:absolute;
-      top:0;left:0;right:0;
+      inset:0 0 auto 0;
       height:4px;
-      background:linear-gradient(90deg,#f97316,#facc15);
+      background:linear-gradient(90deg,var(--orange),var(--gold));
       opacity:.95;
     }
 
     .panel.pro::before{
-      background:linear-gradient(90deg,#22c55e,#facc15);
+      background:linear-gradient(90deg,var(--green),var(--gold));
     }
 
     .panel-head{
-      margin-bottom:18px;
+      margin-bottom:16px;
     }
 
     .panel-kicker{
@@ -191,8 +241,9 @@
       padding:7px 12px;
       border-radius:999px;
       font-size:12px;
-      font-weight:900;
+      font-weight:1000;
       margin-bottom:12px;
+      letter-spacing:.04em;
     }
 
     .panel-kicker.public{
@@ -208,31 +259,34 @@
     }
 
     .panel h2{
-      font-size:28px;
-      margin-bottom:10px;
-      line-height:1.15;
+      font-size:30px;
+      margin:0 0 10px;
+      line-height:1.12;
+      font-weight:1000;
     }
 
     .panel p{
       color:var(--muted);
-      line-height:1.65;
+      line-height:1.7;
       font-size:15px;
+      font-weight:700;
+      margin:0;
     }
 
     .grid{
       display:grid;
       grid-template-columns:1fr;
-      gap:18px;
+      gap:16px;
       margin-top:18px;
     }
 
     .card{
-      background:linear-gradient(135deg,#111827,#020617);
+      background:linear-gradient(145deg,rgba(17,24,39,.85),rgba(2,12,27,.92));
       border:1px solid var(--line);
       border-radius:20px;
       padding:18px;
       box-shadow:0 16px 38px rgba(0,0,0,.38);
-      transition:transform .2s, box-shadow .2s;
+      transition:transform .2s ease, box-shadow .2s ease;
     }
 
     .card:hover{
@@ -241,9 +295,9 @@
     }
 
     .card .name{
-      font-size:22px;
-      font-weight:900;
-      color:var(--accent);
+      font-size:23px;
+      font-weight:1000;
+      color:#fff3b2;
       margin-bottom:8px;
       line-height:1.2;
     }
@@ -251,15 +305,17 @@
     .card .type{
       font-size:14px;
       color:var(--muted);
-      font-weight:700;
+      font-weight:800;
       margin-bottom:12px;
+      line-height:1.5;
     }
 
     .card .desc{
       font-size:14px;
-      color:#e5e7eb;
+      color:#eefcf3;
       line-height:1.7;
       margin-bottom:16px;
+      font-weight:700;
     }
 
     .badges{
@@ -273,33 +329,35 @@
       padding:6px 12px;
       border-radius:999px;
       font-size:12px;
-      font-weight:800;
-      text-transform:uppercase;
-      letter-spacing:.3px;
+      font-weight:900;
+      letter-spacing:.02em;
+      border:1px solid rgba(255,255,255,.14);
+      background:rgba(255,255,255,.05);
+      color:#eafff1;
     }
 
     .badge-public{
-      background:rgba(250,204,21,.15);
-      color:var(--accent);
-      border:1px solid var(--accent);
+      background:rgba(250,204,21,.10);
+      color:#fff3b2;
+      border-color:rgba(250,204,21,.28);
     }
 
     .badge-verified{
-      background:var(--green);
-      color:#000;
-      box-shadow:0 4px 12px rgba(34,197,94,.3);
+      background:rgba(34,197,94,.12);
+      color:#bbf7d0;
+      border-color:rgba(34,197,94,.35);
     }
 
     .badge-pro{
-      background:rgba(249,115,22,.2);
-      color:var(--orange);
-      border:1px solid var(--orange);
+      background:rgba(249,115,22,.10);
+      color:#fdba74;
+      border-color:rgba(249,115,22,.30);
     }
 
     .badge-info{
-      background:rgba(148,163,184,.15);
-      color:var(--muted);
-      border:1px solid rgba(148,163,184,.15);
+      background:rgba(148,163,184,.10);
+      color:#d1d5db;
+      border-color:rgba(148,163,184,.16);
     }
 
     .actions{
@@ -310,76 +368,80 @@
 
     .btn{
       width:100%;
-      padding:14px 20px;
+      padding:14px 18px;
       border:none;
-      border-radius:12px;
-      font-weight:800;
-      font-size:15px;
+      border-radius:14px;
+      font-weight:1000;
+      font-size:14px;
       cursor:pointer;
-      transition:all .2s;
+      transition:all .2s ease;
       display:flex;
       align-items:center;
       justify-content:center;
       gap:8px;
       text-decoration:none;
+      font-family:inherit;
+      min-height:50px;
     }
 
     .btn:active{transform:scale(.98)}
 
     .btn-primary{
-      background:linear-gradient(135deg,#f97316,#facc15);
-      color:#000;
-      box-shadow:0 8px 20px rgba(249,115,22,.4);
+      background:linear-gradient(135deg,var(--orange),var(--gold));
+      color:#111;
+      box-shadow:0 8px 20px rgba(249,115,22,.26);
     }
 
     .btn-primary:hover{
-      box-shadow:0 12px 28px rgba(249,115,22,.6);
+      box-shadow:0 12px 28px rgba(249,115,22,.4);
       transform:translateY(-2px);
     }
 
     .btn-wa{
       background:#25d366;
       color:#fff;
-      box-shadow:0 8px 20px rgba(37,211,102,.3);
+      box-shadow:0 8px 20px rgba(37,211,102,.26);
     }
 
     .btn-wa:hover{
-      background:#20c05c;
-      box-shadow:0 12px 28px rgba(37,211,102,.5);
+      box-shadow:0 12px 28px rgba(37,211,102,.42);
       transform:translateY(-2px);
     }
 
     .btn-ghost{
-      background:rgba(148,163,184,.2);
-      color:var(--ink);
+      background:rgba(255,255,255,.06);
+      color:var(--text);
       border:1px solid var(--line);
       box-shadow:none;
     }
 
     .btn-ghost:hover{
       transform:translateY(-2px);
-      border-color:rgba(250,204,21,.45);
+      border-color:rgba(250,204,21,.35);
     }
 
     .metiers{
-      margin-top:26px;
-      background:linear-gradient(135deg,#0b1220,#020617);
+      margin-top:24px;
+      background:linear-gradient(145deg,rgba(11,42,31,.94),rgba(6,35,25,.94));
       border:1px solid var(--line);
-      border-radius:22px;
+      border-radius:24px;
       padding:22px;
-      box-shadow:0 20px 50px rgba(0,0,0,.45);
+      box-shadow:var(--shadow);
     }
 
     .metiers h3{
-      font-size:22px;
-      margin-bottom:14px;
-      color:var(--accent);
+      font-size:24px;
+      margin:0 0 14px;
+      color:#fff3b2;
+      line-height:1.2;
     }
 
     .metiers p{
       color:var(--muted);
-      line-height:1.6;
-      margin-bottom:14px;
+      line-height:1.7;
+      margin:0 0 14px;
+      font-size:15px;
+      font-weight:700;
     }
 
     .metier-list{
@@ -391,19 +453,20 @@
     .metier{
       padding:10px 14px;
       border-radius:999px;
-      background:rgba(148,163,184,.12);
+      background:rgba(255,255,255,.05);
       border:1px solid var(--line);
       color:#e5e7eb;
       font-size:13px;
-      font-weight:800;
+      font-weight:900;
     }
 
     footer{
       margin-top:28px;
       text-align:center;
-      color:#6b7280;
+      color:rgba(234,255,241,.56);
       font-size:12px;
-      line-height:1.7;
+      line-height:1.8;
+      font-weight:800;
     }
 
     .floating-home{
@@ -418,11 +481,11 @@
       padding:14px 18px;
       border-radius:999px;
       text-decoration:none;
-      font-weight:900;
+      font-weight:1000;
       font-size:14px;
       letter-spacing:.2px;
-      color:#000;
-      background:linear-gradient(135deg,#f97316,#facc15);
+      color:#111;
+      background:linear-gradient(135deg,var(--orange),var(--gold));
       border:1px solid rgba(255,255,255,.18);
       box-shadow:
         0 16px 36px rgba(0,0,0,.45),
@@ -450,10 +513,10 @@
 
     @media (max-width:640px){
       .container{
-        padding-bottom:104px;
+        padding-bottom:108px;
       }
 
-      .header .lead{
+      .lead{
         font-size:18px;
       }
 
@@ -465,6 +528,14 @@
         padding:15px 18px;
         font-size:15px;
       }
+
+      .hero-actions{
+        flex-direction:column;
+      }
+
+      .hero-actions .cta-btn{
+        width:100%;
+      }
     }
   </style>
 </head>
@@ -472,28 +543,41 @@
 <body>
   <div class="container">
 
-    <div class="header">
-      <h1>ENTREPRENEUR MULTI SERVICES</h1>
-      <div class="lead">Travaux, dépannage, entretien, chantier et services pratiques</div>
-      <p>Plombier, électricien, maçon, soudeur, menuisier, mécanicien, peintre, manoeuvre, aide chantier et profils polyvalents.</p>
-      <p>Un espace simple pour trouver un pro ou présenter ses services avec contact direct.</p>
-      <p class="zones">Sénégal • Dakar • Thiès • Saly • Mbour • Touba</p>
+    <section class="hero">
+      <div class="brand">
+        <img
+          class="brand-logo"
+          src="https://digiylyfe.net/wp-content/uploads/2026/03/digiylyfe_logo_qr.jpeg"
+          alt="Logo DIGIYLYFE"
+        />
+        <div>
+          <div class="kicker">Travaux • dépannage • entretien • chantier • services pratiques</div>
+          <h1>ENTREPRENEUR MULTI SERVICES</h1>
+          <div class="lead">Travaux, dépannage, entretien, chantier et services pratiques</div>
+          <p class="sub">
+            Un espace simple pour trouver un pro utile ou présenter ses services. Ici, le contact est direct, le paiement va au professionnel, et tu avances sans tourner en rond.
+          </p>
+          <div class="zones">Sénégal • Dakar • Thiès • Saly • Mbour • Touba</div>
 
-      <div class="hero-pills">
-        <div class="pill">Contact direct</div>
-        <div class="pill">Paiement direct au pro</div>
-        <div class="pill">Travaux & dépannage</div>
-        <div class="pill">Services pratiques</div>
-        <div class="pill">Sans intermédiaire</div>
-      </div>
+          <div class="hero-pills">
+            <div class="pill">Contact direct</div>
+            <div class="pill">Paiement direct au pro</div>
+            <div class="pill">Sans intermédiaire</div>
+            <div class="pill">Lecture terrain</div>
+            <div class="pill">Services utiles</div>
+          </div>
 
-      <div class="urgent-bar">
-        <a href="./listing.html" class="cta-btn primary">👁️ Voir les profils</a>
-        <a href="https://wa.me/221771342889?text=Bonjour%2C%20j%E2%80%99ai%20un%20besoin%20urgent%20en%20travaux%20ou%20d%C3%A9pannage." class="cta-btn wa" target="_blank" rel="noopener">
-          ⚡ Besoin urgent ? WhatsApp
-        </a>
+          <div class="hero-actions">
+            <a href="./listing.html" class="cta-btn primary">👁️ Voir les profils</a>
+            <a href="./request.html" class="cta-btn secondary">📄 Décrire mon besoin</a>
+            <a href="./track.html" class="cta-btn secondary">🔎 Suivre ma demande</a>
+            <a href="https://wa.me/221771342889?text=Bonjour%2C%20j%E2%80%99ai%20un%20besoin%20urgent%20en%20travaux%20ou%20d%C3%A9pannage." class="cta-btn wa" target="_blank" rel="noopener">
+              ⚡ Besoin urgent ? WhatsApp
+            </a>
+          </div>
+        </div>
       </div>
-    </div>
+    </section>
 
     <section class="split">
 
@@ -502,7 +586,7 @@
           <div class="panel-kicker public">👁️ CÔTÉ CLIENT</div>
           <h2>Je cherche un professionnel</h2>
           <p>
-            Trouve rapidement le bon profil pour un besoin de maison, chantier, entretien, réparation ou intervention pratique.
+            Trouve rapidement le bon profil pour la maison, le chantier, le dépannage, l’entretien ou une intervention pratique.
           </p>
         </div>
 
@@ -511,7 +595,7 @@
             <div class="name">👁️ Voir les profils</div>
             <div class="type">Profils • Zones • Services • WhatsApp direct</div>
             <div class="badges">
-              <div class="badge badge-verified">✅ PUBLIC</div>
+              <div class="badge badge-verified">✅ Public</div>
               <div class="badge badge-public">Paiement direct</div>
               <div class="badge badge-info">Sans détour</div>
             </div>
@@ -519,7 +603,7 @@
               Parcours les profils disponibles selon le besoin, la zone et le type de service, puis contacte directement le professionnel.
             </div>
             <div class="actions">
-              <a class="btn btn-primary" href="./listing.html">👁️ Ouvrir le listing</a>
+              <a class="btn btn-primary" href="./listing.html">👁️ Ouvrir les profils</a>
               <a class="btn btn-wa" href="https://wa.me/221771342889?text=Bonjour%2C%20je%20cherche%20un%20professionnel%20multi%20services." target="_blank" rel="noopener">📲 WhatsApp support</a>
             </div>
           </article>
@@ -532,10 +616,26 @@
               <div class="badge badge-info">Simple</div>
             </div>
             <div class="desc">
-              Décris ton besoin clairement pour être orienté vers le bon profil ou lancer une demande sérieuse.
+              Décris ton besoin clairement pour être orienté proprement vers le bon profil ou lancer une demande sérieuse.
             </div>
             <div class="actions">
               <a class="btn btn-primary" href="./request.html">📄 Ouvrir la demande</a>
+              <a class="btn btn-ghost" href="./track.html">🔎 Suivre ma demande</a>
+            </div>
+          </article>
+
+          <article class="card">
+            <div class="name">🔎 Suivre ma demande</div>
+            <div class="type">Référence • État • Lecture simple</div>
+            <div class="badges">
+              <div class="badge badge-public">Suivi public</div>
+              <div class="badge badge-info">Référence utile</div>
+            </div>
+            <div class="desc">
+              Entre ta référence publique pour voir l’état utile de ta demande et reprendre la main sans te perdre.
+            </div>
+            <div class="actions">
+              <a class="btn btn-primary" href="./track.html">🔎 Ouvrir le suivi</a>
               <a class="btn btn-ghost" href="./success.html">✅ Voir la confirmation</a>
             </div>
           </article>
@@ -547,13 +647,13 @@
           <div class="panel-kicker pro">🔒 CÔTÉ PRO</div>
           <h2>Je propose mes services</h2>
           <p>
-            Mets ton activité en ligne, présente ce que tu sais faire, puis entre dans ton espace pour gérer ta présence.
+            Mets ton activité en ligne, présente ce que tu sais faire, puis entre dans ton espace pour gérer ta présence et tes demandes.
           </p>
         </div>
 
         <div class="grid">
           <article class="card">
-            <div class="name">🛠️ Créer ma présence pro</div>
+            <div class="name">🛠️ Créer ma présence</div>
             <div class="type">Service • Ville • Photo • WhatsApp • Visibilité</div>
             <div class="badges">
               <div class="badge badge-public">Abonnement pro</div>
@@ -570,16 +670,16 @@
 
           <article class="card">
             <div class="name">🔑 Entrer dans mon espace</div>
-            <div class="type">PIN • Accès pro • Espace personnel</div>
+            <div class="type">PIN • Accès • Espace personnel</div>
             <div class="badges">
-              <div class="badge badge-pro">🔒 PRO</div>
+              <div class="badge badge-pro">🔒 Pro</div>
               <div class="badge badge-info">Accès sécurisé</div>
             </div>
             <div class="desc">
-              Retrouve ta fiche, ton espace de gestion et les demandes reçues depuis ton entrée sécurisée.
+              Retrouve ta présence, tes réglages et les demandes reçues depuis ton entrée sécurisée.
             </div>
             <div class="actions">
-              <a class="btn btn-primary" href="./pin.html">🔑 Ouvrir</a>
+              <a class="btn btn-primary" href="./pin.html">🔑 Ouvrir mon espace</a>
               <a class="btn btn-ghost" href="./demandes.html">📩 Voir les demandes reçues</a>
             </div>
           </article>
@@ -617,7 +717,6 @@
       ENTREPRENEUR MULTI SERVICES — Travaux, dépannage, entretien, chantier et services pratiques.<br>
       Contact direct • Paiement direct au pro • Support WhatsApp : +221 77 134 28 89
     </footer>
-
   </div>
 
   <a
