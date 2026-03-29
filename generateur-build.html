@@ -2,29 +2,129 @@
 <html lang="fr">
 <head>
 <meta charset="utf-8">
-<title>🏗️ GÉNÉRATEUR DIGIY BUILD - Créer ta fiche artisan</title>
+<title>🏗️ DIGIY BUILD — Crée ta fiche artisan</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0b2a1f">
+<meta name="description" content="DIGIY BUILD — crée ta fiche artisan simplement, avec contact direct et 0% commission.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="./guard.js?v=gen-build"></script>
 
 <link rel="stylesheet" href="./build-gen.css">
+
+<style>
+  :root{
+    --digiy-logo:url("https://digiylyfe.net/wp-content/uploads/2026/03/digiylyfe_logo_qr.jpeg");
+  }
+  html,body{
+    font-family:"Outfit", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  }
+  .loading{
+    font-family:"Outfit", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+  }
+  .header{
+    position:relative;
+    overflow:hidden;
+  }
+  .header::before{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:
+      radial-gradient(circle at top right, rgba(250,204,21,.16), transparent 34%),
+      radial-gradient(circle at bottom left, rgba(34,197,94,.14), transparent 32%);
+    pointer-events:none;
+  }
+  .header > *{
+    position:relative;
+    z-index:1;
+  }
+  .digiy-mark{
+    width:92px;
+    height:92px;
+    margin:0 auto 14px;
+    border-radius:22px;
+    overflow:hidden;
+    box-shadow:0 18px 40px rgba(0,0,0,.24);
+    border:1px solid rgba(255,255,255,.16);
+    background:#ffffff;
+  }
+  .digiy-mark img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+  }
+  .header h1{
+    line-height:1.05;
+  }
+  .header p{
+    max-width:680px;
+    margin-left:auto;
+    margin-right:auto;
+  }
+  .top-note{
+    margin-top:14px;
+    display:flex;
+    justify-content:center;
+    flex-wrap:wrap;
+    gap:10px;
+  }
+  .top-note span{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:8px 12px;
+    border-radius:999px;
+    background:rgba(255,255,255,.08);
+    border:1px solid rgba(255,255,255,.12);
+    font-size:.95rem;
+    font-weight:700;
+  }
+  .section-intro{
+    margin:-4px 0 18px;
+    opacity:.86;
+    font-size:.96rem;
+  }
+  .hint{
+    line-height:1.35;
+  }
+  .success-msg h3{
+    line-height:1.15;
+  }
+</style>
 </head>
 <body>
 
-<div id="loading" class="loading">🔒 Vérification accès...</div>
+<div id="loading" class="loading">🔒 Ouverture de ton espace…</div>
 
 <div id="app" style="display:none;">
   <div class="container">
     <div class="header">
-      <h1>🦅 GÉNÉRATEUR DIGIY BUILD</h1>
-      <p>Créez votre fiche artisan en 2 minutes !</p>
-      <div class="badge">∞ 0% commission - Pierre par pierre ∞</div>
+      <div class="digiy-mark">
+        <img src="https://digiylyfe.net/wp-content/uploads/2026/03/digiylyfe_logo_qr.jpeg" alt="Logo DIGIYLYFE">
+      </div>
+
+      <h1>🏗️ Je propose mes services</h1>
+      <p>Pose ta fiche artisan simplement. Ton nom, ton métier, ta zone, ton contact direct.</p>
+
+      <div class="badge">∞ 0% commission • contact direct • Sénégal ∞</div>
+
+      <div class="top-note">
+        <span>📲 WhatsApp direct</span>
+        <span>🛠️ Métier visible</span>
+        <span>⚡ Mise en route simple</span>
+      </div>
     </div>
 
     <div class="form-card">
-      <h2 class="section-title">👷 Informations personnelles</h2>
-      
+      <h2 class="section-title">👷 Qui es-tu ?</h2>
+      <p class="section-intro">On commence par l’essentiel pour que les clients te reconnaissent vite.</p>
+
       <form id="formArtisan">
         <div class="form-grid">
           <div class="form-group">
@@ -33,7 +133,7 @@
           </div>
 
           <div class="form-group">
-            <label>Nom de l'entreprise (si applicable)</label>
+            <label>Nom de l’activité</label>
             <input type="text" name="entreprise" id="entreprise" placeholder="Ex: FALL CONSTRUCTION">
           </div>
 
@@ -48,11 +148,12 @@
           </div>
         </div>
 
-        <h2 class="section-title">🔧 Compétences</h2>
-        
+        <h2 class="section-title">🔧 Ce que tu fais</h2>
+        <p class="section-intro">Dis clairement ton métier principal et ce que tu sais faire autour.</p>
+
         <div class="form-grid">
           <div class="form-group">
-            <label>Spécialité principale <span class="required">*</span></label>
+            <label>Métier principal <span class="required">*</span></label>
             <select name="specialite" id="specialite" required>
               <option value="">-- Choisir --</option>
               <option>Maçonnerie</option>
@@ -69,12 +170,12 @@
           </div>
 
           <div class="form-group">
-            <label>Métiers / Compétences</label>
-            <input type="text" name="metiers" id="metiers" placeholder="Ex: Maçon, Carreleur, Peintre">
+            <label>Autres compétences</label>
+            <input type="text" name="metiers" id="metiers" placeholder="Ex: Maçon, carreleur, peintre">
           </div>
 
           <div class="form-group">
-            <label>Années d'expérience</label>
+            <label>Années d’expérience</label>
             <input type="number" name="annees_experience" id="annees_experience" value="5" min="0" max="50">
           </div>
 
@@ -84,14 +185,15 @@
           </div>
 
           <div class="form-group full">
-            <label>Zone d'intervention</label>
+            <label>Zone d’intervention</label>
             <input type="text" name="zone_intervention" id="zone_intervention" placeholder="Ex: Dakar, Thiès, Mbour">
-            <div class="hint">Villes/quartiers où tu interviens</div>
+            <div class="hint">Indique les villes ou quartiers où tu peux intervenir.</div>
           </div>
         </div>
 
-        <h2 class="section-title">💰 Tarifs</h2>
-        
+        <h2 class="section-title">💰 Tes prix</h2>
+        <p class="section-intro">Tu peux laisser vide si tes prix changent selon le chantier.</p>
+
         <div class="form-grid">
           <div class="form-group">
             <label>Tarif horaire (FCFA)</label>
@@ -104,12 +206,13 @@
           </div>
         </div>
 
-        <h2 class="section-title">📝 Présentation</h2>
-        
+        <h2 class="section-title">📝 Comment tu te présentes</h2>
+        <p class="section-intro">Quelques phrases simples suffisent. Le but est d’inspirer confiance.</p>
+
         <div class="form-grid">
           <div class="form-group full">
-            <label>Description / Présentation</label>
-            <textarea name="description" id="description" placeholder="Ex: Maçon professionnel depuis 10 ans. Travail soigné et respect des délais garantis."></textarea>
+            <label>Présentation</label>
+            <textarea name="description" id="description" placeholder="Ex: Artisan sérieux, travail propre, respect des délais et contact facile sur WhatsApp."></textarea>
           </div>
 
           <div class="form-group">
@@ -118,8 +221,9 @@
           </div>
         </div>
 
-        <h2 class="section-title">📸 Photos</h2>
-        
+        <h2 class="section-title">📸 Tes images</h2>
+        <p class="section-intro">Une bonne photo de toi et une belle réalisation changent tout.</p>
+
         <div class="form-grid">
           <div class="form-group">
             <label>Photo profil (URL)</label>
@@ -129,25 +233,25 @@
           <div class="form-group">
             <label>Photo travaux (URL)</label>
             <input type="url" name="photo_travaux" id="photo_travaux" placeholder="https://...">
-            <div class="hint">Photo d'une de tes réalisations</div>
+            <div class="hint">Montre une vraie réalisation propre et lisible.</div>
           </div>
         </div>
 
         <button class="btn btn-generate" type="submit">
-          🚀 CRÉER MA FICHE ARTISAN
+          🚀 Créer ma fiche
         </button>
 
         <button class="btn btn-back" type="button" id="btnBack">
-          ⬅️ Retour au cockpit
+          ⬅️ Retour à mon espace
         </button>
       </form>
 
       <div class="success-msg" id="successMsg">
         <span class="eagle">🦅</span>
-        <h3>FICHE CRÉÉE AVEC SUCCÈS !</h3>
-        <p>Ta fiche est maintenant visible sur la vitrine publique ! 🔥</p>
+        <h3>TA FICHE EST PRÊTE !</h3>
+        <p>Ta présence est maintenant posée. Tes clients peuvent te voir et te contacter directement.</p>
         <button class="btn btn-back" type="button" id="btnRetour">
-          ✅ Retour au cockpit
+          ✅ Revenir à mon espace
         </button>
       </div>
     </div>
