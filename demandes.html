@@ -7,7 +7,6 @@
   <title>DIGIY BUILD — Demandes publiques (anonymisées)</title>
   <meta name="description" content="DIGIY BUILD — demandes publiques anonymisées (mode safe). Contact direct ensuite.">
 
-  <!-- ✅ Supabase JS v2 -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
@@ -28,7 +27,6 @@
       min-height:100vh;
     }
 
-    /* Topbar */
     .topbar{
       position:sticky; top:0; z-index:60;
       background:linear-gradient(135deg, rgba(15,23,42,.92), rgba(2,6,23,.92));
@@ -314,20 +312,16 @@
 <script>
 document.addEventListener("DOMContentLoaded", async () => {
 
-  /* ✅ Fix GitHub Pages bug /digiy-build/digiy-build/ */
   if(location.pathname.includes("/digiy-build/digiy-build/")){
     location.replace(location.pathname.replace("/digiy-build/digiy-build/", "/digiy-build/") + location.search + location.hash);
     return;
   }
 
-  /* =============================
-     SUPABASE CONFIG (TONS IDENTIFIANTS)
-     ============================= */
- const SUPABASE_URL = "https://wesqmwjjtsefyjnluosj.supabase.co";
-const SUPABASE_ANON_KEY = "sb_publishable_tGHItRgeWDmGjnd0CK1DVQ_BIep4Ug3";
-const sb = window.supabase?.createClient
-  ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
-  : null;
+  const SUPABASE_URL = "https://wesqmwjjtsefyjnluosj.supabase.co";
+  const SUPABASE_ANON_KEY = "sb_publishable_tGHItRgeWDmGjnd0CK1DVQ_BIep4Ug3";
+  const sb = window.supabase?.createClient
+    ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+    : null;
 
   const $ = (id)=>document.getElementById(id);
   const grid = $("grid");
@@ -337,18 +331,33 @@ const sb = window.supabase?.createClient
       "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
     }[m]));
   }
-  function norm(v){ return (v ?? "").toString().toLowerCase().trim(); }
+
+  function norm(v){
+    return (v ?? "").toString().toLowerCase().trim();
+  }
+
   function fmtDate(iso){
     try{
       const d = new Date(iso);
-      return d.toLocaleString("fr-FR", { year:"numeric", month:"short", day:"2-digit", hour:"2-digit", minute:"2-digit" });
-    }catch(e){ return iso || ""; }
+      if(Number.isNaN(d.getTime())) return iso || "";
+      return d.toLocaleString("fr-FR", {
+        year:"numeric",
+        month:"short",
+        day:"2-digit",
+        hour:"2-digit",
+        minute:"2-digit"
+      });
+    }catch(e){
+      return iso || "";
+    }
   }
+
   function shortText(s, n){
-    const t = String(s||"").trim();
+    const t = String(s || "").trim();
     if(t.length <= n) return t;
     return t.slice(0, n).trim() + "…";
   }
+
   function statusBadge(s){
     const v = norm(s);
     if(v.includes("new") || v.includes("nou") || v.includes("attente")) return { cls:"warn", label: s || "Nouveau" };
@@ -357,9 +366,85 @@ const sb = window.supabase?.createClient
     return { cls:"", label: s || "—" };
   }
 
-  /* =============================
-     DATA + PAGINATION
-     ============================= */
+  function toMs(value){
+    if(!value) return 0;
+    const ms = new Date(value).getTime();
+    return Number.isFinite(ms) ? ms : 0;
+  }
+
+  function textScore(row){
+    let score = 0;
+    if(row?.public_code || row?.code) score += 100;
+    if(row?.id) score += 50;
+    if(row?.status_label || row?.status) score += 10;
+    if(row?.title) score += Math.min(String(row.title).trim().length, 80);
+    if(row?.details || row?.description) score += Math.min(String(row.details || row.description).trim().length, 220);
+    if(row?.city) score += 8;
+    if(row?.zone) score += 8;
+    if(row?.sector || row?.trade) score += 8;
+    return score;
+  }
+
+  function chooseBetterRow(a, b){
+    if(!a) return b;
+    if(!b) return a;
+
+    const aDate = Math.max(toMs(a.updated_at), toMs(a.created_at));
+    const bDate = Math.max(toMs(b.updated_at), toMs(b.created_at));
+
+    if(aDate !== bDate){
+      return bDate > aDate ? b : a;
+    }
+
+    const aScore = textScore(a);
+    const bScore = textScore(b);
+    return bScore > aScore ? b : a;
+  }
+
+  function signatureFromRow(row){
+    const created = String(row?.created_at || "").trim();
+    const title = norm(row?.title || "");
+    const details = norm(shortText(row?.details || row?.description || "", 240));
+    const city = norm(row?.city || "");
+    const zone = norm(row?.zone || "");
+    const sector = norm(row?.sector || row?.trade || "");
+    return [title, details, city, zone, sector, created].join("|");
+  }
+
+  function primaryKeyFromRow(row, idx){
+    const code = norm(row?.public_code || row?.code || "");
+    if(code) return `code:${code}`;
+
+    const id = norm(row?.id || "");
+    if(id) return `id:${id}`;
+
+    const sig = signatureFromRow(row);
+    if(sig.replace(/\|/g, "").trim()) return `sig:${sig}`;
+
+    return `raw:${idx}`;
+  }
+
+  function sortNewestFirst(rows){
+    return [...rows].sort((a, b) => {
+      const aDate = Math.max(toMs(a?.updated_at), toMs(a?.created_at));
+      const bDate = Math.max(toMs(b?.updated_at), toMs(b?.created_at));
+      return bDate - aDate;
+    });
+  }
+
+  function dedupeRows(rows){
+    const list = Array.isArray(rows) ? rows.filter(Boolean) : [];
+    const map = new Map();
+
+    list.forEach((row, idx) => {
+      const key = primaryKeyFromRow(row, idx);
+      const current = map.get(key);
+      map.set(key, chooseBetterRow(current, row));
+    });
+
+    return sortNewestFirst(Array.from(map.values()));
+  }
+
   let ALL = [];
   let filtered = [];
   let page = 1;
@@ -371,6 +456,7 @@ const sb = window.supabase?.createClient
 
   function applyFilters(){
     const qq = norm(q);
+
     filtered = ALL.filter(r=>{
       const s = norm(r.sector || r.trade || "");
       const z = norm(r.zone || "");
@@ -381,8 +467,10 @@ const sb = window.supabase?.createClient
       const okS = (sector === "all" || s === sector);
       const okZ = (zone === "all" || z === zone);
       const okQ = (!qq || (t + " " + d + " " + c).includes(qq));
+
       return okS && okZ && okQ;
     });
+
     page = 1;
     render();
   }
@@ -454,27 +542,26 @@ const sb = window.supabase?.createClient
     }).join("");
   }
 
-  /* =============================
-     LOAD DATA (RPC -> fallback view)
-     ============================= */
+  function setRows(rows){
+    ALL = dedupeRows(rows);
+    applyFilters();
+  }
+
   async function load(){
     if(!sb){
       grid.innerHTML = `<div class="empty">Supabase non chargé (CDN). Recharge la page.</div>`;
       return;
     }
 
-    // 1) RPC
     try{
       const { data, error } = await sb.rpc("digiy_build_public_list_v1", { p_limit: 500 });
       if(error) throw error;
-      ALL = Array.isArray(data) ? data : [];
-      applyFilters();
+      setRows(Array.isArray(data) ? data : []);
       return;
     }catch(e){
       console.warn("RPC digiy_build_public_list_v1 KO, fallback view:", e?.message || e);
     }
 
-    // 2) fallback view "safe"
     try{
       const { data, error } = await sb
         .from("v_digiy_build_requests_public_safe")
@@ -483,8 +570,7 @@ const sb = window.supabase?.createClient
         .limit(500);
 
       if(error) throw error;
-      ALL = Array.isArray(data) ? data : [];
-      applyFilters();
+      setRows(Array.isArray(data) ? data : []);
       return;
     }catch(e){
       console.error("Fallback view KO:", e?.message || e);
@@ -492,9 +578,6 @@ const sb = window.supabase?.createClient
     }
   }
 
-  /* =============================
-     Bind UI
-     ============================= */
   document.querySelectorAll("[data-sector]").forEach(btn=>{
     btn.addEventListener("click", ()=>{
       document.querySelectorAll("[data-sector]").forEach(x=>x.classList.remove("active"));
@@ -503,6 +586,7 @@ const sb = window.supabase?.createClient
       applyFilters();
     });
   });
+
   document.querySelectorAll("[data-zone]").forEach(btn=>{
     btn.addEventListener("click", ()=>{
       document.querySelectorAll("[data-zone]").forEach(x=>x.classList.remove("active"));
@@ -511,18 +595,23 @@ const sb = window.supabase?.createClient
       applyFilters();
     });
   });
+
   $("q").addEventListener("input", (e)=>{
     q = e.target.value || "";
     applyFilters();
   });
-  $("btnPrev").addEventListener("click", ()=>{ page = Math.max(1, page - 1); render(); });
+
+  $("btnPrev").addEventListener("click", ()=>{
+    page = Math.max(1, page - 1);
+    render();
+  });
+
   $("btnNext").addEventListener("click", ()=>{
     const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
     page = Math.min(totalPages, page + 1);
     render();
   });
 
-  // init
   grid.innerHTML = `<div class="empty">Chargement des demandes…</div>`;
   await load();
 
