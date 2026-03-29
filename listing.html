@@ -716,6 +716,10 @@
         return raw.split(",").map((v) => text(v)).filter(Boolean);
       }
 
+      function uniqueList(list) {
+        return [...new Set((list || []).map((v) => text(v)).filter(Boolean))];
+      }
+
       function firstOf(obj, keys, fallback = "") {
         for (const key of keys) {
           if (!obj || !(key in obj)) continue;
@@ -807,6 +811,126 @@
         });
       }
 
+      function buildIdentityKeys(profile) {
+        const keys = [];
+        const slug = normSlug(profile.slug);
+        const phone = normPhone(profile.whatsapp || profile.phone);
+        const name = normLoose(profile.display_name);
+        const trade = normLoose(profile.trade);
+        const city = normLoose(profile.city);
+        const region = normLoose(profile.region);
+        const sector = normLoose(profile.sector);
+
+        if (slug) keys.push(`slug:${slug}`);
+        if (phone && name) keys.push(`phone-name:${phone}|${name}`);
+        if (phone && trade && city) keys.push(`phone-trade-city:${phone}|${trade}|${city}`);
+        if (name && trade && city) keys.push(`name-trade-city:${name}|${trade}|${city}`);
+        if (name && trade && region) keys.push(`name-trade-region:${name}|${trade}|${region}`);
+        if (name && city && sector) keys.push(`name-city-sector:${name}|${city}|${sector}`);
+
+        return [...new Set(keys.filter(Boolean))];
+      }
+
+      function bestText(a, b) {
+        const aa = text(a);
+        const bb = text(b);
+        if (!aa && !bb) return "";
+        if (!aa) return bb;
+        if (!bb) return aa;
+        return bb.length > aa.length ? bb : aa;
+      }
+
+      function bestDate(a, b) {
+        const aa = text(a);
+        const bb = text(b);
+        if (!aa) return bb;
+        if (!bb) return aa;
+        return aa.localeCompare(bb) >= 0 ? aa : bb;
+      }
+
+      function hasRealPhoto(profile) {
+        const url = maybeUrl(profile.photo_url);
+        if (!url) return false;
+        return url !== DEFAULT_PHOTO && url !== LOGO_PHOTO;
+      }
+
+      function profileScore(profile) {
+        let score = 0;
+
+        if (profile.slug) score += 20;
+        if (profile.display_name) score += 10;
+        if (profile.trade) score += 8;
+        if (profile.city) score += 6;
+        if (profile.region) score += 4;
+        if (profile.sector) score += 4;
+        if (profile.phone || profile.whatsapp) score += 10;
+        if (profile.profile_url) score += 12;
+        if (profile.badge || profile.hub_badge) score += 4;
+        if (profile.price_label) score += 2;
+        if (profile.bio) score += Math.min(profile.bio.length, 160) / 10;
+        if (Array.isArray(profile.tags)) score += Math.min(profile.tags.length, 6) * 2;
+        if (hasRealPhoto(profile)) score += 18;
+        score += (Number(profile.priority) || 0) * 50;
+        if (profile.updated_at) score += 3;
+
+        return score;
+      }
+
+      function mergeProfiles(a, b) {
+        const keep = profileScore(a) >= profileScore(b) ? a : b;
+        const alt = keep === a ? b : a;
+
+        return {
+          raw: keep.raw || alt.raw || {},
+          slug: keep.slug || alt.slug,
+          display_name: bestText(keep.display_name, alt.display_name),
+          city: bestText(keep.city, alt.city),
+          trade: bestText(keep.trade, alt.trade),
+          region: bestText(keep.region, alt.region),
+          sector: bestText(keep.sector, alt.sector),
+          priority: Math.max(Number(keep.priority) || 0, Number(alt.priority) || 0),
+          whatsapp: normPhone(keep.whatsapp || alt.whatsapp || keep.phone || alt.phone),
+          phone: normPhone(keep.phone || alt.phone || keep.whatsapp || alt.whatsapp),
+          bio: bestText(keep.bio, alt.bio),
+          photo_url: hasRealPhoto(keep)
+            ? keep.photo_url
+            : (hasRealPhoto(alt) ? alt.photo_url : bestText(keep.photo_url, alt.photo_url)),
+          profile_url: bestText(keep.profile_url, alt.profile_url),
+          badge: bestText(keep.badge, alt.badge),
+          hub_badge: bestText(keep.hub_badge, alt.hub_badge),
+          price_label: bestText(keep.price_label, alt.price_label),
+          tags: uniqueList([...(keep.tags || []), ...(alt.tags || [])]),
+          updated_at: bestDate(keep.updated_at, alt.updated_at)
+        };
+      }
+
+      function dedupeProfiles(list) {
+        const merged = [];
+        const keyToIndex = new Map();
+
+        for (const profile of list) {
+          const keys = buildIdentityKeys(profile);
+          const seenIndex = keys.find((key) => keyToIndex.has(key));
+
+          if (seenIndex !== undefined) {
+            const index = keyToIndex.get(seenIndex);
+            const combined = mergeProfiles(merged[index], profile);
+            merged[index] = combined;
+
+            for (const key of buildIdentityKeys(combined)) {
+              keyToIndex.set(key, index);
+            }
+          } else {
+            const index = merged.push(profile) - 1;
+            for (const key of keys) {
+              keyToIndex.set(key, index);
+            }
+          }
+        }
+
+        return merged;
+      }
+
       function matchProfile(profile) {
         const q = normLoose(els.q.value);
         const sector = normLoose(els.sector.value);
@@ -827,7 +951,7 @@
 
         if (q && !hay.includes(q)) return false;
         if (sector) {
-          const sectorHay = `${normLoose(profile.sector)} ${normLoose(profile.trade)} ${profile.tags.map(normLoose).join(" ")}`;
+          const sectorHay = `${normLoose(profile.sector)} ${normLoose(profile.trade)} ${(profile.tags || []).map(normLoose).join(" ")}`;
           if (!sectorHay.includes(sector)) return false;
         }
         if (region) {
@@ -849,7 +973,7 @@
         if (els.q.value.trim()) bits.push(`Recherche : "${escapeHtml(els.q.value.trim())}"`);
         if (els.sector.value) bits.push(`Famille : ${escapeHtml(els.sector.options[els.sector.selectedIndex].text)}`);
         if (els.region.value) bits.push(`Zone : ${escapeHtml(els.region.options[els.region.selectedIndex].text)}`);
-        if (!bits.length) bits.push(`Base lue : <b>${total}</b> profil(s)`);
+        if (!bits.length) bits.push(`Base propre : <b>${total}</b> profil(s)`);
         if (!state.remoteOk && state.remoteError) bits.push(`Lecture distante indisponible`);
 
         els.resultsMeta.innerHTML = bits.join(" • ");
@@ -877,12 +1001,6 @@
         return parts.join(" • ");
       }
 
-      function hasRealPhoto(profile) {
-        const url = maybeUrl(profile.photo_url);
-        if (!url) return false;
-        return url !== DEFAULT_PHOTO && url !== LOGO_PHOTO;
-      }
-
       function buildMedia(profile) {
         const img = maybeUrl(profile.photo_url);
         const cityBadge = profile.city || profile.region || "Profil visible";
@@ -900,14 +1018,14 @@
                 loading="lazy"
                 alt="${escapeHtml(profile.display_name || "Profil")}"
                 src="${escapeHtml(img)}"
-                onerror="this.onerror=null; this.closest('.media').innerHTML = window.DIGIY_BUILD_FALLBACK_MEDIA(${encodeURIComponent(JSON.stringify({
+                onerror="this.onerror=null; this.closest('.media').innerHTML = window.DIGIY_BUILD_FALLBACK_MEDIA('${encodeURIComponent(JSON.stringify({
                   display_name: profile.display_name,
                   trade: profile.trade,
                   city: profile.city,
                   region: profile.region,
                   sector: profile.sector,
                   tags: profile.tags
-                }))});"
+                }))}')"
               >
 
               <div class="media-bottom">
@@ -1090,8 +1208,10 @@
             .map(normalizeProfile)
             .filter((row) => row.slug || row.display_name);
 
+          const deduped = dedupeProfiles(published);
+
           state.remoteOk = true;
-          state.rows = sortProfiles(published);
+          state.rows = sortProfiles(deduped);
           state.filtered = state.rows.filter(matchProfile);
           renderGrid();
         } catch (error) {
