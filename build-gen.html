@@ -4,10 +4,78 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
   <meta name="theme-color" content="#061b14"/>
-  <title>DIGIY BUILD PRO — Générateur de fiche</title>
+  <title>DIGIY BUILD — Ma fiche artisan</title>
+  <meta name="description" content="Crée ou mets à jour ta fiche artisan DIGIY BUILD. Contact direct, visibilité simple, 0% commission."/>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
   <!-- CSS -->
   <link rel="stylesheet" href="./build-gen.css?v=build-pro-gen-v2"/>
+
+  <style>
+    html,body{
+      font-family:"Outfit",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
+    }
+    .hero-mark{
+      width:92px;
+      height:92px;
+      margin:0 auto 16px;
+      border-radius:22px;
+      overflow:hidden;
+      border:1px solid rgba(255,255,255,.14);
+      box-shadow:0 18px 40px rgba(0,0,0,.25);
+      background:#fff;
+    }
+    .hero-mark img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      display:block;
+    }
+    .hero-title{
+      text-align:center;
+      margin-bottom:8px;
+      line-height:1.05;
+    }
+    .hero-text{
+      text-align:center;
+      max-width:760px;
+      margin:0 auto 10px;
+    }
+    .hero-badges{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      justify-content:center;
+      margin:14px 0 6px;
+    }
+    .hero-badges span{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      padding:8px 12px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(255,255,255,.05);
+      font-size:.92rem;
+      font-weight:700;
+    }
+    .field-note{
+      display:block;
+      margin-top:6px;
+      font-size:.88rem;
+      opacity:.78;
+      line-height:1.35;
+    }
+    .section-line{
+      margin:18px 0 10px;
+      font-weight:800;
+      opacity:.92;
+    }
+  </style>
 
   <!-- Supabase + Guard -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -23,17 +91,29 @@
   <div class="app">
     <div class="wrap">
       <div class="card">
-        <h1>🏗️ Générateur de fiche — BUILD</h1>
-        <p>
-          Ici tu crées / mets à jour ta fiche publique.
-          <span class="ok">Si tu publies</span> → tu apparais dans la vitrine automatiquement.
+        <div class="hero-mark">
+          <img src="https://digiylyfe.net/wp-content/uploads/2026/03/digiylyfe_logo_qr.jpeg" alt="Logo DIGIYLYFE">
+        </div>
+
+        <h1 class="hero-title">🏗️ Ma fiche artisan</h1>
+        <p class="hero-text">
+          Ici tu poses ta présence publique. Ton métier, ta zone, ton contact, ta photo, ton lien.
+          Quand tu rends ta fiche visible, elle peut apparaître dans la vitrine automatiquement.
         </p>
+
+        <div class="hero-badges">
+          <span>📲 Contact direct</span>
+          <span>🛠️ Métier visible</span>
+          <span>∞ 0% commission</span>
+        </div>
 
         <div class="hr"></div>
 
+        <div class="section-line">👷 L’essentiel</div>
+
         <div class="row">
           <div>
-            <label>Nom affiché (display_name)</label>
+            <label>Nom affiché</label>
             <input id="display_name" placeholder="Ex: Helage" />
           </div>
           <div>
@@ -44,77 +124,84 @@
 
         <div class="row">
           <div>
-            <label>Métier (trade)</label>
+            <label>Métier</label>
             <input id="trade" placeholder="Ex: Plombier multi-services" />
           </div>
           <div>
-            <label>Région (region)</label>
+            <label>Zone de présence</label>
             <select id="region">
-              <option value="petite-cote">petite-cote</option>
-              <option value="dakar">dakar</option>
-              <option value="thies">thies</option>
-              <option value="national">national</option>
+              <option value="petite-cote">Petite Côte</option>
+              <option value="dakar">Dakar</option>
+              <option value="thies">Thiès</option>
+              <option value="national">National</option>
             </select>
           </div>
         </div>
 
         <div class="row">
           <div>
-            <label>WhatsApp (sans espaces)</label>
+            <label>WhatsApp</label>
             <input id="whatsapp" placeholder="Ex: 221774513523" />
+            <span class="field-note">Le numéro le plus simple pour être contacté vite.</span>
           </div>
           <div>
-            <label>Téléphone (optionnel)</label>
+            <label>Téléphone</label>
             <input id="phone" placeholder="Ex: +221..." />
+            <span class="field-note">Optionnel si ton WhatsApp suffit déjà.</span>
           </div>
         </div>
 
-        <label>Bio (courte, claire)</label>
+        <div class="section-line">📝 Présentation</div>
+
+        <label>Petite présentation</label>
         <textarea id="bio" placeholder="Ex: Dépannage, installation, chauffe-eau, fuite, WC, douche…"></textarea>
 
         <div class="row">
           <div>
-            <label>Photo vitrine (photo_url)</label>
+            <label>Photo vitrine</label>
             <input id="photo_url" placeholder="URL image (https://...png/jpg)" />
           </div>
           <div>
-            <label>URL fiche (profile_url)</label>
+            <label>Lien de ta fiche</label>
             <input id="profile_url" placeholder="https://digiylyfe.com/partenaires-..." />
           </div>
         </div>
 
+        <div class="section-line">✨ Mise en avant</div>
+
         <div class="row">
           <div>
-            <label>Badge (ex: ⚡ Intervention rapide)</label>
+            <label>Petit badge visible</label>
             <input id="badge" placeholder="Ex: 🛠️ Intervention rapide" />
           </div>
           <div>
-            <label>Hub badge (ex: ✅ PARTENAIRE BUILD)</label>
+            <label>Badge principal</label>
             <input id="hub_badge" placeholder="Ex: ✅ PARTENAIRE BUILD" />
           </div>
         </div>
 
         <div class="row">
           <div>
-            <label>Price label</label>
+            <label>Texte prix</label>
             <input id="price_label" placeholder="Ex: 0% commission" />
           </div>
           <div>
-            <label>Tags (JSON ou liste simple)</label>
-            <input id="tags" placeholder='Ex: pos,build,btp ou ["build","btp"]' />
+            <label>Mots-clés</label>
+            <input id="tags" placeholder='Ex: plomberie, fuite, dépannage ou ["plomberie","fuite"]' />
           </div>
         </div>
 
         <div class="row">
           <div>
-            <label>Priorité (0–100)</label>
+            <label>Priorité d’affichage</label>
             <input id="priority" type="number" min="0" max="100" value="1" />
+            <span class="field-note">Plus la priorité est haute, plus la fiche peut remonter.</span>
           </div>
           <div>
-            <label>Publier maintenant ?</label>
+            <label>Rendre visible maintenant ?</label>
             <select id="is_published">
-              <option value="true">Oui (visible)</option>
-              <option value="false">Non (brouillon)</option>
+              <option value="true">Oui, rendre visible</option>
+              <option value="false">Non, garder en brouillon</option>
             </select>
           </div>
         </div>
@@ -122,9 +209,9 @@
         <div class="hr"></div>
 
         <div class="actions">
-          <button class="btn primary" id="btnSave" type="button">💾 Enregistrer la fiche</button>
+          <button class="btn primary" id="btnSave" type="button">💾 Enregistrer ma fiche</button>
           <a class="btn secondary" id="btnOpenListing" href="./listing.html">👷 Ouvrir la vitrine</a>
-          <button class="btn ghost" id="btnBack" type="button">↩️ Retour cockpit</button>
+          <button class="btn ghost" id="btnBack" type="button">↩️ Retour à mon espace</button>
         </div>
 
         <div class="note" id="msg">
