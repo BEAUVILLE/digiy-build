@@ -15,8 +15,8 @@
     :root{
       --bg:#061b14;
       --bg2:#0a2b1f;
-      --card:rgba(8,30,22,.92);
-      --card2:rgba(6,24,18,.96);
+      --card:rgba(8,30,22,.94);
+      --card2:rgba(6,24,18,.98);
       --line:rgba(255,255,255,.14);
       --line-soft:rgba(255,255,255,.08);
       --text:#eafff1;
@@ -27,7 +27,7 @@
       --shadow:0 20px 55px rgba(0,0,0,.45);
       --radius:24px;
       --radius-sm:16px;
-      --max:1180px;
+      --max:1220px;
     }
 
     *{box-sizing:border-box}
@@ -237,21 +237,23 @@
       margin-top:16px;
       display:grid;
       grid-template-columns:repeat(3, minmax(0, 1fr));
-      gap:14px;
+      gap:16px;
     }
 
     .card{
       background:linear-gradient(145deg,rgba(11,42,31,.94),rgba(6,35,25,.94));
       border:1px solid var(--line);
-      border-radius:22px;
+      border-radius:24px;
       box-shadow:var(--shadow);
       overflow:hidden;
       display:flex;
       flex-direction:column;
+      min-height:100%;
     }
 
     .media{
-      aspect-ratio:16/10;
+      aspect-ratio:4/3;
+      min-height:280px;
       background:
         radial-gradient(circle at top right, rgba(250,204,21,.18), transparent 35%),
         radial-gradient(circle at bottom left, rgba(249,115,22,.22), transparent 35%),
@@ -266,6 +268,93 @@
       height:100%;
       object-fit:cover;
       display:block;
+      transition:transform .45s ease, filter .35s ease;
+      filter:saturate(1.04) contrast(1.02);
+    }
+
+    .card:hover .media img{
+      transform:scale(1.04);
+    }
+
+    .media::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        linear-gradient(to top, rgba(0,0,0,.58), rgba(0,0,0,.06) 40%, rgba(0,0,0,0) 64%),
+        linear-gradient(to right, rgba(0,0,0,.22), rgba(0,0,0,0));
+      pointer-events:none;
+    }
+
+    .media-top{
+      position:absolute;
+      z-index:2;
+      top:12px;
+      left:12px;
+      right:12px;
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
+    .media-badge{
+      font-size:12px;
+      font-weight:1000;
+      padding:7px 10px;
+      border-radius:999px;
+      background:rgba(6,24,18,.78);
+      border:1px solid rgba(255,255,255,.12);
+      color:#fff3b2;
+      backdrop-filter:blur(6px);
+      -webkit-backdrop-filter:blur(6px);
+    }
+
+    .media-brand{
+      width:44px;
+      height:44px;
+      border-radius:14px;
+      object-fit:cover;
+      background:rgba(255,255,255,.92);
+      border:1px solid rgba(255,255,255,.16);
+      box-shadow:0 10px 24px rgba(0,0,0,.25);
+    }
+
+    .media-bottom{
+      position:absolute;
+      z-index:2;
+      left:14px;
+      right:14px;
+      bottom:14px;
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-end;
+      gap:12px;
+    }
+
+    .media-caption{
+      display:flex;
+      flex-direction:column;
+      gap:4px;
+      min-width:0;
+    }
+
+    .media-name{
+      font-size:24px;
+      font-weight:1000;
+      color:#fff;
+      line-height:1.02;
+      text-shadow:0 6px 18px rgba(0,0,0,.45);
+      word-break:break-word;
+    }
+
+    .media-trade{
+      font-size:13px;
+      font-weight:900;
+      color:#fff3b2;
+      line-height:1.35;
+      text-shadow:0 4px 12px rgba(0,0,0,.35);
     }
 
     .media-fallback{
@@ -275,11 +364,51 @@
       align-items:center;
       justify-content:center;
       text-align:center;
-      padding:16px;
-      color:#fff3b2;
+      padding:18px;
+      color:#fff;
       font-weight:1000;
-      line-height:1.35;
-      font-size:18px;
+      line-height:1.2;
+      font-size:22px;
+      position:relative;
+      isolation:isolate;
+    }
+
+    .media-fallback::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        radial-gradient(circle at top right, rgba(250,204,21,.20), transparent 30%),
+        radial-gradient(circle at bottom left, rgba(249,115,22,.30), transparent 38%),
+        linear-gradient(145deg,#153428,#0a2118);
+      z-index:-1;
+    }
+
+    .fallback-inner{
+      max-width:82%;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:10px;
+    }
+
+    .fallback-emoji{
+      font-size:58px;
+      line-height:1;
+      filter:drop-shadow(0 10px 18px rgba(0,0,0,.30));
+    }
+
+    .fallback-title{
+      font-size:22px;
+      font-weight:1000;
+      color:#fff;
+    }
+
+    .fallback-sub{
+      font-size:13px;
+      font-weight:900;
+      color:#fff3b2;
+      opacity:.98;
     }
 
     .body{
@@ -291,7 +420,7 @@
     }
 
     .name{
-      font-size:24px;
+      font-size:22px;
       font-weight:1000;
       line-height:1.08;
       margin:0;
@@ -412,6 +541,8 @@
       .filters{grid-template-columns:1fr}
       .grid{grid-template-columns:1fr}
       .card-actions{grid-template-columns:1fr}
+      .media{min-height:300px}
+      .media-name{font-size:22px}
     }
   </style>
 </head>
@@ -491,6 +622,7 @@
       const SUPABASE_ANON_KEY = "sb_publishable_tGHItRgeWDmGjnd0CK1DVQ_BIep4Ug3";
       const PUBLIC_TABLE = "digiy_build_public_profiles";
       const DEFAULT_PHOTO = "https://digiylyfe.net/wp-content/uploads/2026/03/digiylyfe_logo_qr.jpeg";
+      const LOGO_PHOTO = "https://digiylyfe.net/wp-content/uploads/2026/03/digiylyfe_logo_qr.jpeg";
       const SUPPORT_PHONE = "221771342889";
 
       const $ = (id) => document.getElementById(id);
@@ -637,7 +769,7 @@
         const whatsapp = normPhone(firstOf(row, ["whatsapp", "whatsapp_phone", "phone"]));
         const phone = normPhone(firstOf(row, ["phone", "owner_phone", "contact_phone"]));
         const bio = text(firstOf(row, ["bio", "description", "short_description", "about"]));
-        const photo_url = maybeUrl(firstOf(row, ["photo_url", "photo", "image_url", "cover_url"])) || DEFAULT_PHOTO;
+        const photo_url = maybeUrl(firstOf(row, ["photo_url", "photo", "image_url", "cover_url"])) || "";
         const profile_url = maybeUrl(firstOf(row, ["profile_url", "public_url", "url"]));
         const badge = text(firstOf(row, ["badge", "tagline", "headline_badge"]));
         const hub_badge = text(firstOf(row, ["hub_badge", "public_badge"]));
@@ -723,27 +855,119 @@
         els.resultsMeta.innerHTML = bits.join(" • ");
       }
 
+      function fallbackEmoji(profile) {
+        const raw = `${profile.trade} ${profile.sector} ${(profile.tags || []).join(" ")}`.toLowerCase();
+
+        if (raw.includes("plomb")) return "🔧";
+        if (raw.includes("elect")) return "⚡";
+        if (raw.includes("maçon") || raw.includes("macon") || raw.includes("construction")) return "🧱";
+        if (raw.includes("menuis")) return "🪵";
+        if (raw.includes("soud")) return "🔥";
+        if (raw.includes("mecan")) return "🚗";
+        if (raw.includes("peint")) return "🎨";
+        if (raw.includes("clim") || raw.includes("froid")) return "❄️";
+        return "🛠️";
+      }
+
+      function fallbackSub(profile) {
+        const parts = [];
+        if (profile.city) parts.push(profile.city);
+        if (profile.region) parts.push(profile.region);
+        if (!parts.length) parts.push("Professionnel joignable directement");
+        return parts.join(" • ");
+      }
+
+      function hasRealPhoto(profile) {
+        const url = maybeUrl(profile.photo_url);
+        if (!url) return false;
+        return url !== DEFAULT_PHOTO && url !== LOGO_PHOTO;
+      }
+
       function buildMedia(profile) {
         const img = maybeUrl(profile.photo_url);
-        if (img) {
+        const cityBadge = profile.city || profile.region || "Profil visible";
+        const logo = LOGO_PHOTO;
+
+        if (hasRealPhoto(profile)) {
           return `
             <div class="media">
+              <div class="media-top">
+                <div class="media-badge">${escapeHtml(cityBadge)}</div>
+                <img class="media-brand" src="${escapeHtml(logo)}" alt="Logo DIGIYLYFE">
+              </div>
+
               <img
                 loading="lazy"
-                alt="${escapeHtml(profile.display_name || "Profil")} "
+                alt="${escapeHtml(profile.display_name || "Profil")}"
                 src="${escapeHtml(img)}"
-                onerror="this.onerror=null; this.closest('.media').innerHTML='<div class=&quot;media-fallback&quot;>ENTREPRENEUR<br>MULTI SERVICES</div>';"
+                onerror="this.onerror=null; this.closest('.media').innerHTML = window.DIGIY_BUILD_FALLBACK_MEDIA(${encodeURIComponent(JSON.stringify({
+                  display_name: profile.display_name,
+                  trade: profile.trade,
+                  city: profile.city,
+                  region: profile.region,
+                  sector: profile.sector,
+                  tags: profile.tags
+                }))});"
               >
+
+              <div class="media-bottom">
+                <div class="media-caption">
+                  <div class="media-name">${escapeHtml(profile.display_name || "Professionnel")}</div>
+                  <div class="media-trade">${escapeHtml(profile.trade || "Entrepreneur multi services")}</div>
+                </div>
+              </div>
             </div>
           `;
         }
 
+        return fallbackMediaHtml(profile);
+      }
+
+      function fallbackMediaHtml(profile) {
+        const cityBadge = profile.city || profile.region || "Profil visible";
         return `
           <div class="media">
-            <div class="media-fallback">ENTREPRENEUR<br>MULTI SERVICES</div>
+            <div class="media-top">
+              <div class="media-badge">${escapeHtml(cityBadge)}</div>
+              <img class="media-brand" src="${escapeHtml(LOGO_PHOTO)}" alt="Logo DIGIYLYFE">
+            </div>
+
+            <div class="media-fallback">
+              <div class="fallback-inner">
+                <div class="fallback-emoji">${escapeHtml(fallbackEmoji(profile))}</div>
+                <div class="fallback-title">${escapeHtml(profile.display_name || "ENTREPRENEUR MULTI SERVICES")}</div>
+                <div class="fallback-sub">${escapeHtml(profile.trade || fallbackSub(profile))}</div>
+              </div>
+            </div>
+
+            <div class="media-bottom">
+              <div class="media-caption">
+                <div class="media-name">${escapeHtml(profile.display_name || "Professionnel")}</div>
+                <div class="media-trade">${escapeHtml(profile.trade || "Entrepreneur multi services")}</div>
+              </div>
+            </div>
           </div>
         `;
       }
+
+      window.DIGIY_BUILD_FALLBACK_MEDIA = function(encoded) {
+        try {
+          const profile = JSON.parse(decodeURIComponent(encoded));
+          return fallbackMediaHtml(profile);
+        } catch (_) {
+          return `
+            <div class="media">
+              <div class="media-fallback">
+                <div class="fallback-inner">
+                  <div class="fallback-emoji">🛠️</div>
+                  <div class="fallback-title">ENTREPRENEUR MULTI SERVICES</div>
+                  <div class="fallback-sub">Professionnel joignable directement</div>
+                </div>
+              </div>
+            </div>
+          `;
+        }
+      };
 
       function renderCard(profile) {
         const phone = profile.whatsapp || profile.phone || "";
