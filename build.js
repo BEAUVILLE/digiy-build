@@ -1,20 +1,26 @@
 // build.js
 /* =============================================
-   DIGIY BUILD — Clean Pack (CSS/JS séparés)
+   DIGIY BUILD — Clean Pack recousu
+   - anti-doublon
+   - exemples seulement si DB vide
+   - DOM safe
+   - clé publishable alignée
 ============================================= */
 
 /* ✅ MODE */
 const MODE = {
-  debug: false,        // true => affiche le bloc debug
-  showExamples: true,  // si DB vide, on garde les exemples visuels
+  debug: false,          // true => affiche le bloc debug
+  showExamples: true,    // si DB vide, on garde les exemples visuels
   limit: 9999
 };
 
 /* ✅ CONFIG SUPABASE */
 const SUPABASE_URL = "https://wesqmwjjtsefyjnluosj.supabase.co";
-const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indlc3Ftd2pqdHNlZnlqbmx1b3NqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjUxNzg4ODIsImV4cCI6MjA4MDc1NDg4Mn0.dZfYOc2iL2_wRYL3zExZFsFSBK6AbMeOid2LrIjcTdA";
+const SUPABASE_ANON_KEY = "sb_publishable_tGHItRgeWDmGjnd0CK1DVQ_BIep4Ug3";
 
-const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const sb = window.supabase?.createClient
+  ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+  : null;
 
 /* ✅ DOM */
 const grid = document.getElementById("grid");
@@ -28,6 +34,7 @@ const resetEl = document.getElementById("reset");
 const toggleDebugEl = document.getElementById("toggleDebug");
 
 const TEAM_WA = "+221771342889";
+const DEFAULT_PHOTO = "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800";
 
 /* =============================================
    PLACEBOTS (EXEMPLES VISUELS)
@@ -90,6 +97,13 @@ const FICHES_WORDPRESS = {
 };
 
 /* =============================================
+   STATE
+============================================= */
+let ALL = [];
+let DB_COUNT = 0;
+let EX_COUNT = 0;
+
+/* =============================================
    UTILS
 ============================================= */
 function escHtml(s){
@@ -108,22 +122,23 @@ function onlyDigitsPhone(phone){
 function normalizeText(s){
   return String(s ?? "")
     .toLowerCase()
-    .normalize("NFD").replace(/[\u0300-\u036f]/g,""); // retire accents
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g,"")
+    .trim();
 }
 
 function moneyFCFA(n){
-  try{
-    return `${Number(n).toLocaleString("fr-FR")} FCFA/jour`;
-  }catch{
-    return "Sur devis";
-  }
+  const num = Number(n);
+  if(!Number.isFinite(num) || num <= 0) return "Sur devis";
+  return `${num.toLocaleString("fr-FR")} FCFA/jour`;
 }
 
 function uniqSorted(arr){
-  return [...new Set(arr.filter(Boolean))].sort((a,b)=>a.localeCompare(b, "fr"));
+  return [...new Set(arr.filter(Boolean))].sort((a,b)=> String(a).localeCompare(String(b), "fr"));
 }
 
 function setDebug(html){
+  if(!debugEl) return;
   if(!MODE.debug){
     debugEl.hidden = true;
     return;
@@ -132,12 +147,112 @@ function setDebug(html){
   debugEl.innerHTML = html;
 }
 
+function toMs(value){
+  const ms = new Date(value || 0).getTime();
+  return Number.isFinite(ms) ? ms : 0;
+}
+
+function isRealArtisan(row){
+  return row && row._isExample !== true;
+}
+
+function rowScore(row){
+  if(!row) return 0;
+
+  let score = 0;
+  if(row.slug) score += 100;
+  if(row.id) score += 70;
+  if(row.public_url) score += 35;
+  if(row.photo_profil) score += 20;
+  if(row.description) score += Math.min(String(row.description).trim().length, 180);
+  if(row.entreprise) score += 20;
+  if(row.ville) score += 10;
+  if(row.specialite) score += 10;
+  if(row.whatsapp || row.phone) score += 20;
+  if(row.nb_projets_realises) score += 8;
+  if(row.annees_experience) score += 8;
+  if(isRealArtisan(row)) score += 1000;
+
+  return score;
+}
+
+function artisanKey(row, idx = 0){
+  const slug = normalizeText(row?.slug || "");
+  if(slug) return `slug:${slug}`;
+
+  const id = normalizeText(row?.id || "");
+  if(id) return `id:${id}`;
+
+  const phone = onlyDigitsPhone(row?.whatsapp || row?.phone || "");
+  const nom = normalizeText(row?.nom_complet || "");
+  const ville = normalizeText(row?.ville || "");
+  const spec = normalizeText(row?.specialite || "");
+
+  const composite = [phone, nom, ville, spec].filter(Boolean).join("|");
+  if(composite) return `composite:${composite}`;
+
+  return `fallback:${idx}`;
+}
+
+function chooseBetterArtisan(a, b){
+  if(!a) return b;
+  if(!b) return a;
+
+  const aReal = isRealArtisan(a);
+  const bReal = isRealArtisan(b);
+  if(aReal !== bReal) return bReal ? b : a;
+
+  const aDate = Math.max(toMs(a.updated_at), toMs(a.created_at));
+  const bDate = Math.max(toMs(b.updated_at), toMs(b.created_at));
+  if(aDate !== bDate) return bDate > aDate ? b : a;
+
+  return rowScore(b) > rowScore(a) ? b : a;
+}
+
+function dedupeArtisans(list){
+  const rows = Array.isArray(list) ? list.filter(Boolean) : [];
+  const map = new Map();
+
+  rows.forEach((row, idx) => {
+    const key = artisanKey(row, idx);
+    map.set(key, chooseBetterArtisan(map.get(key), row));
+  });
+
+  return [...map.values()].sort((a, b) => {
+    const aReal = isRealArtisan(a) ? 1 : 0;
+    const bReal = isRealArtisan(b) ? 1 : 0;
+    if(aReal !== bReal) return bReal - aReal;
+
+    const aDate = Math.max(toMs(a.updated_at), toMs(a.created_at));
+    const bDate = Math.max(toMs(b.updated_at), toMs(b.created_at));
+    if(aDate !== bDate) return bDate - aDate;
+
+    return normalizeText(a.nom_complet || "").localeCompare(normalizeText(b.nom_complet || ""), "fr");
+  });
+}
+
+function safeUrl(url){
+  const raw = String(url || "").trim();
+  if(!raw) return null;
+
+  try{
+    return new URL(raw, window.location.href).href;
+  }catch{
+    return null;
+  }
+}
+
 /* =============================================
    FETCH DATABASE
 ============================================= */
 async function fetchArtisans(){
+  if(!sb){
+    setDebug("❌ Supabase non chargé.");
+    return [];
+  }
+
   try{
-    setDebug("🔍 Fetching artisans from DB…");
+    setDebug("🔍 Chargement des artisans depuis la base…");
 
     const { data, error } = await sb
       .from("digiy_build_artisans")
@@ -145,20 +260,23 @@ async function fetchArtisans(){
       .limit(MODE.limit);
 
     if(error){
-      setDebug(`❌ Erreur DB: ${escHtml(error.message)}`);
+      setDebug(`❌ Erreur base: ${escHtml(error.message)}`);
       return [];
     }
 
-    const list = Array.isArray(data) ? data : [];
+    const rawList = Array.isArray(data) ? data : [];
+    const list = dedupeArtisans(rawList);
+
     setDebug(`
-      ✅ Base de données connectée<br>
-      📊 Artisans en DB: <strong>${list.length}</strong><br>
-      ${list.length ? `📋 Noms: ${escHtml(list.map(a => a.nom_complet).join(", "))}` : "⚠️ Aucun artisan en DB"}
+      ✅ Base connectée<br>
+      📊 Lignes brutes: <strong>${rawList.length}</strong><br>
+      🧹 Après anti-doublon: <strong>${list.length}</strong><br>
+      ${list.length ? `📋 Noms: ${escHtml(list.map(a => a.nom_complet || "Sans nom").join(", "))}` : "⚠️ Aucun artisan en base"}
     `);
 
     return list;
   }catch(e){
-    setDebug(`❌ Erreur connexion: ${escHtml(e.message)}`);
+    setDebug(`❌ Erreur connexion: ${escHtml(e.message || e)}`);
     return [];
   }
 }
@@ -167,56 +285,52 @@ async function fetchArtisans(){
    CARD TEMPLATE
 ============================================= */
 function createCard(artisan){
-  const isExample = artisan._isExample === true;
+  const isExample = artisan?._isExample === true;
 
-  const nom = artisan.nom_complet || "Artisan";
-  const entreprise = artisan.entreprise || "";
-  const ville = artisan.ville || "—";
-  const spec = artisan.specialite || "Multi-services";
-  const photo = artisan.photo_profil || "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800";
-  const tarif = artisan.tarif_journee ? moneyFCFA(artisan.tarif_journee) : "Sur devis";
-  const desc = artisan.description || "Artisan professionnel. Contact direct.";
-  const wa = artisan.whatsapp || artisan.phone || TEAM_WA;
+  const nom = artisan?.nom_complet || "Artisan";
+  const entreprise = artisan?.entreprise || "";
+  const ville = artisan?.ville || "—";
+  const spec = artisan?.specialite || "Multi-services";
+  const photo = artisan?.photo_profil || DEFAULT_PHOTO;
+  const tarif = artisan?.tarif_journee ? moneyFCFA(artisan.tarif_journee) : "Sur devis";
+  const desc = artisan?.description || "Artisan professionnel. Contact direct.";
+  const wa = artisan?.whatsapp || artisan?.phone || TEAM_WA;
 
-  const exp = artisan.annees_experience ? `${artisan.annees_experience} ans` : "";
-  const projets = artisan.nb_projets_realises ? `${artisan.nb_projets_realises} projets` : "";
+  const exp = artisan?.annees_experience ? `${artisan.annees_experience} ans` : "";
+  const projets = artisan?.nb_projets_realises ? `${artisan.nb_projets_realises} projets` : "";
 
   const cardClass = isExample ? "card example" : "card verified";
 
   const badges = isExample
     ? `
-      <div class="badge badge-example">📸 EXEMPLE</div>
+      <div class="badge badge-example">📸 APERÇU</div>
       <div class="badge badge-commission">0% commission</div>
     `
     : `
-      <div class="badge badge-verified">✅ VÉRIFIÉ</div>
+      <div class="badge badge-verified">✅ PARTENAIRE BUILD</div>
       <div class="badge badge-commission">0% commission</div>
       ${exp ? `<div class="badge badge-info">${escHtml(exp)}</div>` : ""}
       ${projets ? `<div class="badge badge-info">${escHtml(projets)}</div>` : ""}
     `;
 
-  // ✅ BOUTON FICHE OU DEVIS
-  const ficheUrl = FICHES_WORDPRESS[artisan.slug] || artisan.public_url || null;
-
+  const ficheUrl = safeUrl(FICHES_WORDPRESS[artisan?.slug] || artisan?.public_url || "");
   const safeNom = escHtml(nom);
   const safeEntreprise = escHtml(entreprise);
   const safeVille = escHtml(ville);
   const safeSpec = escHtml(spec);
   const safeDesc = escHtml(desc);
+  const safeId = escHtml(artisan?.id || "");
+  const safeWa = escHtml(wa);
 
   const primaryButton = (ficheUrl && !isExample)
-    ? `<a href="${ficheUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
-         👁️ Voir la fiche complète
-       </a>`
-    : `<button class="btn btn-primary" data-action="devis" data-id="${escHtml(artisan.id)}" data-nom="${safeNom}">
-         📋 Demander un devis
-       </button>`;
+    ? `<a href="${ficheUrl}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">👁️ Voir la fiche complète</a>`
+    : `<button class="btn btn-primary" data-action="devis" data-id="${safeId}" data-nom="${safeNom}">📋 Demander un devis</button>`;
 
   return `
     <article class="${cardClass}">
       <div class="photo">
-        <img src="${photo}" alt="${safeNom}" loading="lazy"
-             onerror="this.src='https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800'">
+        <img src="${escHtml(photo)}" alt="${safeNom}" loading="lazy"
+             onerror="this.src='${DEFAULT_PHOTO}'">
       </div>
 
       <div class="name">${safeNom}</div>
@@ -230,7 +344,7 @@ function createCard(artisan){
 
       <div class="actions">
         ${primaryButton}
-        <button class="btn btn-wa" data-action="wa" data-phone="${escHtml(wa)}" data-nom="${safeNom}">
+        <button class="btn btn-wa" data-action="wa" data-phone="${safeWa}" data-nom="${safeNom}">
           📲 WhatsApp direct
         </button>
       </div>
@@ -243,30 +357,33 @@ function createCard(artisan){
 ============================================= */
 function contacterWA(phone, nom){
   const msg = `Bonjour ${nom}, je souhaite un devis pour des travaux via DIGIY BUILD.`;
-  const digits = onlyDigitsPhone(phone);
+  const digits = onlyDigitsPhone(phone) || onlyDigitsPhone(TEAM_WA);
   const url = `https://wa.me/${digits}?text=${encodeURIComponent(msg)}`;
   window.open(url, "_blank", "noopener,noreferrer");
 }
 
 function demanderDevis(id, nom){
-  if(String(id).startsWith("example-")){
+  if(String(id || "").startsWith("example-") || !id){
     contacterWA(TEAM_WA, "l'équipe DIGIY");
     return;
   }
+
   location.href = `./request.html?artisan_id=${encodeURIComponent(id)}&nom=${encodeURIComponent(nom)}`;
 }
 
-/* Délégation d’événements (plus clean que onclick inline) */
+/* Délégation d’événements */
 document.addEventListener("click", (e) => {
   const btn = e.target.closest("[data-action]");
   if(!btn) return;
 
   const action = btn.getAttribute("data-action");
+
   if(action === "wa"){
     const phone = btn.getAttribute("data-phone");
     const nom = btn.getAttribute("data-nom");
     contacterWA(phone, nom);
   }
+
   if(action === "devis"){
     const id = btn.getAttribute("data-id");
     const nom = btn.getAttribute("data-nom");
@@ -277,32 +394,42 @@ document.addEventListener("click", (e) => {
 /* =============================================
    FILTERS
 ============================================= */
-let ALL = [];
-let DB_COUNT = 0;
-let EX_COUNT = 0;
+function setSelectOptions(el, values, placeholder){
+  if(!el) return;
+  el.innerHTML =
+    `<option value="">${placeholder}</option>` +
+    values.map(v => `<option value="${escHtml(v)}">${escHtml(v)}</option>`).join("");
+}
 
 function computeOptions(list){
-  const villes = uniqSorted(list.map(a => a.ville).filter(v => v && !String(v).startsWith("—")));
-  const specs  = uniqSorted(list.map(a => a.specialite));
+  const villes = uniqSorted(list.map(a => a?.ville).filter(v => v && String(v).trim() && !String(v).startsWith("—")));
+  const specs = uniqSorted(list.map(a => a?.specialite).filter(Boolean));
 
-  // Fill selects
-  villeEl.innerHTML = `<option value="">Toutes</option>` + villes.map(v => `<option value="${escHtml(v)}">${escHtml(v)}</option>`).join("");
-  specEl.innerHTML  = `<option value="">Toutes</option>` + specs.map(s => `<option value="${escHtml(s)}">${escHtml(s)}</option>`).join("");
+  setSelectOptions(villeEl, villes, "Toutes");
+  setSelectOptions(specEl, specs, "Toutes");
 }
 
 function applyFilters(){
-  const q = normalizeText(qEl.value);
-  const v = villeEl.value;
-  const s = specEl.value;
+  const q = normalizeText(qEl?.value || "");
+  const v = villeEl?.value || "";
+  const s = specEl?.value || "";
 
-  const filtered = ALL.filter(a => {
-    if(v && String(a.ville || "") !== v) return false;
-    if(s && String(a.specialite || "") !== s) return false;
+  const filtered = ALL.filter((a) => {
+    if(v && String(a?.ville || "") !== v) return false;
+    if(s && String(a?.specialite || "") !== s) return false;
 
     if(!q) return true;
-    const hay = normalizeText(
-      `${a.nom_complet||""} ${a.entreprise||""} ${a.ville||""} ${a.specialite||""} ${a.description||""}`
-    );
+
+    const hay = normalizeText([
+      a?.nom_complet,
+      a?.entreprise,
+      a?.ville,
+      a?.specialite,
+      a?.description,
+      a?.zone_intervention,
+      a?.metiers
+    ].filter(Boolean).join(" "));
+
     return hay.includes(q);
   });
 
@@ -311,6 +438,7 @@ function applyFilters(){
 }
 
 function renderStats(currentCount){
+  if(!statsEl) return;
   const txt = `${currentCount} affichés • ${DB_COUNT} vérifiés • ${EX_COUNT} exemples`;
   statsEl.textContent = txt;
 }
@@ -319,53 +447,63 @@ function renderStats(currentCount){
    RENDER
 ============================================= */
 function renderGrid(list){
+  if(!grid) return;
+
   if(!list.length){
     grid.innerHTML = `<div class="loading">❌ Aucun artisan ne correspond</div>`;
     return;
   }
-  grid.innerHTML = list.map(a => createCard(a)).join("");
+
+  grid.innerHTML = list.map(createCard).join("");
 }
 
+/* =============================================
+   INIT
+============================================= */
 async function init(){
+  if(!grid){
+    console.warn("[DIGIY BUILD] Élément #grid introuvable.");
+    return;
+  }
+
   grid.innerHTML = `<div class="loading">⏳ Chargement des artisans…</div>`;
 
-  // Toggle debug
-  toggleDebugEl.addEventListener("click", () => {
-    MODE.debug = !MODE.debug;
-    debugEl.hidden = !MODE.debug;
-    if(!MODE.debug) debugEl.innerHTML = "";
-  });
+  if(toggleDebugEl){
+    toggleDebugEl.addEventListener("click", () => {
+      MODE.debug = !MODE.debug;
+      if(debugEl){
+        debugEl.hidden = !MODE.debug;
+        if(!MODE.debug) debugEl.innerHTML = "";
+      }
+    });
+  }
 
-  // Reset
-  resetEl.addEventListener("click", () => {
-    qEl.value = "";
-    villeEl.value = "";
-    specEl.value = "";
-    applyFilters();
-  });
+  if(resetEl){
+    resetEl.addEventListener("click", () => {
+      if(qEl) qEl.value = "";
+      if(villeEl) villeEl.value = "";
+      if(specEl) specEl.value = "";
+      applyFilters();
+    });
+  }
 
-  // Listen filters
-  qEl.addEventListener("input", applyFilters);
-  villeEl.addEventListener("change", applyFilters);
-  specEl.addEventListener("change", applyFilters);
+  if(qEl) qEl.addEventListener("input", applyFilters);
+  if(villeEl) villeEl.addEventListener("change", applyFilters);
+  if(specEl) specEl.addEventListener("change", applyFilters);
 
   const dbArtisans = await fetchArtisans();
   DB_COUNT = dbArtisans.length;
 
-  const examples = MODE.showExamples ? PLACEBOTS : [];
+  const examples = (MODE.showExamples && DB_COUNT === 0) ? PLACEBOTS : [];
   EX_COUNT = examples.length;
 
-  ALL = [...dbArtisans, ...examples];
+  ALL = dedupeArtisans([...dbArtisans, ...examples]);
 
-  // Options calculées sur tout (DB + exemples) pour avoir Dakar/Thiès/Saly etc direct
   computeOptions(ALL);
-
-  // First render
   renderGrid(ALL);
   renderStats(ALL.length);
 
-  // Si debug, on complète une ligne utile
-  if(MODE.debug){
+  if(MODE.debug && debugEl){
     debugEl.hidden = false;
     debugEl.innerHTML += `<br>✅ Total affiché: <strong>${ALL.length}</strong> (${DB_COUNT} vérifiés + ${EX_COUNT} exemples)`;
   }
