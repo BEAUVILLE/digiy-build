@@ -4,8 +4,8 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
   <meta name="theme-color" content="#0b2a1f"/>
-  <title>DIGIY BUILD PRO — Accès PIN</title>
-  <meta name="description" content="Accès DIGIY BUILD PRO — Téléphone + PIN. Cockpit PRO terrain.">
+  <title>Je propose mes services — Accès sécurisé</title>
+  <meta name="description" content="Accès sécurisé artisan — téléphone et code.">
 
   <!-- Supabase JS v2 -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -158,7 +158,7 @@
       <div class="brand" role="banner" aria-label="DIGIY">
         <div class="logo">♾️</div>
         <div>
-          <b>DIGIY BUILD PRO</b>
+          <b>JE PROPOSE MES SERVICES</b>
           <small>Accès rapide — terrain</small>
         </div>
       </div>
@@ -166,7 +166,7 @@
     </div>
 
     <section class="hero">
-      <h1>Connexion PRO (Téléphone + PIN)</h1>
+      <h1>Connexion artisan (Téléphone + code)</h1>
       <p>Entre vite, bosse vite. Le dossier complet, on le fera plus tard si tu veux. 🧱</p>
       <div class="chips">
         <span class="chip">0 friction</span>
@@ -186,27 +186,27 @@
 
         <div class="split">
           <div>
-            <label for="pin">PIN (4 chiffres)</label>
+            <label for="pin">Code (4 chiffres)</label>
             <input id="pin" inputmode="numeric" autocomplete="one-time-code"
                    maxlength="4" placeholder="1234" />
           </div>
           <div>
-            <label for="slug">Slug (optionnel)</label>
+            <label for="slug">Identifiant (optionnel)</label>
             <input id="slug" autocomplete="off"
                    placeholder="chez-astou-saly" />
           </div>
         </div>
 
-        <button id="btn" class="btn">Entrer dans le Cockpit</button>
+        <button id="btn" class="btn">Entrer dans mon espace</button>
         <div id="msg" class="msg"></div>
 
         <div class="hint">
-          Astuce : si tu n’as pas de slug, laisse vide. Le système te mettra en mode light.<br/>
-          PIN conseillé : les 4 derniers chiffres du téléphone (au début).
+          Astuce : si tu n’as pas d’identifiant, laisse vide. Le système te mettra en mode léger.<br/>
+          Code conseillé : les 4 derniers chiffres du téléphone au début.
         </div>
 
         <div class="foot">
-          <span>🧱 BUILD • PRO</span>
+          <span>🧱 Artisan terrain</span>
           <a class="link" href="#" id="help">Besoin d’aide ?</a>
         </div>
       </div>
@@ -292,7 +292,7 @@
       // Help
       $("help").addEventListener("click", (e)=>{
         e.preventDefault();
-        showMsg("Si tu as oublié ton PIN, contacte le support DIGIY (WhatsApp) ou demande au gestionnaire du module BUILD.", "");
+        showMsg("Si tu as oublié ton code, contacte le support DIGIY sur WhatsApp.", "");
       });
 
       // Session existante -> direct cockpit
@@ -325,7 +325,7 @@
         return;
       }
       if(pin.length !== 4){
-        showMsg("PIN invalide. Mets 4 chiffres.", "err");
+        showMsg("Code invalide. Mets 4 chiffres.", "err");
         return;
       }
 
@@ -349,11 +349,11 @@
 
         if(error){
           console.error(error);
-          showMsg("Accès refusé. Vérifie ton PIN ou ton téléphone.", "err");
+          showMsg("Accès refusé. Vérifie ton code ou ton téléphone.", "err");
           return;
         }
         if(!data || !data.ok){
-          showMsg("Accès refusé. Vérifie ton PIN ou ton téléphone.", "err");
+          showMsg("Accès refusé. Vérifie ton code ou ton téléphone.", "err");
           return;
         }
 
@@ -376,7 +376,7 @@
 
         localStorage.setItem(SESSION_KEY, JSON.stringify(session));
 
-        showMsg("✅ Connexion OK. Ouverture du cockpit…", "ok");
+        showMsg("✅ Connexion OK. Ouverture de ton espace…", "ok");
 
         const target = "./app.html" + (finalSlug ? ("?slug=" + encodeURIComponent(finalSlug)) : "");
         setTimeout(()=>location.href = target, 350);
@@ -386,7 +386,7 @@
         showMsg("Erreur réseau. Réessaie.", "err");
       }finally{
         btn.disabled = false;
-        btn.textContent = "Entrer dans le Cockpit";
+        btn.textContent = "Entrer dans mon espace";
       }
     }
   </script>

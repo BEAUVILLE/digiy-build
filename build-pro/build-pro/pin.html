@@ -4,8 +4,8 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
   <meta name="theme-color" content="#0b2a1f"/>
-  <title>DIGIY BUILD PRO — Accès PIN</title>
-  <meta name="description" content="Accès DIGIY BUILD PRO — Téléphone + PIN. Cockpit PRO terrain.">
+  <title>Je propose mes services — Accès sécurisé</title>
+  <meta name="description" content="Accès sécurisé artisan — téléphone, code et identifiant.">
 
   <!-- Supabase JS v2 -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -134,7 +134,7 @@
       <div class="brand" role="banner">
         <div class="logo">♾️</div>
         <div>
-          <b>DIGIY BUILD PRO</b>
+          <b>JE PROPOSE MES SERVICES</b>
           <small>Accès rapide — terrain</small>
         </div>
       </div>
@@ -142,11 +142,11 @@
     </div>
 
     <section class="hero">
-      <h1>Connexion PRO (Téléphone + PIN)</h1>
-      <p>Entrée par <b>slug</b> (URL), puis on transforme en <b>owner_id</b> pour charger tes demandes assignées.</p>
+      <h1>Connexion artisan (Téléphone + code)</h1>
+      <p>Entre avec ton identifiant d’accès, puis retrouve directement les demandes qui te concernent.</p>
       <div class="chips">
-        <span class="chip">slug → owner_id</span>
-        <span class="chip">mode light</span>
+        <span class="chip">identifiant reconnu</span>
+        <span class="chip">mode léger</span>
         <span class="chip">demandes assignées</span>
         <span class="chip">terrain</span>
       </div>
@@ -161,24 +161,24 @@
 
         <div class="split">
           <div>
-            <label for="pin">PIN (4 chiffres)</label>
+            <label for="pin">Code (4 chiffres)</label>
             <input id="pin" inputmode="numeric" autocomplete="one-time-code" maxlength="4" placeholder="1234" />
           </div>
           <div>
-            <label for="slug">Slug (entrée)</label>
+            <label for="slug">Identifiant d’entrée</label>
             <input id="slug" autocomplete="off" placeholder="chez-astou-saly" />
           </div>
         </div>
 
-        <button id="btn" class="btn">Entrer dans le Cockpit</button>
+        <button id="btn" class="btn">Entrer dans mon espace</button>
         <div id="msg" class="msg"></div>
 
         <div class="hint">
-          Le slug vient souvent de l’URL. Le PIN peut être les 4 derniers chiffres au début.
+          L’identifiant vient souvent du lien. Le code peut être les 4 derniers chiffres au début.
         </div>
 
         <div class="foot">
-          <span>🧱 BUILD • PRO</span>
+          <span>🧱 Artisan terrain</span>
           <a class="link" href="#" id="help">Besoin d’aide ?</a>
         </div>
       </div>
@@ -249,7 +249,7 @@
 
       $("help").addEventListener("click", (e)=>{
         e.preventDefault();
-        showMsg("Si souci PIN : contacte le support DIGIY BUILD.", "");
+        showMsg("Si souci avec ton code : contacte le support DIGIY BUILD.", "");
       });
 
       // session existante -> direct cockpit
@@ -281,11 +281,11 @@
         return;
       }
       if(pin.length !== 4){
-        showMsg("PIN invalide. Mets 4 chiffres.", "err");
+        showMsg("Code invalide. Mets 4 chiffres.", "err");
         return;
       }
       if(!slug){
-        showMsg("Slug manquant. Ouvre via ?slug=... ou remplis le champ.", "err");
+        showMsg("Identifiant manquant. Ouvre via ?slug=... ou remplis le champ.", "err");
         return;
       }
 
@@ -300,11 +300,11 @@
 
         if(error){
           console.error(error);
-          showMsg("Accès refusé. Vérifie PIN / téléphone / slug.", "err");
+          showMsg("Accès refusé. Vérifie code / téléphone / identifiant.", "err");
           return;
         }
         if(!data || !data.ok){
-          showMsg("Accès refusé. Vérifie PIN / téléphone / slug.", "err");
+          showMsg("Accès refusé. Vérifie code / téléphone / identifiant.", "err");
           return;
         }
 
@@ -333,7 +333,7 @@
         localStorage.setItem(SESSION_KEY, JSON.stringify(session));
         try{ localStorage.setItem("DIGIY_PRO_ID", owner_id); }catch(_){}
 
-        showMsg("✅ Connexion OK. Ouverture du cockpit…", "ok");
+        showMsg("✅ Connexion OK. Ouverture de ton espace…", "ok");
 
         const target = "./app.html?slug=" + encodeURIComponent(finalSlug);
         setTimeout(()=>location.href = target, 300);
@@ -343,7 +343,7 @@
         showMsg("Erreur réseau. Réessaie.", "err");
       }finally{
         btn.disabled = false;
-        btn.textContent = "Entrer dans le Cockpit";
+        btn.textContent = "Entrer dans mon espace";
       }
     }
   </script>

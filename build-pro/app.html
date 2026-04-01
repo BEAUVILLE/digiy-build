@@ -4,7 +4,7 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
   <meta name="theme-color" content="#0b2a1f"/>
-  <title>DIGIY BUILD PRO — Cockpit</title>
+  <title>Je propose mes services — Mon espace</title>
 
   <!-- Supabase -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -71,14 +71,14 @@
   <div class="brand">
     <div class="logo">🧱</div>
     <div>
-      <b>DIGIY BUILD PRO</b><br>
+      <b>JE PROPOSE MES SERVICES</b><br>
       <small id="slugLabel"></small>
     </div>
   </div>
   <div>
     <button class="btn" id="refresh">🔄 Rafraîchir</button>
     <button class="btn" id="logout">🚪 Sortir</button>
-    <button class="btn primary">🔓 PRO complet</button>
+    <button class="btn primary">🔓 Accès complet</button>
   </div>
 </header>
 
@@ -93,7 +93,7 @@ const SB = BUILD?.sb;
 const SESSION = BUILD.requireSession({ redirectTo:"./pin.html", allowNoSlug:true });
 const OWNER_ID = SESSION.owner_id;
 document.getElementById("slugLabel").textContent =
-  SESSION.slug ? "slug : " + SESSION.slug : "mode terrain";
+  SESSION.slug ? "identifiant : " + SESSION.slug : "mode terrain";
 
 /* =============================
    UTILS
