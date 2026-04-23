@@ -743,7 +743,7 @@ window.DIGIY_AUDIO_CONFIG = {
   buttonBg: "linear-gradient(135deg,#d4af37,#b78b34)",
   buttonColor: "#111827",
   bottom: "24px",
-  left: "24px",
+  right: "24px",
   rate: 0.82,
   pitch: 1,
   volume: 1,
@@ -831,7 +831,8 @@ font-size:17px;
     buttonBg: cfg.buttonBg || "linear-gradient(135deg,#d4af37,#b78b34)",
     buttonColor: cfg.buttonColor || "#111827",
     bottom: cfg.bottom || "24px",
-    left: cfg.left || "24px",
+    left: cfg.left || null,
+    right: cfg.right || "24px",
     rate: typeof cfg.rate === "number" ? cfg.rate : 0.82,
     pitch: typeof cfg.pitch === "number" ? cfg.pitch : 1,
     volume: typeof cfg.volume === "number" ? cfg.volume : 1,
@@ -848,7 +849,8 @@ font-size:17px;
   if (!btn || !lbl || !ico || !progressWrap || !progressBar) return;
 
   btn.style.bottom = config.bottom;
-  btn.style.left = config.left;
+  btn.style.left = config.left ? config.left : "auto";
+  btn.style.right = config.right ? config.right : "auto";
   btn.style.zIndex = String(config.zIndex);
   btn.style.background = config.buttonBg;
   btn.style.color = config.buttonColor;
