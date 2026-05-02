@@ -511,6 +511,114 @@
       line-height:1;
     }
 
+    .floating-returns{
+      position:fixed;
+      left:16px;
+      bottom:16px;
+      z-index:9999;
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+
+    .floating-returns .floating-home{
+      position:static;
+      left:auto;
+      bottom:auto;
+    }
+
+    .floating-home.hub{
+      background:rgba(250,204,21,.14);
+      color:#fff3b2;
+      border-color:rgba(250,204,21,.28);
+      box-shadow:
+        0 16px 36px rgba(0,0,0,.45),
+        0 8px 22px rgba(250,204,21,.18);
+    }
+
+    .return-house{
+      margin-top:24px;
+      background:linear-gradient(145deg,rgba(11,42,31,.94),rgba(6,35,25,.94));
+      border:1px solid var(--line);
+      border-radius:24px;
+      padding:22px;
+      box-shadow:var(--shadow);
+    }
+
+    .return-house h3{
+      margin:0 0 8px;
+      color:#fff3b2;
+      font-size:24px;
+      line-height:1.2;
+    }
+
+    .return-house p{
+      margin:0;
+      color:var(--muted);
+      line-height:1.7;
+      font-size:15px;
+      font-weight:700;
+    }
+
+    .return-actions{
+      margin-top:14px;
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
+    .bottom-nav{
+      position:fixed;
+      left:0;
+      right:0;
+      bottom:0;
+      z-index:9998;
+      padding:8px 10px calc(8px + env(safe-area-inset-bottom,0px));
+      background:rgba(6,27,20,.94);
+      border-top:1px solid rgba(255,255,255,.12);
+      backdrop-filter:blur(12px);
+      -webkit-backdrop-filter:blur(12px);
+    }
+
+    .bottom-nav-inner{
+      width:min(760px,100%);
+      margin:0 auto;
+      display:grid;
+      grid-template-columns:repeat(5,1fr);
+      gap:6px;
+    }
+
+    .bottom-nav a,.bottom-nav button{
+      min-height:54px;
+      border-radius:14px;
+      display:grid;
+      place-items:center;
+      align-content:center;
+      gap:2px;
+      color:rgba(234,255,241,.78);
+      font-size:11px;
+      font-weight:1000;
+      text-align:center;
+      border:1px solid transparent;
+      text-decoration:none;
+      background:transparent;
+      padding:0 4px;
+      font-family:inherit;
+      cursor:pointer;
+    }
+
+    .bottom-nav .ico{font-size:18px;line-height:1}
+
+    .bottom-nav a.active,.bottom-nav button.active{
+      background:linear-gradient(135deg,var(--orange),var(--gold));
+      color:#111;
+    }
+
+    #digiy-audio-btn{
+      bottom:calc(96px + env(safe-area-inset-bottom,0px)) !important;
+    }
+
     @media (max-width:640px){
       .container{
         padding-bottom:108px;
@@ -520,10 +628,15 @@
         font-size:18px;
       }
 
-      .floating-home{
+      .floating-returns{
         left:12px;
         right:12px;
-        bottom:12px;
+        bottom:calc(84px + env(safe-area-inset-bottom,0px));
+        justify-content:center;
+      }
+
+      .floating-returns .floating-home{
+        flex:1;
         justify-content:center;
         padding:15px 18px;
         font-size:15px;
@@ -569,6 +682,9 @@
           </div>
 
           <div class="hero-actions">
+            <a href="https://digiylyfe.com/" class="cta-btn secondary">🌍 Site DIGIYLYFE</a>
+            <a href="https://digiy-hub.digiylyfe.com/" class="cta-btn secondary">🧭 HUB DIGIY</a>
+            <a href="https://tarifs.digiylyfe.com/" class="cta-btn secondary" target="_blank" rel="noopener noreferrer">📦 Tarifs</a>
             <a href="./listing.html" class="cta-btn primary">👁️ Voir les profils</a>
             <a href="./request.html" class="cta-btn secondary">📄 Décrire mon besoin</a>
             <a href="./track.html" class="cta-btn secondary">🔎 Suivre ma demande</a>
@@ -665,6 +781,7 @@
             </div>
             <div class="actions">
               <a class="btn btn-primary" href="https://commencer-a-payer.digiylyfe.com/">💳 Commencer à payer</a>
+              <a class="btn btn-ghost" href="https://tarifs.digiylyfe.com/" target="_blank" rel="noopener noreferrer">📦 Voir les tarifs</a>
               <a class="btn btn-wa" href="https://wa.me/221771342889?text=Bonjour%2C%20je%20veux%20activer%20mon%20acc%C3%A8s%20pour%20mettre%20mes%20services%20en%20ligne." target="_blank" rel="noopener">📲 Parler au support</a>
               <a class="btn btn-ghost" href="./build-pro/pin.html">🔑 J’ai déjà payé</a>
             </div>
@@ -714,22 +831,61 @@
       </div>
     </section>
 
+
+    <section class="return-house" id="retours-digiy">
+      <h3>Revenir dans la maison DIGIY</h3>
+      <p>
+        Cette page présente les services utiles. Pour revenir à la vitrine, au HUB ou aux tarifs officiels,
+        utilise les portes ci-dessous.
+      </p>
+      <div class="return-actions">
+        <a class="cta-btn secondary" href="https://digiylyfe.com/">🌍 Site DIGIYLYFE</a>
+        <a class="cta-btn primary" href="https://digiy-hub.digiylyfe.com/">🧭 HUB DIGIY</a>
+        <a class="cta-btn secondary" href="https://tarifs.digiylyfe.com/" target="_blank" rel="noopener noreferrer">📦 Tarifs</a>
+      </div>
+    </section>
+
+
     <footer>
       ENTREPRENEUR MULTI SERVICES — Travaux, dépannage, entretien, chantier et services pratiques.<br>
       Contact direct • Paiement direct au pro • Support WhatsApp : +221 77 134 28 89
     </footer>
   </div>
 
-  <a
-    href="https://digiylyfe.com/"
-    class="floating-home"
-    target="_self"
-    aria-label="Revenir au site DIGIYLYFE"
-    title="Revenir au site DIGIYLYFE"
-  >
-    <span class="icon">⬅️</span>
-    <span>Retour site DIGIYLYFE</span>
-  </a>
+
+  <nav class="bottom-nav" aria-label="Navigation rapide ENTREPRENEUR MULTI SERVICES">
+    <div class="bottom-nav-inner">
+      <a href="https://digiylyfe.com/"><span class="ico">🌍</span><span>Site</span></a>
+      <a href="https://digiy-hub.digiylyfe.com/"><span class="ico">🧭</span><span>HUB</span></a>
+      <a href="https://tarifs.digiylyfe.com/" target="_blank" rel="noopener noreferrer"><span class="ico">📦</span><span>Tarifs</span></a>
+      <a class="active" href="./listing.html"><span class="ico">👁️</span><span>Profils</span></a>
+      <a href="./request.html"><span class="ico">📄</span><span>Besoin</span></a>
+    </div>
+  </nav>
+
+
+  <div class="floating-returns" aria-label="Retours DIGIY">
+    <a
+      href="https://digiylyfe.com/"
+      class="floating-home"
+      target="_self"
+      aria-label="Revenir au site DIGIYLYFE"
+      title="Revenir au site DIGIYLYFE"
+    >
+      <span class="icon">🌍</span>
+      <span>Site</span>
+    </a>
+    <a
+      href="https://digiy-hub.digiylyfe.com/"
+      class="floating-home hub"
+      target="_self"
+      aria-label="Revenir au HUB DIGIY"
+      title="Revenir au HUB DIGIY"
+    >
+      <span class="icon">🧭</span>
+      <span>HUB</span>
+    </a>
+  </div>
 <!-- ============================================================
      DIGIY AUDIO — BUILD / SERVICES
      À coller juste avant </body> dans ta page artisan / services
