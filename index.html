@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
 <head>
   <meta charset="utf-8">
-  <title>ENTREPRENEUR MULTI SERVICES — Travaux, dépannage, entretien, chantier et services pratiques</title>
+  <title>Je propose mes services — Travaux, dépannage, entretien et services utiles</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="description" content="Entrepreneur Multi Services : travaux, dépannage, entretien, chantier et services pratiques. Contact direct, paiement direct au pro, sans intermédiaire.">
+  <meta name="description" content="Je propose mes services by DIGIYLYFE : trouver un professionnel, décrire un besoin, suivre une demande et garder le contact direct avec le pro.">
   <meta name="theme-color" content="#061b14">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,9 +16,7 @@
       --bg:#061b14;
       --bg2:#0a2b1f;
       --card:rgba(8,30,22,.94);
-      --card2:rgba(6,24,18,.98);
       --line:rgba(255,255,255,.14);
-      --line-soft:rgba(255,255,255,.08);
       --text:#eafff1;
       --muted:rgba(234,255,241,.72);
       --gold:#facc15;
@@ -26,7 +24,6 @@
       --green:#22c55e;
       --shadow:0 20px 55px rgba(0,0,0,.45);
       --radius:24px;
-      --radius-sm:16px;
       --max:1320px;
     }
 
@@ -44,31 +41,32 @@
       font-family:Outfit,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
     }
 
-    body{
-      padding:16px;
-    }
+    body{padding:16px}
 
     .container{
       max-width:var(--max);
       margin:0 auto;
-      padding-bottom:96px;
+      padding-bottom:112px;
     }
 
-    .hero{
+    .hero,.panel,.metiers,.return-house{
       background:linear-gradient(145deg,rgba(11,42,31,.96),rgba(6,35,25,.96));
       border:1px solid var(--line);
       border-radius:var(--radius);
       box-shadow:var(--shadow);
+    }
+
+    .hero{
       padding:18px;
       overflow:hidden;
       position:relative;
       margin-bottom:24px;
     }
 
-    .hero::before{
+    .hero::before,.panel::before{
       content:"";
       position:absolute;
-      inset:auto 0 0 0;
+      inset:0 0 auto 0;
       height:4px;
       background:linear-gradient(90deg,var(--orange),var(--gold),var(--green));
       opacity:.95;
@@ -79,6 +77,8 @@
       gap:16px;
       align-items:flex-start;
       flex-wrap:wrap;
+      position:relative;
+      z-index:1;
     }
 
     .brand-logo{
@@ -122,24 +122,26 @@
       font-size:16px;
       line-height:1.7;
       font-weight:700;
-      max-width:920px;
+      max-width:940px;
       margin:0;
     }
 
     .zones{
       margin-top:12px;
-      color:rgba(234,255,241,.56);
+      color:rgba(234,255,241,.58);
       font-size:13px;
       font-weight:800;
       line-height:1.6;
     }
 
-    .hero-pills{
-      margin-top:18px;
+    .hero-pills,.hero-actions,.return-actions,.metier-list{
       display:flex;
       gap:10px;
       flex-wrap:wrap;
     }
+
+    .hero-pills{margin-top:18px}
+    .hero-actions{margin-top:18px}
 
     .pill{
       padding:8px 12px;
@@ -150,13 +152,6 @@
       font-size:12px;
       font-weight:900;
       white-space:nowrap;
-    }
-
-    .hero-actions{
-      margin-top:18px;
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
     }
 
     .cta-btn{
@@ -174,9 +169,7 @@
       min-height:50px;
     }
 
-    .cta-btn:hover{
-      transform:translateY(-2px);
-    }
+    .cta-btn:hover{transform:translateY(-2px)}
 
     .cta-btn.primary{
       background:linear-gradient(135deg,var(--orange),var(--gold));
@@ -184,16 +177,15 @@
       box-shadow:0 12px 28px rgba(249,115,22,.22);
     }
 
-    .cta-btn.wa{
-      background:#25d366;
-      color:#fff;
-      box-shadow:0 12px 28px rgba(37,211,102,.18);
-    }
-
     .cta-btn.secondary{
       background:rgba(255,255,255,.07);
       color:var(--text);
       border-color:var(--line);
+    }
+
+    .cta-btn.green{
+      background:linear-gradient(135deg,var(--green),var(--gold));
+      color:#062015;
     }
 
     .split{
@@ -208,31 +200,14 @@
     }
 
     .panel{
-      background:linear-gradient(145deg,rgba(11,42,31,.94),rgba(6,35,25,.94));
-      border:1px solid var(--line);
-      border-radius:24px;
       padding:20px;
-      box-shadow:var(--shadow);
       position:relative;
       overflow:hidden;
     }
 
-    .panel::before{
-      content:"";
-      position:absolute;
-      inset:0 0 auto 0;
-      height:4px;
-      background:linear-gradient(90deg,var(--orange),var(--gold));
-      opacity:.95;
-    }
+    .panel.pro::before{background:linear-gradient(90deg,var(--green),var(--gold))}
 
-    .panel.pro::before{
-      background:linear-gradient(90deg,var(--green),var(--gold));
-    }
-
-    .panel-head{
-      margin-bottom:16px;
-    }
+    .panel-head{margin-bottom:16px}
 
     .panel-kicker{
       display:inline-flex;
@@ -330,7 +305,6 @@
       border-radius:999px;
       font-size:12px;
       font-weight:900;
-      letter-spacing:.02em;
       border:1px solid rgba(255,255,255,.14);
       background:rgba(255,255,255,.05);
       color:#eafff1;
@@ -384,28 +358,16 @@
       min-height:50px;
     }
 
-    .btn:active{transform:scale(.98)}
-
     .btn-primary{
       background:linear-gradient(135deg,var(--orange),var(--gold));
       color:#111;
       box-shadow:0 8px 20px rgba(249,115,22,.26);
     }
 
-    .btn-primary:hover{
-      box-shadow:0 12px 28px rgba(249,115,22,.4);
-      transform:translateY(-2px);
-    }
-
-    .btn-wa{
-      background:#25d366;
-      color:#fff;
-      box-shadow:0 8px 20px rgba(37,211,102,.26);
-    }
-
-    .btn-wa:hover{
-      box-shadow:0 12px 28px rgba(37,211,102,.42);
-      transform:translateY(-2px);
+    .btn-green{
+      background:linear-gradient(135deg,var(--green),var(--gold));
+      color:#062015;
+      box-shadow:0 8px 20px rgba(34,197,94,.22);
     }
 
     .btn-ghost{
@@ -415,28 +377,26 @@
       box-shadow:none;
     }
 
-    .btn-ghost:hover{
+    .btn:hover{
       transform:translateY(-2px);
       border-color:rgba(250,204,21,.35);
     }
 
-    .metiers{
+    .metiers,.return-house{
       margin-top:24px;
-      background:linear-gradient(145deg,rgba(11,42,31,.94),rgba(6,35,25,.94));
-      border:1px solid var(--line);
-      border-radius:24px;
       padding:22px;
-      box-shadow:var(--shadow);
     }
 
-    .metiers h3{
+    .metiers h3,.return-house h3{
       font-size:24px;
       margin:0 0 14px;
       color:#fff3b2;
       line-height:1.2;
     }
 
-    .metiers p{
+    .return-house h3{margin-bottom:8px}
+
+    .metiers p,.return-house p{
       color:var(--muted);
       line-height:1.7;
       margin:0 0 14px;
@@ -444,11 +404,7 @@
       font-weight:700;
     }
 
-    .metier-list{
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-    }
+    .return-house p{margin-bottom:0}
 
     .metier{
       padding:10px 14px;
@@ -469,11 +425,18 @@
       font-weight:800;
     }
 
-    .floating-home{
+    .floating-returns{
       position:fixed;
       left:16px;
-      bottom:16px;
+      bottom:calc(84px + env(safe-area-inset-bottom,0px));
       z-index:9999;
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+
+    .floating-home{
       display:inline-flex;
       align-items:center;
       justify-content:center;
@@ -483,90 +446,21 @@
       text-decoration:none;
       font-weight:900;
       font-size:14px;
-      letter-spacing:.2px;
       color:#111;
       background:linear-gradient(135deg,var(--orange),var(--gold));
       border:1px solid rgba(255,255,255,.18);
-      box-shadow:
-        0 16px 36px rgba(0,0,0,.45),
-        0 8px 22px rgba(249,115,22,.35);
+      box-shadow:0 16px 36px rgba(0,0,0,.45);
       transition:transform .2s ease, box-shadow .2s ease, opacity .2s ease;
-      backdrop-filter:blur(8px);
-      -webkit-backdrop-filter:blur(8px);
-    }
-
-    .floating-home:hover{
-      transform:translateY(-3px) scale(1.02);
-      box-shadow:
-        0 20px 42px rgba(0,0,0,.5),
-        0 12px 28px rgba(249,115,22,.5);
-    }
-
-    .floating-home:active{
-      transform:scale(.98);
-    }
-
-    .floating-home .icon{
-      font-size:18px;
-      line-height:1;
-    }
-
-    .floating-returns{
-      position:fixed;
-      left:16px;
-      bottom:16px;
-      z-index:9999;
-      display:flex;
-      gap:8px;
-      flex-wrap:wrap;
-      align-items:center;
-    }
-
-    .floating-returns .floating-home{
-      position:static;
-      left:auto;
-      bottom:auto;
     }
 
     .floating-home.hub{
       background:rgba(250,204,21,.14);
       color:#fff3b2;
       border-color:rgba(250,204,21,.28);
-      box-shadow:
-        0 16px 36px rgba(0,0,0,.45),
-        0 8px 22px rgba(250,204,21,.18);
     }
 
-    .return-house{
-      margin-top:24px;
-      background:linear-gradient(145deg,rgba(11,42,31,.94),rgba(6,35,25,.94));
-      border:1px solid var(--line);
-      border-radius:24px;
-      padding:22px;
-      box-shadow:var(--shadow);
-    }
-
-    .return-house h3{
-      margin:0 0 8px;
-      color:#fff3b2;
-      font-size:24px;
-      line-height:1.2;
-    }
-
-    .return-house p{
-      margin:0;
-      color:var(--muted);
-      line-height:1.7;
-      font-size:15px;
-      font-weight:700;
-    }
-
-    .return-actions{
-      margin-top:14px;
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-    }
+    .floating-home:hover{transform:translateY(-3px) scale(1.02)}
+    .floating-home .icon{font-size:18px;line-height:1}
 
     .bottom-nav{
       position:fixed;
@@ -589,7 +483,7 @@
       gap:6px;
     }
 
-    .bottom-nav a,.bottom-nav button{
+    .bottom-nav a{
       min-height:54px;
       border-radius:14px;
       display:grid;
@@ -604,50 +498,96 @@
       text-decoration:none;
       background:transparent;
       padding:0 4px;
-      font-family:inherit;
-      cursor:pointer;
     }
 
     .bottom-nav .ico{font-size:18px;line-height:1}
 
-    .bottom-nav a.active,.bottom-nav button.active{
+    .bottom-nav a.active{
       background:linear-gradient(135deg,var(--orange),var(--gold));
       color:#111;
     }
 
     #digiy-audio-btn{
-      bottom:calc(96px + env(safe-area-inset-bottom,0px)) !important;
+      bottom:calc(154px + env(safe-area-inset-bottom,0px)) !important;
+    }
+
+    #digiy-audio-btn{
+      position:fixed;
+      display:inline-flex;
+      align-items:center;
+      gap:12px;
+      padding:16px 26px;
+      border:none;
+      border-radius:999px;
+      cursor:pointer;
+      font-family:Outfit,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      font-weight:900;
+      font-size:17px;
+      line-height:1;
+      -webkit-tap-highlight-color:transparent;
+      user-select:none;
+      transition:transform .18s ease,box-shadow .18s ease,opacity .18s ease;
+      right:24px;
+      z-index:99999;
+      background:linear-gradient(135deg,#d4af37,#b78b34);
+      color:#111827;
+      box-shadow:0 10px 30px rgba(0,0,0,.26);
+    }
+
+    #digiy-audio-btn:hover{transform:translateY(-2px)}
+    #digiy-audio-btn:active{transform:scale(.97)}
+    #digiy-audio-btn:disabled{opacity:.65;cursor:not-allowed}
+
+    #digiy-audio-btn .digiy-audio-ico{
+      font-size:18px;
+      line-height:1;
+    }
+
+    #digiy-audio-progress-wrap{
+      position:fixed;
+      left:0;
+      right:0;
+      bottom:0;
+      height:3px;
+      opacity:0;
+      pointer-events:none;
+      transition:opacity .25s ease;
+      z-index:99998;
+      background:rgba(212,175,55,.2);
+    }
+
+    #digiy-audio-progress{
+      width:0%;
+      height:100%;
+      transition:width .18s linear;
+      background:linear-gradient(90deg,#d4af37,#b78b34);
     }
 
     @media (max-width:640px){
-      .container{
-        padding-bottom:108px;
-      }
+      .container{padding-bottom:132px}
 
-      .lead{
-        font-size:18px;
-      }
+      .lead{font-size:18px}
 
-      .floating-returns{
-        left:12px;
-        right:12px;
-        bottom:calc(84px + env(safe-area-inset-bottom,0px));
-        justify-content:center;
-      }
-
-      .floating-returns .floating-home{
-        flex:1;
-        justify-content:center;
-        padding:15px 18px;
-        font-size:15px;
-      }
-
-      .hero-actions{
+      .hero-actions,.return-actions{
         flex-direction:column;
       }
 
-      .hero-actions .cta-btn{
+      .hero-actions .cta-btn,
+      .return-actions .cta-btn{
         width:100%;
+      }
+
+      .floating-returns{
+        display:none;
+      }
+
+      #digiy-audio-btn{
+        left:12px;
+        right:12px;
+        bottom:calc(92px + env(safe-area-inset-bottom,0px)) !important;
+        justify-content:center;
+        font-size:16px;
+        padding:15px 22px;
       }
     }
   </style>
@@ -666,18 +606,20 @@
         />
         <div>
           <div class="kicker">Travaux • dépannage • entretien • chantier • services pratiques</div>
-          <h1>ENTREPRENEUR MULTI SERVICES</h1>
-          <div class="lead">Travaux, dépannage, entretien, chantier et services pratiques</div>
+          <h1>JE PROPOSE MES SERVICES</h1>
+          <div class="lead">Un chemin simple entre le client et le bon professionnel.</div>
           <p class="sub">
-            Un espace simple pour trouver un pro utile ou présenter ses services. Ici, le contact est direct, le paiement va au professionnel, et tu avances sans tourner en rond.
+            Ici, le client décrit son besoin, découvre des profils utiles et avance sans tourner en rond.
+            Le professionnel garde le contact direct, son prix, son métier et sa relation client.
           </p>
+
           <div class="zones">Sénégal • Dakar • Thiès • Saly • Mbour • Touba</div>
 
           <div class="hero-pills">
             <div class="pill">Contact direct</div>
             <div class="pill">Paiement direct au pro</div>
-            <div class="pill">Sans intermédiaire</div>
-            <div class="pill">Lecture terrain</div>
+            <div class="pill">0% commission</div>
+            <div class="pill">Demande claire</div>
             <div class="pill">Services utiles</div>
           </div>
 
@@ -688,9 +630,6 @@
             <a href="./listing.html" class="cta-btn primary">👁️ Voir les profils</a>
             <a href="./request.html" class="cta-btn secondary">📄 Décrire mon besoin</a>
             <a href="./track.html" class="cta-btn secondary">🔎 Suivre ma demande</a>
-            <a href="https://wa.me/221771342889?text=Bonjour%2C%20j%E2%80%99ai%20un%20besoin%20urgent%20en%20travaux%20ou%20d%C3%A9pannage." class="cta-btn wa" target="_blank" rel="noopener">
-              ⚡ Besoin urgent ? WhatsApp
-            </a>
           </div>
         </div>
       </div>
@@ -703,25 +642,27 @@
           <div class="panel-kicker public">👁️ CÔTÉ CLIENT</div>
           <h2>Je cherche un professionnel</h2>
           <p>
-            Trouve rapidement le bon profil pour la maison, le chantier, le dépannage, l’entretien ou une intervention pratique.
+            Trouve un profil pour la maison, le chantier, le dépannage, l’entretien ou une intervention pratique.
+            Le but est simple : une demande claire, un bon contact, un prochain geste.
           </p>
         </div>
 
         <div class="grid">
           <article class="card">
             <div class="name">👁️ Voir les profils</div>
-            <div class="type">Profils • Zones • Services • WhatsApp direct</div>
+            <div class="type">Profils • Zones • Services • Contact direct</div>
             <div class="badges">
               <div class="badge badge-verified">✅ Public</div>
               <div class="badge badge-public">Paiement direct</div>
               <div class="badge badge-info">Sans détour</div>
             </div>
             <div class="desc">
-              Parcours les profils disponibles selon le besoin, la zone et le type de service, puis contacte directement le professionnel.
+              Parcours les profils disponibles selon le besoin, la zone et le type de service.
+              Le client arrive chez le professionnel, pas dans une cage.
             </div>
             <div class="actions">
               <a class="btn btn-primary" href="./listing.html">👁️ Ouvrir les profils</a>
-              <a class="btn btn-wa" href="https://wa.me/221771342889?text=Bonjour%2C%20je%20cherche%20un%20professionnel%20multi%20services." target="_blank" rel="noopener">📲 WhatsApp support</a>
+              <a class="btn btn-ghost" href="./request.html">📄 Décrire mon besoin</a>
             </div>
           </article>
 
@@ -733,7 +674,8 @@
               <div class="badge badge-info">Simple</div>
             </div>
             <div class="desc">
-              Décris ton besoin clairement pour être orienté proprement vers le bon profil ou lancer une demande sérieuse.
+              Décris le besoin, le lieu, l’urgence et le prochain échange.
+              DIGIY aide à préparer une demande plus propre pour éviter les messages flous.
             </div>
             <div class="actions">
               <a class="btn btn-primary" href="./request.html">📄 Ouvrir la demande</a>
@@ -749,7 +691,8 @@
               <div class="badge badge-info">Référence utile</div>
             </div>
             <div class="desc">
-              Entre ta référence publique pour voir l’état utile de ta demande et reprendre la main sans te perdre.
+              Entre ta référence publique pour voir l’état utile de ta demande.
+              L’objectif : reprendre la main sans se perdre.
             </div>
             <div class="actions">
               <a class="btn btn-primary" href="./track.html">🔎 Ouvrir le suivi</a>
@@ -761,10 +704,11 @@
 
       <div class="panel pro">
         <div class="panel-head">
-          <div class="panel-kicker pro">🔒 CÔTÉ ARTISAN</div>
+          <div class="panel-kicker pro">🔒 CÔTÉ PROFESSIONNEL</div>
           <h2>Je propose mes services</h2>
           <p>
-            Mets ton activité en ligne, présente ce que tu sais faire, puis active ton entrée. Une fois ton accès validé, tu peux entrer dans ton espace pour gérer ta présence et tes demandes.
+            Mets ton activité en ligne, présente ce que tu sais faire, puis ouvre ton espace.
+            Une fois ton accès validé, tu peux gérer ta présence, tes demandes et tes notes.
           </p>
         </div>
 
@@ -773,17 +717,17 @@
             <div class="name">💳 Activer mon entrée</div>
             <div class="type">Abonnement • Activation • Présence • Accès</div>
             <div class="badges">
-              <div class="badge badge-public">Abonnement actif</div>
+              <div class="badge badge-public">Abonnement</div>
               <div class="badge badge-info">Commencer ici</div>
             </div>
             <div class="desc">
-              Tu fais les travaux, le dépannage, l’entretien ou les services pratiques ? Commence par activer ton abonnement pour ouvrir ton accès, poser ta présence et rejoindre la vitrine proprement.
+              Tu fais les travaux, le dépannage, l’entretien ou les services pratiques ?
+              Commence par activer ton abonnement pour poser ta présence et rejoindre la vitrine proprement.
             </div>
             <div class="actions">
-              <a class="btn btn-primary" href="https://commencer-a-payer.digiylyfe.com/">💳 Commencer à payer</a>
+              <a class="btn btn-green" href="https://commencer-a-payer.digiylyfe.com/?module=BUILD">💳 Commencer à payer</a>
               <a class="btn btn-ghost" href="https://tarifs.digiylyfe.com/" target="_blank" rel="noopener noreferrer">📦 Voir les tarifs</a>
-              <a class="btn btn-wa" href="https://wa.me/221771342889?text=Bonjour%2C%20je%20veux%20activer%20mon%20acc%C3%A8s%20pour%20mettre%20mes%20services%20en%20ligne." target="_blank" rel="noopener">📲 Parler au support</a>
-              <a class="btn btn-ghost" href="./build-pro/pin.html">🔑 J’ai déjà payé</a>
+              <a class="btn btn-ghost" href="https://commencer-a-payer.digiylyfe.com/?module=BUILD&besoin=support">💬 Besoin d’aide</a>
             </div>
           </article>
 
@@ -794,11 +738,12 @@
               <div class="badge badge-pro">🔒 Accès sécurisé</div>
             </div>
             <div class="desc">
-              Ton abonnement est déjà activé ? Ouvre ton espace sécurisé pour retrouver ta présence, tes réglages et les demandes reçues sans repasser par le début.
+              Ton abonnement est déjà activé ? Ouvre ton espace sécurisé.
+              Si ta session est ouverte, tu circules sans retaper ton code pendant 8 heures.
             </div>
             <div class="actions">
               <a class="btn btn-primary" href="./build-pro/pin.html">🔑 Ouvrir mon espace</a>
-              <a class="btn btn-ghost" href="./build-pro/pin.html">📩 Voir les demandes reçues</a>
+              <a class="btn btn-ghost" href="./build-pro/go-pin.html">🧭 Raccourci d’accès</a>
             </div>
           </article>
         </div>
@@ -808,7 +753,8 @@
     <section class="metiers">
       <h3>🧰 Profils concernés</h3>
       <p>
-        Cette porte est faite pour les travailleurs utiles, visibles et sérieux : métiers techniques, dépannage, entretien, chantier, interventions ponctuelles ou services pratiques.
+        Cette porte est faite pour les travailleurs utiles, visibles et sérieux :
+        métiers techniques, dépannage, entretien, chantier, interventions ponctuelles ou services pratiques.
       </p>
 
       <div class="metier-list">
@@ -825,12 +771,11 @@
         <span class="metier">Climatisation</span>
         <span class="metier">Entretien</span>
         <span class="metier">Nettoyage</span>
-        <span class="metier">Manoeuvre</span>
+        <span class="metier">Manœuvre</span>
         <span class="metier">Aide chantier</span>
         <span class="metier">Polyvalent</span>
       </div>
     </section>
-
 
     <section class="return-house" id="retours-digiy">
       <h3>Revenir dans la maison DIGIY</h3>
@@ -845,15 +790,13 @@
       </div>
     </section>
 
-
     <footer>
-      ENTREPRENEUR MULTI SERVICES — Travaux, dépannage, entretien, chantier et services pratiques.<br>
-      Contact direct • Paiement direct au pro • Support WhatsApp : +221 77 134 28 89
+      JE PROPOSE MES SERVICES — Travaux, dépannage, entretien, chantier et services pratiques.<br>
+      Contact direct • Paiement direct au pro • 0% commission • BY DIGIYLYFE
     </footer>
   </div>
 
-
-  <nav class="bottom-nav" aria-label="Navigation rapide ENTREPRENEUR MULTI SERVICES">
+  <nav class="bottom-nav" aria-label="Navigation rapide Je propose mes services">
     <div class="bottom-nav-inner">
       <a href="https://digiylyfe.com/"><span class="ico">🌍</span><span>Site</span></a>
       <a href="https://digiy-hub.digiylyfe.com/"><span class="ico">🧭</span><span>HUB</span></a>
@@ -863,318 +806,202 @@
     </div>
   </nav>
 
-
   <div class="floating-returns" aria-label="Retours DIGIY">
-    <a
-      href="https://digiylyfe.com/"
-      class="floating-home"
-      target="_self"
-      aria-label="Revenir au site DIGIYLYFE"
-      title="Revenir au site DIGIYLYFE"
-    >
+    <a href="https://digiylyfe.com/" class="floating-home" target="_self" aria-label="Revenir au site DIGIYLYFE" title="Revenir au site DIGIYLYFE">
       <span class="icon">🌍</span>
       <span>Site</span>
     </a>
-    <a
-      href="https://digiy-hub.digiylyfe.com/"
-      class="floating-home hub"
-      target="_self"
-      aria-label="Revenir au HUB DIGIY"
-      title="Revenir au HUB DIGIY"
-    >
+    <a href="https://digiy-hub.digiylyfe.com/" class="floating-home hub" target="_self" aria-label="Revenir au HUB DIGIY" title="Revenir au HUB DIGIY">
       <span class="icon">🧭</span>
       <span>HUB</span>
     </a>
   </div>
-<!-- ============================================================
-     DIGIY AUDIO — BUILD / SERVICES
-     À coller juste avant </body> dans ta page artisan / services
-     ============================================================ -->
 
-<script>
-window.DIGIY_AUDIO_CONFIG = {
-  label: "Écouter services",
-  stopLabel: "Arrêter",
-  text: "Bienvenue. Ici, tu peux découvrir un artisan, voir ce qu’il propose et le contacter directement. Travaux, dépannage ou service utile, tu avances sans te perdre. Pas d’intermédiaire. Direct. Clair. Humain. DIGIYLYFE.",
-  buttonBg: "linear-gradient(135deg,#d4af37,#b78b34)",
-  buttonColor: "#111827",
-  bottom: "24px",
-  right: "24px",
-  rate: 0.82,
-  pitch: 1,
-  volume: 1,
-  zIndex: 99999,
-  shadow: "0 10px 30px rgba(0,0,0,.26)"
-};
-</script>
+  <button id="digiy-audio-btn" type="button" aria-label="Écouter services">
+    <span class="digiy-audio-ico">&#9654;</span>
+    <span class="digiy-audio-lbl">Écouter services</span>
+  </button>
 
-<style>
-#digiy-audio-btn{
-position:fixed;
-display:inline-flex;
-align-items:center;
-gap:12px;
-padding:16px 26px;
-border:none;
-border-radius:999px;
-cursor:pointer;
-font-family:'Outfit',Inter,sans-serif;
-font-weight:900;
-font-size:17px;
-line-height:1;
--webkit-tap-highlight-color:transparent;
-user-select:none;
-transition:transform .18s ease,box-shadow .18s ease,opacity .18s ease;
-}
-#digiy-audio-btn:hover{
-transform:translateY(-2px);
-}
-#digiy-audio-btn:active{
-transform:scale(.97);
-}
-#digiy-audio-btn:disabled{
-opacity:.65;
-cursor:not-allowed;
-}
-#digiy-audio-btn .digiy-audio-ico{
-font-size:18px;
-line-height:1;
-}
-#digiy-audio-progress-wrap{
-position:fixed;
-left:0;
-right:0;
-bottom:0;
-height:3px;
-opacity:0;
-pointer-events:none;
-transition:opacity .25s ease;
-}
-#digiy-audio-progress{
-width:0%;
-height:100%;
-transition:width .18s linear;
-}
-@media (max-width:600px){
-#digiy-audio-btn{
-font-size:16px;
-padding:15px 22px;
-gap:11px;
-}
-#digiy-audio-btn .digiy-audio-ico{
-font-size:17px;
-}
-}
-</style>
+  <div id="digiy-audio-progress-wrap" aria-hidden="true">
+    <div id="digiy-audio-progress"></div>
+  </div>
 
-<button id="digiy-audio-btn" type="button" aria-label="Écouter services">
-  <span class="digiy-audio-ico">&#9654;</span>
-  <span class="digiy-audio-lbl">Écouter services</span>
-</button>
+  <script>
+    (function(){
+      "use strict";
 
-<div id="digiy-audio-progress-wrap" aria-hidden="true">
-  <div id="digiy-audio-progress"></div>
-</div>
+      const config = {
+        label: "Écouter services",
+        stopLabel: "Arrêter",
+        text:
+          "Bienvenue dans Je propose mes services by DIGIYLYFE. Ici, le client peut chercher un professionnel, voir les profils ou décrire son besoin. Travaux, dépannage, entretien, chantier ou service utile : DIGIY aide à rendre la demande claire. Le professionnel garde le contact direct, son prix et sa relation client. Zéro commission. Le terrain garde la main.",
+        rate: 0.82,
+        pitch: 1,
+        volume: 1
+      };
 
-<script>
-(function(){
-  var cfg = window.DIGIY_AUDIO_CONFIG || {};
+      const btn = document.getElementById("digiy-audio-btn");
+      const lbl = btn ? btn.querySelector(".digiy-audio-lbl") : null;
+      const ico = btn ? btn.querySelector(".digiy-audio-ico") : null;
+      const progressWrap = document.getElementById("digiy-audio-progress-wrap");
+      const progressBar = document.getElementById("digiy-audio-progress");
 
-  var config = {
-    label: cfg.label || "Écouter DIGIY",
-    stopLabel: cfg.stopLabel || "Arrêter",
-    text: cfg.text || "Bienvenue sur DIGIYLYFE.",
-    buttonBg: cfg.buttonBg || "linear-gradient(135deg,#d4af37,#b78b34)",
-    buttonColor: cfg.buttonColor || "#111827",
-    bottom: cfg.bottom || "24px",
-    left: cfg.left || null,
-    right: cfg.right || "24px",
-    rate: typeof cfg.rate === "number" ? cfg.rate : 0.82,
-    pitch: typeof cfg.pitch === "number" ? cfg.pitch : 1,
-    volume: typeof cfg.volume === "number" ? cfg.volume : 1,
-    zIndex: cfg.zIndex || 99999,
-    shadow: cfg.shadow || "0 8px 28px rgba(0,0,0,.24)"
-  };
+      if (!btn || !lbl || !ico || !progressWrap || !progressBar) return;
 
-  var btn = document.getElementById("digiy-audio-btn");
-  var lbl = btn ? btn.querySelector(".digiy-audio-lbl") : null;
-  var ico = btn ? btn.querySelector(".digiy-audio-ico") : null;
-  var progressWrap = document.getElementById("digiy-audio-progress-wrap");
-  var progressBar = document.getElementById("digiy-audio-progress");
-
-  if (!btn || !lbl || !ico || !progressWrap || !progressBar) return;
-
-  btn.style.bottom = config.bottom;
-  btn.style.left = config.left ? config.left : "auto";
-  btn.style.right = config.right ? config.right : "auto";
-  btn.style.zIndex = String(config.zIndex);
-  btn.style.background = config.buttonBg;
-  btn.style.color = config.buttonColor;
-  btn.style.boxShadow = config.shadow;
-
-  progressWrap.style.zIndex = String(config.zIndex - 1);
-  progressWrap.style.background = "rgba(212,175,55,.2)";
-  progressBar.style.background = "linear-gradient(90deg,#d4af37,#b78b34)";
-
-  if (!("speechSynthesis" in window) || !("SpeechSynthesisUtterance" in window)) {
-    btn.style.display = "none";
-    return;
-  }
-
-  var synth = window.speechSynthesis;
-  var utterance = null;
-  var playing = false;
-  var timer = null;
-  var launchId = 0;
-
-  function getFrenchVoice(){
-    var voices = synth.getVoices() || [];
-    if (!voices.length) return null;
-
-    return (
-      voices.find(function(v){ return /fr[-_]?FR/i.test(v.lang) && /google/i.test(v.name); }) ||
-      voices.find(function(v){ return /fr[-_]?FR/i.test(v.lang); }) ||
-      voices.find(function(v){ return /^fr/i.test(v.lang); }) ||
-      null
-    );
-  }
-
-  function setIdle(){
-    playing = false;
-    ico.innerHTML = "&#9654;";
-    lbl.textContent = config.label;
-    btn.setAttribute("aria-label", config.label);
-    clearInterval(timer);
-    timer = null;
-    progressWrap.style.opacity = "0";
-    progressBar.style.width = "0%";
-  }
-
-  function setPlaying(){
-    playing = true;
-    ico.innerHTML = "&#9632;";
-    lbl.textContent = config.stopLabel;
-    btn.setAttribute("aria-label", config.stopLabel);
-  }
-
-  function stop(){
-    clearInterval(timer);
-    timer = null;
-    try { synth.cancel(); } catch(e){}
-    utterance = null;
-    setIdle();
-  }
-
-  function startProgress(text, currentId){
-    var words = (text.trim().match(/\S+/g) || []).length;
-    var estimatedDuration = Math.max(2500, words * 520);
-    var elapsed = 0;
-
-    clearInterval(timer);
-    progressBar.style.width = "0%";
-    progressWrap.style.opacity = "1";
-
-    timer = setInterval(function(){
-      if (!playing || currentId !== launchId) {
-        clearInterval(timer);
-        timer = null;
+      if (!("speechSynthesis" in window) || !("SpeechSynthesisUtterance" in window)) {
+        btn.style.display = "none";
         return;
       }
-      elapsed += 150;
-      var pct = Math.min((elapsed / estimatedDuration) * 100, 97);
-      progressBar.style.width = pct + "%";
-    }, 150);
-  }
 
-  function launch(){
-    launchId += 1;
-    var currentId = launchId;
+      const synth = window.speechSynthesis;
+      let utterance = null;
+      let playing = false;
+      let timer = null;
+      let launchId = 0;
 
-    try { synth.cancel(); } catch(e){}
+      function getFrenchVoice(){
+        const voices = synth.getVoices() || [];
+        if (!voices.length) return null;
 
-    utterance = new SpeechSynthesisUtterance(config.text);
-    utterance.lang = "fr-FR";
-    utterance.rate = config.rate;
-    utterance.pitch = config.pitch;
-    utterance.volume = config.volume;
+        return (
+          voices.find((v) => /fr[-_]?FR/i.test(v.lang) && /google/i.test(v.name)) ||
+          voices.find((v) => /fr[-_]?FR/i.test(v.lang)) ||
+          voices.find((v) => /^fr/i.test(v.lang)) ||
+          null
+        );
+      }
 
-    var voice = getFrenchVoice();
-    if (voice) utterance.voice = voice;
+      function setIdle(){
+        playing = false;
+        ico.innerHTML = "&#9654;";
+        lbl.textContent = config.label;
+        btn.setAttribute("aria-label", config.label);
+        clearInterval(timer);
+        timer = null;
+        progressWrap.style.opacity = "0";
+        progressBar.style.width = "0%";
+      }
 
-    utterance.onstart = function(){
-      if (currentId !== launchId) return;
-      setPlaying();
-      startProgress(config.text, currentId);
-    };
+      function setPlaying(){
+        playing = true;
+        ico.innerHTML = "&#9632;";
+        lbl.textContent = config.stopLabel;
+        btn.setAttribute("aria-label", config.stopLabel);
+      }
 
-    utterance.onend = function(){
-      if (currentId !== launchId) return;
-      clearInterval(timer);
-      timer = null;
-      progressBar.style.width = "100%";
-      setTimeout(function(){
-        if (currentId === launchId) setIdle();
-      }, 250);
-    };
+      function stop(){
+        clearInterval(timer);
+        timer = null;
+        try { synth.cancel(); } catch(e){}
+        utterance = null;
+        setIdle();
+      }
 
-    utterance.onerror = function(){
-      if (currentId !== launchId) return;
-      stop();
-    };
+      function startProgress(text, currentId){
+        const words = (text.trim().match(/\S+/g) || []).length;
+        const estimatedDuration = Math.max(2500, words * 520);
+        let elapsed = 0;
 
-    synth.speak(utterance);
-  }
+        clearInterval(timer);
+        progressBar.style.width = "0%";
+        progressWrap.style.opacity = "1";
 
-  function play(){
-    if (playing) return;
+        timer = setInterval(() => {
+          if (!playing || currentId !== launchId) {
+            clearInterval(timer);
+            timer = null;
+            return;
+          }
+          elapsed += 150;
+          const pct = Math.min((elapsed / estimatedDuration) * 100, 97);
+          progressBar.style.width = pct + "%";
+        }, 150);
+      }
 
-    if (synth.speaking || synth.pending) {
-      try { synth.cancel(); } catch(e){}
-    }
+      function launch(){
+        launchId += 1;
+        const currentId = launchId;
 
-    var voices = synth.getVoices();
-    if (voices && voices.length) {
-      launch();
-      return;
-    }
+        try { synth.cancel(); } catch(e){}
 
-    var launched = false;
+        utterance = new SpeechSynthesisUtterance(config.text);
+        utterance.lang = "fr-FR";
+        utterance.rate = config.rate;
+        utterance.pitch = config.pitch;
+        utterance.volume = config.volume;
 
-    function handleVoicesChanged(){
-      if (launched) return;
-      launched = true;
-      synth.removeEventListener("voiceschanged", handleVoicesChanged);
-      launch();
-    }
+        const voice = getFrenchVoice();
+        if (voice) utterance.voice = voice;
 
-    synth.addEventListener("voiceschanged", handleVoicesChanged);
+        utterance.onstart = () => {
+          if (currentId !== launchId) return;
+          setPlaying();
+          startProgress(config.text, currentId);
+        };
 
-    setTimeout(function(){
-      if (launched) return;
-      launched = true;
-      synth.removeEventListener("voiceschanged", handleVoicesChanged);
-      launch();
-    }, 700);
-  }
+        utterance.onend = () => {
+          if (currentId !== launchId) return;
+          clearInterval(timer);
+          timer = null;
+          progressBar.style.width = "100%";
+          setTimeout(() => {
+            if (currentId === launchId) setIdle();
+          }, 250);
+        };
 
-  btn.addEventListener("click", function(){
-    if (playing) stop();
-    else play();
-  });
+        utterance.onerror = () => {
+          if (currentId !== launchId) return;
+          stop();
+        };
 
-  window.addEventListener("beforeunload", stop);
+        synth.speak(utterance);
+      }
 
-  document.addEventListener("visibilitychange", function(){
-    if (document.hidden && playing) stop();
-  });
+      function play(){
+        if (playing) return;
 
-  setIdle();
-})();
-</script>
+        if (synth.speaking || synth.pending) {
+          try { synth.cancel(); } catch(e){}
+        }
 
-<!-- ============================================================
-     FIN DIGIY AUDIO — BUILD / SERVICES
-     ============================================================ -->
-  
+        const voices = synth.getVoices();
+        if (voices && voices.length) {
+          launch();
+          return;
+        }
+
+        let launched = false;
+
+        function handleVoicesChanged(){
+          if (launched) return;
+          launched = true;
+          synth.removeEventListener("voiceschanged", handleVoicesChanged);
+          launch();
+        }
+
+        synth.addEventListener("voiceschanged", handleVoicesChanged);
+
+        setTimeout(() => {
+          if (launched) return;
+          launched = true;
+          synth.removeEventListener("voiceschanged", handleVoicesChanged);
+          launch();
+        }, 700);
+      }
+
+      btn.addEventListener("click", () => {
+        if (playing) stop();
+        else play();
+      });
+
+      window.addEventListener("beforeunload", stop);
+
+      document.addEventListener("visibilitychange", () => {
+        if (document.hidden && playing) stop();
+      });
+
+      setIdle();
+    })();
+  </script>
 </body>
 </html>
