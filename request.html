@@ -842,6 +842,7 @@
 
         return {
           artisan_id: state.selected.artisan_id || null,
+          assigned_pro_slug: state.selected.slug || null,
           client_nom: clientNom,
           client_phone: clientPhone,
           client_ville: clientVille,
@@ -860,6 +861,8 @@
             demande_id: data.id,
             public_code: data.public_code || null,
             target_name: state.selected.nom || null,
+            target_trade: state.selected.metier || null,
+            target_city: state.selected.ville || null,
             at: new Date().toISOString()
           }));
         } catch (_) {}
@@ -892,19 +895,27 @@
         try {
           const payload = buildPayload(formData);
 
-          const { data, error } = await sb
-            .from("digiy_build_demandes")
-            .insert(payload)
-            .select()
-            .single();
+          const { data, error } = await sb.rpc("digiy_build_submit_request_v1", {
+            p_payload: payload
+          });
 
           if (error) throw error;
 
-          rememberLastRequest(data);
+          const result = data || {};
+
+          if (!result.ok) {
+            throw new Error("Demande non enregistrée.");
+          }
+
+          rememberLastRequest({
+            id: result.id,
+            public_code: result.public_code
+          });
+
           toast("ok", "Envoyé", "Ta demande est partie ✅");
 
           const url = new URL("./success.html", window.location.href);
-          url.searchParams.set("demande_id", data.id);
+          url.searchParams.set("demande_id", result.id);
           window.location.href = url.pathname + url.search + url.hash;
         } catch (err) {
           console.error("DIGIY BUILD request error", err);
