@@ -4,20 +4,28 @@
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
   <meta name="theme-color" content="#061b14"/>
-  <title>Je propose mes services — Ma fiche artisan</title>
-  <meta name="description" content="Crée ou mets à jour ta fiche artisan. Contact direct, visibilité simple, 0% commission."/>
+  <title>Je propose mes services — Ma fiche service</title>
+  <meta name="description" content="Crée ou mets à jour ta fiche service. Contact direct, visibilité simple, 0% commission."/>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
-  <!-- CSS -->
   <link rel="stylesheet" href="./build-gen.css?v=build-pro-gen-v2"/>
 
   <style>
     html,body{
       font-family:"Outfit",system-ui,-apple-system,"Segoe UI",Roboto,Arial,sans-serif;
     }
+
+    body{
+      padding-bottom:calc(96px + env(safe-area-inset-bottom,0px));
+    }
+
+    #guard_status{
+      display:none !important;
+    }
+
     .hero-mark{
       width:92px;
       height:92px;
@@ -28,22 +36,26 @@
       box-shadow:0 18px 40px rgba(0,0,0,.25);
       background:#fff;
     }
+
     .hero-mark img{
       width:100%;
       height:100%;
       object-fit:cover;
       display:block;
     }
+
     .hero-title{
       text-align:center;
       margin-bottom:8px;
       line-height:1.05;
     }
+
     .hero-text{
       text-align:center;
       max-width:760px;
       margin:0 auto 10px;
     }
+
     .hero-badges{
       display:flex;
       gap:10px;
@@ -51,6 +63,7 @@
       justify-content:center;
       margin:14px 0 6px;
     }
+
     .hero-badges span{
       display:inline-flex;
       align-items:center;
@@ -61,8 +74,9 @@
       border:1px solid rgba(255,255,255,.12);
       background:rgba(255,255,255,.05);
       font-size:.92rem;
-      font-weight:700;
+      font-weight:800;
     }
+
     .field-note{
       display:block;
       margin-top:6px;
@@ -70,23 +84,71 @@
       opacity:.78;
       line-height:1.35;
     }
+
     .section-line{
       margin:18px 0 10px;
-      font-weight:800;
+      font-weight:900;
       opacity:.92;
+    }
+
+    .digiyBuildBottomNav{
+      position:fixed;
+      left:0;
+      right:0;
+      bottom:0;
+      z-index:99990;
+      padding:8px 10px calc(8px + env(safe-area-inset-bottom,0px));
+      background:rgba(6,27,20,.94);
+      border-top:1px solid rgba(255,255,255,.10);
+      backdrop-filter:blur(16px);
+      -webkit-backdrop-filter:blur(16px);
+      font-family:Outfit,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+    }
+
+    .digiyBuildBottomNavInner{
+      width:min(100%,760px);
+      margin:0 auto;
+      display:grid;
+      grid-template-columns:repeat(5,1fr);
+      gap:6px;
+    }
+
+    .digiyBuildBottomNav a{
+      min-height:58px;
+      border-radius:16px;
+      display:grid;
+      place-items:center;
+      align-content:center;
+      gap:3px;
+      color:rgba(234,255,241,.70);
+      font-size:11px;
+      font-weight:950;
+      text-align:center;
+      border:1px solid transparent;
+      text-decoration:none;
+      background:transparent;
+    }
+
+    .digiyBuildBottomNav .ico{
+      font-size:18px;
+      line-height:1;
+    }
+
+    .digiyBuildBottomNav a.active{
+      color:#062015;
+      background:linear-gradient(135deg,#f97316,#facc15);
+      border-color:rgba(250,204,21,.28);
+      box-shadow:0 12px 26px rgba(249,115,22,.18);
     }
   </style>
 
-  <!-- Supabase + Guard -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="./guard.js?v=build-pro-gen-v2"></script>
-
-  <!-- JS (defer) -->
   <script defer src="./build-gen.js?v=build-pro-gen-v2"></script>
 </head>
 
 <body>
-  <div id="guard_status">🔐 Vérification…</div>
+  <div id="guard_status">Vérification…</div>
 
   <div class="app">
     <div class="wrap">
@@ -95,14 +157,14 @@
           <img src="https://digiylyfe.net/wp-content/uploads/2026/03/digiylyfe_logo_qr.jpeg" alt="Logo DIGIYLYFE">
         </div>
 
-        <h1 class="hero-title">🏗️ Ma fiche artisan</h1>
+        <h1 class="hero-title">🛠️ Ma fiche service</h1>
         <p class="hero-text">
-          Ici tu poses ta présence publique. Ton métier, ta zone, ton contact, ta photo, ton lien.
-          Quand tu rends ta fiche visible, elle peut apparaître dans la vitrine automatiquement.
+          Ici tu poses ta présence publique : ton métier, ta zone, ton contact client, ta photo et ton lien.
+          Quand tu rends ta fiche visible, elle peut apparaître dans la vitrine.
         </p>
 
         <div class="hero-badges">
-          <span>📲 Contact direct</span>
+          <span>🤝 Contact direct</span>
           <span>🛠️ Métier visible</span>
           <span>∞ 0% commission</span>
         </div>
@@ -114,18 +176,18 @@
         <div class="row">
           <div>
             <label>Nom affiché</label>
-            <input id="display_name" placeholder="Ex: Helage" />
+            <input id="display_name" placeholder="Ex : Helage Services" />
           </div>
           <div>
-            <label>Ville / Zone</label>
-            <input id="city" placeholder="Ex: Saly – Petite Côte" />
+            <label>Ville / zone</label>
+            <input id="city" placeholder="Ex : Saly – Petite Côte" />
           </div>
         </div>
 
         <div class="row">
           <div>
             <label>Métier</label>
-            <input id="trade" placeholder="Ex: Plombier multi-services" />
+            <input id="trade" placeholder="Ex : Plombier multi-services" />
           </div>
           <div>
             <label>Zone de présence</label>
@@ -140,29 +202,29 @@
 
         <div class="row">
           <div>
-            <label>WhatsApp</label>
-            <input id="whatsapp" placeholder="Ex: 221774513523" />
-            <span class="field-note">Le numéro le plus simple pour être contacté vite.</span>
+            <label>Contact client principal</label>
+            <input id="whatsapp" placeholder="Ex : contact direct client" />
+            <span class="field-note">Le contact le plus simple pour que le client puisse te joindre vite.</span>
           </div>
           <div>
-            <label>Téléphone</label>
-            <input id="phone" placeholder="Ex: +221..." />
-            <span class="field-note">Optionnel si ton WhatsApp suffit déjà.</span>
+            <label>Contact client secondaire</label>
+            <input id="phone" placeholder="Optionnel si le contact principal suffit" />
+            <span class="field-note">À remplir seulement si tu veux garder un second contact pour la fiche.</span>
           </div>
         </div>
 
         <div class="section-line">📝 Présentation</div>
 
         <label>Petite présentation</label>
-        <textarea id="bio" placeholder="Ex: Dépannage, installation, chauffe-eau, fuite, WC, douche…"></textarea>
+        <textarea id="bio" placeholder="Ex : Dépannage, installation, entretien, réparation, petits travaux, chantier…"></textarea>
 
         <div class="row">
           <div>
             <label>Photo vitrine</label>
-            <input id="photo_url" placeholder="URL image (https://...png/jpg)" />
+            <input id="photo_url" placeholder="URL image propre (https://...png/jpg)" />
           </div>
           <div>
-            <label>Lien de ta fiche</label>
+            <label>Lien public de ta fiche</label>
             <input id="profile_url" placeholder="https://digiylyfe.com/partenaires-..." />
           </div>
         </div>
@@ -172,22 +234,22 @@
         <div class="row">
           <div>
             <label>Petit badge visible</label>
-            <input id="badge" placeholder="Ex: 🛠️ Intervention rapide" />
+            <input id="badge" placeholder="Ex : 🛠️ Intervention rapide" />
           </div>
           <div>
             <label>Badge principal</label>
-            <input id="hub_badge" placeholder="Ex: ✅ Artisan disponible" />
+            <input id="hub_badge" placeholder="Ex : ✅ Service disponible" />
           </div>
         </div>
 
         <div class="row">
           <div>
-            <label>Texte prix</label>
-            <input id="price_label" placeholder="Ex: 0% commission" />
+            <label>Texte prix / avantage</label>
+            <input id="price_label" placeholder="Ex : Devis clair • Paiement direct" />
           </div>
           <div>
             <label>Mots-clés</label>
-            <input id="tags" placeholder='Ex: plomberie, fuite, dépannage ou ["plomberie","fuite"]' />
+            <input id="tags" placeholder='Ex : plomberie, fuite, dépannage ou ["plomberie","fuite"]' />
           </div>
         </div>
 
@@ -195,10 +257,10 @@
           <div>
             <label>Priorité d’affichage</label>
             <input id="priority" type="number" min="0" max="100" value="1" />
-            <span class="field-note">Plus la priorité est haute, plus la fiche peut remonter.</span>
+            <span class="field-note">Plus la priorité est haute, plus la fiche peut remonter dans la vitrine.</span>
           </div>
           <div>
-            <label>Rendre visible maintenant ?</label>
+            <label>Visibilité</label>
             <select id="is_published">
               <option value="true">Oui, rendre visible</option>
               <option value="false">Non, garder en brouillon</option>
@@ -210,7 +272,7 @@
 
         <div class="actions">
           <button class="btn primary" id="btnSave" type="button">💾 Enregistrer ma fiche</button>
-          <a class="btn secondary" id="btnOpenListing" href="./listing.html">👷 Ouvrir la vitrine</a>
+          <a class="btn secondary" id="btnOpenListing" href="./listing.html">👁️ Ouvrir la vitrine</a>
           <button class="btn ghost" id="btnBack" type="button">↩️ Retour à mon espace</button>
         </div>
 
@@ -220,5 +282,15 @@
       </div>
     </div>
   </div>
+
+  <nav class="digiyBuildBottomNav" aria-label="Navigation BUILD">
+    <div class="digiyBuildBottomNavInner">
+      <a href="./dashboard-pro.html"><span class="ico">🏠</span><span>Accueil</span></a>
+      <a href="./cockpit.html#demandes"><span class="ico">📋</span><span>Demandes</span></a>
+      <a class="active" href="./build-gen.html"><span class="ico">🛠️</span><span>Fiche</span></a>
+      <a href="./cockpit.html#quickBuildNote"><span class="ico">✍️</span><span>Notes</span></a>
+      <a href="./profile.html"><span class="ico">⚙️</span><span>Plus</span></a>
+    </div>
+  </nav>
 </body>
 </html>
