@@ -1,10 +1,11 @@
-<!DOCTYPE html>
+
+<!doctype html>
 <html lang="fr">
 <head>
   <meta charset="utf-8">
-  <title>ENTREPRENEUR MULTI SERVICES — Voir les profils</title>
+  <title>Je propose mes services — Voir les profils</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="description" content="Entrepreneur Multi Services : trouve un professionnel pour travaux, dépannage, entretien, chantier et services pratiques. Contact direct, paiement direct au pro.">
+  <meta name="description" content="Je propose mes services by DIGIYLYFE : trouve un professionnel pour travaux, dépannage, entretien, chantier et services pratiques. Contact direct, paiement direct au pro.">
   <meta name="theme-color" content="#061b14">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,8 +16,6 @@
     :root{
       --bg:#061b14;
       --bg2:#0a2b1f;
-      --card:rgba(8,30,22,.94);
-      --card2:rgba(6,24,18,.98);
       --line:rgba(255,255,255,.14);
       --line-soft:rgba(255,255,255,.08);
       --text:#eafff1;
@@ -26,7 +25,6 @@
       --green:#22c55e;
       --shadow:0 20px 55px rgba(0,0,0,.45);
       --radius:24px;
-      --radius-sm:16px;
       --max:1220px;
     }
 
@@ -45,7 +43,7 @@
     }
 
     body{
-      padding:16px;
+      padding:16px 16px calc(92px + env(safe-area-inset-bottom,0px));
     }
 
     .app{
@@ -112,7 +110,7 @@
       color:var(--muted);
       line-height:1.6;
       font-size:15px;
-      max-width:760px;
+      max-width:820px;
       font-weight:700;
     }
 
@@ -158,9 +156,7 @@
       min-height:48px;
     }
 
-    .btn:hover{
-      transform:translateY(-2px);
-    }
+    .btn:hover{transform:translateY(-2px)}
 
     .btn.primary{
       background:linear-gradient(135deg,var(--orange),var(--gold));
@@ -174,10 +170,10 @@
       color:var(--text);
     }
 
-    .btn.wa{
-      background:#25d366;
-      color:#fff;
-      box-shadow:0 12px 28px rgba(37,211,102,.18);
+    .btn.green{
+      background:linear-gradient(135deg,var(--green),var(--gold));
+      color:#062015;
+      box-shadow:0 12px 28px rgba(34,197,94,.16);
     }
 
     .filters{
@@ -200,18 +196,14 @@
       font-family:inherit;
     }
 
-    input::placeholder{
-      color:rgba(234,255,241,.42);
-    }
+    input::placeholder{color:rgba(234,255,241,.42)}
 
     input:focus,select:focus{
       border-color:rgba(250,204,21,.35);
       box-shadow:0 0 0 3px rgba(250,204,21,.10);
     }
 
-    .filters button{
-      white-space:nowrap;
-    }
+    .filters button{white-space:nowrap}
 
     .results{
       margin-top:14px;
@@ -229,9 +221,7 @@
       color:#e6fff0;
     }
 
-    .results b{
-      color:var(--gold);
-    }
+    .results b{color:var(--gold)}
 
     .grid{
       margin-top:16px;
@@ -272,9 +262,7 @@
       filter:saturate(1.04) contrast(1.02);
     }
 
-    .card:hover .media img{
-      transform:scale(1.04);
-    }
+    .card:hover .media img{transform:scale(1.04)}
 
     .media::after{
       content:"";
@@ -493,10 +481,10 @@
     }
 
     .contact-value{
-      font-size:16px;
-      font-weight:1000;
-      line-height:1.35;
-      word-break:break-word;
+      font-size:13px;
+      font-weight:850;
+      line-height:1.5;
+      color:rgba(234,255,241,.78);
     }
 
     .card-actions{
@@ -517,9 +505,7 @@
       font-weight:800;
     }
 
-    .empty b{
-      color:var(--gold);
-    }
+    .empty b{color:var(--gold)}
 
     .footer{
       margin:18px 0 6px;
@@ -530,19 +516,65 @@
       font-weight:800;
     }
 
+    .bottom-nav{
+      position:fixed;
+      left:0;
+      right:0;
+      bottom:0;
+      z-index:9998;
+      padding:8px 10px calc(8px + env(safe-area-inset-bottom,0px));
+      background:rgba(6,27,20,.94);
+      border-top:1px solid rgba(255,255,255,.12);
+      backdrop-filter:blur(12px);
+      -webkit-backdrop-filter:blur(12px);
+    }
+
+    .bottom-nav-inner{
+      width:min(760px,100%);
+      margin:0 auto;
+      display:grid;
+      grid-template-columns:repeat(5,1fr);
+      gap:6px;
+    }
+
+    .bottom-nav a{
+      min-height:54px;
+      border-radius:14px;
+      display:grid;
+      place-items:center;
+      align-content:center;
+      gap:2px;
+      color:rgba(234,255,241,.78);
+      font-size:11px;
+      font-weight:1000;
+      text-align:center;
+      border:1px solid transparent;
+      text-decoration:none;
+      background:transparent;
+      padding:0 4px;
+    }
+
+    .bottom-nav .ico{font-size:18px;line-height:1}
+
+    .bottom-nav a.active{
+      background:linear-gradient(135deg,var(--orange),var(--gold));
+      color:#111;
+    }
+
     @media(max-width:1040px){
       .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
       .filters{grid-template-columns:1fr 1fr 1fr auto auto}
     }
 
     @media(max-width:760px){
-      body{padding:12px}
+      body{padding:12px 12px calc(92px + env(safe-area-inset-bottom,0px))}
       .brand-logo{width:74px;height:74px}
       .filters{grid-template-columns:1fr}
       .grid{grid-template-columns:1fr}
       .card-actions{grid-template-columns:1fr}
       .media{min-height:300px}
       .media-name{font-size:22px}
+      .hero-actions .btn{width:100%}
     }
   </style>
 </head>
@@ -559,22 +591,25 @@
         />
         <div>
           <div class="kicker">Travaux • dépannage • entretien • chantier • services pratiques</div>
-          <h1>ENTREPRENEUR MULTI SERVICES</h1>
+          <h1>JE PROPOSE MES SERVICES</h1>
           <p class="sub">
-            Trouve un pro utile, visible et joignable directement. Ici, le contact est humain, le paiement va direct au professionnel, et tu ne tournes pas en rond.
+            Trouve un pro utile, visible et joignable proprement. Ici, le contact reste direct,
+            le paiement va au professionnel, et DIGIY aide seulement à clarifier le chemin.
           </p>
 
           <div class="hero-pills">
             <span class="pill">Contact direct</span>
             <span class="pill">Paiement direct au pro</span>
-            <span class="pill">Sans intermédiaire</span>
-            <span class="pill">Lecture terrain</span>
+            <span class="pill">0% commission</span>
+            <span class="pill">Demande claire</span>
           </div>
 
           <div class="hero-actions">
             <a class="btn primary" href="./request.html">📄 Décrire mon besoin</a>
             <a class="btn secondary" href="./index.html">⬅️ Retour à l’accueil</a>
-            <a class="btn wa" href="https://wa.me/221771342889?text=Bonjour%2C%20je%20cherche%20un%20professionnel%20multi%20services." target="_blank" rel="noopener">📲 WhatsApp support</a>
+            <a class="btn secondary" href="https://digiylyfe.com/">🌍 Site</a>
+            <a class="btn secondary" href="https://digiy-hub.digiylyfe.com/">🧭 HUB</a>
+            <a class="btn secondary" href="https://tarifs.digiylyfe.com/" target="_blank" rel="noopener noreferrer">📦 Tarifs</a>
           </div>
         </div>
       </div>
@@ -609,9 +644,19 @@
     <section id="empty" class="empty" hidden></section>
 
     <div class="footer">
-      ENTREPRENEUR MULTI SERVICES • DIGIYLYFE • Sénégal • Contact direct • Paiement direct au pro
+      JE PROPOSE MES SERVICES • DIGIYLYFE • Sénégal • Contact direct • Paiement direct au pro • 0% commission
     </div>
   </div>
+
+  <nav class="bottom-nav" aria-label="Navigation rapide Je propose mes services">
+    <div class="bottom-nav-inner">
+      <a href="./index.html"><span class="ico">🏠</span><span>Accueil</span></a>
+      <a class="active" href="./listing.html"><span class="ico">👁️</span><span>Profils</span></a>
+      <a href="./request.html"><span class="ico">📄</span><span>Besoin</span></a>
+      <a href="./track.html"><span class="ico">🔎</span><span>Suivi</span></a>
+      <a href="https://digiy-hub.digiylyfe.com/"><span class="ico">🧭</span><span>HUB</span></a>
+    </div>
+  </nav>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
@@ -623,7 +668,6 @@
       const PUBLIC_TABLE = "digiy_build_public_profiles";
       const DEFAULT_PHOTO = "https://digiylyfe.net/wp-content/uploads/2026/03/digiylyfe_logo_qr.jpeg";
       const LOGO_PHOTO = "https://digiylyfe.net/wp-content/uploads/2026/03/digiylyfe_logo_qr.jpeg";
-      const SUPPORT_PHONE = "221771342889";
 
       const $ = (id) => document.getElementById(id);
 
@@ -669,14 +713,6 @@
           .replace(/^-|-$/g, "");
       }
 
-      function normPhone(v) {
-        const raw = String(v || "").trim();
-        const cleaned = raw.replace(/[^\d+]/g, "");
-        const digits = cleaned.replace(/[^\d]/g, "");
-        if (!digits) return "";
-        return cleaned.startsWith("+") ? `+${digits}` : digits;
-      }
-
       function escapeHtml(v) {
         return String(v ?? "")
           .replace(/&/g, "&amp;")
@@ -690,7 +726,11 @@
         const raw = text(v);
         if (!raw) return "";
         try {
-          return new URL(raw).toString();
+          const url = new URL(raw);
+          ["phone","tel","owner_phone","contact_phone","whatsapp","return","from"].forEach((key) => {
+            url.searchParams.delete(key);
+          });
+          return url.toString();
         } catch (_) {
           return "";
         }
@@ -747,20 +787,10 @@
 
       function makeRequestUrl(profile) {
         const url = new URL("./request.html", window.location.href);
-        if (profile.slug) url.searchParams.set("slug", profile.slug);
         if (profile.display_name) url.searchParams.set("nom", profile.display_name);
         if (profile.trade) url.searchParams.set("metier", profile.trade);
         if (profile.city) url.searchParams.set("ville", profile.city);
         return url.pathname + url.search + url.hash;
-      }
-
-      function openWa(phone, name) {
-        const digits = String(phone || "").replace(/\D/g, "");
-        if (!digits) return;
-        const msg = encodeURIComponent(
-          `Bonjour ${name || ""}, je viens de la galerie ENTREPRENEUR MULTI SERVICES et je souhaite parler de mon besoin.`
-        );
-        window.open(`https://wa.me/${digits}?text=${msg}`, "_blank", "noopener");
       }
 
       function normalizeProfile(row) {
@@ -770,8 +800,6 @@
         const region = text(firstOf(row, ["region", "city_zone"]));
         const sector = text(firstOf(row, ["sector", "category"]));
         const priority = Number(firstOf(row, ["priority", "priority_rank"], 0)) || 0;
-        const whatsapp = normPhone(firstOf(row, ["whatsapp", "whatsapp_phone", "phone"]));
-        const phone = normPhone(firstOf(row, ["phone", "owner_phone", "contact_phone"]));
         const bio = text(firstOf(row, ["bio", "description", "short_description", "about"]));
         const photo_url = maybeUrl(firstOf(row, ["photo_url", "photo", "image_url", "cover_url"])) || "";
         const profile_url = maybeUrl(firstOf(row, ["profile_url", "public_url", "url"]));
@@ -791,8 +819,6 @@
           region,
           sector,
           priority,
-          whatsapp,
-          phone,
           bio,
           photo_url,
           profile_url,
@@ -814,7 +840,6 @@
       function buildIdentityKeys(profile) {
         const keys = [];
         const slug = normSlug(profile.slug);
-        const phone = normPhone(profile.whatsapp || profile.phone);
         const name = normLoose(profile.display_name);
         const trade = normLoose(profile.trade);
         const city = normLoose(profile.city);
@@ -822,8 +847,6 @@
         const sector = normLoose(profile.sector);
 
         if (slug) keys.push(`slug:${slug}`);
-        if (phone && name) keys.push(`phone-name:${phone}|${name}`);
-        if (phone && trade && city) keys.push(`phone-trade-city:${phone}|${trade}|${city}`);
         if (name && trade && city) keys.push(`name-trade-city:${name}|${trade}|${city}`);
         if (name && trade && region) keys.push(`name-trade-region:${name}|${trade}|${region}`);
         if (name && city && sector) keys.push(`name-city-sector:${name}|${city}|${sector}`);
@@ -857,13 +880,12 @@
       function profileScore(profile) {
         let score = 0;
 
-        if (profile.slug) score += 20;
-        if (profile.display_name) score += 10;
-        if (profile.trade) score += 8;
+        if (profile.slug) score += 10;
+        if (profile.display_name) score += 12;
+        if (profile.trade) score += 9;
         if (profile.city) score += 6;
         if (profile.region) score += 4;
         if (profile.sector) score += 4;
-        if (profile.phone || profile.whatsapp) score += 10;
         if (profile.profile_url) score += 12;
         if (profile.badge || profile.hub_badge) score += 4;
         if (profile.price_label) score += 2;
@@ -889,8 +911,6 @@
           region: bestText(keep.region, alt.region),
           sector: bestText(keep.sector, alt.sector),
           priority: Math.max(Number(keep.priority) || 0, Number(alt.priority) || 0),
-          whatsapp: normPhone(keep.whatsapp || alt.whatsapp || keep.phone || alt.phone),
-          phone: normPhone(keep.phone || alt.phone || keep.whatsapp || alt.whatsapp),
           bio: bestText(keep.bio, alt.bio),
           photo_url: hasRealPhoto(keep)
             ? keep.photo_url
@@ -950,14 +970,17 @@
         ].map(normLoose).join(" ");
 
         if (q && !hay.includes(q)) return false;
+
         if (sector) {
           const sectorHay = `${normLoose(profile.sector)} ${normLoose(profile.trade)} ${(profile.tags || []).map(normLoose).join(" ")}`;
           if (!sectorHay.includes(sector)) return false;
         }
+
         if (region) {
           const regionHay = `${normLoose(profile.region)} ${normLoose(profile.city)}`;
           if (!regionHay.includes(region)) return false;
         }
+
         return true;
       }
 
@@ -997,48 +1020,8 @@
         const parts = [];
         if (profile.city) parts.push(profile.city);
         if (profile.region) parts.push(profile.region);
-        if (!parts.length) parts.push("Professionnel joignable directement");
+        if (!parts.length) parts.push("Professionnel visible");
         return parts.join(" • ");
-      }
-
-      function buildMedia(profile) {
-        const img = maybeUrl(profile.photo_url);
-        const cityBadge = profile.city || profile.region || "Profil visible";
-        const logo = LOGO_PHOTO;
-
-        if (hasRealPhoto(profile)) {
-          return `
-            <div class="media">
-              <div class="media-top">
-                <div class="media-badge">${escapeHtml(cityBadge)}</div>
-                <img class="media-brand" src="${escapeHtml(logo)}" alt="Logo DIGIYLYFE">
-              </div>
-
-              <img
-                loading="lazy"
-                alt="${escapeHtml(profile.display_name || "Profil")}"
-                src="${escapeHtml(img)}"
-                onerror="this.onerror=null; this.closest('.media').innerHTML = window.DIGIY_BUILD_FALLBACK_MEDIA('${encodeURIComponent(JSON.stringify({
-                  display_name: profile.display_name,
-                  trade: profile.trade,
-                  city: profile.city,
-                  region: profile.region,
-                  sector: profile.sector,
-                  tags: profile.tags
-                }))}')"
-              >
-
-              <div class="media-bottom">
-                <div class="media-caption">
-                  <div class="media-name">${escapeHtml(profile.display_name || "Professionnel")}</div>
-                  <div class="media-trade">${escapeHtml(profile.trade || "Entrepreneur multi services")}</div>
-                </div>
-              </div>
-            </div>
-          `;
-        }
-
-        return fallbackMediaHtml(profile);
       }
 
       function fallbackMediaHtml(profile) {
@@ -1053,7 +1036,7 @@
             <div class="media-fallback">
               <div class="fallback-inner">
                 <div class="fallback-emoji">${escapeHtml(fallbackEmoji(profile))}</div>
-                <div class="fallback-title">${escapeHtml(profile.display_name || "ENTREPRENEUR MULTI SERVICES")}</div>
+                <div class="fallback-title">${escapeHtml(profile.display_name || "Je propose mes services")}</div>
                 <div class="fallback-sub">${escapeHtml(profile.trade || fallbackSub(profile))}</div>
               </div>
             </div>
@@ -1061,11 +1044,53 @@
             <div class="media-bottom">
               <div class="media-caption">
                 <div class="media-name">${escapeHtml(profile.display_name || "Professionnel")}</div>
-                <div class="media-trade">${escapeHtml(profile.trade || "Entrepreneur multi services")}</div>
+                <div class="media-trade">${escapeHtml(profile.trade || "Service utile")}</div>
               </div>
             </div>
           </div>
         `;
+      }
+
+      function buildMedia(profile) {
+        const img = maybeUrl(profile.photo_url);
+        const cityBadge = profile.city || profile.region || "Profil visible";
+        const logo = LOGO_PHOTO;
+
+        if (hasRealPhoto(profile)) {
+          const fallbackData = encodeURIComponent(JSON.stringify({
+            display_name: profile.display_name,
+            trade: profile.trade,
+            city: profile.city,
+            region: profile.region,
+            sector: profile.sector,
+            tags: profile.tags
+          }));
+
+          return `
+            <div class="media">
+              <div class="media-top">
+                <div class="media-badge">${escapeHtml(cityBadge)}</div>
+                <img class="media-brand" src="${escapeHtml(logo)}" alt="Logo DIGIYLYFE">
+              </div>
+
+              <img
+                loading="lazy"
+                alt="${escapeHtml(profile.display_name || "Profil")}"
+                src="${escapeHtml(img)}"
+                onerror="this.onerror=null; this.closest('.media').innerHTML = window.DIGIY_BUILD_FALLBACK_MEDIA('${fallbackData}')"
+              >
+
+              <div class="media-bottom">
+                <div class="media-caption">
+                  <div class="media-name">${escapeHtml(profile.display_name || "Professionnel")}</div>
+                  <div class="media-trade">${escapeHtml(profile.trade || "Service utile")}</div>
+                </div>
+              </div>
+            </div>
+          `;
+        }
+
+        return fallbackMediaHtml(profile);
       }
 
       window.DIGIY_BUILD_FALLBACK_MEDIA = function(encoded) {
@@ -1078,8 +1103,8 @@
               <div class="media-fallback">
                 <div class="fallback-inner">
                   <div class="fallback-emoji">🛠️</div>
-                  <div class="fallback-title">ENTREPRENEUR MULTI SERVICES</div>
-                  <div class="fallback-sub">Professionnel joignable directement</div>
+                  <div class="fallback-title">Je propose mes services</div>
+                  <div class="fallback-sub">Professionnel visible</div>
                 </div>
               </div>
             </div>
@@ -1088,14 +1113,15 @@
       };
 
       function renderCard(profile) {
-        const phone = profile.whatsapp || profile.phone || "";
-        const hasWa = !!phone;
         const requestUrl = makeRequestUrl(profile);
 
         const chips = [];
         chips.push(`<span class="chip ok">Contact direct</span>`);
+        chips.push(`<span class="chip gold">0% commission</span>`);
+
         if (profile.hub_badge) chips.push(`<span class="chip gold">${escapeHtml(profile.hub_badge)}</span>`);
-        else if (profile.badge) chips.push(`<span class="chip gold">${escapeHtml(profile.badge)}</span>`);
+        else if (profile.badge) chips.push(`<span class="chip">${escapeHtml(profile.badge)}</span>`);
+
         if (profile.price_label) chips.push(`<span class="chip">${escapeHtml(profile.price_label)}</span>`);
         else chips.push(`<span class="chip">Paiement direct au pro</span>`);
 
@@ -1104,19 +1130,15 @@
         ));
 
         const profileBtn = profile.profile_url
-          ? `<a class="btn primary" href="${escapeHtml(profile.profile_url)}" target="_blank" rel="noopener">👁️ Voir le profil</a>`
-          : `<a class="btn primary" href="${escapeHtml(requestUrl)}">📄 Demander un devis</a>`;
-
-        const waBtn = hasWa
-          ? `<button class="btn wa" type="button" data-wa="${escapeHtml(phone)}" data-name="${escapeHtml(profile.display_name || "le professionnel")}">📲 WhatsApp direct</button>`
-          : `<a class="btn secondary" href="https://wa.me/${SUPPORT_PHONE}?text=Bonjour%2C%20je%20veux%20être%20mis%20en%20relation%20avec%20un%20professionnel." target="_blank" rel="noopener">💬 Passer par le support</a>`;
+          ? `<a class="btn primary" href="${escapeHtml(profile.profile_url)}" target="_blank" rel="noopener">👁️ Voir la fiche</a>`
+          : `<a class="btn primary" href="${escapeHtml(requestUrl)}">📄 Décrire mon besoin</a>`;
 
         return `
           <article class="card">
             ${buildMedia(profile)}
             <div class="body">
               <h2 class="name">${escapeHtml(profile.display_name || "Professionnel")}</h2>
-              <div class="trade">${escapeHtml(profile.trade || "Entrepreneur multi services")}</div>
+              <div class="trade">${escapeHtml(profile.trade || "Service utile")}</div>
 
               <div class="meta">
                 ${escapeHtml(profile.city || "Zone non précisée")}
@@ -1130,17 +1152,19 @@
               </div>
 
               <div class="bio">
-                ${escapeHtml(profile.bio || "Professionnel joignable directement pour travaux, dépannage, entretien, chantier et services pratiques.")}
+                ${escapeHtml(profile.bio || "Professionnel visible pour travaux, dépannage, entretien, chantier et services pratiques.")}
               </div>
 
               <div class="contact-box">
-                <div class="contact-title">Contact direct</div>
-                <div class="contact-value">${escapeHtml(phone || "Passe par le support DIGIY")}</div>
+                <div class="contact-title">Prochain geste</div>
+                <div class="contact-value">
+                  Ouvre la fiche ou décris ton besoin. Le contact se fait ensuite directement avec le professionnel.
+                </div>
               </div>
 
               <div class="card-actions">
                 ${profileBtn}
-                ${waBtn}
+                <a class="btn secondary" href="${escapeHtml(requestUrl)}">📄 Demander</a>
               </div>
             </div>
           </article>
@@ -1165,12 +1189,6 @@
         }
 
         els.grid.innerHTML = state.filtered.map(renderCard).join("");
-
-        els.grid.querySelectorAll("[data-wa]").forEach((btn) => {
-          btn.addEventListener("click", () => {
-            openWa(btn.getAttribute("data-wa"), btn.getAttribute("data-name"));
-          });
-        });
       }
 
       async function fetchProfiles() {
@@ -1206,7 +1224,7 @@
           const published = (data || [])
             .filter((row) => isPublished(row))
             .map(normalizeProfile)
-            .filter((row) => row.slug || row.display_name);
+            .filter((row) => row.display_name || row.trade || row.city);
 
           const deduped = dedupeProfiles(published);
 
@@ -1244,6 +1262,10 @@
         const sector = els.sector.value;
         const region = els.region.value;
 
+        ["phone","tel","owner_phone","contact_phone","whatsapp","slug","return","from"].forEach((key) => {
+          url.searchParams.delete(key);
+        });
+
         if (q) url.searchParams.set("q", q);
         else url.searchParams.delete("q");
 
@@ -1253,7 +1275,7 @@
         if (region) url.searchParams.set("region", region);
         else url.searchParams.delete("region");
 
-        history.replaceState({}, "", url.toString());
+        history.replaceState({}, "", url.pathname + url.search + url.hash);
       }
 
       function bindUi() {
@@ -1277,6 +1299,7 @@
       function init() {
         bindUi();
         syncUrlFromQuery();
+        syncUrl();
         fetchProfiles();
       }
 
