@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
   <meta name="theme-color" content="#061b14"/>
   <title>Demande bien envoyée — Travaux et services</title>
-  <meta name="description" content="Confirmation de demande. Référence de suivi, support WhatsApp et accès direct au suivi.">
+  <meta name="description" content="Confirmation de demande. Référence de suivi et accès direct au suivi.">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -17,10 +17,7 @@
     :root{
       --bg:#061b14;
       --bg2:#0a2b1f;
-      --card:rgba(8,30,22,.94);
-      --card2:rgba(6,24,18,.98);
       --line:rgba(255,255,255,.14);
-      --line-soft:rgba(255,255,255,.08);
       --text:#eafff1;
       --muted:rgba(234,255,241,.72);
       --gold:#facc15;
@@ -29,7 +26,6 @@
       --red:#ef4444;
       --shadow:0 20px 55px rgba(0,0,0,.45);
       --radius:24px;
-      --radius-sm:16px;
       --max:960px;
     }
 
@@ -48,7 +44,7 @@
     }
 
     body{
-      padding:16px;
+      padding:16px 16px calc(96px + env(safe-area-inset-bottom,0px));
     }
 
     .app{
@@ -180,11 +176,11 @@
       color:var(--text);
     }
 
-    .btn.whatsapp{
-      background:#25d366;
-      color:#fff;
-      box-shadow:0 12px 28px rgba(37,211,102,.18);
+    .btn.green{
+      background:linear-gradient(135deg,var(--green),var(--gold));
+      color:#062015;
       border:none;
+      box-shadow:0 12px 28px rgba(34,197,94,.18);
     }
 
     .card{
@@ -371,12 +367,6 @@
       color:#bbf7d0;
     }
 
-    .chip.gold{
-      background:rgba(250,204,21,.10);
-      border-color:rgba(250,204,21,.28);
-      color:#fff3b2;
-    }
-
     .empty-wrap{
       display:none;
     }
@@ -395,7 +385,7 @@
     .toast{
       position:fixed;
       left:50%;
-      bottom:18px;
+      bottom:calc(86px + env(safe-area-inset-bottom,0px));
       transform:translateX(-50%);
       min-width:260px;
       max-width:92vw;
@@ -420,8 +410,53 @@
       line-height:1.45;
     }
 
+    .bottom-nav{
+      position:fixed;
+      left:0;
+      right:0;
+      bottom:0;
+      z-index:9998;
+      padding:8px 10px calc(8px + env(safe-area-inset-bottom,0px));
+      background:rgba(6,27,20,.94);
+      border-top:1px solid rgba(255,255,255,.12);
+      backdrop-filter:blur(12px);
+      -webkit-backdrop-filter:blur(12px);
+    }
+
+    .bottom-nav-inner{
+      width:min(760px,100%);
+      margin:0 auto;
+      display:grid;
+      grid-template-columns:repeat(5,1fr);
+      gap:6px;
+    }
+
+    .bottom-nav a{
+      min-height:54px;
+      border-radius:14px;
+      display:grid;
+      place-items:center;
+      align-content:center;
+      gap:2px;
+      color:rgba(234,255,241,.78);
+      font-size:11px;
+      font-weight:1000;
+      text-align:center;
+      border:1px solid transparent;
+      text-decoration:none;
+      background:transparent;
+      padding:0 4px;
+    }
+
+    .bottom-nav .ico{font-size:18px;line-height:1}
+
+    .bottom-nav a.active{
+      background:linear-gradient(135deg,var(--orange),var(--gold));
+      color:#111;
+    }
+
     @media(max-width:760px){
-      body{padding:12px}
+      body{padding:12px 12px calc(96px + env(safe-area-inset-bottom,0px))}
       .brand-logo{width:74px;height:74px}
       .hero-actions,.row,.footer-actions{flex-direction:column}
       .hero-actions .btn,.row .btn,.footer-actions .btn{width:100%}
@@ -448,13 +483,13 @@
           <div class="hero-pills">
             <span class="pill">Référence de suivi</span>
             <span class="pill">Contact direct</span>
-            <span class="pill">Support WhatsApp</span>
             <span class="pill">0% commission</span>
+            <span class="pill">Demande claire</span>
           </div>
 
           <div class="hero-actions">
-            <a class="btn secondary" id="btnHome" href="./index.html">⬅️ Retour à l’accueil</a>
-            <a class="btn secondary" id="btnListingTop" href="./listing.html">👁️ Voir les pros</a>
+            <a class="btn secondary" id="btnHome" href="./index.html">⬅️ Accueil</a>
+            <a class="btn secondary" id="btnListingTop" href="./listing.html">👁️ Voir les profils</a>
             <a class="btn secondary" id="btnNewTop" href="./request.html">📤 Nouvelle demande</a>
           </div>
         </div>
@@ -471,12 +506,12 @@
         <div class="hero-ok">
           <div class="icon">✅</div>
           <div class="txt">
-            La demande est bien enregistrée. Garde la référence ci-dessous pour le suivi et pour parler au support sans te perdre.
+            La demande est bien enregistrée. Garde la référence ci-dessous pour le suivi. Elle permet de retrouver ta demande sans exposer les informations sensibles.
           </div>
         </div>
 
         <div class="target-card" id="targetCard">
-          <div class="target-kicker">Pro visé</div>
+          <div class="target-kicker">Professionnel visé</div>
           <h2 class="target-name" id="targetName">—</h2>
           <div class="target-meta" id="targetMeta">—</div>
           <div class="target-badges" id="targetBadges"></div>
@@ -501,8 +536,8 @@
           </div>
 
           <div class="footer-actions">
-            <a class="btn whatsapp" id="btnWhatsApp" target="_blank" rel="noopener">💬 Support WhatsApp</a>
-            <a class="btn secondary" id="btnListing" href="./listing.html">👁️ Voir les pros</a>
+            <a class="btn secondary" id="btnListing" href="./listing.html">👁️ Voir les profils</a>
+            <a class="btn green" id="btnNeed" href="./request.html">📄 Décrire un autre besoin</a>
           </div>
         </div>
 
@@ -514,16 +549,22 @@
           <div class="row">
             <a class="btn primary" id="btnDeposit" href="./request.html">📤 Déposer une demande</a>
             <a class="btn secondary" id="btnTrack2" href="./track.html">🔎 Ouvrir le suivi</a>
-            <a class="btn secondary" id="btnListing2" href="./listing.html">👁️ Voir les pros</a>
-          </div>
-
-          <div class="footer-actions">
-            <a class="btn whatsapp" id="btnWhatsApp2" target="_blank" rel="noopener">💬 Support WhatsApp</a>
+            <a class="btn secondary" id="btnListing2" href="./listing.html">👁️ Voir les profils</a>
           </div>
         </div>
       </div>
     </section>
   </div>
+
+  <nav class="bottom-nav" aria-label="Navigation rapide Je propose mes services">
+    <div class="bottom-nav-inner">
+      <a href="./index.html"><span class="ico">🏠</span><span>Accueil</span></a>
+      <a href="./listing.html"><span class="ico">👁️</span><span>Profils</span></a>
+      <a href="./request.html"><span class="ico">📄</span><span>Besoin</span></a>
+      <a class="active" href="./track.html"><span class="ico">🔎</span><span>Suivi</span></a>
+      <a href="https://digiy-hub.digiylyfe.com/"><span class="ico">🧭</span><span>HUB</span></a>
+    </div>
+  </nav>
 
   <div class="toast" id="toast">
     <div class="t" id="toastT"></div>
@@ -541,7 +582,6 @@
       });
 
       const KEY_LAST = "DIGIY_BUILD_LAST_REQUEST";
-      const SUPPORT_WHATSAPP = "221771342889";
 
       const $ = (id) => document.getElementById(id);
 
@@ -549,23 +589,8 @@
         return String(v ?? "").trim();
       }
 
-      function cleanSlug(v) {
-        return String(v ?? "")
-          .trim()
-          .toLowerCase()
-          .replace(/\s+/g, "-")
-          .replace(/[^a-z0-9-]/g, "")
-          .replace(/-+/g, "-")
-          .replace(/^-|-$/g, "");
-      }
-
       function normalizeCode(c) {
         return String(c || "").trim().toUpperCase().replace(/\s+/g, "");
-      }
-
-      function buildWhatsAppLink(phone, msg) {
-        const p = String(phone || "").replace(/\D/g, "");
-        return `https://wa.me/${p}?text=${encodeURIComponent(msg)}`;
       }
 
       function getUrlParam(name) {
@@ -579,6 +604,32 @@
           .replace(/>/g, "&gt;")
           .replace(/"/g, "&quot;")
           .replace(/'/g, "&#039;");
+      }
+
+      function cleanVisibleUrl() {
+        try {
+          const url = new URL(window.location.href);
+          [
+            "slug",
+            "artisan_id",
+            "phone",
+            "tel",
+            "owner_phone",
+            "contact_phone",
+            "whatsapp",
+            "nom",
+            "metier",
+            "ville",
+            "return",
+            "from"
+          ].forEach((key) => url.searchParams.delete(key));
+
+          if (url.searchParams.has("demande_id")) {
+            url.searchParams.delete("demande_id");
+          }
+
+          history.replaceState({}, document.title, url.pathname + url.search + url.hash);
+        } catch (_) {}
       }
 
       function toast(kind, title, msg) {
@@ -602,6 +653,17 @@
         }
       }
 
+      function writeLastRequest(next) {
+        try {
+          const previous = readLastRequest();
+          localStorage.setItem(KEY_LAST, JSON.stringify({
+            ...previous,
+            ...next,
+            at: new Date().toISOString()
+          }));
+        } catch (_) {}
+      }
+
       function getCodeFromLocal() {
         const obj = readLastRequest();
         if (obj?.public_code) return normalizeCode(obj.public_code);
@@ -614,44 +676,33 @@
         const local = readLastRequest();
 
         return {
-          slug: cleanSlug(getUrlParam("slug") || local.target_slug),
           name: cleanText(getUrlParam("nom") || local.target_name),
           metier: cleanText(getUrlParam("metier") || local.target_trade),
           ville: cleanText(getUrlParam("ville") || local.target_city)
         };
       }
 
-      function setNewRequestLinks(target) {
-        const url = new URL("./request.html", window.location.href);
-
-        if (target.slug) url.searchParams.set("slug", target.slug);
-        if (target.name) url.searchParams.set("nom", target.name);
-        if (target.metier) url.searchParams.set("metier", target.metier);
-        if (target.ville) url.searchParams.set("ville", target.ville);
-
-        const href = url.pathname + url.search + url.hash;
-        $("btnNew").href = href;
-        $("btnNewTop").href = href;
-        $("btnDeposit").href = href;
+      function setNewRequestLinks() {
+        $("btnNew").href = "./request.html";
+        $("btnNewTop").href = "./request.html";
+        $("btnDeposit").href = "./request.html";
+        $("btnNeed").href = "./request.html";
       }
 
       function showTarget(target) {
-        const hasTarget = target.slug || target.name || target.metier || target.ville;
+        const hasTarget = target.name || target.metier || target.ville;
         if (!hasTarget) return;
 
         const card = $("targetCard");
         const meta = [];
+
         if (target.metier) meta.push(target.metier);
         if (target.ville) meta.push(target.ville);
-        if (target.slug) meta.push(`Référence pro : ${target.slug}`);
 
         $("targetName").textContent = target.name || "Professionnel sélectionné";
         $("targetMeta").textContent = meta.join(" • ") || "Cible conservée";
 
-        const badges = [];
-        badges.push('<span class="chip ok">Cible gardée</span>');
-        if (target.slug) badges.push(`<span class="chip gold">${escapeHtml(target.slug)}</span>`);
-        $("targetBadges").innerHTML = badges.join("");
+        $("targetBadges").innerHTML = '<span class="chip ok">Cible gardée sans donnée sensible affichée</span>';
 
         card.classList.add("show");
       }
@@ -676,15 +727,6 @@
         }
       }
 
-      function buildSupportMessage(code, target) {
-        const lines = ["Bonjour DIGIY BUILD."];
-        if (code) lines.push(`Référence : ${code}`);
-        if (target.name) lines.push(`Pro visé : ${target.name}`);
-        if (target.slug) lines.push(`Référence pro : ${target.slug}`);
-        lines.push("Merci.");
-        return lines.join("\n");
-      }
-
       function bindCopy(code) {
         $("btnCopy").addEventListener("click", async () => {
           try {
@@ -696,12 +738,8 @@
         }, { once: true });
       }
 
-      function setUIWithCode(code, target) {
+      function setUIWithCode(code) {
         $("loadingBox").style.display = "none";
-
-        const waMsg = buildSupportMessage(code, target);
-        $("btnWhatsApp").href = buildWhatsAppLink(SUPPORT_WHATSAPP, waMsg);
-        $("btnWhatsApp2").href = buildWhatsAppLink(SUPPORT_WHATSAPP, waMsg);
 
         if (!code) {
           $("emptyWrap").classList.add("show");
@@ -711,8 +749,7 @@
         $("codeWrap").classList.add("show");
         $("codeText").textContent = code;
 
-        const trackBase = "./track.html";
-        const trackHref = trackBase + "?code=" + encodeURIComponent(code);
+        const trackHref = "./track.html?code=" + encodeURIComponent(code);
         $("btnTrack").href = trackHref;
         $("btnTrack2").href = trackHref;
 
@@ -722,11 +759,14 @@
       async function init() {
         const target = getTargetContext();
         showTarget(target);
-        setNewRequestLinks(target);
+        setNewRequestLinks();
 
         const urlCode = getUrlParam("code");
         if (urlCode) {
-          setUIWithCode(normalizeCode(urlCode), target);
+          const code = normalizeCode(urlCode);
+          writeLastRequest({ public_code: code });
+          cleanVisibleUrl();
+          setUIWithCode(code);
           return;
         }
 
@@ -734,26 +774,22 @@
         if (demandeId) {
           const code = await fetchCodeByDemandeId(demandeId);
 
-          try {
-            const previous = readLastRequest();
-            localStorage.setItem(KEY_LAST, JSON.stringify({
-              ...previous,
-              demande_id: demandeId,
-              public_code: code,
-              target_slug: target.slug || previous.target_slug || null,
-              target_name: target.name || previous.target_name || null,
-              target_trade: target.metier || previous.target_trade || null,
-              target_city: target.ville || previous.target_city || null,
-              at: new Date().toISOString()
-            }));
-          } catch (_) {}
+          writeLastRequest({
+            demande_id: demandeId,
+            public_code: code,
+            target_name: target.name || null,
+            target_trade: target.metier || null,
+            target_city: target.ville || null
+          });
 
-          setUIWithCode(code, target);
+          cleanVisibleUrl();
+          setUIWithCode(code);
           return;
         }
 
+        cleanVisibleUrl();
         const localCode = getCodeFromLocal();
-        setUIWithCode(localCode, target);
+        setUIWithCode(localCode);
       }
 
       init();
