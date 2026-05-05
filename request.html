@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <title>Décrire mon besoin — Travaux et services</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="description" content="Décris ton besoin en travaux et services. Contact direct, paiement direct à l'artisan, 0% commission.">
+  <meta name="description" content="Décris ton besoin en travaux et services. Contact direct, paiement direct au professionnel, 0% commission.">
   <meta name="theme-color" content="#061b14">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -17,10 +17,7 @@
     :root{
       --bg:#061b14;
       --bg2:#0a2b1f;
-      --card:rgba(8,30,22,.94);
-      --card2:rgba(6,24,18,.98);
       --line:rgba(255,255,255,.14);
-      --line-soft:rgba(255,255,255,.08);
       --text:#eafff1;
       --muted:rgba(234,255,241,.72);
       --gold:#facc15;
@@ -29,7 +26,6 @@
       --red:#ef4444;
       --shadow:0 20px 55px rgba(0,0,0,.45);
       --radius:24px;
-      --radius-sm:16px;
       --max:920px;
     }
 
@@ -48,7 +44,7 @@
     }
 
     body{
-      padding:16px;
+      padding:16px 16px calc(96px + env(safe-area-inset-bottom,0px));
     }
 
     .app{
@@ -185,10 +181,11 @@
       color:var(--text);
     }
 
-    .btn.wa{
-      background:#25d366;
-      color:#fff;
-      box-shadow:0 12px 28px rgba(37,211,102,.18);
+    .btn.green{
+      background:linear-gradient(135deg,var(--green),var(--gold));
+      color:#062015;
+      border:none;
+      box-shadow:0 12px 28px rgba(34,197,94,.16);
     }
 
     .card{
@@ -313,10 +310,6 @@
       gap:12px;
     }
 
-    @media(max-width:780px){
-      .grid{grid-template-columns:1fr}
-    }
-
     label{
       display:block;
       font-weight:900;
@@ -374,7 +367,7 @@
     .toast{
       position:fixed;
       left:50%;
-      bottom:18px;
+      bottom:calc(86px + env(safe-area-inset-bottom,0px));
       transform:translateX(-50%);
       min-width:260px;
       max-width:92vw;
@@ -398,9 +391,62 @@
       line-height:1.45;
     }
 
+    .bottom-nav{
+      position:fixed;
+      left:0;
+      right:0;
+      bottom:0;
+      z-index:9998;
+      padding:8px 10px calc(8px + env(safe-area-inset-bottom,0px));
+      background:rgba(6,27,20,.94);
+      border-top:1px solid rgba(255,255,255,.12);
+      backdrop-filter:blur(12px);
+      -webkit-backdrop-filter:blur(12px);
+    }
+
+    .bottom-nav-inner{
+      width:min(760px,100%);
+      margin:0 auto;
+      display:grid;
+      grid-template-columns:repeat(5,1fr);
+      gap:6px;
+    }
+
+    .bottom-nav a{
+      min-height:54px;
+      border-radius:14px;
+      display:grid;
+      place-items:center;
+      align-content:center;
+      gap:2px;
+      color:rgba(234,255,241,.78);
+      font-size:11px;
+      font-weight:1000;
+      text-align:center;
+      border:1px solid transparent;
+      text-decoration:none;
+      background:transparent;
+      padding:0 4px;
+    }
+
+    .bottom-nav .ico{font-size:18px;line-height:1}
+
+    .bottom-nav a.active{
+      background:linear-gradient(135deg,var(--orange),var(--gold));
+      color:#111;
+    }
+
+    @media(max-width:780px){
+      .grid{grid-template-columns:1fr}
+    }
+
     @media(max-width:760px){
-      body{padding:12px}
+      body{padding:12px 12px calc(96px + env(safe-area-inset-bottom,0px))}
       .brand-logo{width:74px;height:74px}
+      .hero-actions .btn,
+      .actions .btn{
+        width:100%;
+      }
     }
   </style>
 </head>
@@ -418,20 +464,21 @@
           <div class="kicker">Travaux • dépannage • entretien • chantier • services pratiques</div>
           <h1>Décrire mon besoin</h1>
           <p class="sub">
-            Décris ton besoin clairement. Si tu as choisi un pro précis, ta demande garde cette cible. Sinon, elle peut être orientée proprement.
+            Décris ton besoin clairement. Si tu as choisi un professionnel précis, DIGIY garde la cible proprement sans afficher ses informations sensibles.
           </p>
 
           <div class="hero-pills">
             <span class="pill">Contact direct</span>
             <span class="pill">Paiement direct au pro</span>
             <span class="pill">0% commission</span>
-            <span class="pill">Lecture terrain</span>
+            <span class="pill">Demande claire</span>
           </div>
 
           <div class="hero-actions">
-            <a class="btn secondary" href="./index.html">⬅️ Retour à l’accueil</a>
-            <a class="btn secondary" href="./listing.html">👁️ Voir les pros</a>
-            <a class="btn wa" href="https://wa.me/221771342889?text=Bonjour%2C%20je%20veux%20parler%20de%20mon%20besoin%20MULTI%20SERVICES." target="_blank" rel="noopener">📲 WhatsApp support</a>
+            <a class="btn secondary" href="./index.html">⬅️ Accueil</a>
+            <a class="btn secondary" href="./listing.html">👁️ Voir les profils</a>
+            <a class="btn secondary" href="https://digiylyfe.com/">🌍 Site</a>
+            <a class="btn secondary" href="https://digiy-hub.digiylyfe.com/">🧭 HUB</a>
           </div>
         </div>
       </div>
@@ -456,17 +503,17 @@
         <div class="grid">
           <div>
             <label for="nom">Ton nom</label>
-            <input id="nom" name="nom" required placeholder="Ex: Awa Ndiaye">
+            <input id="nom" name="nom" required placeholder="Ex : Awa Ndiaye" autocomplete="name">
           </div>
 
           <div>
-            <label for="phone">Ton téléphone WhatsApp</label>
-            <input id="phone" name="phone" required placeholder="Ex: +221 77 000 00 00">
+            <label for="phone">Numéro pour te joindre</label>
+            <input id="phone" name="phone" required placeholder="Ex : +221 77 000 00 00" autocomplete="tel" inputmode="tel">
           </div>
 
           <div>
             <label for="ville">Ville du chantier</label>
-            <input id="ville" name="ville" required placeholder="Ex: Saly / Dakar / Thiès">
+            <input id="ville" name="ville" required placeholder="Ex : Saly / Dakar / Thiès">
           </div>
 
           <div>
@@ -483,7 +530,7 @@
               <option value="Aluminium">Aluminium</option>
               <option value="Mécanique">Mécanique</option>
               <option value="Climatisation / Froid">Climatisation / Froid</option>
-              <option value="Manoeuvre">Manoeuvre</option>
+              <option value="Manœuvre">Manœuvre</option>
               <option value="Autre">Autre</option>
             </select>
           </div>
@@ -494,13 +541,13 @@
           id="description"
           name="description"
           required
-          placeholder="Ex: fuite dans la salle de bain, portail à souder, prise à réparer, mur à monter, moteur à vérifier… Mets aussi le quartier, les dimensions et les photos si tu peux."
+          placeholder="Ex : fuite dans la salle de bain, portail à souder, prise à réparer, mur à monter, moteur à vérifier… Mets aussi le quartier, les dimensions et les photos si tu peux."
         ></textarea>
 
         <div class="grid">
           <div>
             <label for="budget">Budget estimé (FCFA)</label>
-            <input id="budget" name="budget" type="number" inputmode="numeric" min="0" step="1000" placeholder="Ex: 150000">
+            <input id="budget" name="budget" type="number" inputmode="numeric" min="0" step="1000" placeholder="Ex : 150000">
           </div>
 
           <div>
@@ -515,7 +562,7 @@
 
         <div class="actions">
           <button class="btn primary" id="btnSubmit" type="submit">🚀 Envoyer ma demande</button>
-          <a class="btn secondary" href="./listing.html">↩️ Retour aux pros</a>
+          <a class="btn secondary" href="./listing.html">↩️ Retour aux profils</a>
         </div>
 
         <div class="mini">
@@ -524,6 +571,16 @@
       </form>
     </section>
   </div>
+
+  <nav class="bottom-nav" aria-label="Navigation rapide Je propose mes services">
+    <div class="bottom-nav-inner">
+      <a href="./index.html"><span class="ico">🏠</span><span>Accueil</span></a>
+      <a href="./listing.html"><span class="ico">👁️</span><span>Profils</span></a>
+      <a class="active" href="./request.html"><span class="ico">📄</span><span>Besoin</span></a>
+      <a href="./track.html"><span class="ico">🔎</span><span>Suivi</span></a>
+      <a href="https://digiy-hub.digiylyfe.com/"><span class="ico">🧭</span><span>HUB</span></a>
+    </div>
+  </nav>
 
   <div class="toast" id="toast">
     <div class="t" id="toastT"></div>
@@ -540,7 +597,6 @@
         auth: { persistSession: false, autoRefreshToken: false }
       });
 
-      const TEAM_WA = "221771342889";
       const KEY_LAST = "DIGIY_BUILD_LAST_REQUEST";
       const PUBLIC_TABLE = "digiy_build_public_profiles";
 
@@ -555,7 +611,6 @@
           metier: cleanText(params.get("metier")),
           ville: cleanText(params.get("ville")),
           region: "",
-          phone: "",
           badge: "",
           hub_badge: ""
         }
@@ -596,6 +651,16 @@
           .replace(/'/g, "&#039;");
       }
 
+      function cleanVisibleUrl() {
+        try {
+          const url = new URL(window.location.href);
+          ["slug", "artisan_id", "phone", "tel", "owner_phone", "contact_phone", "whatsapp", "return", "from"].forEach((key) => {
+            url.searchParams.delete(key);
+          });
+          window.history.replaceState({}, document.title, url.pathname + url.search + url.hash);
+        } catch (_) {}
+      }
+
       function toast(kind, title, msg) {
         const el = $("toast");
         el.classList.remove("ok", "bad");
@@ -616,25 +681,24 @@
       function showSelectedCard() {
         const card = $("selectedCard");
         const hasTarget = state.selected.slug || state.selected.nom || state.selected.metier || state.selected.ville;
+
         if (!hasTarget) {
           card.classList.remove("show");
           return;
         }
 
         $("selectedName").textContent = state.selected.nom || "Professionnel sélectionné";
-        $("selectedTrade").textContent = state.selected.metier || "Entrepreneur multi services";
+        $("selectedTrade").textContent = state.selected.metier || "Service utile";
 
         const meta = [];
         if (state.selected.ville) meta.push(state.selected.ville);
         if (state.selected.region && state.selected.region !== state.selected.ville) meta.push(state.selected.region);
-        if (state.selected.slug) meta.push(`Référence : ${state.selected.slug}`);
-        $("selectedMeta").textContent = meta.join(" • ") || "Sélection transmise";
+        $("selectedMeta").textContent = meta.join(" • ") || "Cible gardée pour cette demande";
 
         const badges = [];
         badges.push(`<span class="chip ok">Cible conservée</span>`);
         if (state.selected.hub_badge) badges.push(`<span class="chip gold">${escapeHtml(state.selected.hub_badge)}</span>`);
         else if (state.selected.badge) badges.push(`<span class="chip gold">${escapeHtml(state.selected.badge)}</span>`);
-        if (state.selected.phone) badges.push(`<span class="chip">${escapeHtml(state.selected.phone)}</span>`);
 
         $("selectedBadges").innerHTML = badges.join("");
         card.classList.add("show");
@@ -655,7 +719,7 @@
         if (s.includes("aluminium")) return "Aluminium";
         if (s.includes("mécan") || s.includes("mecan") || s.includes("moteur") || s.includes("voiture")) return "Mécanique";
         if (s.includes("clim") || s.includes("froid")) return "Climatisation / Froid";
-        if (s.includes("manoeuvre") || s.includes("manœuvre")) return "Manoeuvre";
+        if (s.includes("manoeuvre") || s.includes("manœuvre")) return "Manœuvre";
 
         return "Autre";
       }
@@ -681,7 +745,6 @@
         if (state.selected.metier) parts.push(`Métier : ${state.selected.metier}`);
         if (state.selected.ville) parts.push(`Zone du pro : ${state.selected.ville}`);
         if (state.selected.region && state.selected.region !== state.selected.ville) parts.push(`Région : ${state.selected.region}`);
-        if (state.selected.slug) parts.push(`Référence : ${state.selected.slug}`);
 
         if (!parts.length) return "";
         return `[Contexte cible]\n${parts.join(" | ")}`;
@@ -691,9 +754,11 @@
         const hasSlug = !!state.selected.slug;
         const hasLegacyId = !!state.selected.artisan_id;
 
-        if (!hasSlug && !hasLegacyId) {
+        cleanVisibleUrl();
+
+        if (!hasSlug && !hasLegacyId && !state.selected.nom) {
           setInfo(
-            "⚠️ Aucun pro précis n’a été transmis. Tu peux quand même envoyer ta demande : elle sera orientée proprement.",
+            "⚠️ Aucun professionnel précis n’a été transmis. Tu peux quand même envoyer ta demande : elle sera orientée proprement.",
             "warn"
           );
           showSelectedCard();
@@ -704,7 +769,7 @@
           try {
             const { data, error } = await sb
               .from(PUBLIC_TABLE)
-              .select("slug, display_name, trade, city, region, phone, whatsapp_phone, badge, hub_badge")
+              .select("slug, display_name, trade, city, region, badge, hub_badge")
               .eq("slug", state.selected.slug)
               .maybeSingle();
 
@@ -713,7 +778,6 @@
               state.selected.metier = cleanText(data.trade) || state.selected.metier;
               state.selected.ville = cleanText(data.city) || state.selected.ville;
               state.selected.region = cleanText(data.region) || state.selected.region;
-              state.selected.phone = normalizePhone(data.whatsapp_phone || data.phone || state.selected.phone);
               state.selected.badge = cleanText(data.badge) || state.selected.badge;
               state.selected.hub_badge = cleanText(data.hub_badge) || state.selected.hub_badge;
             }
@@ -736,16 +800,15 @@
           } catch (_) {}
         }
 
-        if (state.selected.nom || state.selected.slug) {
+        if (state.selected.nom || state.selected.metier || state.selected.ville) {
           const lines = [];
           if (state.selected.nom) lines.push(`<b>${escapeHtml(state.selected.nom)}</b>`);
           if (state.selected.metier) lines.push(escapeHtml(state.selected.metier));
           if (state.selected.ville) lines.push(escapeHtml(state.selected.ville));
-          if (state.selected.slug) lines.push(`Référence : <b>${escapeHtml(state.selected.slug)}</b>`);
           setInfo(`✅ Cible gardée pour cette demande • ${lines.join(" • ")}`, "ok");
         } else {
           setInfo(
-            "⚠️ La cible transmise n’a pas pu être relue proprement, mais ta demande peut partir quand même avec le contexte déjà reçu.",
+            "⚠️ La cible transmise n’a pas pu être relue proprement, mais ta demande peut partir quand même avec le contexte reçu.",
             "warn"
           );
         }
@@ -756,7 +819,7 @@
 
       function validateForm(data) {
         if (!cleanText(data.nom)) return "Entre ton nom.";
-        if (!digitsOnly(data.phone)) return "Entre un téléphone joignable.";
+        if (!digitsOnly(data.phone)) return "Entre un numéro joignable.";
         if (!cleanText(data.ville)) return "Indique la ville du chantier.";
         if (!cleanText(data.type_travaux)) return "Choisis le type de service.";
         if (!cleanText(data.description)) return "Décris ton besoin.";
@@ -796,7 +859,6 @@
           localStorage.setItem(KEY_LAST, JSON.stringify({
             demande_id: data.id,
             public_code: data.public_code || null,
-            target_slug: state.selected.slug || null,
             target_name: state.selected.nom || null,
             at: new Date().toISOString()
           }));
@@ -843,7 +905,6 @@
 
           const url = new URL("./success.html", window.location.href);
           url.searchParams.set("demande_id", data.id);
-          if (state.selected.slug) url.searchParams.set("slug", state.selected.slug);
           window.location.href = url.pathname + url.search + url.hash;
         } catch (err) {
           console.error("DIGIY BUILD request error", err);
