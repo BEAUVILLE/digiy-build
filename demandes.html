@@ -3,118 +3,230 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
-  <meta name="theme-color" content="#0b2a1f"/>
-  <title>Demandes publiques — Travaux et services</title>
-  <meta name="description" content="Demandes publiques anonymisées. Contact direct ensuite.">
+  <meta name="theme-color" content="#061b14"/>
+  <title>Demandes publiques — Je propose mes services</title>
+  <meta name="description" content="Demandes publiques anonymisées pour travaux, dépannage, entretien, chantier et services utiles. Lecture simple, sans données sensibles.">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <style>
     :root{
-      --bg:#050a14; --card:#0f172a; --card2:#0b1326; --line:rgba(255,255,255,.12);
-      --ink:#eafff1; --muted:rgba(234,255,241,.70);
-      --gold:#facc15; --orange:#f97316; --green:#22c55e; --red:#ef4444; --sky:#38bdf8;
+      --bg:#061b14;
+      --bg2:#0a2b1f;
+      --line:rgba(255,255,255,.14);
+      --ink:#eafff1;
+      --muted:rgba(234,255,241,.70);
+      --gold:#facc15;
+      --orange:#f97316;
+      --green:#22c55e;
+      --red:#ef4444;
+      --sky:#38bdf8;
       --shadow:0 20px 60px rgba(0,0,0,.35);
+      --max:1180px;
     }
+
     *{box-sizing:border-box;margin:0;padding:0}
+
+    html,body{
+      min-height:100%;
+    }
+
     body{
-      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      font-family:Outfit,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
       background:
         radial-gradient(circle at 20% 10%, rgba(250,204,21,.12), transparent 55%),
         radial-gradient(circle at 80% 90%, rgba(34,197,94,.10), transparent 55%),
-        linear-gradient(135deg, var(--bg) 0%, #0b1220 100%);
+        linear-gradient(135deg, var(--bg), var(--bg2));
       color:var(--ink);
       min-height:100vh;
+      padding-bottom:calc(92px + env(safe-area-inset-bottom,0px));
     }
 
     .topbar{
-      position:sticky; top:0; z-index:60;
-      background:linear-gradient(135deg, rgba(15,23,42,.92), rgba(2,6,23,.92));
+      position:sticky;
+      top:0;
+      z-index:60;
+      background:linear-gradient(135deg, rgba(6,27,20,.94), rgba(3,12,9,.94));
       border-bottom:1px solid var(--line);
-      backdrop-filter: blur(10px);
+      backdrop-filter:blur(10px);
+      -webkit-backdrop-filter:blur(10px);
     }
+
     .topbar-inner{
-      max-width:1180px; margin:0 auto;
-      display:flex; align-items:center; justify-content:space-between;
-      gap:12px; padding:14px 16px; flex-wrap:wrap;
+      max-width:var(--max);
+      margin:0 auto;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      padding:14px 16px;
+      flex-wrap:wrap;
     }
-    .brand{display:flex; gap:10px; align-items:center}
+
+    .brand{
+      display:flex;
+      gap:12px;
+      align-items:center;
+      min-width:0;
+    }
+
     .logo{
-      width:42px;height:42px;border-radius:14px;
-      display:grid;place-items:center;
-      background:linear-gradient(135deg,var(--gold),var(--orange));
-      color:#081018; font-size:22px; font-weight:1000;
-      box-shadow:0 10px 26px rgba(250,204,21,.18);
+      width:48px;
+      height:48px;
+      border-radius:15px;
+      object-fit:cover;
+      background:#fff;
+      border:1px solid rgba(250,204,21,.30);
+      box-shadow:0 10px 26px rgba(0,0,0,.22);
+      flex:0 0 auto;
     }
-    .brand h1{font-size:1.05rem; letter-spacing:.5px}
-    .brand p{font-size:.85rem; color:var(--muted)}
-    .actions{display:flex; gap:10px; flex-wrap:wrap; align-items:center;}
+
+    .brand h1{
+      font-size:1.05rem;
+      letter-spacing:.2px;
+      font-weight:1000;
+      line-height:1.15;
+    }
+
+    .brand p{
+      font-size:.85rem;
+      color:var(--muted);
+      font-weight:800;
+      line-height:1.35;
+    }
+
+    .actions{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
 
     .btn{
-      display:inline-flex; align-items:center; justify-content:center; gap:8px;
-      padding:10px 14px; border-radius:999px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      padding:10px 14px;
+      border-radius:999px;
       border:1px solid var(--line);
       background:rgba(0,0,0,.20);
-      color:var(--ink); text-decoration:none;
-      font-weight:1000; cursor:pointer;
+      color:var(--ink);
+      text-decoration:none;
+      font-weight:1000;
+      cursor:pointer;
       transition:transform .15s ease, border-color .15s ease, opacity .15s ease;
       white-space:nowrap;
+      font-family:inherit;
     }
-    .btn:hover{transform:translateY(-1px); border-color:rgba(250,204,21,.35)}
+
+    .btn:hover{
+      transform:translateY(-1px);
+      border-color:rgba(250,204,21,.35);
+    }
+
+    .btn:disabled{
+      opacity:.55;
+      cursor:not-allowed;
+      transform:none;
+    }
+
     .btn.primary{
       border:none;
       background:linear-gradient(135deg,var(--gold),var(--orange));
       color:#081018;
     }
-    .btn.secondary{background:rgba(0,0,0,.22)}
+
+    .btn.secondary{
+      background:rgba(0,0,0,.22);
+    }
+
     .btn.cockpit{
       border:none;
       background:linear-gradient(135deg, rgba(34,197,94,.95), rgba(250,204,21,.85));
       color:#062014;
     }
+
     .btn.ghost{
       background:rgba(255,255,255,.06);
       border:1px solid rgba(255,255,255,.14);
     }
 
-    .wrap{max-width:1180px; margin:0 auto; padding:18px 16px 44px;}
+    .wrap{
+      max-width:var(--max);
+      margin:0 auto;
+      padding:18px 16px 44px;
+    }
 
     .hero{
       border:1px solid rgba(250,204,21,.18);
       background:linear-gradient(135deg, rgba(250,204,21,.08), rgba(34,197,94,.06));
-      border-radius:20px;
+      border-radius:22px;
       padding:18px 16px;
       margin-bottom:14px;
-      display:flex; gap:12px; align-items:flex-start; justify-content:space-between; flex-wrap:wrap;
+      display:flex;
+      gap:12px;
+      align-items:flex-start;
+      justify-content:space-between;
+      flex-wrap:wrap;
+      box-shadow:var(--shadow);
     }
-    .hero h2{
-      font-size:1.25rem;
-      background:linear-gradient(135deg,var(--gold),var(--orange));
-      -webkit-background-clip:text; background-clip:text;
-      -webkit-text-fill-color:transparent;
-      margin-bottom:6px;
-    }
-    .hero p{color:var(--muted); line-height:1.35; max-width:860px}
 
-    .chips{display:flex; gap:10px; flex-wrap:wrap}
+    .hero h2{
+      font-size:1.35rem;
+      color:#fff3b2;
+      margin-bottom:6px;
+      font-weight:1000;
+    }
+
+    .hero p{
+      color:var(--muted);
+      line-height:1.45;
+      max-width:860px;
+      font-weight:800;
+    }
+
+    .chips{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
     .chip{
       border:1px solid var(--line);
       background:rgba(0,0,0,.18);
-      padding:7px 10px; border-radius:999px;
-      font-size:.85rem; color:var(--muted);
+      padding:7px 10px;
+      border-radius:999px;
+      font-size:.85rem;
+      color:var(--muted);
       font-weight:1000;
     }
-    .chip b{color:var(--ink)}
+
+    .chip b{
+      color:var(--ink);
+    }
 
     .filters{
       border:1px solid var(--line);
       background:rgba(0,0,0,.18);
       border-radius:18px;
       padding:12px;
-      display:flex; gap:10px; flex-wrap:wrap; align-items:center;
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
       margin-bottom:14px;
     }
-    .filters .label{color:var(--gold); font-weight:1100}
+
+    .filters .label{
+      color:var(--gold);
+      font-weight:1100;
+    }
+
     .pill{
       border:1px solid var(--line);
       background:rgba(0,0,0,.22);
@@ -125,15 +237,22 @@
       font-weight:1100;
       font-size:.9rem;
       transition:all .15s ease;
+      font-family:inherit;
     }
-    .pill:hover{border-color:rgba(250,204,21,.35)}
+
+    .pill:hover{
+      border-color:rgba(250,204,21,.35);
+    }
+
     .pill.active{
       border:none;
       background:linear-gradient(135deg,var(--gold),var(--orange));
       color:#081018;
     }
+
     .search{
-      flex:1; min-width:240px;
+      flex:1;
+      min-width:240px;
       border:1px solid var(--line);
       background:rgba(0,0,0,.22);
       color:var(--ink);
@@ -141,65 +260,123 @@
       border-radius:14px;
       outline:none;
       font-weight:1000;
+      font-family:inherit;
     }
 
     .grid{
       display:grid;
-      grid-template-columns: repeat(12, 1fr);
+      grid-template-columns:repeat(12,1fr);
       gap:14px;
       margin-top:10px;
     }
+
     .card{
-      grid-column: span 6;
+      grid-column:span 6;
       border:1px solid var(--line);
       border-radius:18px;
       overflow:hidden;
-      background:linear-gradient(180deg, rgba(255,255,255,.03), rgba(0,0,0,.20));
+      background:linear-gradient(180deg, rgba(255,255,255,.035), rgba(0,0,0,.20));
       box-shadow:0 18px 45px rgba(0,0,0,.35);
     }
-    @media(max-width:980px){ .card{grid-column: span 12;} }
 
     .card-hd{
       padding:12px 12px 10px;
       border-bottom:1px solid var(--line);
       background:rgba(0,0,0,.12);
-      display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap;
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:wrap;
     }
-    .title{font-weight:1100; font-size:1.02rem}
-    .meta{color:var(--muted); font-weight:1000; font-size:.88rem}
+
+    .title{
+      font-weight:1100;
+      font-size:1.02rem;
+    }
+
+    .meta{
+      color:var(--muted);
+      font-weight:1000;
+      font-size:.88rem;
+      margin-top:4px;
+      line-height:1.45;
+    }
+
     .badge{
-      font-weight:1100; font-size:.82rem;
+      font-weight:1100;
+      font-size:.82rem;
       padding:7px 10px;
       border-radius:999px;
       border:1px solid rgba(255,255,255,.14);
       background:rgba(0,0,0,.22);
       color:rgba(234,255,241,.90);
+      height:max-content;
     }
+
     .badge.ok{border-color:rgba(34,197,94,.28)}
     .badge.warn{border-color:rgba(245,158,11,.32)}
     .badge.red{border-color:rgba(239,68,68,.32)}
 
-    .card-bd{padding:12px}
-    .desc{color:rgba(234,255,241,.90); line-height:1.35; font-size:.95rem}
-    .tags{display:flex; gap:8px; flex-wrap:wrap; margin-top:10px}
+    .card-bd{
+      padding:12px;
+    }
+
+    .desc{
+      color:rgba(234,255,241,.90);
+      line-height:1.45;
+      font-size:.95rem;
+      font-weight:750;
+    }
+
+    .tags{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      margin-top:10px;
+    }
+
     .tag{
-      font-weight:1100; font-size:.78rem;
-      padding:6px 10px; border-radius:999px;
+      font-weight:1100;
+      font-size:.78rem;
+      padding:6px 10px;
+      border-radius:999px;
       border:1px solid rgba(255,255,255,.14);
       background:rgba(0,0,0,.28);
       color:var(--muted);
     }
-    .tag.zone{border-color:rgba(34,197,94,.28); color:rgba(234,255,241,.85)}
-    .tag.trade{border-color:rgba(250,204,21,.28); color:rgba(234,255,241,.85)}
-    .tag.code{border-color:rgba(56,189,248,.28); color:rgba(234,255,241,.85)}
-    .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace}
+
+    .tag.zone{
+      border-color:rgba(34,197,94,.28);
+      color:rgba(234,255,241,.85);
+    }
+
+    .tag.trade{
+      border-color:rgba(250,204,21,.28);
+      color:rgba(234,255,241,.85);
+    }
+
+    .tag.code{
+      border-color:rgba(56,189,248,.28);
+      color:rgba(234,255,241,.85);
+    }
+
+    .mono{
+      font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;
+    }
 
     .card-ft{
       border-top:1px solid var(--line);
       padding:12px;
-      display:flex; gap:10px; flex-wrap:wrap;
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
     }
-    .card-ft .btn{flex:1; border-radius:14px}
+
+    .card-ft .btn{
+      flex:1;
+      border-radius:14px;
+    }
+
     .btn.track{
       border:none;
       background:linear-gradient(135deg, rgba(56,189,248,.20), rgba(250,204,21,.18));
@@ -214,29 +391,130 @@
       color:var(--muted);
       font-weight:1000;
       text-align:center;
-      grid-column: 1 / -1;
+      grid-column:1 / -1;
+      line-height:1.6;
     }
 
     .pager{
-      display:flex; gap:10px; flex-wrap:wrap; align-items:center; justify-content:space-between;
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+      justify-content:space-between;
       margin-top:14px;
       border:1px solid var(--line);
       background:rgba(0,0,0,.18);
       border-radius:18px;
       padding:12px;
     }
-    .pager .left{color:var(--muted); font-weight:1000}
-    .pager .right{display:flex; gap:10px; flex-wrap:wrap}
+
+    .pager .left{
+      color:var(--muted);
+      font-weight:1000;
+    }
+
+    .pager .right{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+
     .foot{
       border-top:1px solid var(--line);
       color:var(--muted);
       padding:22px 16px 30px;
-      max-width:1180px;
+      max-width:var(--max);
       margin:22px auto 0;
       text-align:center;
       font-size:.92rem;
+      line-height:1.7;
+      font-weight:800;
     }
-    .foot strong{color:var(--gold)}
+
+    .foot strong{
+      color:var(--gold);
+    }
+
+    .bottom-nav{
+      position:fixed;
+      left:0;
+      right:0;
+      bottom:0;
+      z-index:9998;
+      padding:8px 10px calc(8px + env(safe-area-inset-bottom,0px));
+      background:rgba(6,27,20,.94);
+      border-top:1px solid rgba(255,255,255,.12);
+      backdrop-filter:blur(12px);
+      -webkit-backdrop-filter:blur(12px);
+    }
+
+    .bottom-nav-inner{
+      width:min(760px,100%);
+      margin:0 auto;
+      display:grid;
+      grid-template-columns:repeat(5,1fr);
+      gap:6px;
+    }
+
+    .bottom-nav a{
+      min-height:54px;
+      border-radius:14px;
+      display:grid;
+      place-items:center;
+      align-content:center;
+      gap:2px;
+      color:rgba(234,255,241,.78);
+      font-size:11px;
+      font-weight:1000;
+      text-align:center;
+      border:1px solid transparent;
+      text-decoration:none;
+      background:transparent;
+      padding:0 4px;
+    }
+
+    .bottom-nav .ico{
+      font-size:18px;
+      line-height:1;
+    }
+
+    .bottom-nav a.active{
+      background:linear-gradient(135deg,var(--orange),var(--gold));
+      color:#111;
+    }
+
+    @media(max-width:980px){
+      .card{grid-column:span 12}
+    }
+
+    @media(max-width:760px){
+      .topbar-inner{
+        align-items:flex-start;
+      }
+
+      .actions .btn{
+        flex:1;
+      }
+
+      .filters{
+        display:grid;
+        grid-template-columns:1fr 1fr;
+      }
+
+      .filters .label,
+      .filters .search{
+        grid-column:1 / -1;
+      }
+
+      .pager{
+        flex-direction:column;
+        align-items:stretch;
+      }
+
+      .pager .right .btn{
+        flex:1;
+      }
+    }
   </style>
 </head>
 
@@ -245,17 +523,22 @@
 <header class="topbar">
   <div class="topbar-inner">
     <div class="brand">
-      <div class="logo">📋</div>
+      <img
+        class="logo"
+        src="https://digiylyfe.net/wp-content/uploads/2026/03/digiylyfe_logo_qr.jpeg"
+        alt="Logo DIGIYLYFE"
+      />
       <div>
         <h1>Demandes travaux et services</h1>
-        <p>Demandes publiques • anonymisées • Sénégal</p>
+        <p>Demandes publiques • anonymisées • sans données sensibles</p>
       </div>
     </div>
+
     <div class="actions">
-      <a class="btn ghost" href="./index.html">← Vitrine</a>
+      <a class="btn ghost" href="./index.html">← Accueil</a>
       <a class="btn primary" href="./request.html">📤 Déposer une demande</a>
       <a class="btn secondary" href="./track.html">🔎 Suivi</a>
-      <a class="btn cockpit" href="./build-pro/pin.html">🔐 Mon espace artisan</a>
+      <a class="btn cockpit" href="./build-pro/pin.html">🔐 Espace pro</a>
     </div>
   </div>
 </header>
@@ -264,71 +547,113 @@
 
   <section class="hero">
     <div>
-      <h2>Demandes anonymisées (public safe)</h2>
-      <p>Tu vois les demandes sans données sensibles. Pour suivre une demande précise, utilise <b>Suivi</b> avec le code.</p>
+      <h2>Demandes publiques anonymisées</h2>
+      <p>
+        Ici, on voit les besoins du terrain sans exposer les personnes.
+        Pour suivre une demande précise, utilise la page <b>Suivi</b> avec la référence publique.
+      </p>
     </div>
+
     <div class="chips">
-      <span class="chip">📌 Total: <b id="statTotal">—</b></span>
-      <span class="chip">🛡️ Mode safe</span>
+      <span class="chip">📌 Total : <b id="statTotal">—</b></span>
+      <span class="chip">🛡️ Mode public safe</span>
       <span class="chip">0% commission</span>
     </div>
   </section>
 
-  <section class="filters">
+  <section class="filters" aria-label="Filtres des demandes publiques">
     <span class="label">Filtrer :</span>
 
-    <button class="pill active" data-sector="all">Tous secteurs</button>
-    <button class="pill" data-sector="construction">Construction</button>
-    <button class="pill" data-sector="plomberie">Plomberie</button>
-    <button class="pill" data-sector="electricite">Électricité</button>
-    <button class="pill" data-sector="multi">Multi</button>
+    <button class="pill active" data-sector="all" type="button">Tous secteurs</button>
+    <button class="pill" data-sector="construction" type="button">Construction</button>
+    <button class="pill" data-sector="plomberie" type="button">Plomberie</button>
+    <button class="pill" data-sector="electricite" type="button">Électricité</button>
+    <button class="pill" data-sector="multi" type="button">Multi</button>
 
-    <button class="pill active" data-zone="all">Toute zone</button>
-    <button class="pill" data-zone="dakar">Dakar</button>
-    <button class="pill" data-zone="petite-cote">Petite Côte</button>
-    <button class="pill" data-zone="thies">Thiès</button>
-    <button class="pill" data-zone="national">National</button>
+    <button class="pill active" data-zone="all" type="button">Toute zone</button>
+    <button class="pill" data-zone="dakar" type="button">Dakar</button>
+    <button class="pill" data-zone="petite-cote" type="button">Petite Côte</button>
+    <button class="pill" data-zone="thies" type="button">Thiès</button>
+    <button class="pill" data-zone="national" type="button">National</button>
 
-    <input class="search" id="q" placeholder="Recherche (fuite, tableau, piscine, carrelage…)" />
+    <input class="search" id="q" placeholder="Recherche : fuite, tableau, piscine, carrelage…" />
   </section>
 
-  <section class="grid" id="grid"></section>
+  <section class="grid" id="grid" aria-live="polite"></section>
 
   <div class="pager">
     <div class="left" id="pagerLeft">—</div>
     <div class="right">
-      <button class="btn secondary" id="btnPrev">← Précédent</button>
-      <button class="btn secondary" id="btnNext">Suivant →</button>
+      <button class="btn secondary" id="btnPrev" type="button">← Précédent</button>
+      <button class="btn secondary" id="btnNext" type="button">Suivant →</button>
     </div>
   </div>
 
 </main>
 
 <footer class="foot">
-  <p><strong>Travaux et services</strong> — demandes anonymisées • contact direct • Sénégal</p>
+  <p><strong>Je propose mes services</strong> — demandes anonymisées • contact direct ensuite • Sénégal</p>
   <p>Partie de <strong>DIGIYLYFE ♾️</strong></p>
 </footer>
 
+<nav class="bottom-nav" aria-label="Navigation rapide Je propose mes services">
+  <div class="bottom-nav-inner">
+    <a href="./index.html"><span class="ico">🏠</span><span>Accueil</span></a>
+    <a href="./listing.html"><span class="ico">👁️</span><span>Profils</span></a>
+    <a href="./request.html"><span class="ico">📄</span><span>Besoin</span></a>
+    <a class="active" href="./demandes.html"><span class="ico">📋</span><span>Demandes</span></a>
+    <a href="./track.html"><span class="ico">🔎</span><span>Suivi</span></a>
+  </div>
+</nav>
+
 <script>
 document.addEventListener("DOMContentLoaded", async () => {
+  "use strict";
 
   if(location.pathname.includes("/digiy-build/digiy-build/")){
     location.replace(location.pathname.replace("/digiy-build/digiy-build/", "/digiy-build/") + location.search + location.hash);
     return;
   }
 
+  function cleanVisibleUrl(){
+    try{
+      const url = new URL(location.href);
+      [
+        "slug",
+        "phone",
+        "tel",
+        "owner_phone",
+        "contact_phone",
+        "whatsapp",
+        "artisan_id",
+        "return",
+        "from"
+      ].forEach((key) => url.searchParams.delete(key));
+
+      history.replaceState({}, document.title, url.pathname + url.search + url.hash);
+    }catch(_){}
+  }
+
+  cleanVisibleUrl();
+
   const SUPABASE_URL = "https://wesqmwjjtsefyjnluosj.supabase.co";
   const SUPABASE_ANON_KEY = "sb_publishable_tGHItRgeWDmGjnd0CK1DVQ_BIep4Ug3";
   const sb = window.supabase?.createClient
-    ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY)
+    ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+        auth:{persistSession:false,autoRefreshToken:false}
+      })
     : null;
 
-  const $ = (id)=>document.getElementById(id);
+  const $ = (id) => document.getElementById(id);
   const grid = $("grid");
 
   function esc(s){
     return String(s ?? "").replace(/[&<>"']/g, (m)=>({
-      "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+      "&":"&amp;",
+      "<":"&lt;",
+      ">":"&gt;",
+      '"':"&quot;",
+      "'":"&#39;"
     }[m]));
   }
 
@@ -534,7 +859,7 @@ document.addEventListener("DOMContentLoaded", async () => {
           </div>
 
           <div class="card-ft">
-            <a class="btn track" href="${esc(trackUrl.href)}">🔎 Suivi</a>
+            <a class="btn track" href="${esc(trackUrl.pathname + trackUrl.search + trackUrl.hash)}">🔎 Suivi</a>
             <a class="btn secondary" href="./request.html">📤 Déposer</a>
           </div>
         </article>
@@ -549,7 +874,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   async function load(){
     if(!sb){
-      grid.innerHTML = `<div class="empty">Supabase non chargé (CDN). Recharge la page.</div>`;
+      grid.innerHTML = `<div class="empty">Lecture impossible pour le moment. Recharge la page.</div>`;
       return;
     }
 
@@ -574,7 +899,7 @@ document.addEventListener("DOMContentLoaded", async () => {
       return;
     }catch(e){
       console.error("Fallback view KO:", e?.message || e);
-      grid.innerHTML = `<div class="empty">Impossible de charger les demandes (RLS / view / RPC). Vérifie Supabase côté base.</div>`;
+      grid.innerHTML = `<div class="empty">Impossible de charger les demandes publiques pour le moment. Vérifie le rail public safe côté Supabase.</div>`;
     }
   }
 
@@ -614,7 +939,6 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   grid.innerHTML = `<div class="empty">Chargement des demandes…</div>`;
   await load();
-
 });
 </script>
 
