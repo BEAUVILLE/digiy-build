@@ -2,9 +2,9 @@
 <html lang="fr">
 <head>
   <meta charset="utf-8">
-  <title>Je propose mes services — Travaux, dépannage, entretien et services utiles</title>
+  <title>DIGIY BUILD — Travaux, dépannage, entretien et services utiles</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="description" content="Je propose mes services by DIGIYLYFE : trouver un professionnel, décrire un besoin, suivre une demande et garder le contact direct avec le pro.">
+  <meta name="description" content="DIGIY BUILD — trouver un professionnel, décrire un besoin, suivre une demande et garder le contact direct avec le pro. Travaux, dépannage, entretien, chantier et services utiles.">
   <meta name="theme-color" content="#061b14">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -387,6 +387,85 @@
       padding:22px;
     }
 
+
+    .build-bridge{
+      margin-top:24px;
+      padding:22px;
+      background:
+        radial-gradient(circle at top left, rgba(250,204,21,.12), transparent 38%),
+        linear-gradient(145deg,rgba(11,42,31,.96),rgba(6,35,25,.96));
+      border:1px solid rgba(250,204,21,.18);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+    }
+
+    .build-bridge-head{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:14px;
+      flex-wrap:wrap;
+      margin-bottom:16px;
+    }
+
+    .build-bridge h2{
+      margin:0;
+      font-size:clamp(28px,4vw,42px);
+      line-height:1.04;
+      letter-spacing:-.03em;
+      font-weight:900;
+      color:#fff3b2;
+    }
+
+    .build-bridge p{
+      color:var(--muted);
+      line-height:1.7;
+      margin:8px 0 0;
+      font-size:15px;
+      font-weight:760;
+      max-width:820px;
+    }
+
+    .bridge-actions{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      align-items:center;
+    }
+
+    .bridge-grid{
+      display:grid;
+      grid-template-columns:repeat(3,minmax(0,1fr));
+      gap:12px;
+      margin-top:14px;
+    }
+
+    .bridge-card{
+      border-radius:22px;
+      padding:16px;
+      background:rgba(255,255,255,.055);
+      border:1px solid rgba(255,255,255,.10);
+      min-height:132px;
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+
+    .bridge-card strong{
+      color:#fff3b2;
+      font-size:19px;
+      line-height:1.15;
+      font-weight:900;
+    }
+
+    .bridge-card span{
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.58;
+      font-weight:760;
+    }
+
+
     .metiers h3,.return-house h3{
       font-size:24px;
       margin:0 0 14px;
@@ -606,11 +685,11 @@
         />
         <div>
           <div class="kicker">Travaux • dépannage • entretien • chantier • services pratiques</div>
-          <h1>JE PROPOSE MES SERVICES</h1>
-          <div class="lead">Un chemin simple entre le client et le bon professionnel.</div>
+          <h1>DIGIY BUILD</h1>
+          <div class="lead">Travaux, dépannage, entretien : le client explique, le pro répond direct.</div>
           <p class="sub">
             Ici, le client décrit son besoin, découvre des profils utiles et avance sans tourner en rond.
-            Le professionnel garde le contact direct, son prix, son métier et sa relation client.
+            Le professionnel garde son contact, son prix, son métier et sa relation client. DIGIY organise la porte, pas la commission.
           </p>
 
           <div class="zones">Sénégal • Dakar • Thiès • Saly • Mbour • Touba</div>
@@ -630,7 +709,41 @@
             <a href="./listing.html" class="cta-btn primary">👁️ Voir les profils</a>
             <a href="./request.html" class="cta-btn secondary">📄 Décrire mon besoin</a>
             <a href="./track.html" class="cta-btn secondary">🔎 Suivre ma demande</a>
+            <a href="./build-pro/pin.html" class="cta-btn green">🔒 Espace pro</a>
           </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="build-bridge" id="demande-claire">
+      <div class="build-bridge-head">
+        <div>
+          <div class="kicker">Façade publique BUILD</div>
+          <h2>Décrire le besoin avant de perdre le fil.</h2>
+          <p>
+            Une fuite, une panne, un mur à finir, une clim à poser, un chantier à lancer :
+            DIGIY aide le client à formuler une demande claire, puis à garder le contact direct avec le professionnel.
+          </p>
+        </div>
+        <div class="bridge-actions">
+          <a class="cta-btn primary" href="./request.html">📄 Décrire mon besoin</a>
+          <a class="cta-btn secondary" href="./listing.html">👁️ Voir les profils</a>
+          <a class="cta-btn secondary" href="./track.html">🔎 Suivre ma demande</a>
+        </div>
+      </div>
+
+      <div class="bridge-grid">
+        <div class="bridge-card">
+          <strong>🧰 Besoin clair</strong>
+          <span>Le client pose le lieu, l’urgence, le métier recherché et les détails utiles.</span>
+        </div>
+        <div class="bridge-card">
+          <strong>📲 Contact direct</strong>
+          <span>DIGIY ne garde pas le client prisonnier. Le pro garde la relation.</span>
+        </div>
+        <div class="bridge-card">
+          <strong>🧾 Suivi simple</strong>
+          <span>La demande garde une trace lisible pour éviter les messages perdus.</span>
         </div>
       </div>
     </section>
@@ -643,7 +756,7 @@
           <h2>Je cherche un professionnel</h2>
           <p>
             Trouve un profil pour la maison, le chantier, le dépannage, l’entretien ou une intervention pratique.
-            Le but est simple : une demande claire, un bon contact, un prochain geste.
+            Le but est simple : une demande claire, un bon contact, un prochain geste sur le terrain.
           </p>
         </div>
 
@@ -739,7 +852,7 @@
             </div>
             <div class="desc">
               Ton abonnement est déjà activé ? Ouvre ton espace sécurisé.
-              Si ta session est ouverte, tu circules sans retaper ton code pendant 8 heures.
+              Si ta session est ouverte, tu circules sans retaper ton code pendant 8 heures. Le pro clique, DIGIY l’aide à formuler.
             </div>
             <div class="actions">
               <a class="btn btn-primary" href="./build-pro/pin.html">🔑 Ouvrir mon espace</a>
@@ -787,11 +900,13 @@
         <a class="cta-btn secondary" href="https://digiylyfe.com/">🌍 Site DIGIYLYFE</a>
         <a class="cta-btn primary" href="https://digiy-hub.digiylyfe.com/">🧭 HUB DIGIY</a>
         <a class="cta-btn secondary" href="https://tarifs.digiylyfe.com/" target="_blank" rel="noopener noreferrer">📦 Tarifs</a>
+        <a class="cta-btn secondary" href="./request.html">📄 Demande client</a>
+        <a class="cta-btn green" href="./build-pro/pin.html">🔒 Espace pro</a>
       </div>
     </section>
 
     <footer>
-      JE PROPOSE MES SERVICES — Travaux, dépannage, entretien, chantier et services pratiques.<br>
+      DIGIY BUILD — Travaux, dépannage, entretien, chantier et services pratiques.<br>
       Contact direct • Paiement direct au pro • 0% commission • BY DIGIYLYFE
     </footer>
   </div>
@@ -800,9 +915,9 @@
     <div class="bottom-nav-inner">
       <a href="https://digiylyfe.com/"><span class="ico">🌍</span><span>Site</span></a>
       <a href="https://digiy-hub.digiylyfe.com/"><span class="ico">🧭</span><span>HUB</span></a>
-      <a href="https://tarifs.digiylyfe.com/" target="_blank" rel="noopener noreferrer"><span class="ico">📦</span><span>Tarifs</span></a>
       <a class="active" href="./listing.html"><span class="ico">👁️</span><span>Profils</span></a>
       <a href="./request.html"><span class="ico">📄</span><span>Besoin</span></a>
+      <a href="./build-pro/pin.html"><span class="ico">🔒</span><span>Pro</span></a>
     </div>
   </nav>
 
@@ -833,8 +948,7 @@
       const config = {
         label: "Écouter services",
         stopLabel: "Arrêter",
-        text:
-          "Bienvenue dans Je propose mes services by DIGIYLYFE. Ici, le client peut chercher un professionnel, voir les profils ou décrire son besoin. Travaux, dépannage, entretien, chantier ou service utile : DIGIY aide à rendre la demande claire. Le professionnel garde le contact direct, son prix et sa relation client. Zéro commission. Le terrain garde la main.",
+        text: "Bienvenue dans DIGIY BUILD by DIGIYLYFE. Ici, le client peut chercher un professionnel, voir les profils, décrire un besoin ou suivre une demande. Travaux, dépannage, entretien, chantier, service utile : on évite les messages flous. Le professionnel garde le contact direct, son prix et sa relation client. Zéro commission. Le terrain garde la main.",
         rate: 0.82,
         pitch: 1,
         volume: 1
