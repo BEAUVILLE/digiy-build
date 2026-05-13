@@ -148,7 +148,7 @@
       text-decoration:none;
       border:1px solid transparent;
       cursor:pointer;
-      font-size:14px;
+      font-size:13.5px;
       font-weight:1000;
       transition:transform .18s ease, border-color .18s ease, box-shadow .18s ease, opacity .18s ease;
       font-family:inherit;
@@ -496,7 +496,7 @@
 
     .card-actions{
       display:grid;
-      grid-template-columns:1fr 1fr;
+      grid-template-columns:repeat(3,minmax(0,1fr));
       gap:10px;
       margin-top:auto;
     }
@@ -667,6 +667,7 @@
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script>
+
     (() => {
       "use strict";
 
@@ -675,6 +676,72 @@
       const PUBLIC_TABLE = "digiy_build_public_profiles";
       const DEFAULT_PHOTO = "https://digiylyfe.net/wp-content/uploads/2026/03/digiylyfe_logo_qr.jpeg";
       const LOGO_PHOTO = "https://digiylyfe.net/wp-content/uploads/2026/03/digiylyfe_logo_qr.jpeg";
+
+      /*
+        Mémoire locale DIGIY BUILD
+        Ces anciennes fiches partenaires existaient en dur dans le code, pas dans le SQL.
+        On les garde ici pour ne pas perdre la vitrine historique pendant que Supabase
+        accueille progressivement les nouvelles fiches publiques.
+      */
+      const LOCAL_PROFILES = [
+        {
+          slug: "partenaires-helage-plombier",
+          display_name: "Helage",
+          trade: "Plombier multi-services · dépannage · installation · salle de bain",
+          city: "Saly",
+          region: "Petite Côte",
+          sector: "plomberie",
+          bio: "Dépannage fuites, robinets, WC, installation douche, lavabo, chauffe-eau, désengorgement et petits chantiers sanitaires. Contact direct, devis rapide par WhatsApp.",
+          photo_url: "https://orange-pig-270004.hostingersite.com/wp-content/uploads/2025/06/HELAGE-PLOMBIER.png",
+          profile_url: "https://orange-pig-270004.hostingersite.com/partenaires-helage-plombier/",
+          phone: "+221774513523",
+          whatsapp: "221774513523",
+          legacy_aliases: ["helage", "hélage", "helage plombier", "partenaires-helage-plombier"],
+          tags: ["plomberie", "dépannage", "installation", "salle de bain"],
+          badge: "Partenaire validé DIGIYLYFE",
+          price_label: "Sur devis",
+          is_published: true,
+          priority: 120
+        },
+        {
+          slug: "partenaires-mbaye",
+          display_name: "Mbaye Diouf",
+          trade: "Bâtisseur · villas modernes · piscines · finitions haut de gamme",
+          city: "Saly / Mbour / Thiès",
+          region: "Petite Côte",
+          sector: "construction",
+          bio: "Construction de villas, piscines béton, finitions haut de gamme, rénovation et extensions. Devis après visite selon plans, surfaces, matériaux et délais.",
+          photo_url: "https://orange-pig-270004.hostingersite.com/wp-content/uploads/2025/06/mbaye-diouf.jpeg",
+          profile_url: "https://orange-pig-270004.hostingersite.com/partenaires-mbaye/",
+          phone: "+221776427113",
+          whatsapp: "221776427113",
+          legacy_aliases: ["mbaye", "mbaye diouf", "partenaires-mbaye", "page-partenaire-mbaye-diouf"],
+          tags: ["villa", "piscine", "rénovation", "finition"],
+          badge: "Partenaire validé DIGIYLYFE",
+          price_label: "Sur devis",
+          is_published: true,
+          priority: 115
+        },
+        {
+          slug: "partenaires-zal-kourant",
+          display_name: "Zal & Kourant",
+          trade: "Électriciens · installation · rénovation · dépannage",
+          city: "Saly",
+          region: "Petite Côte",
+          sector: "electricite",
+          bio: "Installation neuve, rénovation, mise aux normes, tableau, disjoncteurs, terre, dépannage panne, prise, éclairage et petits chantiers de finition.",
+          photo_url: "https://orange-pig-270004.hostingersite.com/wp-content/uploads/2025/06/039-ZAL.png",
+          profile_url: "https://orange-pig-270004.hostingersite.com/partenaires-zal-kourant/",
+          phone: "+221772084781",
+          whatsapp: "221772084781",
+          legacy_aliases: ["zal", "zal kourant", "zal & kourant", "partenaires-zal-kourant"],
+          tags: ["électricité", "dépannage", "rénovation", "maison", "bâtiment"],
+          badge: "Partenaire validé DIGIYLYFE",
+          price_label: "Dépannage à partir de 10 000 FCFA",
+          is_published: true,
+          priority: 120
+        }
+      ];
 
       const $ = (id) => document.getElementById(id);
 
@@ -867,6 +934,40 @@
         return url.pathname + url.search + url.hash;
       }
 
+      function cleanUrlObject(url) {
+        ["phone","tel","owner_phone","contact_phone","whatsapp","slug","return","from"].forEach((key) => {
+          url.searchParams.delete(key);
+        });
+        return url;
+      }
+
+      function absoluteUrl(href) {
+        const raw = text(href);
+        if (!raw) return "";
+        try {
+          return cleanUrlObject(new URL(raw, window.location.href)).toString();
+        } catch (_) {
+          return "";
+        }
+      }
+
+      function qrUrlFor(href) {
+        const target = absoluteUrl(href);
+        if (!target) return "";
+        return `https://api.qrserver.com/v1/create-qr-code/?size=420x420&margin=16&data=${encodeURIComponent(target)}`;
+      }
+
+      function normalizeUrlKey(href) {
+        const raw = text(href);
+        if (!raw) return "";
+        try {
+          const url = cleanUrlObject(new URL(raw, window.location.href));
+          return normSlug(`${url.hostname}${url.pathname}`);
+        } catch (_) {
+          return "";
+        }
+      }
+
       function normalizeProfile(row) {
         const display_name = text(firstOf(row, ["display_name", "public_label", "name", "title"]));
         const city = text(firstOf(row, ["city", "zone", "quartier", "location"]));
@@ -881,6 +982,7 @@
         const hub_badge = text(firstOf(row, ["hub_badge", "public_badge"]));
         const price_label = text(firstOf(row, ["price_label", "price_text", "offer_label"]));
         const tags = parseTags(firstOf(row, ["tags", "keywords", "tag_list"], []));
+        const legacy_aliases = parseTags(firstOf(row, ["legacy_aliases", "aliases", "alias"], []));
         const slug = normSlug(firstOf(row, ["slug"]));
         const updated_at = text(firstOf(row, ["updated_at", "created_at"], ""));
 
@@ -900,6 +1002,7 @@
           hub_badge,
           price_label,
           tags,
+          legacy_aliases,
           updated_at
         };
       }
@@ -919,11 +1022,57 @@
         const city = normLoose(profile.city);
         const region = normLoose(profile.region);
         const sector = normLoose(profile.sector);
+        const urlKey = normalizeUrlKey(profile.profile_url);
+        const aliases = [
+          ...(profile.legacy_aliases || []),
+          ...(profile.tags || [])
+        ].map(normLoose).filter(Boolean);
+
+        const genericNames = new Set([
+          "professionnel",
+          "je propose mes services",
+          "service utile",
+          "digiy build pro",
+          "digiylyfe"
+        ]);
+
+        const hay = [
+          slug,
+          name,
+          trade,
+          city,
+          region,
+          sector,
+          profile.profile_url,
+          ...aliases
+        ].map(normLoose).join(" ");
 
         if (slug) keys.push(`slug:${slug}`);
+        if (urlKey) keys.push(`url:${urlKey}`);
+        if (name && name.length >= 4 && !genericNames.has(name)) keys.push(`name:${name}`);
         if (name && trade && city) keys.push(`name-trade-city:${name}|${trade}|${city}`);
         if (name && trade && region) keys.push(`name-trade-region:${name}|${trade}|${region}`);
         if (name && city && sector) keys.push(`name-city-sector:${name}|${city}|${sector}`);
+
+        /*
+          Anti-doublon anciennes fiches : ces partenaires ont existé en dur avant le SQL.
+          Même si la base les ressort avec un slug, une ville ou un métier légèrement différent,
+          on les regroupe dans une seule carte publique.
+        */
+        if (hay.includes("helage") || hay.includes("hélage") || hay.includes("partenaires-helage-plombier")) {
+          keys.push("legacy:helage-plombier");
+        }
+        if (hay.includes("mbaye") || hay.includes("partenaires-mbaye")) {
+          keys.push("legacy:mbaye-diouf");
+        }
+        if (
+          hay.includes("zal kourant") ||
+          hay.includes("partenaires-zal-kourant") ||
+          (hay.includes("zal") && hay.includes("kourant")) ||
+          (hay.includes("zal") && (hay.includes("electric") || hay.includes("électric") || hay.includes("courant")))
+        ) {
+          keys.push("legacy:zal-kourant");
+        }
 
         return [...new Set(keys.filter(Boolean))];
       }
@@ -994,6 +1143,7 @@
           hub_badge: bestText(keep.hub_badge, alt.hub_badge),
           price_label: bestText(keep.price_label, alt.price_label),
           tags: uniqueList([...(keep.tags || []), ...(alt.tags || [])]),
+          legacy_aliases: uniqueList([...(keep.legacy_aliases || []), ...(alt.legacy_aliases || [])]),
           updated_at: bestDate(keep.updated_at, alt.updated_at)
         };
       }
@@ -1203,8 +1353,13 @@
           `<span class="chip">${escapeHtml(tag)}</span>`
         ));
 
-        const profileUrl = makeProfileUrl(profile);
-        const profileBtn = `<a class="btn view" href="${escapeHtml(profileUrl)}">🌍 Voir ma fiche</a>`;
+        const profileUrl = profile.profile_url || makeProfileUrl(profile);
+        const profileTarget = profile.profile_url ? ` target="_blank" rel="noopener noreferrer"` : "";
+        const profileBtn = `<a class="btn view" href="${escapeHtml(profileUrl)}"${profileTarget}>🌍 Voir ma fiche</a>`;
+        const qrUrl = qrUrlFor(profileUrl);
+        const qrBtn = qrUrl
+          ? `<a class="btn green" href="${escapeHtml(qrUrl)}" target="_blank" rel="noopener noreferrer">📲 QR fiche</a>`
+          : "";
 
         return `
           <article class="card">
@@ -1231,12 +1386,13 @@
               <div class="contact-box">
                 <div class="contact-title">Prochain geste</div>
                 <div class="contact-value">
-                  Clique sur “Voir ma fiche” ou décris ton besoin. Le contact se fait ensuite directement avec le professionnel.
+                  Clique sur “Voir ma fiche”, ouvre le “QR fiche” si tu veux le partager, ou décris ton besoin. Le contact reste direct avec le professionnel.
                 </div>
               </div>
 
               <div class="card-actions">
                 ${profileBtn}
+                ${qrBtn}
                 <a class="btn secondary" href="${escapeHtml(requestUrl)}">📄 Décrire mon besoin</a>
               </div>
             </div>
@@ -1272,12 +1428,19 @@
         els.resultsText.textContent = "Chargement des profils…";
         els.resultsMeta.textContent = "Vitrine publique";
 
+        const localPublished = LOCAL_PROFILES
+          .filter((row) => isPublished(row))
+          .map(normalizeProfile)
+          .filter((row) => row.display_name || row.trade || row.city);
+
         if (!state.client) {
           state.client = buildClient();
         }
 
         if (!state.client) {
           state.remoteError = "Supabase indisponible";
+          state.rows = sortProfiles(dedupeProfiles(localPublished));
+          state.filtered = state.rows.filter(matchProfile);
           renderGrid();
           return;
         }
@@ -1290,16 +1453,18 @@
 
           if (error) {
             state.remoteError = error.message || "Lecture impossible";
+            state.rows = sortProfiles(dedupeProfiles(localPublished));
+            state.filtered = state.rows.filter(matchProfile);
             renderGrid();
             return;
           }
 
-          const published = (data || [])
+          const sqlPublished = (data || [])
             .filter((row) => isPublished(row))
             .map(normalizeProfile)
             .filter((row) => row.display_name || row.trade || row.city);
 
-          const deduped = dedupeProfiles(published);
+          const deduped = dedupeProfiles([...localPublished, ...sqlPublished]);
 
           state.remoteOk = true;
           state.rows = sortProfiles(deduped);
@@ -1307,6 +1472,8 @@
           renderGrid();
         } catch (error) {
           state.remoteError = error?.message || "Erreur réseau";
+          state.rows = sortProfiles(dedupeProfiles(localPublished));
+          state.filtered = state.rows.filter(matchProfile);
           renderGrid();
         }
       }
@@ -1378,9 +1545,11 @@
 
       init();
     })();
+
   </script>
 </body>
 </html>
+
 
 
 
