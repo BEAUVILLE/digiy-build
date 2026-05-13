@@ -659,7 +659,7 @@
       </div>
 
       <div class="focused-note" id="focusedNote" hidden>
-        Fiche directe ouverte depuis un QR ou un lien partenaire.
+        Fiche partenaire ouverte depuis un QR ou un lien direct.
       </div>
     </section>
 
@@ -820,15 +820,11 @@
 
       function makeProfileUrl(profile) {
         /*
-          Le bouton "Voir ma fiche" doit toujours exister.
-          Si le pro a une URL publique dédiée, on l'utilise.
-          Sinon on reste dans la galerie avec ?slug=..., ce qui permet au QR
-          de faire remonter directement la bonne carte sans envoyer vers le PRO.
+          Le bouton "Voir ma fiche" ouvre la vraie fiche partenaire publique.
+          La galerie reste listing.html, mais la fiche dédiée est fiche.html?slug=...
+          Aucun lien PRO, aucun PIN.
         */
-        const explicit = maybeUrl(profile.profile_url);
-        if (explicit) return explicit;
-
-        const url = new URL("./listing.html", window.location.href);
+        const url = new URL("./fiche.html", window.location.href);
         const slug = normSlug(profile.slug || profile.display_name || profile.trade || "");
         if (slug) url.searchParams.set("slug", slug);
         return url.pathname + url.search + url.hash;
@@ -1175,9 +1171,7 @@
         ));
 
         const profileUrl = makeProfileUrl(profile);
-        const targetAttr = maybeUrl(profile.profile_url) ? ` target="_blank" rel="noopener"` : "";
-
-        const profileBtn = `<a class="btn view" href="${escapeHtml(profileUrl)}"${targetAttr}>🌍 Voir ma fiche</a>`;
+        const profileBtn = `<a class="btn view" href="${escapeHtml(profileUrl)}">🌍 Voir ma fiche</a>`;
 
         return `
           <article class="card">
@@ -1373,3 +1367,4 @@
   </script>
 </body>
 </html>
+
