@@ -183,18 +183,6 @@
       border-color:rgba(34,197,94,.22);
     }
 
-    .focused-note{
-      margin-top:14px;
-      padding:13px 14px;
-      border-radius:16px;
-      border:1px solid rgba(34,197,94,.28);
-      background:rgba(34,197,94,.09);
-      color:#bbf7d0;
-      font-size:13px;
-      line-height:1.55;
-      font-weight:900;
-    }
-
     .filters{
       margin-top:14px;
       display:grid;
@@ -657,10 +645,6 @@
         <div id="resultsText">Chargement des profils…</div>
         <div id="resultsMeta">Vitrine publique</div>
       </div>
-
-      <div class="focused-note" id="focusedNote" hidden>
-        Fiche partenaire ouverte depuis un QR ou un lien direct.
-      </div>
     </section>
 
     <section id="grid" class="grid"></section>
@@ -703,8 +687,7 @@
         grid: $("grid"),
         empty: $("empty"),
         resultsText: $("resultsText"),
-        resultsMeta: $("resultsMeta"),
-        focusedNote: $("focusedNote")
+        resultsMeta: $("resultsMeta")
       };
 
       const state = {
@@ -712,8 +695,7 @@
         rows: [],
         filtered: [],
         remoteOk: false,
-        remoteError: null,
-        focusSlug: ""
+        remoteError: null
       };
 
       function text(v) {
@@ -989,9 +971,6 @@
       }
 
       function matchProfile(profile) {
-        const focusSlug = normSlug(state.focusSlug);
-        if (focusSlug && normSlug(profile.slug) !== focusSlug) return false;
-
         const q = normLoose(els.q.value);
         const sector = normLoose(els.sector.value);
         const region = normLoose(els.region.value);
@@ -1033,7 +1012,6 @@
           : `Aucun profil affiché`;
 
         const bits = [];
-        if (state.focusSlug) bits.push(`Fiche directe : <b>${escapeHtml(state.focusSlug)}</b>`);
         if (els.q.value.trim()) bits.push(`Recherche : "${escapeHtml(els.q.value.trim())}"`);
         if (els.sector.value) bits.push(`Famille : ${escapeHtml(els.sector.options[els.sector.selectedIndex].text)}`);
         if (els.region.value) bits.push(`Zone : ${escapeHtml(els.region.options[els.region.selectedIndex].text)}`);
@@ -1224,11 +1202,7 @@
 
         if (!state.filtered.length) {
           els.empty.hidden = false;
-          if (state.focusSlug) {
-            els.empty.innerHTML = `Aucune fiche ne correspond au repère <b>${escapeHtml(state.focusSlug)}</b>. Clique <b>Reset</b> pour revenir à toute la galerie BUILD.`;
-          } else {
-            els.empty.innerHTML = `Aucun profil ne correspond à cette recherche. Clique <b>Reset</b> ou élargis ta recherche.`;
-          }
+          els.empty.innerHTML = `Aucun profil ne correspond à cette recherche. Clique <b>Reset</b> ou élargis ta recherche.`;
           return;
         }
 
@@ -1293,20 +1267,10 @@
         const q = params.get("q") || "";
         const sector = params.get("sector") || "";
         const region = params.get("region") || "";
-        const slug = normSlug(params.get("slug") || "");
-
-        state.focusSlug = slug;
 
         if (q) els.q.value = q;
         if (sector) els.sector.value = sector;
         if (region) els.region.value = region;
-
-        if (els.focusedNote) {
-          els.focusedNote.hidden = !state.focusSlug;
-          if (state.focusSlug) {
-            els.focusedNote.innerHTML = `🌍 Fiche directe ouverte : <b>${escapeHtml(state.focusSlug)}</b>. Clique sur <b>Voir ma fiche</b> ou décris ton besoin.`;
-          }
-        }
       }
 
       function syncUrl() {
@@ -1316,12 +1280,9 @@
         const sector = els.sector.value;
         const region = els.region.value;
 
-        ["phone","tel","owner_phone","contact_phone","whatsapp","return","from"].forEach((key) => {
+        ["phone","tel","owner_phone","contact_phone","whatsapp","slug","return","from"].forEach((key) => {
           url.searchParams.delete(key);
         });
-
-        if (state.focusSlug) url.searchParams.set("slug", state.focusSlug);
-        else url.searchParams.delete("slug");
 
         if (q) url.searchParams.set("q", q);
         else url.searchParams.delete("q");
@@ -1342,8 +1303,6 @@
           els.q.value = "";
           els.sector.value = "";
           els.region.value = "";
-          state.focusSlug = "";
-          if (els.focusedNote) els.focusedNote.hidden = true;
           rerender();
         });
 
