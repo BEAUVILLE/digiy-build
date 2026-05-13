@@ -748,6 +748,21 @@
           return value.map((v) => text(v)).filter(Boolean);
         }
 
+        const raw = text(value);
+        if (!raw) return [];
+
+        if (raw.startsWith("[") && raw.endsWith("]")) {
+          try {
+            const arr = JSON.parse(raw);
+            if (Array.isArray(arr)) {
+              return arr.map((v) => text(v)).filter(Boolean);
+            }
+          } catch (_) {}
+        }
+
+        return raw.split(",").map((v) => text(v)).filter(Boolean);
+      }
+
       function parseList(value) {
         if (Array.isArray(value)) return value.map((v) => text(v)).filter(Boolean);
 
@@ -784,21 +799,6 @@
         }
 
         return "";
-      }
-
-        const raw = text(value);
-        if (!raw) return [];
-
-        if (raw.startsWith("[") && raw.endsWith("]")) {
-          try {
-            const arr = JSON.parse(raw);
-            if (Array.isArray(arr)) {
-              return arr.map((v) => text(v)).filter(Boolean);
-            }
-          } catch (_) {}
-        }
-
-        return raw.split(",").map((v) => text(v)).filter(Boolean);
       }
 
       function uniqueList(list) {
@@ -1381,5 +1381,6 @@
   </script>
 </body>
 </html>
+
 
 
