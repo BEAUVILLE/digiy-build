@@ -734,7 +734,7 @@
         if (!raw) return "";
         try {
           const url = new URL(raw);
-          ["phone","tel","owner_phone","contact_phone","whatsapp","return","from"].forEach((key) => {
+          ["phone","tel","owner_phone","contact_phone","whatsapp","slug","return","from"].forEach((key) => {
             url.searchParams.delete(key);
           });
           return url.toString();
@@ -779,8 +779,30 @@
       }
 
       function isPublished(row) {
-        const value = firstOf(row, ["is_published", "published", "is_public"], false);
-        return value === true || String(value).toLowerCase() === "true" || String(value) === "1";
+        /*
+          BUILD public doit rester une galerie.
+          On accepte plusieurs drapeaux de visibilité car les fiches historiques
+          peuvent venir avec is_published, published, is_public, is_active ou visible.
+          Si aucune colonne de visibilité n'existe, on laisse passer la fiche
+          tant qu'elle a un nom, un métier ou une ville.
+        */
+        const keys = ["is_published", "published", "is_public", "is_active", "active", "visible", "visibility"];
+        let found = false;
+
+        for (const key of keys) {
+          if (!row || !(key in row)) continue;
+          found = true;
+          const raw = row[key];
+
+          if (raw === true || raw === 1) return true;
+
+          const value = String(raw).trim().toLowerCase();
+          if (["true", "1", "yes", "oui", "visible", "public", "published", "active", "actif"].includes(value)) {
+            return true;
+          }
+        }
+
+        return !found;
       }
 
       function buildClient() {
@@ -801,11 +823,6 @@
       }
 
       function makeProfileUrl(profile) {
-        /*
-          Le bouton "Voir ma fiche" ouvre la vraie fiche partenaire publique.
-          La galerie reste listing.html, mais la fiche dédiée est fiche.html?slug=...
-          Aucun lien PRO, aucun PIN.
-        */
         const url = new URL("./fiche.html", window.location.href);
         const slug = normSlug(profile.slug || profile.display_name || profile.trade || "");
         if (slug) url.searchParams.set("slug", slug);
