@@ -748,6 +748,44 @@
           return value.map((v) => text(v)).filter(Boolean);
         }
 
+      function parseList(value) {
+        if (Array.isArray(value)) return value.map((v) => text(v)).filter(Boolean);
+
+        const raw = text(value);
+        if (!raw) return [];
+
+        if (raw.startsWith("[") && raw.endsWith("]")) {
+          try {
+            const arr = JSON.parse(raw);
+            if (Array.isArray(arr)) return arr.map((v) => text(v)).filter(Boolean);
+          } catch (_) {}
+        }
+
+        return raw.split(",").map((v) => text(v)).filter(Boolean);
+      }
+
+      function firstPhoto(row) {
+        const direct = firstOf(row, [
+          "photo_url","cover_url","image_url","photo","image","cover",
+          "avatar_url","logo_url","main_photo","photo_principale",
+          "public_photo","hero_image","picture","thumbnail"
+        ], "");
+
+        const directUrl = maybeUrl(direct);
+        if (directUrl) return directUrl;
+
+        const galleries = ["gallery_urls", "gallery", "photos", "images", "gallery_images", "photo_urls"];
+        for (const key of galleries) {
+          const list = parseList(row?.[key]);
+          for (const item of list) {
+            const url = maybeUrl(item);
+            if (url) return url;
+          }
+        }
+
+        return "";
+      }
+
         const raw = text(value);
         if (!raw) return [];
 
@@ -837,7 +875,7 @@
         const sector = text(firstOf(row, ["sector", "category"]));
         const priority = Number(firstOf(row, ["priority", "priority_rank"], 0)) || 0;
         const bio = text(firstOf(row, ["bio", "description", "short_description", "about"]));
-        const photo_url = maybeUrl(firstOf(row, ["photo_url", "photo", "image_url", "cover_url"])) || "";
+        const photo_url = firstPhoto(row) || "";
         const profile_url = maybeUrl(firstOf(row, ["profile_url", "public_url", "url"]));
         const badge = text(firstOf(row, ["badge", "tagline", "headline_badge"]));
         const hub_badge = text(firstOf(row, ["hub_badge", "public_badge"]));
@@ -1343,4 +1381,5 @@
   </script>
 </body>
 </html>
+
 
