@@ -149,6 +149,26 @@
       min-height:100%;
     }
 
+    .card.is-target{
+      border-color:rgba(243,212,107,.72);
+      box-shadow:0 0 0 3px rgba(243,212,107,.16), var(--shadow);
+    }
+
+    .card.is-target::after{
+      content:"QR demandé";
+      position:absolute;
+      top:12px;
+      right:12px;
+      z-index:3;
+      padding:8px 11px;
+      border-radius:999px;
+      background:linear-gradient(135deg,var(--orange),var(--gold2));
+      color:#13200d;
+      font-size:12px;
+      font-weight:1000;
+      box-shadow:0 10px 24px rgba(0,0,0,.30);
+    }
+
     .photo{
       height:280px;
       background:#06130f;
@@ -486,10 +506,24 @@
         toast._t = setTimeout(() => t.classList.remove("show"), 1900);
       }
 
+      function focusFromHash(){
+        const raw = decodeURIComponent((location.hash || "").replace(/^#/, "")).trim();
+        if(!raw) return;
+        const target = document.getElementById(raw);
+        if(!target) return;
+        document.querySelectorAll(".card.is-target").forEach(el => el.classList.remove("is-target"));
+        target.classList.add("is-target");
+        setTimeout(() => {
+          target.scrollIntoView({behavior:"smooth", block:"center"});
+        }, 120);
+      }
+
       ARTISANS.forEach(function(artisan, index){
         const url = ficheUrl(artisan.slug);
         const card = document.createElement("article");
         card.className = "card";
+        card.id = artisan.slug;
+        card.setAttribute("data-slug", artisan.slug);
         card.innerHTML = `
           <div class="photo">
             <img src="${escapeHtml(artisan.image)}" alt="${escapeHtml(artisan.name)}" loading="lazy">
@@ -535,6 +569,9 @@
           downloadQr(img, artisan);
         });
       });
+
+      focusFromHash();
+      window.addEventListener("hashchange", focusFromHash);
     })();
   </script>
 </body>
