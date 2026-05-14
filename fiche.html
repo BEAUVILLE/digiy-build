@@ -309,11 +309,10 @@
             <img id="qrImg" class="qrImg" alt="QR fiche DIGIY BUILD" src="">
           </a>
           <div class="qrTitle">Scanne cette fiche</div>
-          <div class="qrText">Le QR ouvre directement la fiche de cet artisan. Prêt pour WhatsApp, affiche, sticker ou carte.</div>
+          <div class="qrText">Ce QR ouvre directement cette fiche. Il est affiché ici pour lecture et partage, sans édition côté client.</div>
           <div class="qrLink" id="qrLinkText">Préparation du lien…</div>
           <div class="qrActions">
             <a class="btn primary" id="qrOpenBtn" href="#" target="_blank" rel="noopener">🧭 Ouvrir</a>
-            <a class="btn green" id="qrPageBtn" href="#">📲 Page QR</a>
             <button class="btn secondary" id="qrCopyBtn" type="button">📋 Copier</button>
             <button class="btn secondary" id="shareBtn" type="button">📤 Partager</button>
           </div>
@@ -346,7 +345,7 @@
     </section>
 
     <div class="foot">
-      DIGIY BUILD • fiche publique • QR fiche • image complète • métier clair • secteur • contact direct
+      DIGIY BUILD • fiche publique • QR en lecture • image complète • métier clair • secteur • contact direct
     </div>
   </div>
 
@@ -472,15 +471,6 @@
         if(profile.display_name) u.searchParams.set("nom", profile.display_name);
         if(profile.trade) u.searchParams.set("metier", profile.trade);
         if(profile.city) u.searchParams.set("ville", profile.city);
-        return u.pathname + u.search + u.hash;
-      }
-
-      function makeQrPageUrl(profile){
-        const u = new URL("./qr.html", location.href);
-        u.searchParams.set("url", currentProfileUrl || publicProfileUrl(profile));
-        u.searchParams.set("title", profile.display_name || "Fiche artisan DIGIYLYFE");
-        u.searchParams.set("metier", profile.trade || "");
-        u.searchParams.set("ville", profile.city || "");
         return u.pathname + u.search + u.hash;
       }
 
@@ -627,7 +617,6 @@
         $("qrImg").src = qrSrc;
         $("qrAnchor").href = currentProfileUrl;
         $("qrOpenBtn").href = currentProfileUrl;
-        $("qrPageBtn").href = makeQrPageUrl(profile);
         $("qrLinkText").textContent = currentProfileUrl;
 
         $("qrCopyBtn").onclick = () => copyText(currentProfileUrl);
