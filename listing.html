@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <title>Je propose mes services — Voir les profils</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="description" content="Je propose mes services by DIGIYLYFE : trouve un professionnel pour travaux, dépannage, entretien, chantier et services pratiques. Contact direct, paiement direct au pro.">
+  <meta name="description" content="Je propose mes services by DIGIYLYFE : trouve rapidement un artisan ou un professionnel par métier, secteur, ville ou quartier. Contact direct et fiche détaillée.">
   <meta name="theme-color" content="#061b14">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -77,13 +77,13 @@
     }
 
     .brand-logo{
-      width:84px;
-      height:84px;
-      border-radius:22px;
+      width:150px;
+      height:210px;
+      border-radius:24px;
       object-fit:cover;
-      background:#fff;
-      border:1px solid rgba(250,204,21,.30);
-      box-shadow:0 14px 34px rgba(0,0,0,.28);
+      background:#061b14;
+      border:1px solid rgba(250,204,21,.34);
+      box-shadow:0 16px 38px rgba(0,0,0,.34);
       flex:0 0 auto;
     }
 
@@ -270,6 +270,25 @@
     }
 
     .card:hover .media img{transform:scale(1.04)}
+
+    .media.poster-mode{
+      aspect-ratio:5/8;
+      min-height:360px;
+      background:#04130d;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .media.poster-mode img{
+      object-fit:contain;
+      padding:10px;
+      filter:none;
+      transition:none;
+      background:#04130d;
+    }
+
+    .card:hover .media.poster-mode img{transform:none}
 
     .media::after{
       content:"";
@@ -575,11 +594,12 @@
 
     @media(max-width:760px){
       body{padding:12px 12px calc(92px + env(safe-area-inset-bottom,0px))}
-      .brand-logo{width:74px;height:74px}
+      .brand-logo{width:112px;height:158px}
       .filters{grid-template-columns:1fr}
       .grid{grid-template-columns:1fr}
       .card-actions{grid-template-columns:1fr}
       .media{min-height:300px}
+      .media.poster-mode{min-height:420px}
       .media-name{font-size:22px}
       .hero-actions .btn{width:100%}
     }
@@ -593,22 +613,22 @@
       <div class="brand">
         <img
           class="brand-logo"
-          src="https://digiylyfe.net/wp-content/uploads/2026/03/digiylyfe_logo_qr.jpeg"
-          alt="Logo DIGIYLYFE"
+          src="https://digiylyfe.net/wp-content/uploads/2026/05/ChatGPT-Image-14-mai-2026-02_56_18.png"
+          alt="Un diamant aux mille reflets — chaque savoir-faire est une lumière"
         />
         <div>
           <div class="kicker">Travaux • dépannage • entretien • chantier • services pratiques</div>
           <h1>JE PROPOSE MES SERVICES</h1>
           <p class="sub">
-            Trouve un pro utile, visible et joignable proprement. Ici, le contact reste direct,
-            le paiement va au professionnel, et DIGIY aide seulement à clarifier le chemin.
+            Trouve vite un artisan ou un pro par métier, secteur et zone. Ici, on va droit au besoin :
+            activité claire, fiche détaillée, contact direct.
           </p>
 
           <div class="hero-pills">
             <span class="pill">Contact direct</span>
-            <span class="pill">Paiement direct au pro</span>
-            <span class="pill">0% commission</span>
-            <span class="pill">Demande claire</span>
+            <span class="pill">Métier clair</span>
+            <span class="pill">Secteur d’activité</span>
+            <span class="pill">Fiche détaillée</span>
           </div>
 
           <div class="hero-actions">
@@ -651,7 +671,7 @@
     <section id="empty" class="empty" hidden></section>
 
     <div class="footer">
-      JE PROPOSE MES SERVICES • DIGIYLYFE • Sénégal • Contact direct • Paiement direct au pro • 0% commission
+      JE PROPOSE MES SERVICES • DIGIYLYFE • Sénégal • Métiers • Secteurs • Contact direct
     </div>
   </div>
 
@@ -676,6 +696,7 @@
       const PUBLIC_TABLE = "digiy_build_public_profiles";
       const DEFAULT_PHOTO = "https://digiylyfe.net/wp-content/uploads/2026/03/digiylyfe_logo_qr.jpeg";
       const LOGO_PHOTO = "https://digiylyfe.net/wp-content/uploads/2026/03/digiylyfe_logo_qr.jpeg";
+      const ARTISAN_POSTER = "https://digiylyfe.net/wp-content/uploads/2026/05/ChatGPT-Image-14-mai-2026-02_56_18.png";
 
       /*
         Mémoire locale DIGIY BUILD
@@ -957,6 +978,17 @@
         return `https://api.qrserver.com/v1/create-qr-code/?size=420x420&margin=16&data=${encodeURIComponent(target)}`;
       }
 
+      function normalizePhone(v) {
+        return String(v || "").replace(/[^0-9]/g, "");
+      }
+
+      function whatsappUrl(profile) {
+        const wa = normalizePhone(profile.whatsapp || profile.phone);
+        if (!wa) return "";
+        const message = encodeURIComponent(`Bonjour ${profile.display_name || ""}, je viens de DIGIYLYFE pour votre service ${profile.trade || ""}.`);
+        return `https://wa.me/${wa}?text=${message}`;
+      }
+
       function normalizeUrlKey(href) {
         const raw = text(href);
         if (!raw) return "";
@@ -981,6 +1013,8 @@
         const badge = text(firstOf(row, ["badge", "tagline", "headline_badge"]));
         const hub_badge = text(firstOf(row, ["hub_badge", "public_badge"]));
         const price_label = text(firstOf(row, ["price_label", "price_text", "offer_label"]));
+        const phone = text(firstOf(row, ["phone", "contact_phone", "tel", "telephone"]));
+        const whatsapp = text(firstOf(row, ["whatsapp", "whatsapp_phone", "wa_phone", "mobile"]));
         const tags = parseTags(firstOf(row, ["tags", "keywords", "tag_list"], []));
         const legacy_aliases = parseTags(firstOf(row, ["legacy_aliases", "aliases", "alias"], []));
         const slug = normSlug(firstOf(row, ["slug"]));
@@ -1001,6 +1035,8 @@
           badge,
           hub_badge,
           price_label,
+          phone,
+          whatsapp,
           tags,
           legacy_aliases,
           updated_at
@@ -1142,6 +1178,8 @@
           badge: bestText(keep.badge, alt.badge),
           hub_badge: bestText(keep.hub_badge, alt.hub_badge),
           price_label: bestText(keep.price_label, alt.price_label),
+          phone: bestText(keep.phone, alt.phone),
+          whatsapp: bestText(keep.whatsapp, alt.whatsapp),
           tags: uniqueList([...(keep.tags || []), ...(alt.tags || [])]),
           legacy_aliases: uniqueList([...(keep.legacy_aliases || []), ...(alt.legacy_aliases || [])]),
           updated_at: bestDate(keep.updated_at, alt.updated_at)
@@ -1276,45 +1314,15 @@
       }
 
       function buildMedia(profile) {
-        const img = maybeUrl(profile.photo_url);
-        const cityBadge = profile.city || profile.region || "Profil visible";
-        const logo = LOGO_PHOTO;
-
-        if (hasRealPhoto(profile)) {
-          const fallbackData = encodeURIComponent(JSON.stringify({
-            display_name: profile.display_name,
-            trade: profile.trade,
-            city: profile.city,
-            region: profile.region,
-            sector: profile.sector,
-            tags: profile.tags
-          }));
-
-          return `
-            <div class="media">
-              <div class="media-top">
-                <div class="media-badge">${escapeHtml(cityBadge)}</div>
-                <img class="media-brand" src="${escapeHtml(logo)}" alt="Logo DIGIYLYFE">
-              </div>
-
-              <img
-                loading="lazy"
-                alt="${escapeHtml(profile.display_name || "Profil")}"
-                src="${escapeHtml(img)}"
-                onerror="this.onerror=null; this.closest('.media').innerHTML = window.DIGIY_BUILD_FALLBACK_MEDIA('${fallbackData}')"
-              >
-
-              <div class="media-bottom">
-                <div class="media-caption">
-                  <div class="media-name">${escapeHtml(profile.display_name || "Professionnel")}</div>
-                  <div class="media-trade">${escapeHtml(profile.trade || "Service utile")}</div>
-                </div>
-              </div>
-            </div>
-          `;
-        }
-
-        return fallbackMediaHtml(profile);
+        return `
+          <div class="media poster-mode">
+            <img
+              loading="lazy"
+              alt="${escapeHtml(profile.display_name || "Professionnel")} — visuel DIGIYLYFE"
+              src="${escapeHtml(ARTISAN_POSTER)}"
+            >
+          </div>
+        `;
       }
 
       window.DIGIY_BUILD_FALLBACK_MEDIA = function(encoded) {
@@ -1338,28 +1346,28 @@
 
       function renderCard(profile) {
         const requestUrl = makeRequestUrl(profile);
+        const waUrl = whatsappUrl(profile);
 
         const chips = [];
         chips.push(`<span class="chip ok">Contact direct</span>`);
-        chips.push(`<span class="chip gold">0% commission</span>`);
+        if (profile.sector) chips.push(`<span class="chip gold">${escapeHtml(profile.sector)}</span>`);
+        if (profile.city) chips.push(`<span class="chip">${escapeHtml(profile.city)}</span>`);
+        if (profile.region && profile.region !== profile.city) chips.push(`<span class="chip">${escapeHtml(profile.region)}</span>`);
 
-        if (profile.hub_badge) chips.push(`<span class="chip gold">${escapeHtml(profile.hub_badge)}</span>`);
-        else if (profile.badge) chips.push(`<span class="chip">${escapeHtml(profile.badge)}</span>`);
-
-        if (profile.price_label) chips.push(`<span class="chip">${escapeHtml(profile.price_label)}</span>`);
-        else chips.push(`<span class="chip">Paiement direct au pro</span>`);
-
-        const extraTags = (profile.tags || []).slice(0, 3).map((tag) => (
+        const extraTags = (profile.tags || []).slice(0, 2).map((tag) => (
           `<span class="chip">${escapeHtml(tag)}</span>`
         ));
 
         const profileUrl = profile.profile_url || makeProfileUrl(profile);
         const profileTarget = profile.profile_url ? ` target="_blank" rel="noopener noreferrer"` : "";
-        const profileBtn = `<a class="btn view" href="${escapeHtml(profileUrl)}"${profileTarget}>🌍 Voir ma fiche</a>`;
+        const profileBtn = `<a class="btn view" href="${escapeHtml(profileUrl)}"${profileTarget}>🌍 Voir la fiche</a>`;
         const qrUrl = qrUrlFor(profileUrl);
         const qrBtn = qrUrl
-          ? `<a class="btn green" href="${escapeHtml(qrUrl)}" target="_blank" rel="noopener noreferrer">📲 QR fiche</a>`
+          ? `<a class="btn green" href="${escapeHtml(qrUrl)}" target="_blank" rel="noopener noreferrer">📲 QR</a>`
           : "";
+        const waBtn = waUrl
+          ? `<a class="btn primary" href="${escapeHtml(waUrl)}" target="_blank" rel="noopener noreferrer">💬 WhatsApp</a>`
+          : `<a class="btn secondary" href="${escapeHtml(requestUrl)}">📄 Décrire mon besoin</a>`;
 
         return `
           <article class="card">
@@ -1380,20 +1388,20 @@
               </div>
 
               <div class="bio">
-                ${escapeHtml(profile.bio || "Professionnel visible pour travaux, dépannage, entretien, chantier et services pratiques.")}
+                ${escapeHtml(profile.bio || "Professionnel visible avec fiche détaillée, secteur clair et contact direct.")}
               </div>
 
               <div class="contact-box">
-                <div class="contact-title">Prochain geste</div>
+                <div class="contact-title">Contact direct</div>
                 <div class="contact-value">
-                  Clique sur “Voir ma fiche”, ouvre le “QR fiche” si tu veux le partager, ou décris ton besoin. Le contact reste direct avec le professionnel.
+                  ${profile.whatsapp || profile.phone ? escapeHtml(profile.whatsapp || profile.phone) : 'Ouvre la fiche pour retrouver le contact de cet artisan.'}
                 </div>
               </div>
 
               <div class="card-actions">
+                ${waBtn}
                 ${profileBtn}
-                ${qrBtn}
-                <a class="btn secondary" href="${escapeHtml(requestUrl)}">📄 Décrire mon besoin</a>
+                ${qrBtn || `<a class="btn secondary" href="${escapeHtml(requestUrl)}">📄 Décrire mon besoin</a>`}
               </div>
             </div>
           </article>
