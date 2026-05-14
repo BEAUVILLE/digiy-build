@@ -671,7 +671,7 @@
     <section id="empty" class="empty" hidden></section>
 
     <div class="footer">
-      JE PROPOSE MES SERVICES • DIGIYLYFE • Sénégal • Métiers • Secteurs • Contact direct • Partage facile
+      JE PROPOSE MES SERVICES • DIGIYLYFE • Sénégal • Métiers • Secteurs • Contact direct • Partage fiche
     </div>
   </div>
 
@@ -1395,14 +1395,6 @@
         const profileUrl = profile.profile_url || makeProfileUrl(profile);
         const profileTarget = profile.profile_url ? ` target="_blank" rel="noopener noreferrer"` : "";
         const profileBtn = `<a class="btn view" href="${escapeHtml(profileUrl)}"${profileTarget}>🌍 Voir la fiche</a>`;
-        const qrPage = new URL("./qr.html", window.location.href);
-        const cleanSlug = normSlug(profile.slug || profile.display_name || profile.trade || "");
-        if (cleanSlug) qrPage.searchParams.set("slug", cleanSlug);
-        qrPage.searchParams.set("title", profile.display_name || "Fiche artisan DIGIYLYFE");
-        qrPage.searchParams.set("metier", profile.trade || "");
-        qrPage.searchParams.set("ville", profile.city || "");
-        const qrPageUrl = qrPage.pathname + qrPage.search + qrPage.hash;
-        const qrBtn = `<a class="btn green" href="${escapeHtml(qrPageUrl)}">📲 QR fiche</a>`;
         const shareUrl = absoluteUrl(profileUrl);
         const shareTitle = `${profile.display_name || "Professionnel"} — ${profile.trade || "Fiche artisan DIGIYLYFE"}`;
         const shareBody = `${profile.trade || "Service utile"}${profile.city ? " · " + profile.city : ""}. Contact direct et fiche détaillée sur DIGIYLYFE.`;
@@ -1449,7 +1441,6 @@
               <div class="card-actions">
                 ${waBtn}
                 ${profileBtn}
-                ${qrBtn || `<a class="btn secondary" href="${escapeHtml(requestUrl)}">📄 Décrire mon besoin</a>`}
                 ${shareBtn}
               </div>
             </div>
@@ -1616,4 +1607,3 @@
   </script>
 </body>
 </html>
-
