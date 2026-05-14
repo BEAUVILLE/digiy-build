@@ -1396,7 +1396,8 @@
         const profileTarget = profile.profile_url ? ` target="_blank" rel="noopener noreferrer"` : "";
         const profileBtn = `<a class="btn view" href="${escapeHtml(profileUrl)}"${profileTarget}>🌍 Voir la fiche</a>`;
         const qrPage = new URL("./qr.html", window.location.href);
-        qrPage.searchParams.set("url", absoluteUrl(profileUrl));
+        const cleanSlug = normSlug(profile.slug || profile.display_name || profile.trade || "");
+        if (cleanSlug) qrPage.searchParams.set("slug", cleanSlug);
         qrPage.searchParams.set("title", profile.display_name || "Fiche artisan DIGIYLYFE");
         qrPage.searchParams.set("metier", profile.trade || "");
         qrPage.searchParams.set("ville", profile.city || "");
@@ -1405,7 +1406,13 @@
         const shareUrl = absoluteUrl(profileUrl);
         const shareTitle = `${profile.display_name || "Professionnel"} — ${profile.trade || "Fiche artisan DIGIYLYFE"}`;
         const shareBody = `${profile.trade || "Service utile"}${profile.city ? " · " + profile.city : ""}. Contact direct et fiche détaillée sur DIGIYLYFE.`;
-        const shareBtn = `<button class="btn secondary" type="button" onclick="window.DIGIY_SHARE_ARTISAN('${escapeHtml(shareTitle)}','${escapeHtml(shareUrl)}','${escapeHtml(shareBody)}')">📤 Partager</button>`;
+        const shareBtn = `<button
+          class="btn secondary js-share-artisan"
+          type="button"
+          data-share-title="${escapeHtml(shareTitle)}"
+          data-share-url="${escapeHtml(shareUrl)}"
+          data-share-body="${escapeHtml(shareBody)}"
+        >📤 Partager</button>`;
         const waBtn = waUrl
           ? `<a class="btn primary" href="${escapeHtml(waUrl)}" target="_blank" rel="noopener noreferrer">💬 WhatsApp</a>`
           : `<a class="btn secondary" href="${escapeHtml(requestUrl)}">📄 Décrire mon besoin</a>`;
@@ -1584,6 +1591,16 @@
 
         els.sector.addEventListener("change", rerender);
         els.region.addEventListener("change", rerender);
+
+        document.addEventListener("click", (e) => {
+          const btn = e.target.closest(".js-share-artisan");
+          if (!btn) return;
+          window.DIGIY_SHARE_ARTISAN(
+            btn.dataset.shareTitle || "Fiche artisan DIGIYLYFE",
+            btn.dataset.shareUrl || window.location.href,
+            btn.dataset.shareBody || "Fiche artisan à découvrir sur DIGIYLYFE."
+          );
+        });
       }
 
       function init() {
@@ -1599,6 +1616,4 @@
   </script>
 </body>
 </html>
-
-
 
