@@ -515,7 +515,7 @@
 
     .card-actions{
       display:grid;
-      grid-template-columns:repeat(3,minmax(0,1fr));
+      grid-template-columns:repeat(auto-fit,minmax(128px,1fr));
       gap:10px;
       margin-top:auto;
     }
@@ -671,7 +671,7 @@
     <section id="empty" class="empty" hidden></section>
 
     <div class="footer">
-      JE PROPOSE MES SERVICES • DIGIYLYFE • Sénégal • Métiers • Secteurs • Contact direct
+      JE PROPOSE MES SERVICES • DIGIYLYFE • Sénégal • Métiers • Secteurs • Contact direct • Partage facile
     </div>
   </div>
 
@@ -713,7 +713,7 @@
           region: "Petite Côte",
           sector: "plomberie",
           bio: "Dépannage fuites, robinets, WC, installation douche, lavabo, chauffe-eau, désengorgement et petits chantiers sanitaires. Contact direct, devis rapide par WhatsApp.",
-          photo_url: "https://orange-pig-270004.hostingersite.com/wp-content/uploads/2025/06/HELAGE-PLOMBIER.png",
+          photo_url: "https://digiylyfe.net/wp-content/uploads/2026/05/ChatGPT-Image-14-mai-2026-04_01_44.png",
           profile_url: "https://orange-pig-270004.hostingersite.com/partenaires-helage-plombier/",
           phone: "+221774513523",
           whatsapp: "221774513523",
@@ -732,7 +732,7 @@
           region: "Petite Côte",
           sector: "construction",
           bio: "Construction de villas, piscines béton, finitions haut de gamme, rénovation et extensions. Devis après visite selon plans, surfaces, matériaux et délais.",
-          photo_url: "https://orange-pig-270004.hostingersite.com/wp-content/uploads/2025/06/mbaye-diouf.jpeg",
+          photo_url: "https://digiylyfe.net/wp-content/uploads/2026/05/ChatGPT-Image-14-mai-2026-03_56_26.png",
           profile_url: "https://orange-pig-270004.hostingersite.com/partenaires-mbaye/",
           phone: "+221776427113",
           whatsapp: "221776427113",
@@ -751,7 +751,7 @@
           region: "Petite Côte",
           sector: "electricite",
           bio: "Installation neuve, rénovation, mise aux normes, tableau, disjoncteurs, terre, dépannage panne, prise, éclairage et petits chantiers de finition.",
-          photo_url: "https://orange-pig-270004.hostingersite.com/wp-content/uploads/2025/06/039-ZAL.png",
+          photo_url: "https://digiylyfe.net/wp-content/uploads/2026/05/ChatGPT-Image-14-mai-2026-03_59_29.png",
           profile_url: "https://orange-pig-270004.hostingersite.com/partenaires-zal-kourant/",
           phone: "+221772084781",
           whatsapp: "221772084781",
@@ -988,6 +988,37 @@
         const message = encodeURIComponent(`Bonjour ${profile.display_name || ""}, je viens de DIGIYLYFE pour votre service ${profile.trade || ""}.`);
         return `https://wa.me/${wa}?text=${message}`;
       }
+
+      window.DIGIY_SHARE_ARTISAN = async function(title, url, body) {
+        const cleanTitle = text(title || "Fiche artisan DIGIYLYFE");
+        const cleanUrl = absoluteUrl(url || window.location.href) || window.location.href;
+        const cleanBody = text(body || "Fiche artisan à découvrir sur DIGIYLYFE.");
+
+        try {
+          if (navigator.share) {
+            await navigator.share({
+              title: cleanTitle,
+              text: cleanBody,
+              url: cleanUrl
+            });
+            return;
+          }
+        } catch (_) {
+          return;
+        }
+
+        const message = `${cleanTitle}\n${cleanBody}\n${cleanUrl}`;
+
+        try {
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            await navigator.clipboard.writeText(message);
+            alert("Lien de la fiche copié. Tu peux le coller dans WhatsApp, SMS ou ailleurs.");
+            return;
+          }
+        } catch (_) {}
+
+        window.prompt("Copie le lien de la fiche :", cleanUrl);
+      };
 
       function normalizeUrlKey(href) {
         const raw = text(href);
@@ -1314,12 +1345,15 @@
       }
 
       function buildMedia(profile) {
+        const img = maybeUrl(profile.photo_url) || ARTISAN_POSTER;
+
         return `
           <div class="media poster-mode">
             <img
               loading="lazy"
-              alt="${escapeHtml(profile.display_name || "Professionnel")} — visuel DIGIYLYFE"
-              src="${escapeHtml(ARTISAN_POSTER)}"
+              alt="${escapeHtml(profile.display_name || "Professionnel")} — visuel fiche partenaire DIGIYLYFE"
+              src="${escapeHtml(img)}"
+              onerror="this.onerror=null; this.src='${escapeHtml(ARTISAN_POSTER)}'"
             >
           </div>
         `;
@@ -1361,10 +1395,14 @@
         const profileUrl = profile.profile_url || makeProfileUrl(profile);
         const profileTarget = profile.profile_url ? ` target="_blank" rel="noopener noreferrer"` : "";
         const profileBtn = `<a class="btn view" href="${escapeHtml(profileUrl)}"${profileTarget}>🌍 Voir la fiche</a>`;
-        const qrUrl = qrUrlFor(profileUrl);
+        const qrUrl = qrUrlFor(profileUrl); // QR de la fiche publique artisan
         const qrBtn = qrUrl
-          ? `<a class="btn green" href="${escapeHtml(qrUrl)}" target="_blank" rel="noopener noreferrer">📲 QR</a>`
+          ? `<a class="btn green" href="${escapeHtml(qrUrl)}" target="_blank" rel="noopener noreferrer">📲 QR fiche</a>`
           : "";
+        const shareUrl = absoluteUrl(profileUrl);
+        const shareTitle = `${profile.display_name || "Professionnel"} — ${profile.trade || "Fiche artisan DIGIYLYFE"}`;
+        const shareBody = `${profile.trade || "Service utile"}${profile.city ? " · " + profile.city : ""}. Contact direct et fiche détaillée sur DIGIYLYFE.`;
+        const shareBtn = `<button class="btn secondary" type="button" onclick="window.DIGIY_SHARE_ARTISAN('${escapeHtml(shareTitle)}','${escapeHtml(shareUrl)}','${escapeHtml(shareBody)}')">📤 Partager</button>`;
         const waBtn = waUrl
           ? `<a class="btn primary" href="${escapeHtml(waUrl)}" target="_blank" rel="noopener noreferrer">💬 WhatsApp</a>`
           : `<a class="btn secondary" href="${escapeHtml(requestUrl)}">📄 Décrire mon besoin</a>`;
@@ -1402,6 +1440,7 @@
                 ${waBtn}
                 ${profileBtn}
                 ${qrBtn || `<a class="btn secondary" href="${escapeHtml(requestUrl)}">📄 Décrire mon besoin</a>`}
+                ${shareBtn}
               </div>
             </div>
           </article>
@@ -1557,7 +1596,6 @@
   </script>
 </body>
 </html>
-
 
 
 
