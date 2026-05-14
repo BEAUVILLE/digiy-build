@@ -1395,6 +1395,15 @@
         const profileUrl = profile.profile_url || makeProfileUrl(profile);
         const profileTarget = profile.profile_url ? ` target="_blank" rel="noopener noreferrer"` : "";
         const profileBtn = `<a class="btn view" href="${escapeHtml(profileUrl)}"${profileTarget}>🌍 Voir la fiche</a>`;
+
+        let qrFicheUrl = profileUrl;
+        try {
+          const qrTarget = new URL(profileUrl, window.location.href);
+          qrTarget.hash = "qr";
+          qrFicheUrl = qrTarget.pathname + qrTarget.search + qrTarget.hash;
+        } catch (_) {}
+
+        const qrBtn = `<a class="btn green" href="${escapeHtml(qrFicheUrl)}">📲 QR fiche</a>`;
         const shareUrl = absoluteUrl(profileUrl);
         const shareTitle = `${profile.display_name || "Professionnel"} — ${profile.trade || "Fiche artisan DIGIYLYFE"}`;
         const shareBody = `${profile.trade || "Service utile"}${profile.city ? " · " + profile.city : ""}. Contact direct et fiche détaillée sur DIGIYLYFE.`;
@@ -1441,6 +1450,7 @@
               <div class="card-actions">
                 ${waBtn}
                 ${profileBtn}
+                ${qrBtn}
                 ${shareBtn}
               </div>
             </div>
