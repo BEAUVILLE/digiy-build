@@ -1,0 +1,541 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+  <meta name="theme-color" content="#06130f"/>
+  <title>DIGIY BUILD — QR artisans</title>
+  <meta name="description" content="Planche QR DIGIY BUILD : fiches artisans partageables, contact direct, métier clair et QR professionnel."/>
+
+  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
+
+  <style>
+    :root{
+      --bg:#06130f;
+      --card:#0b241b;
+      --ink:#f8fafc;
+      --muted:rgba(248,250,252,.76);
+      --line:rgba(255,255,255,.12);
+      --gold:#d4af37;
+      --gold2:#f3d46b;
+      --green:#22c55e;
+      --orange:#f97316;
+      --shadow:0 24px 60px rgba(0,0,0,.34);
+      --radius:26px;
+      --font:"Outfit",system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+    }
+
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0}
+    body{
+      min-height:100vh;
+      font-family:var(--font);
+      color:var(--ink);
+      background:
+        radial-gradient(900px 520px at 8% -10%, rgba(212,175,55,.16), transparent 58%),
+        radial-gradient(850px 520px at 100% 0%, rgba(249,115,22,.12), transparent 55%),
+        radial-gradient(900px 520px at 100% 100%, rgba(34,197,94,.10), transparent 58%),
+        linear-gradient(180deg,#071510 0%,#06130f 50%,#04100c 100%);
+      -webkit-font-smoothing:antialiased;
+    }
+
+    a{color:inherit;text-decoration:none}
+    button{font:inherit}
+
+    .wrap{
+      width:min(100%,1180px);
+      margin:0 auto;
+      padding:18px 14px 52px;
+    }
+
+    .top{
+      display:flex;
+      justify-content:space-between;
+      align-items:flex-start;
+      gap:16px;
+      flex-wrap:wrap;
+      margin-bottom:18px;
+    }
+
+    .kicker{
+      color:var(--gold2);
+      font-size:13px;
+      font-weight:1000;
+      letter-spacing:.16em;
+      text-transform:uppercase;
+      margin-bottom:8px;
+    }
+
+    h1{
+      margin:0;
+      font-size:clamp(2.1rem,5vw,4.4rem);
+      line-height:.98;
+      letter-spacing:-.06em;
+      font-weight:1000;
+      max-width:850px;
+    }
+
+    .lead{
+      margin:14px 0 0;
+      color:var(--muted);
+      font-size:clamp(1.05rem,2.2vw,1.35rem);
+      line-height:1.55;
+      font-weight:850;
+      max-width:850px;
+    }
+
+    .nav{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      justify-content:flex-end;
+    }
+
+    .btn{
+      min-height:54px;
+      border:none;
+      border-radius:17px;
+      padding:13px 16px;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:9px;
+      cursor:pointer;
+      font-weight:1000;
+      font-size:16px;
+      text-align:center;
+      transition:transform .08s ease, filter .16s ease;
+      white-space:nowrap;
+    }
+
+    .btn:active{transform:translateY(1px) scale(.99)}
+    .btn.primary{
+      background:linear-gradient(135deg,var(--orange),var(--gold2));
+      color:#13200d;
+      box-shadow:0 14px 30px rgba(249,115,22,.22);
+    }
+    .btn.secondary{
+      background:rgba(255,255,255,.055);
+      border:1px solid rgba(255,255,255,.11);
+      color:var(--ink);
+    }
+    .btn.green{
+      background:rgba(34,197,94,.14);
+      border:1px solid rgba(34,197,94,.28);
+      color:#bbf7d0;
+    }
+
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:16px;
+      margin-top:18px;
+    }
+
+    .card{
+      position:relative;
+      overflow:hidden;
+      border-radius:var(--radius);
+      border:1px solid var(--line);
+      background:
+        radial-gradient(420px 180px at 50% 0%, rgba(212,175,55,.15), transparent 62%),
+        linear-gradient(180deg,rgba(255,255,255,.055),rgba(255,255,255,.022));
+      box-shadow:var(--shadow);
+      display:flex;
+      flex-direction:column;
+      min-height:100%;
+    }
+
+    .photo{
+      height:280px;
+      background:#06130f;
+      border-bottom:1px solid rgba(255,255,255,.10);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+
+    .photo img{
+      width:100%;
+      height:100%;
+      object-fit:contain;
+      padding:10px;
+      display:block;
+      background:#06130f;
+    }
+
+    .body{
+      padding:18px;
+      display:grid;
+      gap:12px;
+      flex:1;
+    }
+
+    .name{
+      font-size:30px;
+      line-height:1.05;
+      letter-spacing:-.04em;
+      font-weight:1000;
+      color:#fff;
+    }
+
+    .trade{
+      color:var(--gold2);
+      font-size:17px;
+      line-height:1.35;
+      font-weight:1000;
+    }
+
+    .meta{
+      color:var(--muted);
+      font-size:16px;
+      line-height:1.45;
+      font-weight:850;
+    }
+
+    .qrBox{
+      margin-top:4px;
+      border-radius:24px;
+      border:1px solid rgba(212,175,55,.28);
+      background:rgba(0,0,0,.18);
+      padding:14px;
+      text-align:center;
+      display:grid;
+      gap:10px;
+    }
+
+    .qrKicker{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:8px;
+      width:max-content;
+      margin:0 auto;
+      padding:8px 12px;
+      border-radius:999px;
+      border:1px solid rgba(212,175,55,.28);
+      background:rgba(212,175,55,.11);
+      color:#fde68a;
+      font-size:15px;
+      font-weight:1000;
+    }
+
+    .qrImg{
+      width:min(100%,230px);
+      height:auto;
+      margin:0 auto;
+      display:block;
+      border-radius:20px;
+      background:#fff;
+      padding:12px;
+      border:1px solid rgba(212,175,55,.42);
+      box-shadow:0 14px 34px rgba(0,0,0,.34);
+    }
+
+    .url{
+      border-radius:16px;
+      border:1px solid rgba(255,255,255,.10);
+      background:rgba(0,0,0,.18);
+      padding:10px;
+      word-break:break-word;
+      font-size:12px;
+      line-height:1.35;
+      color:rgba(248,250,252,.70);
+      font-weight:900;
+    }
+
+    .actions{
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:10px;
+    }
+
+    .actions .btn{
+      min-height:50px;
+      font-size:15px;
+      padding:11px 12px;
+    }
+
+    .footer{
+      margin-top:20px;
+      padding:16px;
+      border-radius:22px;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.035);
+      color:var(--muted);
+      text-align:center;
+      font-weight:850;
+      line-height:1.55;
+    }
+
+    .toast{
+      position:fixed;
+      left:50%;
+      bottom:22px;
+      transform:translateX(-50%) translateY(12px);
+      z-index:999;
+      opacity:0;
+      pointer-events:none;
+      transition:.22s ease;
+      max-width:calc(100vw - 24px);
+      padding:12px 18px;
+      border-radius:999px;
+      border:1px solid rgba(243,212,107,.28);
+      background:rgba(16,38,30,.97);
+      color:var(--gold2);
+      font-size:15px;
+      font-weight:1000;
+      box-shadow:var(--shadow);
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+
+    .toast.show{
+      opacity:1;
+      transform:translateX(-50%) translateY(0);
+    }
+
+    @media(max-width:980px){
+      .grid{grid-template-columns:1fr}
+      .photo{height:340px}
+      .nav{justify-content:flex-start}
+    }
+
+    @media(max-width:640px){
+      .wrap{padding:14px 10px 42px}
+      .photo{height:300px}
+      .actions{grid-template-columns:1fr}
+      .btn{width:100%;min-height:58px}
+      .nav{width:100%}
+      .nav .btn{flex:1 1 100%}
+    }
+
+    @media print{
+      body{background:#fff;color:#111}
+      .nav,.footer,.toast{display:none!important}
+      .wrap{width:100%;padding:0}
+      .grid{grid-template-columns:repeat(3,1fr);gap:10px}
+      .card{box-shadow:none;border:1px solid #ddd;background:#fff;color:#111;break-inside:avoid}
+      .photo{height:210px;background:#fff}
+      .body{padding:12px}
+      .name{font-size:22px;color:#111}
+      .trade{font-size:14px;color:#6b4e00}
+      .meta{font-size:13px;color:#333}
+      .qrBox{background:#fff;border:1px solid #ddd}
+      .url{color:#333;background:#fff;border:1px solid #ddd}
+    }
+  </style>
+</head>
+
+<body>
+  <main class="wrap">
+    <header class="top">
+      <div>
+        <div class="kicker">DIGIY BUILD · QR artisans</div>
+        <h1>Une fiche. Un QR. Un métier qui circule.</h1>
+        <p class="lead">
+          Planche professionnelle pour partager les fiches artisans BUILD.
+          Chaque QR ouvre la fiche officielle du professionnel : métier clair, zone, images et contact direct.
+        </p>
+      </div>
+
+      <nav class="nav" aria-label="Navigation DIGIY BUILD">
+        <a class="btn secondary" href="./listing.html">← Galerie</a>
+        <a class="btn secondary" href="./index.html">Accueil BUILD</a>
+        <button class="btn primary" type="button" onclick="window.print()">🖨️ Imprimer</button>
+      </nav>
+    </header>
+
+    <section class="grid" id="cards"></section>
+
+    <div class="footer">
+      DIGIY BUILD · QR artisans · fiche publique · contact direct · partage simple · WordPress sert aux images, le QR ouvre la fiche BUILD.
+    </div>
+  </main>
+
+  <div class="toast" id="toast">Lien copié</div>
+
+  <script>
+    (function(){
+      "use strict";
+
+      const ARTISANS = [
+        {
+          slug:"partenaires-mbaye",
+          name:"Mbaye Diouf",
+          trade:"Bâtisseur · villas modernes · piscines · finitions haut de gamme",
+          city:"Saly / Mbour / Thiès",
+          image:"https://digiylyfe.net/wp-content/uploads/2026/05/ChatGPT-Image-14-mai-2026-03_56_26.png"
+        },
+        {
+          slug:"partenaires-zal-kourant",
+          name:"Zal & Kourant",
+          trade:"Électriciens · installation · rénovation · dépannage",
+          city:"Saly · Petite Côte",
+          image:"https://digiylyfe.net/wp-content/uploads/2026/05/ChatGPT-Image-14-mai-2026-03_59_29.png"
+        },
+        {
+          slug:"partenaires-helage-plombier",
+          name:"Helage",
+          trade:"Plombier multi-services · dépannage · installation · salle de bain",
+          city:"Saly · Petite Côte",
+          image:"https://digiylyfe.net/wp-content/uploads/2026/05/ChatGPT-Image-14-mai-2026-04_01_44.png"
+        }
+      ];
+
+      const cards = document.getElementById("cards");
+
+      function escapeHtml(v){
+        return String(v ?? "")
+          .replace(/&/g,"&amp;")
+          .replace(/</g,"&lt;")
+          .replace(/>/g,"&gt;")
+          .replace(/"/g,"&quot;")
+          .replace(/'/g,"&#039;");
+      }
+
+      function ficheUrl(slug){
+        const u = new URL("./fiche.html", location.href);
+        u.searchParams.set("slug", slug);
+        return u.toString();
+      }
+
+      function fallbackQrApi(value){
+        const u = new URL("https://api.qrserver.com/v1/create-qr-code/");
+        u.searchParams.set("size","560x560");
+        u.searchParams.set("margin","16");
+        u.searchParams.set("data",value);
+        return u.toString();
+      }
+
+      function makeQr(img, value){
+        try{
+          if(window.QRCode && typeof window.QRCode.toDataURL === "function"){
+            window.QRCode.toDataURL(value, {
+              width:560,
+              margin:1,
+              errorCorrectionLevel:"M",
+              color:{dark:"#111827", light:"#FFFFFF"}
+            }, function(err, dataUrl){
+              img.src = err || !dataUrl ? fallbackQrApi(value) : dataUrl;
+            });
+          }else{
+            img.src = fallbackQrApi(value);
+          }
+        }catch(_){
+          img.src = fallbackQrApi(value);
+        }
+      }
+
+      async function copyText(value){
+        try{
+          if(navigator.clipboard && navigator.clipboard.writeText){
+            await navigator.clipboard.writeText(value);
+            toast("Lien copié");
+            return;
+          }
+        }catch(_){}
+
+        const ta = document.createElement("textarea");
+        ta.value = value;
+        ta.setAttribute("readonly","");
+        ta.style.position = "fixed";
+        ta.style.left = "-9999px";
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand("copy");
+        ta.remove();
+        toast("Lien copié");
+      }
+
+      async function shareArtisan(artisan, url){
+        const title = `${artisan.name} — DIGIY BUILD`;
+        const text = `${artisan.trade} · ${artisan.city}`;
+        try{
+          if(navigator.share){
+            await navigator.share({title, text, url});
+            return;
+          }
+        }catch(_){}
+        copyText(`${title}\n${text}\n${url}`);
+      }
+
+      function downloadQr(img, artisan){
+        if(!img.src){
+          toast("QR non prêt");
+          return;
+        }
+        const a = document.createElement("a");
+        a.href = img.src;
+        a.download = `DIGIY_BUILD_QR_${artisan.slug}.png`;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        toast("QR téléchargé");
+      }
+
+      function toast(text){
+        const t = document.getElementById("toast");
+        t.textContent = text || "Lien copié";
+        t.classList.add("show");
+        clearTimeout(toast._t);
+        toast._t = setTimeout(() => t.classList.remove("show"), 1900);
+      }
+
+      ARTISANS.forEach(function(artisan, index){
+        const url = ficheUrl(artisan.slug);
+        const card = document.createElement("article");
+        card.className = "card";
+        card.innerHTML = `
+          <div class="photo">
+            <img src="${escapeHtml(artisan.image)}" alt="${escapeHtml(artisan.name)}" loading="lazy">
+          </div>
+
+          <div class="body">
+            <div>
+              <div class="name">${escapeHtml(artisan.name)}</div>
+              <div class="trade">${escapeHtml(artisan.trade)}</div>
+              <div class="meta">📍 ${escapeHtml(artisan.city)}</div>
+            </div>
+
+            <div class="qrBox">
+              <div class="qrKicker">📲 QR fiche artisan</div>
+              <a href="${escapeHtml(url)}" target="_blank" rel="noopener">
+                <img class="qrImg" id="qr-${index}" alt="QR ${escapeHtml(artisan.name)}">
+              </a>
+              <div class="url">${escapeHtml(url)}</div>
+              <div class="actions">
+                <a class="btn primary" href="${escapeHtml(url)}" target="_blank" rel="noopener">🧭 Ouvrir</a>
+                <button class="btn secondary" type="button" data-copy="${escapeHtml(url)}">📋 Copier</button>
+                <button class="btn secondary" type="button" data-share="${index}">📤 Partager</button>
+                <button class="btn green" type="button" data-download="${index}">⬇️ QR PNG</button>
+              </div>
+            </div>
+          </div>
+        `;
+
+        cards.appendChild(card);
+
+        const img = document.getElementById(`qr-${index}`);
+        makeQr(img, url);
+
+        card.querySelector("[data-copy]").addEventListener("click", function(){
+          copyText(url);
+        });
+
+        card.querySelector("[data-share]").addEventListener("click", function(){
+          shareArtisan(artisan, url);
+        });
+
+        card.querySelector("[data-download]").addEventListener("click", function(){
+          downloadQr(img, artisan);
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
