@@ -3,12 +3,9 @@
 <head>
   <meta charset="utf-8"/>
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
-  <title>Fiche service — DIGIY BUILD</title>
+  <title>Fiche artisan — DIGIY BUILD</title>
   <meta name="theme-color" content="#06130f"/>
-  <meta
-    name="description"
-    content="Fiche publique DIGIY BUILD : service, zone, savoir-faire, QR public, contact direct préparé, demande utile, partage simple, paiement direct au professionnel et 0% commission."
-  />
+  <meta name="description" content="Fiche publique DIGIY BUILD : métier, zone, savoir-faire, QR fiche, partage et contact direct."/>
 
   <script>
     window.DIGIY_SUPABASE_URL = "https://wesqmwjjtsefyjnluosj.supabase.co";
@@ -25,45 +22,36 @@
   <style>
     :root{
       --bg:#06130f;
-      --bg2:#0a1f18;
       --card:#0b241b;
-      --card2:#102b22;
-      --line:rgba(255,255,255,.11);
+      --line:rgba(255,255,255,.12);
       --ink:#f8fafc;
-      --muted:rgba(248,250,252,.78);
-      --soft:rgba(248,250,252,.58);
+      --muted:rgba(248,250,252,.76);
       --gold:#d4af37;
       --gold2:#f3d46b;
-      --ok:#22c55e;
-      --blue:#38bdf8;
+      --green:#22c55e;
       --orange:#f97316;
-      --bad:#ef4444;
       --radius:24px;
-      --shadow:0 24px 60px rgba(0,0,0,.30);
+      --shadow:0 24px 60px rgba(0,0,0,.32);
       --font:"Outfit",Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
     }
 
     *{box-sizing:border-box}
     html,body{margin:0;padding:0}
-
     body{
       min-height:100vh;
       color:var(--ink);
       font-family:var(--font);
-      font-size:18px;
       background:
         radial-gradient(900px 520px at 8% -10%, rgba(212,175,55,.14), transparent 58%),
         radial-gradient(850px 520px at 100% 0%, rgba(249,115,22,.12), transparent 55%),
         radial-gradient(900px 520px at 100% 100%, rgba(34,197,94,.10), transparent 58%),
         linear-gradient(180deg, #071510 0%, #06130f 48%, #04100c 100%);
-      padding-bottom:calc(112px + env(safe-area-inset-bottom,0px));
+      padding-bottom:calc(106px + env(safe-area-inset-bottom,0px));
       -webkit-font-smoothing:antialiased;
-      text-rendering:optimizeLegibility;
     }
 
     a{color:inherit;text-decoration:none}
     button{font:inherit}
-
     .wrap{
       width:min(100%,1160px);
       margin:0 auto;
@@ -80,151 +68,52 @@
       flex-wrap:wrap;
     }
 
-    .brand{
-      display:flex;
-      gap:12px;
-      align-items:center;
-      min-width:0;
-    }
-
+    .brand{display:flex;gap:12px;align-items:center;min-width:0}
     .logo{
-      width:58px;
-      height:58px;
-      border-radius:18px;
-      overflow:hidden;
-      border:1px solid rgba(212,175,55,.24);
-      box-shadow:0 10px 28px rgba(0,0,0,.20);
-      background:#fff;
-      flex:0 0 auto;
+      width:58px;height:58px;border-radius:18px;overflow:hidden;
+      border:1px solid rgba(212,175,55,.24);box-shadow:0 10px 28px rgba(0,0,0,.20);
+      background:#fff;flex:0 0 auto;
     }
-
-    .logo img{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      display:block;
-    }
+    .logo img{width:100%;height:100%;object-fit:cover;display:block}
 
     .kicker{
-      color:var(--gold2);
-      font-size:13px;
-      font-weight:1000;
-      letter-spacing:.16em;
-      text-transform:uppercase;
-      margin-bottom:4px;
-      white-space:nowrap;
+      color:var(--gold2);font-size:13px;font-weight:1000;letter-spacing:.16em;
+      text-transform:uppercase;margin-bottom:4px;white-space:nowrap;
     }
-
     .title{
-      font-size:clamp(24px,3vw,36px);
-      font-weight:1000;
-      line-height:1.05;
-      letter-spacing:-.04em;
-      white-space:nowrap;
-      overflow:hidden;
-      text-overflow:ellipsis;
+      font-size:clamp(24px,3vw,36px);font-weight:1000;line-height:1.05;
+      letter-spacing:-.04em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
     }
+    .sub{margin-top:5px;color:var(--muted);font-size:16px;line-height:1.45;font-weight:800}
 
-    .sub{
-      margin-top:5px;
-      color:var(--muted);
-      font-size:16px;
-      line-height:1.45;
-      font-weight:800;
-    }
-
-    .topActions{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      justify-content:flex-end;
-    }
+    .topActions{display:flex;gap:10px;flex-wrap:wrap;justify-content:flex-end}
 
     .btn{
-      min-height:58px;
-      border:none;
-      border-radius:17px;
-      padding:14px 17px;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      gap:9px;
-      font-size:18px;
-      font-weight:1000;
-      cursor:pointer;
-      white-space:nowrap;
-      transition:filter .18s ease, transform .08s ease;
-      text-align:center;
+      min-height:56px;border:none;border-radius:17px;padding:14px 17px;
+      display:inline-flex;align-items:center;justify-content:center;gap:9px;
+      font-size:17px;font-weight:1000;cursor:pointer;white-space:nowrap;
+      transition:filter .18s ease, transform .08s ease;text-align:center;
     }
-
     .btn:active{transform:translateY(1px) scale(.99)}
     .btn.primary{
       background:linear-gradient(135deg,var(--orange),var(--gold2));
-      color:#13200d;
-      box-shadow:0 14px 30px rgba(249,115,22,.22);
+      color:#13200d;box-shadow:0 14px 30px rgba(249,115,22,.22);
     }
-
-    .btn.secondary{
-      background:rgba(255,255,255,.055);
-      border:1px solid rgba(255,255,255,.10);
-      color:var(--ink);
-    }
-
-    .btn.ghost{
-      background:rgba(255,255,255,.03);
-      border:1px solid var(--line);
-      color:var(--ink);
-    }
-
-    .btn.green{
-      background:rgba(34,197,94,.14);
-      border:1px solid rgba(34,197,94,.30);
-      color:#bbf7d0;
-    }
+    .btn.secondary{background:rgba(255,255,255,.055);border:1px solid rgba(255,255,255,.10);color:var(--ink)}
+    .btn.ghost{background:rgba(255,255,255,.03);border:1px solid var(--line);color:var(--ink)}
+    .btn.green{background:rgba(34,197,94,.14);border:1px solid rgba(34,197,94,.30);color:#bbf7d0}
 
     .msg{
-      border-radius:18px;
-      padding:16px 18px;
-      font-size:17px;
-      line-height:1.5;
-      font-weight:900;
-      display:none;
+      border-radius:18px;padding:16px 18px;font-size:17px;line-height:1.5;
+      font-weight:900;display:none;
     }
-
     .msg.show{display:block}
-    .msg.info{
-      color:#dbeafe;
-      border:1px solid rgba(96,165,250,.18);
-      background:rgba(59,130,246,.08);
-    }
-
-    .msg.bad{
-      color:#fecaca;
-      border:1px solid rgba(239,68,68,.18);
-      background:rgba(239,68,68,.08);
-    }
-
-    .msg.ok{
-      color:#bbf7d0;
-      border:1px solid rgba(34,197,94,.18);
-      background:rgba(34,197,94,.08);
-    }
+    .msg.info{color:#dbeafe;border:1px solid rgba(96,165,250,.18);background:rgba(59,130,246,.08)}
+    .msg.bad{color:#fecaca;border:1px solid rgba(239,68,68,.18);background:rgba(239,68,68,.08)}
 
     .hero{
       display:grid;
       grid-template-columns:1.08fr .92fr;
-      gap:16px;
-    }
-
-    .heroMain{
-      display:grid;
-      gap:16px;
-      align-content:start;
-    }
-
-    .infoUnderPhoto{
-      grid-template-columns:1fr;
-      margin:0;
       gap:16px;
     }
 
@@ -238,78 +127,49 @@
 
     .cover{
       position:relative;
-      min-height:430px;
-      background:#0d1914 center/cover no-repeat;
+      min-height:560px;
+      background:#0d1914;
+      display:flex;
+      align-items:center;
+      justify-content:center;
       border-bottom:1px solid rgba(255,255,255,.08);
     }
 
+    .cover img{
+      width:100%;
+      height:100%;
+      max-height:760px;
+      object-fit:contain;
+      display:block;
+      background:#06130f;
+      padding:10px;
+    }
+
     .coverFallback{
-      display:grid;
-      place-items:center;
-      min-height:430px;
-      color:var(--muted);
-      font-size:18px;
-      font-weight:900;
-      background:
+      display:grid;place-items:center;min-height:430px;color:var(--muted);
+      font-size:18px;font-weight:900;background:
         radial-gradient(circle at top, rgba(212,175,55,.10), transparent 30%),
         linear-gradient(180deg,#10231b,#0a1712);
     }
 
-    .coverShade{
-      position:absolute;
-      inset:0;
-      background:
-        linear-gradient(180deg,rgba(0,0,0,.08),rgba(0,0,0,.10) 22%,rgba(0,0,0,.66));
+    .cardBody{padding:22px}
+    .sectionTitle{
+      margin:0 0 12px;font-size:clamp(28px,5.8vw,42px);
+      font-weight:1000;letter-spacing:-.045em;line-height:1.08;
     }
+    .sectionSub{margin:-4px 0 16px;color:var(--muted);font-size:18px;font-weight:850;line-height:1.55}
+    .text{color:#eef6f2;font-size:20px;font-weight:800;line-height:1.7;word-break:break-word}
 
-    .coverContent{
-      position:absolute;
-      left:0;
-      right:0;
-      bottom:0;
-      padding:24px;
-      z-index:2;
+    .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+    .chip{
+      min-height:38px;padding:0 13px;border-radius:999px;display:inline-flex;align-items:center;
+      background:rgba(212,175,55,.09);border:1px solid rgba(212,175,55,.20);
+      color:var(--gold2);font-size:15px;font-weight:1000;letter-spacing:.02em;
     }
-
-    .badge{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding:9px 13px;
-      border-radius:999px;
-      border:1px solid rgba(212,175,55,.24);
-      background:rgba(212,175,55,.10);
-      color:var(--gold2);
-      font-size:14px;
-      font-weight:1000;
-      letter-spacing:.08em;
-      text-transform:uppercase;
-      margin-bottom:12px;
-    }
-
-    .heroTitle{
-      margin:0 0 10px;
-      font-size:clamp(38px,6vw,64px);
-      line-height:1.00;
-      letter-spacing:-.055em;
-      text-shadow:0 6px 20px rgba(0,0,0,.26);
-    }
-
-    .heroLead{
-      margin:0;
-      color:#eef6f2;
-      font-size:20px;
-      line-height:1.55;
-      font-weight:850;
-      max-width:62ch;
-      text-shadow:0 4px 16px rgba(0,0,0,.24);
-    }
+    .chip.ok{border-color:rgba(34,197,94,.26);background:rgba(34,197,94,.10);color:#bbf7d0}
 
     .sideCard{
-      padding:20px;
-      display:grid;
-      gap:12px;
-      background:
+      padding:18px;display:grid;gap:12px;align-content:start;background:
         linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.015)),
         linear-gradient(180deg,#0a1c16,#0d241c);
     }
@@ -317,395 +177,86 @@
     .qrCard{
       border:1px solid rgba(212,175,55,.28);
       border-radius:26px;
-      background:
-        radial-gradient(420px 180px at 50% 0%, rgba(212,175,55,.15), transparent 62%),
-        rgba(0,0,0,.15);
-      padding:18px;
-      display:grid;
-      gap:12px;
-      text-align:center;
+      background:radial-gradient(420px 180px at 50% 0%, rgba(212,175,55,.15), transparent 62%),rgba(0,0,0,.15);
+      padding:18px;display:grid;gap:12px;text-align:center;
     }
-
     .qrKicker{
-      display:inline-flex;
-      justify-content:center;
-      align-items:center;
-      gap:8px;
-      margin:auto;
-      padding:9px 13px;
-      border-radius:999px;
-      border:1px solid rgba(212,175,55,.28);
-      background:rgba(212,175,55,.11);
-      color:#fde68a;
-      font-size:16px;
-      font-weight:1000;
+      display:inline-flex;justify-content:center;align-items:center;gap:8px;margin:auto;
+      padding:9px 13px;border-radius:999px;border:1px solid rgba(212,175,55,.28);
+      background:rgba(212,175,55,.11);color:#fde68a;font-size:16px;font-weight:1000;
     }
-
     .qrImg{
-      width:min(100%,250px);
-      height:auto;
-      margin:auto;
-      display:block;
-      border-radius:22px;
-      background:#fff;
-      padding:12px;
-      border:1px solid rgba(212,175,55,.42);
+      width:min(100%,250px);height:auto;margin:auto;display:block;border-radius:22px;
+      background:#fff;padding:12px;border:1px solid rgba(212,175,55,.42);
       box-shadow:0 14px 34px rgba(0,0,0,.34);
     }
-
-    .qrTitle{
-      font-size:28px;
-      line-height:1.08;
-      font-weight:1000;
-      color:var(--gold2);
-    }
-
-    .qrText{
-      color:var(--muted);
-      font-size:18px;
-      line-height:1.45;
-      font-weight:900;
-    }
-
+    .qrTitle{font-size:28px;line-height:1.08;font-weight:1000;color:var(--gold2)}
+    .qrText{color:var(--muted);font-size:17px;line-height:1.45;font-weight:900}
     .qrLink{
-      border-radius:16px;
-      border:1px solid rgba(255,255,255,.10);
-      background:rgba(0,0,0,.18);
-      padding:10px;
-      word-break:break-word;
-      font-size:13px;
-      line-height:1.35;
-      color:rgba(248,250,252,.72);
-      font-weight:900;
+      border-radius:16px;border:1px solid rgba(255,255,255,.10);background:rgba(0,0,0,.18);
+      padding:10px;word-break:break-word;font-size:13px;line-height:1.35;
+      color:rgba(248,250,252,.72);font-weight:900;
     }
+    .qrActions{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 
-    .qrActions{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:10px;
-    }
+    .miniStat{border:1px solid rgba(255,255,255,.09);border-radius:19px;padding:15px;background:rgba(255,255,255,.035)}
+    .miniLabel{color:rgba(248,250,252,.58);font-size:13px;font-weight:1000;text-transform:uppercase;letter-spacing:.08em;margin-bottom:8px}
+    .miniValue{font-size:23px;font-weight:1000;line-height:1.15;letter-spacing:-.035em;word-break:break-word}
+    .miniHint{margin-top:7px;color:var(--muted);font-size:16px;font-weight:800;line-height:1.45}
 
-    .miniStat{
-      border:1px solid rgba(255,255,255,.09);
-      border-radius:19px;
-      padding:15px;
-      background:rgba(255,255,255,.035);
-    }
-
-    .miniLabel{
-      color:var(--soft);
-      font-size:13px;
-      font-weight:1000;
-      text-transform:uppercase;
-      letter-spacing:.08em;
-      margin-bottom:8px;
-    }
-
-    .miniValue{
-      font-size:23px;
-      font-weight:1000;
-      line-height:1.15;
-      letter-spacing:-.035em;
-      word-break:break-word;
-    }
-
-    .miniHint{
-      margin-top:7px;
-      color:var(--muted);
-      font-size:16px;
-      font-weight:800;
-      line-height:1.45;
-    }
-
-    .actions{
-      display:flex;
-      flex-wrap:wrap;
-      gap:10px;
-      margin-top:4px;
-    }
-
-    .layout{
-      display:grid;
-      grid-template-columns:1.08fr .92fr;
-      gap:16px;
-    }
-
-    .cardBody{padding:22px}
-
-    .sectionTitle{
-      margin:0 0 12px;
-      font-size:clamp(28px,5.8vw,42px);
-      font-weight:1000;
-      letter-spacing:-.045em;
-      line-height:1.08;
-    }
-
-    .sectionSub{
-      margin:-4px 0 16px;
-      color:var(--muted);
-      font-size:18px;
-      font-weight:850;
-      line-height:1.55;
-    }
-
-    .text{
-      color:#eef6f2;
-      font-size:20px;
-      font-weight:800;
-      line-height:1.75;
-      word-break:break-word;
-    }
-
-    .muted{color:var(--muted)}
-
-    .grid{
-      display:grid;
-      gap:12px;
-    }
-
-    .infoRow{
-      border:1px solid rgba(255,255,255,.09);
-      background:rgba(255,255,255,.035);
-      border-radius:19px;
-      padding:16px;
-    }
-
-    .infoRow strong{
-      display:block;
-      font-size:15px;
-      margin-bottom:7px;
-      color:#eef6f2;
-      text-transform:uppercase;
-      letter-spacing:.05em;
-      font-weight:1000;
-    }
-
-    .infoRow span{
-      color:var(--muted);
-      font-size:18px;
-      font-weight:850;
-      line-height:1.55;
-      word-break:break-word;
-    }
-
-    .chips{
-      display:flex;
-      flex-wrap:wrap;
-      gap:8px;
-    }
-
-    .chip{
-      min-height:38px;
-      padding:0 13px;
-      border-radius:999px;
-      display:inline-flex;
-      align-items:center;
-      background:rgba(212,175,55,.09);
-      border:1px solid rgba(212,175,55,.20);
-      color:var(--gold2);
-      font-size:15px;
-      font-weight:1000;
-      letter-spacing:.02em;
-    }
-
-    .chip.ok{
-      border-color:rgba(34,197,94,.26);
-      background:rgba(34,197,94,.10);
-      color:#bbf7d0;
-    }
-
-    .gallery{
-      display:grid;
-      grid-template-columns:repeat(2,1fr);
-      gap:12px;
-    }
-
+    .actions{display:grid;grid-template-columns:1fr;gap:10px;margin-top:4px}
+    .gallery{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
     .photo{
-      position:relative;
-      display:block;
-      border-radius:20px;
-      overflow:hidden;
-      min-height:220px;
-      background:#102019 center/cover no-repeat;
-      border:1px solid rgba(255,255,255,.10);
+      position:relative;display:block;border-radius:20px;overflow:hidden;
+      background:#102019;border:1px solid rgba(255,255,255,.10);
       box-shadow:0 14px 34px rgba(0,0,0,.22);
     }
+    .photo img{width:100%;height:100%;min-height:260px;object-fit:contain;background:#06130f;display:block;padding:8px}
 
-    .photo::after{
-      content:"↗ Ouvrir";
-      position:absolute;
-      right:10px;
-      bottom:10px;
-      min-height:34px;
-      padding:0 12px;
-      border-radius:999px;
-      display:inline-flex;
-      align-items:center;
-      background:rgba(0,0,0,.50);
-      color:#fff;
-      font-size:14px;
-      font-weight:1000;
-      border:1px solid rgba(255,255,255,.14);
-    }
-
-    .empty{
-      border:1px dashed rgba(255,255,255,.14);
-      border-radius:20px;
-      padding:20px;
-      color:var(--muted);
-      font-size:18px;
-      font-weight:850;
-      line-height:1.6;
-      background:rgba(255,255,255,.025);
-    }
-
-    .mobilePublicFastRow{
-      display:grid;
-      grid-template-columns:repeat(4,minmax(0,1fr));
-      gap:10px;
-      margin-top:14px;
-    }
-
-    .mobilePublicFastRow a,
-    .mobilePublicFastRow button{
-      min-height:56px;
-      border-radius:16px;
-      border:1px solid var(--line);
-      background:rgba(255,255,255,.055);
-      color:var(--ink);
-      text-decoration:none;
-      font-weight:1000;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      gap:8px;
-      padding:12px;
-      cursor:pointer;
-      font-family:inherit;
-      font-size:16px;
-    }
-
-    .mobilePublicFastRow .primary{
-      background:linear-gradient(135deg,var(--orange),var(--gold2));
-      color:#13200d;
-      border:none;
-    }
-
-    .foot{
-      margin-top:2px;
-      color:var(--muted);
-      font-size:15px;
-      font-weight:850;
-      line-height:1.6;
-      text-align:center;
-    }
-
-    #gallery,.hero,.layout,.infoUnderPhoto{scroll-margin-top:90px}
+    .foot{margin-top:2px;color:var(--muted);font-size:15px;font-weight:850;line-height:1.6;text-align:center}
 
     .publicBottomNav{
-      position:fixed;
-      left:0;
-      right:0;
-      bottom:0;
-      z-index:99990;
+      position:fixed;left:0;right:0;bottom:0;z-index:99990;
       padding:8px 10px calc(8px + env(safe-area-inset-bottom,0px));
-      background:rgba(6,19,15,.95);
-      border-top:1px solid rgba(255,255,255,.10);
-      backdrop-filter:blur(16px);
-      -webkit-backdrop-filter:blur(16px);
+      background:rgba(6,19,15,.95);border-top:1px solid rgba(255,255,255,.10);
+      backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
     }
-
     .publicBottomNavInner{
-      width:min(100%,760px);
-      margin:0 auto;
-      display:grid;
-      grid-template-columns:repeat(5,1fr);
-      gap:6px;
+      width:min(100%,760px);margin:0 auto;display:grid;grid-template-columns:repeat(5,1fr);gap:6px;
     }
-
-    .publicBottomNav a,
-    .publicBottomNav button{
-      min-height:62px;
-      border-radius:17px;
-      display:grid;
-      place-items:center;
-      align-content:center;
-      gap:3px;
-      color:rgba(248,250,252,.75);
-      font-size:12px;
-      font-weight:1000;
-      text-align:center;
-      border:1px solid transparent;
-      text-decoration:none;
-      background:transparent;
-      cursor:pointer;
-      font-family:inherit;
-      padding:0 4px;
+    .publicBottomNav a,.publicBottomNav button{
+      min-height:62px;border-radius:17px;display:grid;place-items:center;align-content:center;gap:3px;
+      color:rgba(248,250,252,.75);font-size:12px;font-weight:1000;text-align:center;
+      border:1px solid transparent;text-decoration:none;background:transparent;cursor:pointer;
+      font-family:inherit;padding:0 4px;
     }
-
     .publicBottomNav .icoBottom{font-size:20px;line-height:1}
-
-    .publicBottomNav a.active,
-    .publicBottomNav button.active{
-      color:#13200d;
-      background:linear-gradient(135deg,var(--orange),var(--gold2));
-      border-color:rgba(243,212,107,.30);
-      box-shadow:0 12px 26px rgba(212,175,55,.18);
+    .publicBottomNav a.active,.publicBottomNav button.active{
+      color:#13200d;background:linear-gradient(135deg,var(--orange),var(--gold2));
+      border-color:rgba(243,212,107,.30);box-shadow:0 12px 26px rgba(212,175,55,.18);
     }
 
     .shareToast{
-      position:fixed;
-      left:50%;
-      bottom:calc(96px + env(safe-area-inset-bottom,0px));
-      transform:translateX(-50%) translateY(12px);
-      z-index:99999;
-      opacity:0;
-      pointer-events:none;
-      transition:.22s ease;
-      max-width:calc(100vw - 24px);
-      padding:12px 18px;
-      border-radius:999px;
-      border:1px solid rgba(243,212,107,.28);
-      background:rgba(16,38,30,.97);
-      color:var(--gold2);
-      font-size:15px;
-      font-weight:1000;
-      box-shadow:var(--shadow);
-      white-space:nowrap;
-      overflow:hidden;
-      text-overflow:ellipsis;
+      position:fixed;left:50%;bottom:calc(96px + env(safe-area-inset-bottom,0px));
+      transform:translateX(-50%) translateY(12px);z-index:99999;opacity:0;pointer-events:none;
+      transition:.22s ease;max-width:calc(100vw - 24px);padding:12px 18px;border-radius:999px;
+      border:1px solid rgba(243,212,107,.28);background:rgba(16,38,30,.97);
+      color:var(--gold2);font-size:15px;font-weight:1000;box-shadow:var(--shadow);
+      white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
     }
+    .shareToast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
-    .shareToast.show{
-      opacity:1;
-      transform:translateX(-50%) translateY(0);
-    }
-
-    @media(max-width:1040px){
-      .hero,.layout,.infoUnderPhoto{grid-template-columns:1fr}
-    }
-
-    @media(max-width:760px){
-      .gallery{grid-template-columns:1fr}
-    }
-
+    @media(max-width:1040px){.hero{grid-template-columns:1fr}}
+    @media(max-width:760px){.gallery{grid-template-columns:1fr}}
     @media(max-width:640px){
-      body{font-size:18px}
       .wrap{padding:12px 10px 36px}
       .topbar{flex-direction:column}
       .topActions{display:none}
-      .cover,.coverFallback{min-height:330px}
-      .coverContent{padding:18px}
+      .cover{min-height:430px}
       .cardBody,.sideCard{padding:18px}
-      .heroTitle{font-size:clamp(38px,12vw,56px)}
-      .heroLead,.text{font-size:19px}
       .btn{width:100%;min-height:62px;font-size:18px}
-      .actions{display:grid;grid-template-columns:1fr}
       .qrActions{grid-template-columns:1fr}
       .qrImg{width:min(82vw,270px)}
-      .mobilePublicFastRow{grid-template-columns:1fr 1fr}
-      .miniValue{font-size:22px}
-      .photo{min-height:240px}
     }
   </style>
 </head>
@@ -717,87 +268,54 @@
         <div class="logo">
           <img src="https://digiylyfe.net/wp-content/uploads/2026/03/digiylyfe_logo_qr.jpeg" alt="Logo DIGIYLYFE">
         </div>
-        <div class="brandText">
+        <div>
           <div class="kicker">Je propose mes services</div>
-          <div class="title" id="topTitle">Fiche service</div>
-          <div class="sub" id="subline">Lecture claire d’un service, d’un métier ou d’un savoir-faire.</div>
+          <div class="title" id="topTitle">Fiche artisan</div>
+          <div class="sub" id="subline">Métier clair, secteur, fiche détaillée et contact direct.</div>
         </div>
       </div>
 
       <div class="topActions">
         <a class="btn ghost" href="https://digiylyfe.com/">Site</a>
         <a class="btn ghost" href="https://digiy-hub.digiylyfe.com/">HUB</a>
-        <a class="btn ghost" href="https://tarifs.digiylyfe.com/" target="_blank" rel="noopener noreferrer">Tarifs</a>
-        <a class="btn secondary" href="./listing.html">Retour</a>
-        <a class="btn primary" href="https://pro-build.digiylyfe.com/dashboard-pro.html">Mon service</a>
+        <a class="btn secondary" href="./listing.html">Retour galerie</a>
       </div>
     </header>
 
     <div id="msg" class="msg info"></div>
 
     <section class="hero" id="profileWrap" style="display:none">
-      <div class="heroMain">
-        <article class="panel">
-          <div id="cover" class="coverFallback">Chargement du service…</div>
-        </article>
+      <div class="panel">
+        <div id="cover" class="coverFallback">Chargement du service…</div>
 
-        <section class="layout infoUnderPhoto">
-          <article class="panel">
-            <div class="cardBody">
-              <h2 class="sectionTitle">À savoir</h2>
-              <p class="sectionSub">Le résumé utile pour comprendre vite et contacter le bon professionnel.</p>
+        <div class="cardBody">
+          <h1 class="sectionTitle" id="nameBox">Fiche artisan</h1>
+          <p class="sectionSub" id="leadBox">Métier, zone et contact direct.</p>
 
-              <div class="grid">
-                <div class="infoRow">
-                  <strong>En bref</strong>
-                  <span id="shortDescriptionBox">—</span>
-                </div>
+          <div class="chips" id="chipsBox"></div>
 
-                <div class="text" id="fullDescriptionBox">—</div>
-              </div>
-            </div>
-          </article>
+          <div style="margin-top:18px" class="text" id="fullDescriptionBox">—</div>
 
-          <aside class="panel">
-            <div class="cardBody">
-              <h2 class="sectionTitle">Infos utiles</h2>
-              <p class="sectionSub">Métier, zone, repère et mots utiles.</p>
-
-              <div class="grid">
-                <div class="infoRow">
-                  <strong>Zone / repère</strong>
-                  <span id="addressBox">—</span>
-                </div>
-
-                <div class="infoRow">
-                  <strong>Type de service</strong>
-                  <span id="kindBox">—</span>
-                </div>
-
-                <div class="infoRow">
-                  <strong>Mots du service</strong>
-                  <span id="tagsBox">
-                    <span class="muted">Aucun mot-clé.</span>
-                  </span>
-                </div>
-              </div>
-            </div>
-          </aside>
-        </section>
+          <div style="margin-top:18px" class="gallery" id="gallery">
+            <div class="empty">Aucune photo disponible pour le moment.</div>
+          </div>
+        </div>
       </div>
 
       <aside class="panel sideCard">
-        <article class="qrCard" aria-label="QR de la fiche service">
-          <div class="qrKicker">📲 QR service</div>
-          <img id="qrImg" class="qrImg" alt="QR DIGIY BUILD" src="">
-          <div class="qrTitle">Scanne pour voir ce service</div>
-          <div class="qrText">
-            Savoir-faire, zone, demande utile, contact direct et 0% commission.
-          </div>
+        <article class="qrCard" aria-label="QR de la fiche artisan">
+          <div class="qrKicker">📲 QR fiche</div>
+          <a id="qrAnchor" href="#" target="_blank" rel="noopener">
+            <img id="qrImg" class="qrImg" alt="QR fiche DIGIY BUILD" src="">
+          </a>
+          <div class="qrTitle">Scanne cette fiche</div>
+          <div class="qrText">Le QR ouvre directement la fiche de cet artisan. Prêt pour WhatsApp, affiche, sticker ou carte.</div>
           <div class="qrLink" id="qrLinkText">Préparation du lien…</div>
           <div class="qrActions">
             <a class="btn primary" id="qrOpenBtn" href="#" target="_blank" rel="noopener">🧭 Ouvrir</a>
+            <a class="btn green" id="qrPageBtn" href="#">📲 Page QR</a>
             <button class="btn secondary" id="qrCopyBtn" type="button">📋 Copier</button>
+            <button class="btn secondary" id="shareBtn" type="button">📤 Partager</button>
           </div>
         </article>
 
@@ -815,44 +333,20 @@
 
         <div class="miniStat">
           <div class="miniLabel">Contact direct</div>
-          <div class="miniValue" id="contactBox">Protégé</div>
-          <div class="miniHint">Le lien de contact public est préparé sans afficher le numéro.</div>
-        </div>
-
-        <div class="miniStat">
-          <div class="miniLabel">Paiement</div>
-          <div class="miniValue" id="priceBox">Direct pro</div>
-          <div class="miniHint">DIGIY ne prend pas de commission sur le service.</div>
+          <div class="miniValue" id="contactBox">—</div>
+          <div class="miniHint">Le client peut écrire directement au professionnel si le contact est publié.</div>
         </div>
 
         <div class="actions">
-          <a id="callBtn" class="btn primary" href="./request.html">Décrire mon besoin</a>
-          <a id="waBtn" class="btn secondary" href="./request.html">WhatsApp</a>
-          <a id="listingBtn" class="btn ghost" href="./listing.html">Voir dans la galerie</a>
-        </div>
-
-        <div class="mobilePublicFastRow">
-          <a href="./listing.html">← Retour</a>
-          <a id="fastPhotos" href="#gallery">🖼️ Images</a>
-          <a class="primary" id="fastGo" href="./request.html">📄 Besoin</a>
-          <button id="fastShare" type="button">📤 Partager</button>
+          <a id="waBtn" class="btn primary" href="./request.html">💬 WhatsApp direct</a>
+          <a id="callBtn" class="btn secondary" href="./request.html">📄 Décrire mon besoin</a>
+          <a id="listingBtn" class="btn ghost" href="./listing.html">← Retour galerie</a>
         </div>
       </aside>
     </section>
 
-    <section class="panel" id="galleryPanel" style="display:none">
-      <div class="cardBody">
-        <h2 class="sectionTitle">Ambiance en images</h2>
-        <p class="sectionSub">Quelques images pour sentir le métier, le chantier ou le service avant de contacter.</p>
-
-        <div id="gallery" class="gallery">
-          <div class="empty">Aucune photo disponible pour le moment.</div>
-        </div>
-      </div>
-    </section>
-
     <div class="foot">
-      DIGIY BUILD • fiche publique • QR service • ambiance en images • contact direct • demande utile • 0% commission
+      DIGIY BUILD • fiche publique • QR fiche • image complète • métier clair • secteur • contact direct
     </div>
   </div>
 
@@ -875,131 +369,134 @@
       const SUPABASE_URL = window.DIGIY_SUPABASE_URL;
       const SUPABASE_ANON_KEY = window.DIGIY_SUPABASE_ANON_KEY;
       const PUBLIC_TABLE = "digiy_build_public_profiles";
-      const PUBLIC_BASE = "https://build.digiylyfe.com/";
       const QR_API = "https://api.qrserver.com/v1/create-qr-code/";
       const LOGO = "https://digiylyfe.net/wp-content/uploads/2026/03/digiylyfe_logo_qr.jpeg";
-      const DEFAULT_PHOTO = LOGO;
 
-      const CLEAN_KEYS = [
-        "phone","tel","owner_phone","contact_phone","whatsapp","return",
-        "from","pin","token","module","session_token","owner_id"
+      const LOCAL_PROFILES = [
+        {
+          slug:"partenaires-mbaye",
+          display_name:"Mbaye Diouf",
+          trade:"Bâtisseur · villas modernes · piscines · finitions haut de gamme",
+          city:"Saly / Mbour / Thiès",
+          region:"Petite Côte",
+          sector:"construction",
+          bio:"Construction de villas, piscines béton, finitions haut de gamme, rénovation et extensions. Devis après visite selon plans, surfaces, matériaux et délais.",
+          photo_url:"https://digiylyfe.net/wp-content/uploads/2026/05/ChatGPT-Image-14-mai-2026-03_56_26.png",
+          whatsapp:"221776427113",
+          phone:"+221776427113",
+          tags:["villa","piscine","rénovation","finition"]
+        },
+        {
+          slug:"partenaires-zal-kourant",
+          display_name:"Zal & Kourant",
+          trade:"Électriciens · installation · rénovation · dépannage",
+          city:"Saly",
+          region:"Petite Côte",
+          sector:"electricite",
+          bio:"Installation neuve, rénovation, mise aux normes, tableau, disjoncteurs, terre, dépannage panne, prise, éclairage et petits chantiers de finition.",
+          photo_url:"https://digiylyfe.net/wp-content/uploads/2026/05/ChatGPT-Image-14-mai-2026-03_59_29.png",
+          whatsapp:"221772084781",
+          phone:"+221772084781",
+          tags:["électricité","dépannage","rénovation","maison","bâtiment"]
+        },
+        {
+          slug:"partenaires-helage-plombier",
+          display_name:"Helage",
+          trade:"Plombier multi-services · dépannage · installation · salle de bain",
+          city:"Saly",
+          region:"Petite Côte",
+          sector:"plomberie",
+          bio:"Dépannage fuites, robinets, WC, installation douche, lavabo, chauffe-eau, désengorgement et petits chantiers sanitaires. Contact direct, devis rapide par WhatsApp.",
+          photo_url:"https://digiylyfe.net/wp-content/uploads/2026/05/ChatGPT-Image-14-mai-2026-04_01_44.png",
+          whatsapp:"221774513523",
+          phone:"+221774513523",
+          tags:["plomberie","dépannage","installation","salle de bain"]
+        }
       ];
 
       const $ = (id) => document.getElementById(id);
-
       const msg = $("msg");
       const profileWrap = $("profileWrap");
-      const galleryPanel = $("galleryPanel");
-      const topTitle = $("topTitle");
-      const subline = $("subline");
-      const cover = $("cover");
-      const categoryBox = $("categoryBox");
-      const locationBox = $("locationBox");
-      const contactBox = $("contactBox");
-      const priceBox = $("priceBox");
-      const shortDescriptionBox = $("shortDescriptionBox");
-      const fullDescriptionBox = $("fullDescriptionBox");
-      const addressBox = $("addressBox");
-      const kindBox = $("kindBox");
-      const tagsBox = $("tagsBox");
-      const gallery = $("gallery");
 
-      const callBtn = $("callBtn");
-      const waBtn = $("waBtn");
-      const listingBtn = $("listingBtn");
-      const fastGo = $("fastGo");
-      const fastShare = $("fastShare");
-      const bottomNeed = $("bottomNeed");
-      const bottomWhatsapp = $("bottomWhatsapp");
-      const bottomShare = $("bottomShare");
-      const shareToast = $("shareToast");
+      const params = new URLSearchParams(location.search);
+      const requestedSlug = normSlug(params.get("slug") || params.get("id") || "");
 
-      const qrImg = $("qrImg");
-      const qrLinkText = $("qrLinkText");
-      const qrOpenBtn = $("qrOpenBtn");
-      const qrCopyBtn = $("qrCopyBtn");
+      let currentProfile = null;
+      let currentProfileUrl = "";
 
-      function setMsg(text, type){
-        if(!text){
-          msg.className = "msg";
-          msg.textContent = "";
-          return;
-        }
-        msg.className = "msg show " + (type || "info");
+      function showMsg(text, type="info"){
+        msg.className = "msg show " + type;
         msg.textContent = text;
       }
 
-      function cleanPublicUrl(){
-        try{
-          const url = new URL(window.location.href);
-          let changed = false;
-          CLEAN_KEYS.forEach(function(key){
-            if(url.searchParams.has(key)){
-              url.searchParams.delete(key);
-              changed = true;
-            }
-          });
-          if(changed){
-            history.replaceState({}, document.title, url.pathname + url.search + url.hash);
-          }
-        }catch(_){}
-      }
-
-      function escapeHtml(value){
-        return String(value ?? "")
-          .replaceAll("&","&amp;")
-          .replaceAll("<","&lt;")
-          .replaceAll(">","&gt;")
-          .replaceAll('"',"&quot;")
-          .replaceAll("'","&#039;");
-      }
-
-      function safeText(value, fallback){
-        const s = String(value ?? "").trim();
-        return s || fallback || "—";
-      }
-
-      function text(value){
-        return String(value ?? "").trim();
+      function hideMsg(){
+        msg.className = "msg info";
+        msg.textContent = "";
       }
 
       function normSlug(v){
         return String(v || "")
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g,"")
           .trim()
           .toLowerCase()
-          .normalize("NFD").replace(/[\u0300-\u036f]/g,"")
-          .replace(/\s+/g,"-")
-          .replace(/[^a-z0-9-]/g,"")
+          .replace(/[^a-z0-9]+/g,"-")
           .replace(/-+/g,"-")
           .replace(/^-|-$/g,"");
       }
 
-      function getSlug(){
-        cleanPublicUrl();
-        try{
-          const url = new URL(window.location.href);
-          return normSlug(url.searchParams.get("slug") || "");
-        }catch(_){
-          return "";
-        }
+      function text(v){ return String(v ?? "").trim(); }
+
+      function escapeHtml(v){
+        return String(v ?? "")
+          .replace(/&/g,"&amp;")
+          .replace(/</g,"&lt;")
+          .replace(/>/g,"&gt;")
+          .replace(/"/g,"&quot;")
+          .replace(/'/g,"&#039;");
       }
 
       function normalizePhone(v){
-        const raw = String(v || "").replace(/[^\d]/g,"");
-        if(raw.length === 9) return "221" + raw;
-        return raw;
+        return String(v || "").replace(/[^0-9]/g,"");
       }
 
-      function maybeUrl(v){
-        const raw = text(v);
-        if(!raw) return "";
-        try{
-          const url = new URL(raw, window.location.href);
-          CLEAN_KEYS.forEach(key => url.searchParams.delete(key));
-          return url.href;
-        }catch(_){
-          return "";
-        }
+      function publicProfileUrl(profile){
+        const u = new URL(location.href);
+        ["phone","tel","owner_phone","contact_phone","whatsapp","return","from","pin","token"].forEach(k => u.searchParams.delete(k));
+        u.searchParams.set("slug", profile.slug || requestedSlug);
+        return u.toString();
+      }
+
+      function makeRequestUrl(profile){
+        const u = new URL("./request.html", location.href);
+        if(profile.display_name) u.searchParams.set("nom", profile.display_name);
+        if(profile.trade) u.searchParams.set("metier", profile.trade);
+        if(profile.city) u.searchParams.set("ville", profile.city);
+        return u.pathname + u.search + u.hash;
+      }
+
+      function makeQrPageUrl(profile){
+        const u = new URL("./qr.html", location.href);
+        u.searchParams.set("url", currentProfileUrl || publicProfileUrl(profile));
+        u.searchParams.set("title", profile.display_name || "Fiche artisan DIGIYLYFE");
+        u.searchParams.set("metier", profile.trade || "");
+        u.searchParams.set("ville", profile.city || "");
+        return u.pathname + u.search + u.hash;
+      }
+
+      function qrImageUrl(profileUrl){
+        const u = new URL(QR_API);
+        u.searchParams.set("size","560x560");
+        u.searchParams.set("margin","16");
+        u.searchParams.set("data", profileUrl);
+        return u.toString();
+      }
+
+      function whatsappUrl(profile){
+        const wa = normalizePhone(profile.whatsapp || profile.phone);
+        if(!wa) return "";
+        const message = encodeURIComponent(`Bonjour ${profile.display_name || ""}, je viens de DIGIYLYFE pour votre service ${profile.trade || ""}.`);
+        return `https://wa.me/${wa}?text=${message}`;
       }
 
       function firstOf(obj, keys, fallback=""){
@@ -1013,325 +510,170 @@
         return fallback;
       }
 
-      function parseJsonMaybe(value){
-        if(Array.isArray(value)) return value;
+      function parseTags(value){
+        if(Array.isArray(value)) return value.map(text).filter(Boolean);
         const raw = text(value);
         if(!raw) return [];
         if(raw.startsWith("[") && raw.endsWith("]")){
           try{
             const arr = JSON.parse(raw);
-            return Array.isArray(arr) ? arr : [];
+            if(Array.isArray(arr)) return arr.map(text).filter(Boolean);
           }catch(_){}
         }
         return raw.split(",").map(text).filter(Boolean);
       }
 
-      function parseTags(value){
-        return parseJsonMaybe(value).map(text).filter(Boolean);
+      function normalizeProfile(row){
+        const display_name = text(firstOf(row,["display_name","public_label","name","title"]));
+        const trade = text(firstOf(row,["trade","activity","job_title","profession"]));
+        const city = text(firstOf(row,["city","zone","quartier","location"]));
+        const region = text(firstOf(row,["region","city_zone"]));
+        const sector = text(firstOf(row,["sector","category"]));
+        const bio = text(firstOf(row,["bio","description","short_description","about"]));
+        const photo_url = text(firstOf(row,["photo_url","cover_url","image_url","photo","image","cover","hero_image"]));
+        const phone = text(firstOf(row,["phone","contact_phone","tel","telephone"]));
+        const whatsapp = text(firstOf(row,["whatsapp","whatsapp_phone","wa_phone","mobile"]));
+        const slug = normSlug(firstOf(row,["slug"], display_name || trade));
+        const tags = parseTags(firstOf(row,["tags","keywords","tag_list"],[]));
+        return {raw:row, slug, display_name, trade, city, region, sector, bio, photo_url, phone, whatsapp, tags};
       }
 
-      function readGalleryUrls(profile){
-        const urls = [];
-
-        [
-          profile.photo_url,
-          profile.cover_url,
-          profile.image_url
-        ].forEach(item=>{
-          const url = maybeUrl(item);
-          if(url && !urls.includes(url)) urls.push(url);
-        });
-
-        parseJsonMaybe(profile.gallery_urls).forEach(item=>{
-          const url = typeof item === "string" ? maybeUrl(item) : maybeUrl(item?.url || item?.href || item?.src);
-          if(url && !urls.includes(url)) urls.push(url);
-        });
-
-        parseJsonMaybe(profile.photo_urls).forEach(item=>{
-          const url = typeof item === "string" ? maybeUrl(item) : maybeUrl(item?.url || item?.href || item?.src);
-          if(url && !urls.includes(url)) urls.push(url);
-        });
-
-        return urls.filter(Boolean);
-      }
-
-      function canonicalProfileUrl(slug){
-        try{
-          const u = new URL("./fiche.html", window.location.href);
-          if(slug) u.searchParams.set("slug", slug);
-          CLEAN_KEYS.forEach(k => u.searchParams.delete(k));
-          return u.toString();
-        }catch(_){
-          return window.location.href;
-        }
-      }
-
-      function qrUrlFor(target){
-        return QR_API + "?size=620x620&margin=16&data=" + encodeURIComponent(target);
-      }
-
-      async function copyText(value){
-        const text = String(value || "").trim();
-        if(!text) throw new Error("empty_copy");
-
-        if(navigator.clipboard?.writeText){
-          await navigator.clipboard.writeText(text);
-          return true;
-        }
-
-        const ta = document.createElement("textarea");
-        ta.value = text;
-        ta.setAttribute("readonly","");
-        ta.style.position = "fixed";
-        ta.style.left = "-9999px";
-        document.body.appendChild(ta);
-        ta.select();
-
-        const ok = document.execCommand("copy");
-        ta.remove();
-
-        if(!ok) throw new Error("copy_failed");
-        return true;
-      }
-
-      function showShareToast(text){
-        if(!shareToast) return;
-        shareToast.textContent = text || "Lien prêt à partager";
-        shareToast.classList.add("show");
-        clearTimeout(showShareToast._t);
-        showShareToast._t = setTimeout(() => shareToast.classList.remove("show"), 2200);
-      }
-
-      function waLink(profile){
-        const p = normalizePhone(profile.phone);
-        if(!p) return "";
-
-        const msg = [
-          "Bonjour, je viens de voir votre fiche DIGIY BUILD.",
-          profile.display_name ? "Nom : " + profile.display_name : "",
-          profile.trade ? "Service : " + profile.trade : "",
-          "Je souhaite vous contacter."
-        ].filter(Boolean).join("\n");
-
-        return "https://wa.me/" + p + "?text=" + encodeURIComponent(msg);
-      }
-
-      function requestUrl(profile){
-        const url = new URL("./request.html", window.location.href);
-        if(profile.display_name) url.searchParams.set("nom", profile.display_name);
-        if(profile.trade) url.searchParams.set("metier", profile.trade);
-        if(profile.city) url.searchParams.set("ville", profile.city);
-        return url.pathname + url.search + url.hash;
-      }
-
-      function listingUrl(profile){
-        const url = new URL("./listing.html", window.location.href);
-        if(profile.slug) url.searchParams.set("slug", profile.slug);
-        return url.pathname + url.search + url.hash;
-      }
-
-      function profileFromRow(row){
-        const phone = text(firstOf(row,["whatsapp","whatsapp_phone","contact_phone","phone"],""));
-        return {
-          slug: normSlug(firstOf(row,["slug"],"")),
-          display_name: text(firstOf(row,["display_name","public_label","name","title"],"")),
-          city: text(firstOf(row,["city","zone","quartier","location"],"")),
-          trade: text(firstOf(row,["trade","activity","job_title","profession"],"")),
-          region: text(firstOf(row,["region","city_zone"],"")),
-          sector: text(firstOf(row,["sector","category"],"")),
-          bio: text(firstOf(row,["bio","description","short_description","about"],"")),
-          full_description: text(firstOf(row,["full_description","long_description","details"],"")),
-          photo_url: maybeUrl(firstOf(row,["photo_url","photo","image_url","cover_url"],"")),
-          cover_url: maybeUrl(firstOf(row,["cover_url","cover","banner_url"],"")),
-          image_url: maybeUrl(firstOf(row,["image_url","avatar_url","logo_url"],"")),
-          gallery_urls: firstOf(row,["gallery_urls","photos","images"],[]),
-          photo_urls: firstOf(row,["photo_urls"],[]),
-          badge: text(firstOf(row,["badge","tagline","headline_badge"],"")),
-          hub_badge: text(firstOf(row,["hub_badge","public_badge"],"")),
-          price_label: text(firstOf(row,["price_label","price_text","offer_label"],"")),
-          phone,
-          tags: parseTags(firstOf(row,["tags","keywords","tag_list"],[]))
-        };
-      }
-
-      function renderTags(tags){
-        const arr = Array.isArray(tags) ? tags.filter(Boolean) : [];
-        if(!arr.length) return '<span class="muted">Aucun mot-clé.</span>';
-        return arr.slice(0,10).map(tag => '<span class="chip">' + escapeHtml(tag) + '</span>').join("");
-      }
-
-      function renderGallery(urls, name){
-        if(!urls.length){
-          gallery.innerHTML = '<div class="empty">Aucune photo disponible pour le moment. La fiche reste partageable par QR et contact direct.</div>';
+      async function loadProfile(){
+        if(!requestedSlug){
+          showMsg("Lien incomplet : aucun artisan indiqué.", "bad");
           return;
         }
 
-        gallery.innerHTML = urls.slice(0,8).map(url => `
-          <a
-            class="photo"
-            href="${escapeHtml(url)}"
-            target="_blank"
-            rel="noopener"
-            aria-label="Ouvrir une image de ${escapeHtml(name)}"
-            style="background-image:url('${escapeHtml(url)}')"
-          ></a>
-        `).join("");
-      }
-
-      function renderProfile(profile){
-        const name = safeText(profile.display_name, "Je propose mes services");
-        const trade = safeText(profile.trade, "Service utile");
-        const city = safeText(profile.city, "Zone non précisée");
-        const zone = [city, profile.region, profile.sector].filter(Boolean).join(" · ");
-        const shortText = safeText(profile.bio, "Professionnel visible pour travaux, dépannage, entretien, chantier et services pratiques.");
-        const longText = safeText(
-          profile.full_description,
-          "DIGIY BUILD rend le service visible, clair et partageable : le client comprend le métier, voit le repère utile, puis contacte directement le professionnel."
-        );
-        const photo = maybeUrl(profile.cover_url || profile.photo_url || profile.image_url) || DEFAULT_PHOTO;
-        const galleryUrls = readGalleryUrls(profile);
-        const publicUrl = canonicalProfileUrl(profile.slug);
-        const wa = waLink(profile);
-        const req = requestUrl(profile);
-        const list = listingUrl(profile);
-        const price = profile.price_label || "Direct pro";
-
-        topTitle.textContent = name;
-        subline.textContent = trade + " · " + zone;
-
-        cover.className = "cover";
-        cover.style.backgroundImage = "url('" + photo.replaceAll("'", "%27") + "')";
-        cover.innerHTML = `
-          <div class="coverShade"></div>
-          <div class="coverContent">
-            <div class="badge">🧰 DIGIY BUILD · fiche publique</div>
-            <h1 class="heroTitle">${escapeHtml(name)}</h1>
-            <p class="heroLead">${escapeHtml(trade)} · ${escapeHtml(zone)}</p>
-          </div>
-        `;
-
-        categoryBox.textContent = trade;
-        locationBox.textContent = zone;
-        contactBox.textContent = wa ? "WhatsApp direct" : "Demande DIGIY";
-        priceBox.textContent = price;
-
-        shortDescriptionBox.textContent = shortText;
-        fullDescriptionBox.textContent = longText;
-        addressBox.textContent = zone;
-        kindBox.textContent = trade;
-        tagsBox.innerHTML = renderTags(profile.tags);
-
-        qrImg.src = qrUrlFor(publicUrl);
-        qrLinkText.textContent = publicUrl;
-        qrOpenBtn.href = publicUrl;
-
-        qrCopyBtn.onclick = async () => {
-          try{
-            await copyText(publicUrl);
-            showShareToast("Lien de la fiche copié.");
-          }catch(_){
-            showShareToast("Copie impossible.");
-          }
-        };
-
-        callBtn.href = req;
-        callBtn.textContent = "📄 Décrire mon besoin";
-
-        waBtn.href = wa || req;
-        waBtn.textContent = wa ? "💬 WhatsApp direct" : "💬 Demande DIGIY";
-        if(wa) waBtn.target = "_blank";
-
-        listingBtn.href = list;
-        fastGo.href = req;
-        bottomNeed.href = req;
-        bottomWhatsapp.href = wa || req;
-        if(wa) bottomWhatsapp.target = "_blank";
-
-        function shareAction(){
-          const shareData = {
-            title:name + " · DIGIY BUILD",
-            text:"Fiche service DIGIY BUILD : " + name + " — " + trade,
-            url:publicUrl
-          };
-
-          if(navigator.share){
-            navigator.share(shareData).catch(async ()=>{
-              try{
-                await copyText(publicUrl);
-                showShareToast("Lien de la fiche copié.");
-              }catch(_){}
-            });
-            return;
-          }
-
-          copyText(publicUrl)
-            .then(()=>showShareToast("Lien de la fiche copié."))
-            .catch(()=>window.open("https://wa.me/?text=" + encodeURIComponent(shareData.text + "\n" + publicUrl), "_blank", "noopener"));
-        }
-
-        fastShare.onclick = shareAction;
-        bottomShare.onclick = shareAction;
-
-        renderGallery(galleryUrls.length ? galleryUrls : [photo], name);
-
-        profileWrap.style.display = "";
-        galleryPanel.style.display = "";
-        setMsg("", "info");
-      }
-
-      async function load(){
-        const slug = getSlug();
-
-        if(!slug){
-          setMsg("Aucun repère de fiche reçu. Ouvre la galerie BUILD pour choisir un professionnel publié.", "bad");
+        const local = LOCAL_PROFILES.find(p => normSlug(p.slug) === requestedSlug);
+        if(local){
+          renderProfile(local);
           return;
         }
 
         try{
-          if(!window.supabase || typeof window.supabase.createClient !== "function"){
-            setMsg("Supabase indisponible pour charger cette fiche.", "bad");
-            return;
-          }
-
-          const client = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
-            auth:{
-              persistSession:false,
-              autoRefreshToken:false,
-              detectSessionInUrl:false,
-              storageKey:"digiy-build-public-fiche-noauth",
-              storage:{ getItem:()=>null, setItem:()=>{}, removeItem:()=>{} }
-            }
+          if(!window.supabase || !SUPABASE_URL || !SUPABASE_ANON_KEY) throw new Error("Supabase non disponible");
+          const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
+            auth:{persistSession:false, autoRefreshToken:false}
           });
 
-          const { data, error } = await client
+          const {data, error} = await sb
             .from(PUBLIC_TABLE)
             .select("*")
-            .eq("slug", slug)
-            .eq("is_published", true)
+            .eq("slug", requestedSlug)
             .limit(1)
             .maybeSingle();
 
-          if(error){
-            setMsg("Impossible de charger la fiche : " + (error.message || error), "bad");
-            return;
-          }
+          if(error) throw error;
+          if(!data) throw new Error("not_found");
 
-          if(!data){
-            setMsg("Aucune fiche publiée ne correspond à ce repère : " + slug + ".", "bad");
-            return;
-          }
-
-          renderProfile(profileFromRow(data));
-        }catch(error){
-          setMsg("Erreur réseau : " + (error?.message || error), "bad");
+          renderProfile(normalizeProfile(data));
+        }catch(e){
+          console.error(e);
+          showMsg("Cette fiche n’est pas disponible pour le moment.", "bad");
         }
       }
 
-      load();
+      function renderProfile(profile){
+        currentProfile = profile;
+        currentProfileUrl = publicProfileUrl(profile);
+
+        hideMsg();
+        profileWrap.style.display = "";
+        document.title = `${profile.display_name || "Fiche artisan"} — DIGIY BUILD`;
+        $("topTitle").textContent = profile.display_name || "Fiche artisan";
+        $("subline").textContent = profile.trade || "Métier, secteur et contact direct.";
+        $("nameBox").textContent = profile.display_name || "Professionnel";
+        $("leadBox").textContent = [profile.trade, profile.city].filter(Boolean).join(" • ") || "Service utile";
+
+        const image = profile.photo_url || LOGO;
+        $("cover").className = "cover";
+        $("cover").innerHTML = `
+          <img
+            src="${escapeHtml(image)}"
+            alt="${escapeHtml(profile.display_name || "Fiche artisan")}"
+            loading="eager"
+            onerror="this.src='${escapeHtml(LOGO)}'"
+          >
+        `;
+
+        const chips = [];
+        chips.push(`<span class="chip ok">Contact direct</span>`);
+        if(profile.sector) chips.push(`<span class="chip">${escapeHtml(profile.sector)}</span>`);
+        if(profile.city) chips.push(`<span class="chip">${escapeHtml(profile.city)}</span>`);
+        if(profile.region) chips.push(`<span class="chip">${escapeHtml(profile.region)}</span>`);
+        (profile.tags || []).slice(0,4).forEach(tag => chips.push(`<span class="chip">${escapeHtml(tag)}</span>`));
+        $("chipsBox").innerHTML = chips.join("");
+
+        $("fullDescriptionBox").textContent = profile.bio || "Professionnel visible avec fiche détaillée, secteur clair et contact direct.";
+        $("categoryBox").textContent = profile.trade || profile.sector || "Service utile";
+        $("locationBox").textContent = [profile.city, profile.region].filter(Boolean).join(" • ") || "Zone à préciser";
+        $("contactBox").textContent = (profile.whatsapp || profile.phone) ? "WhatsApp disponible" : "Via la demande DIGIY";
+
+        const requestUrl = makeRequestUrl(profile);
+        $("callBtn").href = requestUrl;
+        $("bottomNeed").href = requestUrl;
+
+        const wa = whatsappUrl(profile);
+        if(wa){
+          $("waBtn").href = wa;
+          $("bottomWhatsapp").href = wa;
+        }else{
+          $("waBtn").href = requestUrl;
+          $("waBtn").textContent = "📄 Décrire mon besoin";
+          $("bottomWhatsapp").href = requestUrl;
+        }
+
+        const qrSrc = qrImageUrl(currentProfileUrl);
+        $("qrImg").src = qrSrc;
+        $("qrAnchor").href = currentProfileUrl;
+        $("qrOpenBtn").href = currentProfileUrl;
+        $("qrPageBtn").href = makeQrPageUrl(profile);
+        $("qrLinkText").textContent = currentProfileUrl;
+
+        $("qrCopyBtn").onclick = () => copyText(currentProfileUrl);
+        $("shareBtn").onclick = shareProfile;
+        $("bottomShare").onclick = shareProfile;
+
+        $("gallery").innerHTML = `
+          <a class="photo" href="${escapeHtml(image)}" target="_blank" rel="noopener">
+            <img src="${escapeHtml(image)}" alt="${escapeHtml(profile.display_name || "Photo artisan")}" loading="lazy">
+          </a>
+        `;
+      }
+
+      async function copyText(value){
+        try{
+          await navigator.clipboard.writeText(value);
+          toast("Lien copié");
+        }catch(_){
+          window.prompt("Copie le lien :", value);
+        }
+      }
+
+      async function shareProfile(){
+        if(!currentProfile) return;
+        const title = `${currentProfile.display_name || "Fiche artisan"} — DIGIY BUILD`;
+        const textShare = `${currentProfile.trade || "Service utile"}${currentProfile.city ? " · " + currentProfile.city : ""}`;
+        try{
+          if(navigator.share){
+            await navigator.share({title, text:textShare, url:currentProfileUrl});
+            return;
+          }
+        }catch(_){}
+        copyText(`${title}\n${textShare}\n${currentProfileUrl}`);
+      }
+
+      function toast(text){
+        const t = $("shareToast");
+        t.textContent = text || "Lien prêt à partager";
+        t.classList.add("show");
+        clearTimeout(toast._t);
+        toast._t = setTimeout(() => t.classList.remove("show"), 1900);
+      }
+
+      loadProfile();
     })();
   </script>
-
-  <!-- DIGIY BUILD — FICHE publique dans le moule EXPLORE / LOC — 20260514 -->
 </body>
 </html>
 
