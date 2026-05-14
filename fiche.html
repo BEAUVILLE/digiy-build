@@ -15,6 +15,7 @@
   </script>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com"/>
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
@@ -309,7 +310,7 @@
             <img id="qrImg" class="qrImg" alt="QR fiche DIGIY BUILD" src="">
           </a>
           <div class="qrTitle">Scanne cette fiche</div>
-          <div class="qrText">Ce QR ouvre directement cette fiche. Il est affiché ici pour lecture et partage, sans édition côté client.</div>
+          <div class="qrText">Ce QR ouvre directement cette fiche. Il est visible ici pour scanner, partager ou montrer au client — sans édition côté public.</div>
           <div class="qrLink" id="qrLinkText">Préparation du lien…</div>
           <div class="qrActions">
             <a class="btn primary" id="qrOpenBtn" href="#" target="_blank" rel="noopener">🧭 Ouvrir</a>
@@ -482,6 +483,35 @@
         return u.toString();
       }
 
+      function setQrImage(profileUrl){
+        const img = $("qrImg");
+        if(!img) return;
+
+        const fallback = qrImageUrl(profileUrl);
+
+        function useFallback(){
+          img.src = fallback;
+        }
+
+        try{
+          if(window.QRCode && typeof window.QRCode.toDataURL === "function"){
+            window.QRCode.toDataURL(profileUrl, {
+              width:560,
+              margin:1,
+              errorCorrectionLevel:"M",
+              color:{dark:"#111827", light:"#FFFFFF"}
+            }, (err, dataUrl) => {
+              if(err || !dataUrl) useFallback();
+              else img.src = dataUrl;
+            });
+          }else{
+            useFallback();
+          }
+        }catch(_){
+          useFallback();
+        }
+      }
+
       function whatsappUrl(profile){
         const wa = normalizePhone(profile.whatsapp || profile.phone);
         if(!wa) return "";
@@ -613,8 +643,7 @@
           $("bottomWhatsapp").href = requestUrl;
         }
 
-        const qrSrc = qrImageUrl(currentProfileUrl);
-        $("qrImg").src = qrSrc;
+        setQrImage(currentProfileUrl);
         $("qrAnchor").href = currentProfileUrl;
         $("qrOpenBtn").href = currentProfileUrl;
         $("qrLinkText").textContent = currentProfileUrl;
