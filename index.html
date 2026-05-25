@@ -1087,10 +1087,23 @@
       const config = {
         label: "Écouter services",
         stopLabel: "Arrêter",
-        text: "Bienvenue dans DIGIY BUILD by DIGIYLYFE. Ici, le client peut chercher un professionnel, voir les profils, ouvrir les QR artisans, décrire un besoin ou suivre une demande. Travaux, dépannage, entretien, chantier, service utile : on évite les messages flous. Le professionnel garde le contact direct, son prix et sa relation client. Zéro commission. Le terrain garde la main.",
+        text: "Bienvenue dans DIGIY BUILD by DIGIYLYFE. Ici, le client peut chercher un artisan tout corps de métiers, voir les profils, ouvrir les QR artisans, décrire un besoin ou suivre une demande. Plomberie, électricité, maçonnerie, menuiserie, soudure, peinture, climatisation, réparation, entretien, dépannage, chantier ou intervention pratique : on évite les messages flous. Le professionnel garde le contact direct, son prix et sa relation client. Zéro commission. Le terrain garde la main.",
         rate: 0.82,
         pitch: 1,
         volume: 1
+      };
+
+      function digiyAudioPronunciation(raw){
+        return String(raw || "")
+          .replace(/DIGIYLYFE/g, "diji i laïfe")
+          .replace(/DIGIY/g, "diji i")
+          .replace(/BUILD/g, "artisans tout corps de métiers")
+          .replace(/QR/g, "Q R")
+          .replace(/SMS/g, "S M S")
+          .replace(/WhatsApp/g, "Ouatsap")
+          .replace(/Wave/g, "Ouève")
+          .replace(/Sénélec/g, "Sé né lek")
+          .replace(/0\s*%/g, "zéro pour cent");
       };
 
       const btn = document.getElementById("digiy-audio-btn");
@@ -1177,7 +1190,9 @@
 
         try { synth.cancel(); } catch(e){}
 
-        utterance = new SpeechSynthesisUtterance(config.text);
+        const speechText = digiyAudioPronunciation(config.text);
+
+        utterance = new SpeechSynthesisUtterance(speechText);
         utterance.lang = "fr-FR";
         utterance.rate = config.rate;
         utterance.pitch = config.pitch;
@@ -1189,7 +1204,7 @@
         utterance.onstart = () => {
           if (currentId !== launchId) return;
           setPlaying();
-          startProgress(config.text, currentId);
+          startProgress(speechText, currentId);
         };
 
         utterance.onend = () => {
@@ -1256,5 +1271,6 @@
       setIdle();
     })();
   </script>
+  <!-- DIGIY BUILD — AUDIO PRONONCIATION DOCTRINE diji i / artisans tout corps de métiers — 20260525 -->
 </body>
 </html>
