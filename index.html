@@ -985,14 +985,14 @@
         <div class="grid">
           <article class="card">
             <div class="name">💳 Activer mon entrée</div>
-            <div class="type">Abonnement • Activation • Présence • Accès</div>
+            <div class="type">Inscription fluide • Présence • Accès métier</div>
             <div class="badges">
               <div class="badge badge-public">Abonnement</div>
               <div class="badge badge-info">Commencer ici</div>
             </div>
             <div class="desc">
               Tu fais les travaux, le dépannage, l’entretien ou les services pratiques ?
-              Commence par activer ton abonnement pour poser ta présence et rejoindre la vitrine proprement.
+              La fiche d’inscription reste fluide pour activer ta présence BUILD dans l’architecture métiers de la Supa-Apps.
             </div>
             <div class="actions">
               <a class="btn btn-green" href="https://commencer-a-payer.digiylyfe.com/?module=BUILD">💳 Commencer à payer</a>
@@ -1067,7 +1067,7 @@
 
     <footer>
       DIGIY BUILD — Travaux, dépannage, entretien, solaire, chantier et services pratiques.<br>
-      Contact direct • QR artisans • Paiement direct au pro • 0% commission • BY DIGIYLYFE
+      Contact direct • QR artisans • Paiement direct au pro • 0% commission • par DIGIYLYFE
     </footer>
   </div>
 
@@ -1093,9 +1093,9 @@
     </a>
   </div>
 
-  <button id="digiy-audio-btn" type="button" aria-label="Écouter services">
+  <button id="digiy-audio-btn" type="button" aria-label="Écouter l’intro BUILD">
     <span class="digiy-audio-ico">&#9654;</span>
-    <span class="digiy-audio-lbl">Écouter services</span>
+    <span class="digiy-audio-lbl">Écouter l’intro BUILD</span>
   </button>
 
   <div id="digiy-audio-progress-wrap" aria-hidden="true">
@@ -1107,9 +1107,9 @@
       "use strict";
 
       const config = {
-        label: "Écouter services",
+        label: "Écouter l’intro BUILD",
         stopLabel: "Arrêter",
-        text: "Bienvenue dans DIGIY BUILD by DIGIYLYFE. Ici, le client peut chercher un artisan tout corps de métiers, voir les profils, ouvrir les QR artisans, consulter la fiche solaire, décrire un besoin ou suivre une demande. Plomberie, électricité, solaire, maçonnerie, menuiserie, soudure, peinture, climatisation, réparation, entretien, dépannage, chantier ou intervention pratique : on évite les messages flous. Le professionnel garde le contact direct, son prix et sa relation client. Zéro commission. Le terrain garde la main.",
+        text: "Bienvenue dans DIGIY BUILD par DIGIYLYFE. Ici, le client décrit un besoin simple : dépannage, travaux, entretien ou service pratique. Il voit les profils, le QR artisan, la fiche solaire si besoin, puis garde le contact direct avec le professionnel. L’artisan garde son métier, son prix, son client et sa relation. La fiche d’inscription reste fluide pour activer sa présence dans l’architecture métiers de la Supa-Apps. Zéro commission. Le terrain garde la main.",
         rate: 0.82,
         pitch: 1,
         volume: 1
@@ -1117,14 +1117,15 @@
 
       function digiyAudioPronunciation(raw){
         return String(raw || "")
-          .replace(/DIGIYLYFE/g, "diji i laïfe")
-          .replace(/DIGIY/g, "diji i")
-          .replace(/BUILD/g, "artisans tout corps de métiers")
-          .replace(/QR/g, "Q R")
-          .replace(/SMS/g, "S M S")
-          .replace(/WhatsApp/g, "Ouatsap")
-          .replace(/Wave/g, "Ouève")
-          .replace(/Sénélec/g, "Sé né lek")
+          .replace(/\bDIGIYLYFE\b/g, "diji laïfe")
+          .replace(/\bDIGIY\b/g, "diji i")
+          .replace(/\bBUILD\b/g, "artisans tout corps de métiers")
+          .replace(/\bQR\b/g, "Q R")
+          .replace(/\bSMS\b/g, "S M S")
+          .replace(/\bWhatsApp\b/g, "Ouatsap")
+          .replace(/\bWave\b/g, "Ouève")
+          .replace(/\bFCFA\b/g, "F C F A")
+          .replace(/\bSénélec\b/g, "Sé né lek")
           .replace(/0\s*%/g, "zéro pour cent");
       };
 
@@ -1293,6 +1294,6 @@
       setIdle();
     })();
   </script>
-  <!-- DIGIY BUILD — AUDIO PRONONCIATION DOCTRINE diji i / artisans tout corps de métiers — 20260525 -->
+  <!-- DIGIY BUILD — AUDIO PRONONCIATION DOCTRINE OK : DIGIYLYFE=diji laïfe / DIGIY=diji i / BUILD=artisans tout corps de métiers — 20260605 -->
 </body>
 </html>
