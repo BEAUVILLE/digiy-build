@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <meta name="robots" content="index,follow" />
   <meta name="theme-color" content="#061b14" />
-  <meta name="digiy-version" content="build-inscription-readable-note-paiement-20260604" />
-  <title>Inscription BUILD — Artisans tout corps de métiers</title>
+  <meta name="digiy-version" content="build-inscription-france-senegal-prix-build-sendwave-20260629" />
+  <title>Inscription BUILD — Artisans France · Sénégal</title>
 
   <style>
     :root {
@@ -443,6 +443,62 @@
       min-height: 60px;
     }
 
+
+    .countryBox {
+      margin-top: 12px;
+      border: 1px solid rgba(250,204,21,.44);
+      border-radius: 18px;
+      background: rgba(250,204,21,.10);
+      padding: 12px;
+    }
+
+    .countryBox h3 {
+      margin: 0 0 8px;
+      color: #fff3b2;
+      font-size: 20px;
+      line-height: 1.1;
+      font-weight: 1000;
+    }
+
+    .countryChoice {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .countryBtn {
+      min-height: 52px;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,.07);
+      color: #fff;
+      font-weight: 1000;
+      cursor: pointer;
+    }
+
+    .countryBtn.active {
+      border-color: rgba(250,204,21,.80);
+      background: linear-gradient(135deg, var(--orange), var(--gold));
+      color: #061b14;
+    }
+
+    .countryNote {
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.42;
+      font-weight: 900;
+    }
+
+    .priceNote {
+      display:block;
+      color: rgba(234,255,241,.72);
+      font-size: 12px;
+      line-height: 1.35;
+      font-weight: 900;
+    }
+
     @media (max-width: 850px) {
       .hero,
       .grid {
@@ -475,7 +531,8 @@
         gap: 3px;
       }
 
-      .identityGrid {
+      .identityGrid,
+      .countryChoice {
         grid-template-columns: 1fr;
       }
     }
@@ -485,7 +542,7 @@
 <body>
   <div class="app">
     <header class="top">
-      <a class="brand" href="./index.html">🧰 DIGIY BUILD · inscription</a>
+      <a class="brand" href="./index.html">🧰 DIGIY BUILD · inscription France · Sénégal</a>
 
       <nav class="nav">
         <a href="./index.html">← BUILD public</a>
@@ -512,13 +569,12 @@
 
       <div>
         <div class="waveHero">
-          <small>Paiement Wave</small>
-          <strong>Wave : JB BEAUVILLE · +221 77 134 28 89</strong>
+          <small>Paiement Wave / Sendwave</small>
+          <strong>JB BEAUVILLE · Wave Sénégal · +221 77 134 28 89</strong>
         </div>
 
         <p>
-          Choix cumulables, date dans le message, sous-total, total, WhatsApp ou SMS.
-          Après paiement, envoie la preuve sur WhatsApp.
+          Choix cumulables, date dans le message, sous-total, total, WhatsApp ou SMS. Sénégal : Wave direct. France : Sendwave vers le Wave Sénégal de JB BEAUVILLE. Après paiement, envoie la preuve sur WhatsApp.
         </p>
       </div>
     </section>
@@ -540,6 +596,18 @@
 
       <aside class="card summary" id="summary">
         <h2>Ce que l’abonnement m’apporte</h2>
+
+        <div class="countryBox" id="countryBox">
+          <h3>🌍 Grille pays</h3>
+          <div class="countryChoice" aria-label="Choisir le pays du professionnel">
+            <button class="countryBtn active" type="button" data-country="senegal">🇸🇳 Sénégal · Wave direct</button>
+            <button class="countryBtn" type="button" data-country="france">🇫🇷 France · Sendwave vers Wave Sénégal</button>
+          </div>
+          <div class="countryNote" id="countryNote">
+            Les tarifs ne sont pas une conversion au taux de change. Ils sont adaptés au pays, au marché et au mode de règlement.
+          </div>
+        </div>
+
 
         <div class="selected" id="selectedBox">
           <strong>Aucun choix sélectionné</strong><br />
@@ -590,7 +658,7 @@
 
           <div class="line">
             <span>Ajustement / remise</span>
-            <strong>0 FCFA</strong>
+            <strong id="adjustText">0 FCFA</strong>
           </div>
 
           <div class="line final">
@@ -600,7 +668,7 @@
         </div>
 
         <div class="payment">
-          <div class="paymentTitle">💳 Paiement Wave</div>
+          <div class="paymentTitle">💳 Paiement Wave / Sendwave</div>
 
           <div class="waveHero">
             <small>Nom et numéro de paiement</small>
@@ -613,8 +681,7 @@
           </div>
 
           <div class="proof">
-            Après paiement Wave, envoie la capture ou la preuve par WhatsApp.
-            DIGIY vérifie puis accompagne l’ouverture / visibilité BUILD.
+            Après paiement, envoie la capture ou la preuve par WhatsApp. Sénégal : Wave direct. France : Sendwave vers Wave Sénégal. DIGIY vérifie puis accompagne l’ouverture / visibilité BUILD.
           </div>
         </div>
 
@@ -649,10 +716,13 @@
 
   <script>
     (function () {
+      "use strict";
+
       const TEL = "221771342889";
-      const WAVE_LABEL = "Wave : JB BEAUVILLE · +221 77 134 28 89";
+      const WAVE_LABEL = "Wave Sénégal : JB BEAUVILLE · +221 77 134 28 89";
 
       const IDENTITY_KEY = "digiy_build_payment_identity_v1";
+      const COUNTRY_KEY = "digiy_build_country_v1";
 
       const PLANS = [
         {
@@ -660,7 +730,7 @@
           cat: "base",
           name: "BUILD Essentiel",
           fcfa: 19900,
-          amount: "19 900 FCFA · 29 €",
+          eur: 29,
           desc: "Fiche artisan, QR, contact direct et demandes simples.",
           bonus: ["Fiche artisan visible", "QR et lien partageable", "Demandes client simples"]
         },
@@ -669,7 +739,7 @@
           cat: "base",
           name: "BUILD Pro",
           fcfa: 29900,
-          amount: "29 900 FCFA · 49 €",
+          eur: 49,
           desc: "Services, photos, messages prêts, demandes et suivi plus clair.",
           bonus: ["Services détaillés", "Photos / preuves métier", "Messages prêts", "Suivi demandes"]
         },
@@ -678,7 +748,7 @@
           cat: "base",
           name: "BUILD Chantier",
           fcfa: 45000,
-          amount: "45 000 FCFA · 69 €",
+          eur: 69,
           desc: "Présence renforcée pour équipes, chantiers et interventions plus lourdes.",
           bonus: ["Équipe / chantier", "Présence renforcée", "Devis et intervention", "Organisation terrain"]
         },
@@ -687,7 +757,7 @@
           cat: "boost",
           name: "Boost Local",
           fcfa: 5000,
-          amount: "5 000 FCFA",
+          eur: null,
           desc: "Petit projecteur local.",
           bonus: ["Boost local"]
         },
@@ -696,7 +766,7 @@
           cat: "boost",
           name: "Boost Standard",
           fcfa: 10000,
-          amount: "10 000 FCFA",
+          eur: null,
           desc: "Mise en avant renforcée.",
           bonus: ["Visibilité renforcée"]
         },
@@ -705,7 +775,7 @@
           cat: "boost",
           name: "Boost Premium",
           fcfa: 20000,
-          amount: "20 000 FCFA",
+          eur: null,
           desc: "Visibilité maximale.",
           bonus: ["Priorité visibilité"]
         },
@@ -714,7 +784,7 @@
           cat: "reseau",
           name: "RÉSEAU abonné — 7 jours",
           fcfa: 15000,
-          amount: "15 000 FCFA",
+          eur: 28,
           desc: "Pour pro déjà abonné DIGIY.",
           bonus: ["Réservé abonnés", "Visibilité 7 jours"]
         },
@@ -723,7 +793,7 @@
           cat: "reseau",
           name: "RÉSEAU abonné — 15 jours",
           fcfa: 25000,
-          amount: "25 000 FCFA",
+          eur: 45,
           desc: "Pour pro déjà abonné DIGIY.",
           bonus: ["Réservé abonnés", "Visibilité 15 jours"]
         },
@@ -732,7 +802,7 @@
           cat: "reseau",
           name: "RÉSEAU abonné — 1 mois",
           fcfa: 45000,
-          amount: "45 000 FCFA",
+          eur: 75,
           desc: "Pour pro déjà abonné DIGIY.",
           bonus: ["Réservé abonnés", "Visibilité 1 mois"]
         },
@@ -741,7 +811,7 @@
           cat: "reseau",
           name: "Mise en classe FIRST — non-abonné",
           fcfa: 150000,
-          amount: "150 000 FCFA · 1 mois",
+          eur: 260,
           desc: "Qualification, fiche/vitrine, QR, lien, messages prêts, visibilité qualifiée.",
           bonus: ["Réservé non-abonnés", "Fiche premium", "QR et lien", "Visibilité qualifiée"]
         }
@@ -757,6 +827,7 @@
       ];
 
       let selected = new Set();
+      let country = "senegal";
 
       const $ = (id) => document.getElementById(id);
       const summary = $("summary");
@@ -767,6 +838,43 @@
         } catch (_) {
           return {};
         }
+      }
+
+      function initialCountry() {
+        try {
+          const params = new URLSearchParams(location.search);
+          const p = String(params.get("pays") || params.get("country") || "").toLowerCase();
+          if (p === "fr" || p === "france") return "france";
+          if (p === "sn" || p === "senegal" || p === "sénégal") return "senegal";
+          const saved = localStorage.getItem(COUNTRY_KEY);
+          return saved === "france" ? "france" : "senegal";
+        } catch (_) {
+          return "senegal";
+        }
+      }
+
+      function setCountry(next) {
+        country = next === "france" ? "france" : "senegal";
+        try { localStorage.setItem(COUNTRY_KEY, country); } catch (_) {}
+
+        document.querySelectorAll("[data-country]").forEach((button) => {
+          button.classList.toggle("active", button.dataset.country === country);
+        });
+
+        const note = $("countryNote");
+        if (note) {
+          note.textContent = country === "france"
+            ? "France : règlement par Sendwave vers le Wave Sénégal de JB BEAUVILLE. Les tarifs France sont une grille pays, pas une conversion au taux de change. BUILD France : B1 29 €, B2 49 €, B3 69 €. Les BOOST France restent sur demande si aucun montant EUR n’est indiqué."
+            : "Sénégal : règlement Wave direct. Les tarifs sont en FCFA et restent une grille terrain locale.";
+        }
+
+        update(false);
+      }
+
+      function bindCountry() {
+        document.querySelectorAll("[data-country]").forEach((button) => {
+          button.addEventListener("click", () => setCountry(button.dataset.country));
+        });
       }
 
       function identityFields() {
@@ -842,6 +950,50 @@
         return new Intl.NumberFormat("fr-FR").format(n) + " FCFA";
       }
 
+      function euro(n) {
+        return new Intl.NumberFormat("fr-FR", { maximumFractionDigits: 0 }).format(n) + " €";
+      }
+
+      function priceKnown(plan) {
+        return country === "senegal" || typeof plan.eur === "number";
+      }
+
+      function priceText(plan) {
+        if (country === "france") {
+          return typeof plan.eur === "number" ? euro(plan.eur) : "Tarif France à valider";
+        }
+        return money(plan.fcfa);
+      }
+
+      function priceNote(plan) {
+        if (country === "france") {
+          return typeof plan.eur === "number"
+            ? "Tarif France adapté · pas une conversion"
+            : "Montant EUR à confirmer avant paiement";
+        }
+        return "Tarif Sénégal · Wave direct";
+      }
+
+      function total(items) {
+        if (country === "france") {
+          if (items.some((plan) => typeof plan.eur !== "number")) return null;
+          return items.reduce((sum, plan) => sum + plan.eur, 0);
+        }
+        return items.reduce((sum, plan) => sum + plan.fcfa, 0);
+      }
+
+      function totalText(items) {
+        const value = total(items);
+        if (value === null) return "À confirmer";
+        return country === "france" ? euro(value) : money(value);
+      }
+
+      function paymentLabel() {
+        return country === "france"
+          ? "Sendwave France → " + WAVE_LABEL
+          : "Wave direct → " + WAVE_LABEL;
+      }
+
       function date() {
         return new Date().toLocaleString("fr-FR", {
           dateStyle: "full",
@@ -873,7 +1025,8 @@
               <button class="option ${selected.has(p.code) ? "active" : ""}" data-code="${p.code}" type="button">
                 <span class="code ${cat !== "base" ? "extra" : ""}">${p.code}</span>
                 <b>${p.name}</b>
-                <span class="amount">${p.amount}</span>
+                <span class="amount">${priceText(p)}</span>
+                <span class="priceNote">${priceNote(p)}</span>
                 <span>${p.desc}</span>
               </button>
             `)
@@ -893,14 +1046,14 @@
 
       function msg() {
         const items = chosen();
-        const sub = items.reduce((sum, plan) => sum + plan.fcfa, 0);
         const lines =
-          items.map((p) => `- ${p.code} · ${p.name} · ${money(p.fcfa)}`).join("\n") ||
+          items.map((p) => `- ${p.code} · ${p.name} · ${priceText(p)}${priceKnown(p) ? "" : " · à valider avant paiement"}`).join("\n") ||
           "Aucun choix sélectionné";
 
         return `Bonjour JB, je veux avancer avec DIGIY BUILD.
 
 Date de demande : ${date()}
+Pays / grille : ${country === "france" ? "France · tarif adapté" : "Sénégal · tarif terrain"}
 
 Infos pro :
 ${identityText()}
@@ -908,11 +1061,12 @@ ${identityText()}
 Choix :
 ${lines}
 
-Sous-total : ${money(sub)}
-Ajustement / remise : 0 FCFA
-Total : ${money(sub)}
+Sous-total : ${totalText(items)}
+Ajustement / remise : 0
+Total : ${totalText(items)}
 
-Paiement Wave : ${WAVE_LABEL}
+Règlement : ${paymentLabel()}
+Rappel : les tarifs pays ne sont pas une conversion au taux de change.
 
 Note / preuve :
 ${noteText()}
@@ -924,17 +1078,17 @@ Canal souhaité : WhatsApp ou SMS.`;
 
       function proofMsg() {
         const items = chosen();
-        const sub = items.reduce((sum, plan) => sum + plan.fcfa, 0);
         const lines =
-          items.map((p) => `- ${p.code} · ${p.name} · ${money(p.fcfa)}`).join("\n") ||
+          items.map((p) => `- ${p.code} · ${p.name} · ${priceText(p)}${priceKnown(p) ? "" : " · à valider"}`).join("\n") ||
           "Aucun choix sélectionné";
 
-        return `Bonjour JB, voici la preuve de paiement Wave pour DIGIY BUILD.
+        return `Bonjour JB, voici la preuve de paiement pour DIGIY BUILD.
 
 Date de demande : ${date()}
+Pays / grille : ${country === "france" ? "France" : "Sénégal"}
 
-${WAVE_LABEL}
-Montant : ${money(sub)}
+Règlement : ${paymentLabel()}
+Montant : ${totalText(items)}
 
 Choix :
 ${lines}
@@ -949,7 +1103,6 @@ Je joins la capture / preuve de paiement à ce message.`;
         render();
 
         const items = chosen();
-        const sub = items.reduce((sum, plan) => sum + plan.fcfa, 0);
 
         $("selectedBox").innerHTML = items.length
           ? `<strong>${items.length} choix sélectionné${items.length > 1 ? "s" : ""}</strong><br>Ajoute ou retire en recliquant.`
@@ -959,20 +1112,28 @@ Je joins la capture / preuve de paiement à ce message.`;
           ? items.map((p) => `
               <div class="line">
                 <span>${p.code} · ${p.name}</span>
-                <b>${money(p.fcfa)}</b>
+                <b>${priceText(p)}</b>
               </div>
             `).join("")
           : `
               <div class="line">
                 <span>Aucun choix</span>
-                <b>0 FCFA</b>
+                <b>${country === "france" ? "0 €" : "0 FCFA"}</b>
               </div>
             `;
 
-        $("subtotalText").textContent = money(sub);
-        $("totalText").textContent = money(sub);
-        $("payTotal").textContent = money(sub);
+        $("subtotalText").textContent = totalText(items);
+        if ($("adjustText")) $("adjustText").textContent = country === "france" ? "0 €" : "0 FCFA";
+        $("totalText").textContent = totalText(items);
+        $("payTotal").textContent = totalText(items);
         $("dateBox").textContent = "Date de demande : " + date();
+
+        const paymentTitle = document.querySelector(".paymentTitle");
+        if (paymentTitle) {
+          paymentTitle.textContent = country === "france"
+            ? "💳 Paiement Sendwave vers Wave Sénégal"
+            : "💳 Paiement Wave direct";
+        }
 
         $("benefits").innerHTML = (
           items.length
@@ -1018,9 +1179,11 @@ Je joins la capture / preuve de paiement à ce message.`;
 
       $("paymentNote").addEventListener("input", () => update(false));
 
+      country = initialCountry();
       loadIdentity();
       bindIdentity();
-
+      bindCountry();
+      setCountry(country);
       update(false);
     })();
   </script>
@@ -1032,4 +1195,5 @@ Je joins la capture / preuve de paiement à ce message.`;
   </script>
 </body>
 </html>
+
 
