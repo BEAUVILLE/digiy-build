@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <meta name="robots" content="index,follow" />
   <meta name="theme-color" content="#061b14" />
-  <meta name="digiy-version" content="build-inscription-presence-pro-france-senegal-sendwave-dore-20260707" />
+  <meta name="digiy-version" content="build-inscription-demande-gratuite-activation-pro-sendwave-dore-20260707" />
   <title>Inscription BUILD PRO — Présence artisan France · Sénégal</title>
 
   <style>
@@ -627,12 +627,12 @@
         <h1>Artisans tout corps de métiers.</h1>
         <p>
           BUILD ouvre la porte des services utiles : travaux, dépannage, entretien,
-          chantier, réparation, intervention pratique. L’entrée de base reste simple :
-          cette page sert à activer une présence professionnelle BUILD, sans commission sur les interventions.
+          chantier, réparation, intervention pratique. La demande d’inscription / orientation ne coûte rien tant qu’aucune présence PRO n’est activée :
+          cette page sert à choisir une activation professionnelle BUILD, sans commission sur les interventions.
         </p>
 
         <div class="pills">
-          <span class="pill">Entrée gratuite</span>
+          <span class="pill">Demande gratuite / sans engagement</span>
           <span class="pill">0% commission</span>
           <span class="pill">Contact direct</span>
           <span class="pill">Devis / intervention</span>
@@ -656,15 +656,16 @@
     </section>
 
     <section class="doctrine-card" aria-label="Doctrine économique BUILD">
-      <span class="tag">ENTRÉE GRATUITE · PRÉSENCE BUILD PAYANTE · 0% COMMISSION</span>
+      <span class="tag">DEMANDE GRATUITE · ACTIVATION BUILD PAYANTE · 0% COMMISSION</span>
       <h2>Tu gardes tes clients. Tu gardes tes paiements. DIGIY construit ta visibilité.</h2>
       <p>
         DIGIY BUILD ne prélève rien sur tes chantiers, dépannages ou interventions.
+        La gratuité concerne la demande initiale / orientation, pas l’activation de la présence PRO.
         Tu choisis seulement ce que tu veux activer : fiche artisan, QR officiel,
         lien partageable, visibilité locale, BOOST ou RÉSEAU.
       </p>
       <div class="doctrine-list">
-        <span>✅ Entrée de base gratuite</span>
+        <span>✅ Demande / orientation gratuite</span>
         <span>🧰 Présence artisan claire</span>
         <span>🤝 Paiement direct au pro</span>
         <span class="gold-emphasis">🇫🇷 France : Sendwave possible</span>
@@ -676,7 +677,7 @@
         <h2>Tarifs BUILD</h2>
         <p>Clique un ou plusieurs choix. Si tu te trompes, efface.</p>
 
-        <div class="section">🧰 Présence BUILD</div>
+        <div class="section">🧰 Activation présence BUILD</div>
         <div class="prices" id="baseOptions"></div>
 
         <div class="section">✨ BOOST visibilité</div>
@@ -1146,6 +1147,7 @@
 
 Date de demande : ${date()}
 Pays / grille : ${country === "france" ? "France · tarif adapté" : "Sénégal · tarif terrain"}
+Demande initiale : gratuite / sans engagement avant activation PRO
 
 Infos pro :
 ${identityText()}
@@ -1178,6 +1180,7 @@ Canal souhaité : WhatsApp ou SMS.`;
 
 Date de demande : ${date()}
 Pays / grille : ${country === "france" ? "France" : "Sénégal"}
+Demande initiale : gratuite / sans engagement avant activation PRO
 
 Règlement : ${paymentLabel()}
 Montant : ${totalText(items)}
@@ -1287,6 +1290,11 @@ Je joins la capture / preuve de paiement à ce message.`;
   </script>
 </body>
 </html>
+
+
+
+
+
 
 
 
