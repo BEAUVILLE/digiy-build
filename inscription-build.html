@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <meta name="robots" content="index,follow" />
   <meta name="theme-color" content="#061b14" />
-  <meta name="digiy-version" content="build-inscription-france-senegal-prix-build-sendwave-20260629" />
-  <title>Inscription BUILD — Artisans France · Sénégal</title>
+  <meta name="digiy-version" content="build-inscription-presence-pro-france-senegal-sendwave-dore-20260707" />
+  <title>Inscription BUILD PRO — Présence artisan France · Sénégal</title>
 
   <style>
     :root {
@@ -156,6 +156,77 @@
       background: rgba(250,204,21,.09);
       color: #fff3b2;
       font-size: 13px;
+      font-weight: 1000;
+    }
+
+    .gold-emphasis {
+      border: 1px solid rgba(250,204,21,.62) !important;
+      background: linear-gradient(135deg, rgba(250,204,21,.24), rgba(249,115,22,.16)) !important;
+      color: #fff8dc !important;
+      box-shadow: 0 12px 28px rgba(250,204,21,.12);
+    }
+
+    .sendwaveGold {
+      margin-top: 10px;
+      border-radius: 18px;
+      border: 1px solid rgba(250,204,21,.70);
+      background: linear-gradient(135deg, rgba(250,204,21,.26), rgba(249,115,22,.18));
+      color: #fff8dc;
+      padding: 12px;
+      font-weight: 1000;
+      line-height: 1.42;
+      box-shadow: 0 12px 28px rgba(250,204,21,.12);
+    }
+
+    .doctrine-card {
+      margin: 0 0 14px;
+      padding: 16px;
+      border: 2px solid rgba(250,204,21,.55);
+      border-radius: 24px;
+      background:
+        radial-gradient(circle at top right, rgba(250,204,21,.18), transparent 34%),
+        linear-gradient(145deg, rgba(11,42,31,.96), rgba(6,35,25,.96));
+      box-shadow: 0 18px 52px rgba(0,0,0,.34);
+    }
+
+    .doctrine-card .tag {
+      display: inline-flex;
+      width: max-content;
+      max-width: 100%;
+      border-radius: 999px;
+      border: 1px solid rgba(250,204,21,.58);
+      background: rgba(250,204,21,.14);
+      color: #fff3b2;
+      padding: 8px 12px;
+      font-size: 12px;
+      font-weight: 1000;
+      letter-spacing: .02em;
+    }
+
+    .doctrine-card h2 {
+      margin: 10px 0 8px;
+      color: #fff8dc;
+      font-size: clamp(26px, 4.4vw, 44px);
+      line-height: 1.03;
+      font-weight: 1000;
+      letter-spacing: -.04em;
+    }
+
+    .doctrine-list {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0,1fr));
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .doctrine-list span {
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(255,255,255,.07);
+      border-radius: 16px;
+      padding: 11px;
+      color: #bbf7d0;
+      font-size: 14px;
+      line-height: 1.35;
       font-weight: 1000;
     }
 
@@ -532,7 +603,8 @@
       }
 
       .identityGrid,
-      .countryChoice {
+      .countryChoice,
+      .doctrine-list {
         grid-template-columns: 1fr;
       }
     }
@@ -542,7 +614,7 @@
 <body>
   <div class="app">
     <header class="top">
-      <a class="brand" href="./index.html">🧰 DIGIY BUILD · inscription France · Sénégal</a>
+      <a class="brand" href="./index.html">🧰 DIGIY BUILD PRO · présence artisan France · Sénégal</a>
 
       <nav class="nav">
         <a href="./index.html">← BUILD public</a>
@@ -555,14 +627,16 @@
         <h1>Artisans tout corps de métiers.</h1>
         <p>
           BUILD ouvre la porte des services utiles : travaux, dépannage, entretien,
-          chantier, réparation, intervention pratique. Aucun tarif n’est précoché :
-          le professionnel choisit volontairement.
+          chantier, réparation, intervention pratique. L’entrée de base reste simple :
+          cette page sert à activer une présence professionnelle BUILD, sans commission sur les interventions.
         </p>
 
         <div class="pills">
+          <span class="pill">Entrée gratuite</span>
           <span class="pill">0% commission</span>
           <span class="pill">Contact direct</span>
           <span class="pill">Devis / intervention</span>
+          <span class="pill gold-emphasis">🇫🇷 France → Sendwave Sénégal</span>
           <span class="pill">Bouton Effacer</span>
         </div>
       </div>
@@ -573,9 +647,27 @@
           <strong>JB BEAUVILLE · Wave Sénégal · +221 77 134 28 89</strong>
         </div>
 
+        <div class="sendwaveGold">🇫🇷 France / diaspora : paiement possible par Sendwave vers Wave Sénégal, sur demande.</div>
+
         <p>
           Choix cumulables, date dans le message, sous-total, total, WhatsApp ou SMS. Sénégal : Wave direct. France : Sendwave vers le Wave Sénégal de JB BEAUVILLE. Après paiement, envoie la preuve sur WhatsApp.
         </p>
+      </div>
+    </section>
+
+    <section class="doctrine-card" aria-label="Doctrine économique BUILD">
+      <span class="tag">ENTRÉE GRATUITE · PRÉSENCE BUILD PAYANTE · 0% COMMISSION</span>
+      <h2>Tu gardes tes clients. Tu gardes tes paiements. DIGIY construit ta visibilité.</h2>
+      <p>
+        DIGIY BUILD ne prélève rien sur tes chantiers, dépannages ou interventions.
+        Tu choisis seulement ce que tu veux activer : fiche artisan, QR officiel,
+        lien partageable, visibilité locale, BOOST ou RÉSEAU.
+      </p>
+      <div class="doctrine-list">
+        <span>✅ Entrée de base gratuite</span>
+        <span>🧰 Présence artisan claire</span>
+        <span>🤝 Paiement direct au pro</span>
+        <span class="gold-emphasis">🇫🇷 France : Sendwave possible</span>
       </div>
     </section>
 
@@ -584,7 +676,7 @@
         <h2>Tarifs BUILD</h2>
         <p>Clique un ou plusieurs choix. Si tu te trompes, efface.</p>
 
-        <div class="section">🧰 Abonnement BUILD</div>
+        <div class="section">🧰 Présence BUILD</div>
         <div class="prices" id="baseOptions"></div>
 
         <div class="section">✨ BOOST visibilité</div>
@@ -595,13 +687,13 @@
       </section>
 
       <aside class="card summary" id="summary">
-        <h2>Ce que l’abonnement m’apporte</h2>
+        <h2>Ce que ma présence BUILD m’apporte</h2>
 
         <div class="countryBox" id="countryBox">
           <h3>🌍 Grille pays</h3>
           <div class="countryChoice" aria-label="Choisir le pays du professionnel">
             <button class="countryBtn active" type="button" data-country="senegal">🇸🇳 Sénégal · Wave direct</button>
-            <button class="countryBtn" type="button" data-country="france">🇫🇷 France · Sendwave vers Wave Sénégal</button>
+            <button class="countryBtn gold-emphasis" type="button" data-country="france">🇫🇷 France · Sendwave vers Wave Sénégal</button>
           </div>
           <div class="countryNote" id="countryNote">
             Les tarifs ne sont pas une conversion au taux de change. Ils sont adaptés au pays, au marché et au mode de règlement.
@@ -681,7 +773,7 @@
           </div>
 
           <div class="proof">
-            Après paiement, envoie la capture ou la preuve par WhatsApp. Sénégal : Wave direct. France : Sendwave vers Wave Sénégal. DIGIY vérifie puis accompagne l’ouverture / visibilité BUILD.
+            Après paiement, envoie la capture ou la preuve par WhatsApp. Sénégal : Wave direct. France / diaspora : Sendwave vers Wave Sénégal sur demande. DIGIY vérifie puis accompagne l’ouverture / visibilité BUILD.
           </div>
         </div>
 
@@ -1195,5 +1287,8 @@ Je joins la capture / preuve de paiement à ce message.`;
   </script>
 </body>
 </html>
+
+
+
 
 
