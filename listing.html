@@ -2,534 +2,247 @@
 <html lang="fr">
 <head>
   <meta charset="utf-8">
-  <title>DIGIY BUILD — Galerie artisans</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="description" content="DIGIY BUILD — Galerie propre des artisans : fiche publique, QR partageable et contact direct.">
+  <title>DIGIY BUILD — Artisans officiels</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="description" content="Galerie officielle DIGIY BUILD : Babacar Plombier Pro, Kourant Électricien et Mbaye Diouf. Contact direct et 0% commission.">
   <meta name="theme-color" content="#061b14">
-
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-
+  <meta name="robots" content="index,follow">
+  <meta name="digiy-build" content="listing-officiel-babacar-kourant-mbaye-20260714-v2">
   <style>
     :root{
       --bg:#061b14;
       --bg2:#0a2b1f;
-      --card:rgba(8,30,22,.96);
+      --card:#09251b;
       --line:rgba(255,255,255,.14);
       --text:#eafff1;
       --muted:rgba(234,255,241,.72);
       --gold:#facc15;
-      --gold2:#fff3b2;
       --orange:#f97316;
       --green:#22c55e;
-      --shadow:0 20px 55px rgba(0,0,0,.45);
-      --radius:24px;
-      --max:1180px;
+      --radius:25px;
+      --shadow:0 22px 58px rgba(0,0,0,.42);
     }
-
     *{box-sizing:border-box}
-    html,body{margin:0;padding:0;min-height:100%}
+    html,body{margin:0;min-height:100%}
     body{
-      padding:16px 16px calc(96px + env(safe-area-inset-bottom,0px));
       color:var(--text);
-      font-family:Outfit,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
+      padding:16px 16px calc(94px + env(safe-area-inset-bottom,0px));
       background:
-        radial-gradient(circle at top, rgba(250,204,21,.10), transparent 36%),
-        radial-gradient(circle at right, rgba(249,115,22,.12), transparent 32%),
+        radial-gradient(circle at top left,rgba(250,204,21,.12),transparent 34%),
+        radial-gradient(circle at top right,rgba(249,115,22,.13),transparent 30%),
         linear-gradient(145deg,var(--bg),var(--bg2));
-      -webkit-font-smoothing:antialiased;
     }
-
-    a{color:inherit;text-decoration:none}
-    button{font:inherit}
-
-    .app{
-      max-width:var(--max);
-      margin:0 auto;
-    }
-
-    .hero{
-      position:relative;
-      overflow:hidden;
-      border-radius:var(--radius);
+    a{text-decoration:none;color:inherit}
+    .app{width:min(1180px,100%);margin:auto}
+    .hero,.card,.notice{
       border:1px solid var(--line);
-      background:linear-gradient(145deg,rgba(11,42,31,.96),rgba(6,35,25,.96));
+      background:linear-gradient(145deg,rgba(11,42,31,.97),rgba(6,35,25,.97));
+      border-radius:var(--radius);
       box-shadow:var(--shadow);
-      padding:18px;
-      margin-bottom:18px;
     }
-
-    .hero::after{
-      content:"";
-      position:absolute;
-      left:0;right:0;bottom:0;height:4px;
+    .hero{padding:22px;margin-bottom:18px;position:relative;overflow:hidden}
+    .hero::before{
+      content:"";position:absolute;inset:0 0 auto;height:4px;
       background:linear-gradient(90deg,var(--orange),var(--gold),var(--green));
     }
-
-    .brand{
-      display:flex;
-      gap:16px;
-      align-items:flex-start;
-      flex-wrap:wrap;
-    }
-
-    .brand-logo{
-      width:118px;
-      height:164px;
-      border-radius:24px;
-      object-fit:cover;
-      background:#061b14;
-      border:1px solid rgba(250,204,21,.34);
-      box-shadow:0 16px 38px rgba(0,0,0,.34);
-      flex:0 0 auto;
-    }
-
-    .kicker{
-      font-size:11px;
-      font-weight:1000;
-      letter-spacing:.16em;
-      text-transform:uppercase;
-      color:rgba(234,255,241,.62);
-      margin:2px 0 8px;
-    }
-
-    h1{
-      margin:0;
-      font-size:clamp(30px,5.5vw,50px);
-      line-height:1.03;
-      font-weight:1000;
-      letter-spacing:-.025em;
-    }
-
-    .sub{
-      margin:10px 0 0;
-      max-width:850px;
-      color:var(--muted);
-      line-height:1.65;
-      font-size:16px;
-      font-weight:760;
-    }
-
-    .pills,.hero-actions{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      margin-top:16px;
-    }
-
-    .pill{
-      padding:8px 12px;
-      border-radius:999px;
-      border:1px solid var(--line);
-      background:rgba(250,204,21,.08);
-      color:var(--gold2);
-      font-size:12px;
-      font-weight:1000;
-      white-space:nowrap;
-    }
-
+    .kicker{font-size:11px;font-weight:1000;letter-spacing:.15em;text-transform:uppercase;color:var(--muted)}
+    h1{font-size:clamp(34px,7vw,58px);line-height:1;margin:8px 0 12px}
+    .lead{font-size:clamp(16px,3vw,21px);line-height:1.55;color:#fff3b2;font-weight:900;max-width:900px}
+    .actions,.chips{display:flex;gap:9px;flex-wrap:wrap}
+    .actions{margin-top:17px}
     .btn{
-      min-height:50px;
-      border-radius:15px;
-      border:1px solid transparent;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      gap:8px;
-      padding:13px 16px;
-      cursor:pointer;
-      font-weight:1000;
-      font-size:14px;
-      text-align:center;
-      text-decoration:none;
-      transition:transform .18s ease, border-color .18s ease, filter .18s ease;
+      min-height:48px;padding:12px 16px;border-radius:14px;
+      display:inline-flex;align-items:center;justify-content:center;
+      font-weight:950;border:1px solid var(--line)
     }
-
-    .btn:hover{transform:translateY(-2px)}
-    .btn.primary{
-      background:linear-gradient(135deg,var(--orange),var(--gold));
-      color:#111;
-      box-shadow:0 12px 28px rgba(249,115,22,.22);
-    }
-    .btn.secondary{
-      background:rgba(255,255,255,.07);
-      color:var(--text);
-      border-color:var(--line);
-    }
-    .btn.green{
-      background:linear-gradient(135deg,var(--green),var(--gold));
-      color:#062015;
-      box-shadow:0 12px 28px rgba(34,197,94,.16);
-    }
-
-    .notice{
-      margin:0 0 16px;
-      border-radius:20px;
-      border:1px solid rgba(250,204,21,.20);
-      background:rgba(250,204,21,.07);
-      padding:14px 16px;
-      color:rgba(234,255,241,.82);
-      font-weight:850;
-      line-height:1.55;
-    }
-
-    .notice b{color:var(--gold2)}
-
-    .grid{
-      display:grid;
-      grid-template-columns:repeat(3,minmax(0,1fr));
-      gap:16px;
-    }
-
-    .card{
-      border-radius:26px;
-      overflow:hidden;
-      border:1px solid var(--line);
-      background:linear-gradient(145deg,rgba(11,42,31,.96),rgba(6,35,25,.96));
-      box-shadow:var(--shadow);
-      display:flex;
-      flex-direction:column;
-      min-height:100%;
-    }
-
-    .photo{
-      height:310px;
-      background:#04130d;
-      border-bottom:1px solid rgba(255,255,255,.10);
-      display:flex;
-      align-items:center;
-      justify-content:center;
-    }
-
-    .photo img{
-      width:100%;
-      height:100%;
-      display:block;
-      object-fit:contain;
-      padding:10px;
-      background:#04130d;
-    }
-
-    .body{
-      padding:16px;
-      display:flex;
-      flex-direction:column;
-      gap:12px;
-      flex:1;
-    }
-
-    .price{
-      width:max-content;
-      max-width:100%;
-      padding:7px 10px;
-      border-radius:999px;
-      background:rgba(250,204,21,.10);
-      border:1px solid rgba(250,204,21,.25);
-      color:var(--gold2);
-      font-size:12px;
-      font-weight:1000;
-    }
-
-    .name{
-      margin:0;
-      font-size:28px;
-      line-height:1.05;
-      font-weight:1000;
-      letter-spacing:-.035em;
-      color:#fff;
-    }
-
-    .trade{
-      color:var(--gold2);
-      font-size:16px;
-      line-height:1.4;
-      font-weight:1000;
-    }
-
-    .meta{
-      color:var(--muted);
-      font-size:14px;
-      line-height:1.5;
-      font-weight:850;
-    }
-
-    .bio{
-      color:#eefcf3;
-      font-size:14px;
-      line-height:1.65;
-      font-weight:760;
-    }
-
-    .chips{
-      display:flex;
-      gap:8px;
-      flex-wrap:wrap;
-    }
-
-    .chip{
-      font-size:12px;
-      font-weight:1000;
-      padding:6px 10px;
-      border-radius:999px;
-      border:1px solid rgba(255,255,255,.14);
-      background:rgba(255,255,255,.05);
-      color:#eafff1;
-    }
-
-    .chip.ok{
-      background:rgba(34,197,94,.12);
-      border-color:rgba(34,197,94,.35);
-      color:#bbf7d0;
-    }
-
-    .qr-note{
-      border:1px solid rgba(250,204,21,.22);
-      background:rgba(250,204,21,.06);
-      border-radius:17px;
+    .btn.primary{background:linear-gradient(135deg,var(--orange),var(--gold));color:#111;border:0}
+    .btn.green{background:linear-gradient(135deg,var(--green),var(--gold));color:#062015;border:0}
+    .btn.secondary{background:rgba(255,255,255,.06)}
+    .notice{padding:14px 16px;margin-bottom:18px;color:var(--muted);font-weight:800;line-height:1.55}
+    .notice strong{color:#fff3b2}
+    .grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+    .card{overflow:hidden;display:flex;flex-direction:column}
+    .visual{
+      height:330px;display:grid;place-items:center;
+      background:#04130d;border-bottom:1px solid var(--line);
       padding:12px;
-      color:rgba(234,255,241,.82);
-      line-height:1.45;
-      font-size:13px;
-      font-weight:850;
     }
-
-    .qr-note strong{
-      color:var(--gold2);
-      display:block;
-      font-size:12px;
-      letter-spacing:.08em;
-      text-transform:uppercase;
-      margin-bottom:4px;
-    }
-
-    .actions{
-      display:grid;
-      grid-template-columns:1fr;
-      gap:10px;
-      margin-top:auto;
-    }
-
-    .footer{
-      margin:20px 0 0;
+    .visual img{width:100%;height:100%;object-fit:contain;display:block}
+    .placeholder{
+      width:100%;height:100%;border-radius:20px;
+      display:grid;place-items:center;align-content:center;gap:14px;
+      background:
+        radial-gradient(circle at 75% 18%,rgba(250,204,21,.35),transparent 25%),
+        linear-gradient(145deg,#0b5b3b,#072a20 70%);
       text-align:center;
-      color:rgba(234,255,241,.56);
-      font-size:12px;
-      line-height:1.7;
-      font-weight:800;
     }
-
-    .bottom-nav{
-      position:fixed;
-      left:0;
-      right:0;
-      bottom:0;
-      z-index:9998;
+    .placeholder strong{
+      width:118px;height:118px;border-radius:50%;display:grid;place-items:center;
+      background:linear-gradient(135deg,#fff2aa,#e2b43f);color:#08261c;
+      font-size:44px;box-shadow:0 16px 35px rgba(0,0,0,.3)
+    }
+    .placeholder span{font-size:21px;font-weight:1000;color:#fff7d6}
+    .body{padding:17px;display:flex;flex-direction:column;gap:11px;flex:1}
+    .price{width:max-content;padding:7px 10px;border-radius:999px;background:rgba(250,204,21,.1);color:#fff3b2;font-size:12px;font-weight:1000}
+    h2{font-size:28px;line-height:1.05;margin:0}
+    .trade{color:#fff3b2;font-weight:900;line-height:1.4}
+    .zone,.bio{color:var(--muted);font-weight:750;line-height:1.55}
+    .chip{padding:6px 10px;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid var(--line);font-size:12px;font-weight:900}
+    .chip.ok{background:rgba(34,197,94,.13);color:#bbf7d0;border-color:rgba(34,197,94,.34)}
+    .card .actions{margin-top:auto;display:grid}
+    .share{font:inherit;cursor:pointer;color:inherit}
+    .footer{text-align:center;color:var(--muted);font-size:12px;font-weight:800;margin:22px 0}
+    .bottom{
+      position:fixed;left:0;right:0;bottom:0;z-index:20;
       padding:8px 10px calc(8px + env(safe-area-inset-bottom,0px));
-      background:rgba(6,27,20,.94);
-      border-top:1px solid rgba(255,255,255,.12);
-      backdrop-filter:blur(12px);
-      -webkit-backdrop-filter:blur(12px);
+      background:rgba(6,27,20,.95);border-top:1px solid var(--line);
+      backdrop-filter:blur(12px)
     }
-
-    .bottom-nav-inner{
-      width:min(760px,100%);
-      margin:0 auto;
-      display:grid;
-      grid-template-columns:repeat(5,1fr);
-      gap:6px;
-    }
-
-    .bottom-nav a{
-      min-height:54px;
-      border-radius:14px;
-      display:grid;
-      place-items:center;
-      align-content:center;
-      gap:2px;
-      color:rgba(234,255,241,.78);
-      font-size:11px;
-      font-weight:1000;
-      text-align:center;
-      border:1px solid transparent;
-      text-decoration:none;
-      background:transparent;
-      padding:0 4px;
-    }
-
-    .bottom-nav .ico{font-size:18px;line-height:1}
-
-    .bottom-nav a.active{
-      background:linear-gradient(135deg,var(--orange),var(--gold));
-      color:#111;
-    }
-
-    @media(max-width:1040px){
-      .grid{grid-template-columns:1fr}
-      .photo{height:360px}
-    }
-
-    @media(max-width:640px){
+    .bottom-inner{width:min(760px,100%);margin:auto;display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+    .bottom a{min-height:54px;border-radius:14px;display:grid;place-items:center;align-content:center;font-size:11px;font-weight:950}
+    .bottom a.active{background:linear-gradient(135deg,var(--orange),var(--gold));color:#111}
+    @media(max-width:980px){.grid{grid-template-columns:1fr}.visual{height:360px}}
+    @media(max-width:520px){
       body{padding:12px 12px calc(92px + env(safe-area-inset-bottom,0px))}
-      .brand-logo{width:96px;height:132px}
-      .hero-actions .btn{width:100%}
-      .photo{height:320px}
-      .name{font-size:26px}
+      .hero{padding:18px}.visual{height:320px}.actions .btn{width:100%}
     }
   </style>
 </head>
-
 <body>
-  <div class="app">
-
+  <main class="app">
     <section class="hero">
-      <div class="brand">
-        <img
-          class="brand-logo"
-          src="https://digiylyfe.net/wp-content/uploads/2026/05/ChatGPT-Image-14-mai-2026-02_56_18.png"
-          alt="Un diamant aux mille reflets — chaque savoir-faire est une lumière"
-        />
-        <div>
-          <div class="kicker">Travaux • dépannage • entretien • chantier • services pratiques</div>
-          <h1>JE PROPOSE MES SERVICES</h1>
-          <p class="sub">
-            Galerie propre DIGIY BUILD : trois artisans visibles, une fiche par professionnel,
-            un QR partageable, et un contact direct. Pas de doublon, pas de superposition.
-          </p>
-
-          <div class="pills">
-            <span class="pill">Fiche claire</span>
-            <span class="pill">QR partageable</span>
-            <span class="pill">Contact direct</span>
-            <span class="pill">Métier visible</span>
-          </div>
-
-          <div class="hero-actions">
-            <a class="btn primary" href="./request.html">📄 Décrire mon besoin</a>
-            <a class="btn secondary" href="./qr-artisans.html">📲 QR artisans</a>
-            <a class="btn secondary" href="./index.html">⬅️ Accueil BUILD</a>
-            <a class="btn secondary" href="https://digiy-hub.digiylyfe.com/">🧭 HUB</a>
-          </div>
-        </div>
+      <div class="kicker">DIGIY BUILD · Travailleurs officiels</div>
+      <h1>Artisans présents sur le terrain</h1>
+      <div class="lead">
+        Une fiche réelle, un métier clair et un contact direct. Cette galerie ne contient plus les anciens profils retirés.
+      </div>
+      <div class="actions">
+        <a class="btn primary" href="./request.html">📄 Décrire mon besoin</a>
+        <a class="btn secondary" href="./index.html">🏠 Accueil BUILD</a>
+        <a class="btn secondary" href="https://digiy-hub.digiylyfe.com/">🧭 HUB</a>
       </div>
     </section>
 
     <div class="notice">
-      <b>Lecture simple :</b> la galerie présente les artisans. La fiche donne la prestance.
-      Le QR sert à scanner, copier, partager ou imprimer proprement.
+      <strong>3 travailleurs actifs :</strong> Babacar pour la plomberie, Kourant pour l’électricité et Mbaye pour la construction.
     </div>
 
-    <section class="grid" aria-label="Galerie des artisans BUILD">
-
+    <section class="grid" aria-label="Galerie des artisans officiels DIGIY BUILD">
       <article class="card">
-        <div class="photo">
-          <img src="https://digiylyfe.net/wp-content/uploads/2026/05/ChatGPT-Image-14-mai-2026-04_01_44.png" alt="Helage — plombier multi-services" loading="lazy">
+        <div class="visual">
+          <div class="placeholder" role="img" aria-label="Babacar Plombier Pro">
+            <strong>BP</strong>
+            <span>BABACAR<br>PLOMBIER PRO</span>
+          </div>
         </div>
         <div class="body">
           <div class="price">Sur devis</div>
-          <h2 class="name">Helage</h2>
-          <div class="trade">Plombier multi-services · dépannage · installation · salle de bain</div>
-          <div class="meta">📍 Saly · Petite Côte</div>
+          <h2>Babacar Plombier Pro</h2>
+          <div class="trade">Plomberie · fuite · dépannage · installation sanitaire</div>
+          <div class="zone">📍 Saly · Mbour · Petite Côte</div>
           <div class="bio">
-            Dépannage fuites, robinets, WC, installation douche, lavabo, chauffe-eau,
-            désengorgement et petits chantiers sanitaires.
+            Robinet, WC, lavabo, douche, chasse d’eau, tuyauterie, canalisation et petits travaux sanitaires.
           </div>
           <div class="chips">
-            <span class="chip ok">Contact direct</span>
-            <span class="chip">Plomberie</span>
-            <span class="chip">Dépannage</span>
-            <span class="chip">Installation</span>
-          </div>
-          <div class="qr-note">
-            <strong>Fiche & QR</strong>
-            Une fiche propre pour présenter le métier, et un QR pour faire circuler le contact.
+            <span class="chip ok">Fiche officielle</span>
+            <span class="chip">Contact direct</span>
+            <span class="chip">0% commission</span>
           </div>
           <div class="actions">
-            <a class="btn primary" href="./fiche.html?slug=partenaires-helage-plombier">👁️ Voir la fiche</a>
-            <a class="btn secondary" href="./qr-artisans.html#partenaires-helage-plombier">📲 QR / Partager</a>
-            <a class="btn green" href="https://wa.me/221774513523?text=Bonjour%20Helage%2C%20je%20viens%20de%20DIGIY%20BUILD%20pour%20un%20besoin%20en%20plomberie.">💬 WhatsApp</a>
+            <a class="btn primary" href="https://babacar-plombier-pro.digiylyfe.com/" target="_blank" rel="noopener">👁️ Ouvrir la fiche</a>
+            <a class="btn green" href="https://wa.me/221776125124?text=Bonjour%20Babacar%20Plombier%20Pro%2C%20je%20viens%20de%20DIGIY%20BUILD%20pour%20un%20besoin%20en%20plomberie." target="_blank" rel="noopener">💬 WhatsApp direct</a>
+            <button class="btn secondary share" type="button" data-name="Babacar Plombier Pro" data-url="https://babacar-plombier-pro.digiylyfe.com/">📤 Partager</button>
           </div>
         </div>
       </article>
 
       <article class="card">
-        <div class="photo">
-          <img src="https://digiylyfe.net/wp-content/uploads/2026/05/ChatGPT-Image-14-mai-2026-03_59_29.png" alt="Zal & Kourant — électriciens" loading="lazy">
-        </div>
+        <a class="visual" href="https://kourant.digiylyfe.com/" target="_blank" rel="noopener">
+          <img src="https://kourant.digiylyfe.com/carte-visite.png?v=20260714-v3" alt="Carte officielle de Kourant Électricien" loading="lazy">
+        </a>
         <div class="body">
-          <div class="price">Dépannage à partir de 10 000 FCFA</div>
-          <h2 class="name">Zal & Kourant</h2>
-          <div class="trade">Électriciens · installation · rénovation · dépannage</div>
-          <div class="meta">📍 Saly · Petite Côte</div>
+          <div class="price">À partir de 10 000 FCFA</div>
+          <h2>Kourant Électricien</h2>
+          <div class="trade">Installation · rénovation · dépannage électrique</div>
+          <div class="zone">📍 Saly · Mbour · Petite Côte</div>
           <div class="bio">
-            Installation neuve, rénovation, mise aux normes, tableau, disjoncteurs,
-            terre, dépannage panne, prise, éclairage et petits chantiers de finition.
+            Tableaux, disjoncteurs, prises, éclairage, câblage, recherche de panne et rénovation électrique.
           </div>
           <div class="chips">
-            <span class="chip ok">Contact direct</span>
-            <span class="chip">Électricité</span>
-            <span class="chip">Dépannage</span>
-            <span class="chip">Rénovation</span>
-          </div>
-          <div class="qr-note">
-            <strong>Fiche & QR</strong>
-            Une fiche propre pour présenter le métier, et un QR pour faire circuler le contact.
+            <span class="chip ok">Fiche officielle</span>
+            <span class="chip">Carte + QR</span>
+            <span class="chip">0% commission</span>
           </div>
           <div class="actions">
-            <a class="btn primary" href="./fiche.html?slug=partenaires-zal-kourant">👁️ Voir la fiche</a>
-            <a class="btn secondary" href="./qr-artisans.html#partenaires-zal-kourant">📲 QR / Partager</a>
-            <a class="btn green" href="https://wa.me/221772084781?text=Bonjour%20Zal%20%26%20Kourant%2C%20je%20viens%20de%20DIGIY%20BUILD%20pour%20un%20besoin%20en%20%C3%A9lectricit%C3%A9.">💬 WhatsApp</a>
+            <a class="btn primary" href="https://kourant.digiylyfe.com/" target="_blank" rel="noopener">👁️ Ouvrir la fiche</a>
+            <a class="btn green" href="https://wa.me/221772084781?text=Bonjour%20Kourant%2C%20je%20viens%20de%20DIGIY%20BUILD%20pour%20un%20besoin%20en%20%C3%A9lectricit%C3%A9." target="_blank" rel="noopener">💬 WhatsApp direct</a>
+            <button class="btn secondary share" type="button" data-name="Kourant Électricien" data-url="https://kourant.digiylyfe.com/">📤 Partager</button>
           </div>
         </div>
       </article>
 
       <article class="card">
-        <div class="photo">
-          <img src="https://digiylyfe.net/wp-content/uploads/2026/05/ChatGPT-Image-14-mai-2026-03_56_26.png" alt="Mbaye Diouf — bâtisseur villas et piscines" loading="lazy">
-        </div>
+        <a class="visual" href="https://mbaye-macon.digiylyfe.com/" target="_blank" rel="noopener">
+          <img src="https://mbaye-macon.digiylyfe.com/carte-visite.png?v=20260714-v3" alt="Carte officielle de Mbaye Diouf" loading="lazy">
+        </a>
         <div class="body">
           <div class="price">Sur devis</div>
-          <h2 class="name">Mbaye Diouf</h2>
-          <div class="trade">Bâtisseur · villas modernes · piscines · finitions haut de gamme</div>
-          <div class="meta">📍 Saly / Mbour / Thiès · Petite Côte</div>
+          <h2>Mbaye Diouf</h2>
+          <div class="trade">Bâtisseur · villas · piscines · rénovation · extensions</div>
+          <div class="zone">📍 Saly · Mbour · Thiès · Petite Côte</div>
           <div class="bio">
-            Construction de villas, piscines béton, finitions haut de gamme,
-            rénovation et extensions. Devis après visite selon plans, surfaces et matériaux.
+            Construction de villas, piscines béton, rénovation, extensions et finitions haut de gamme.
           </div>
           <div class="chips">
-            <span class="chip ok">Contact direct</span>
-            <span class="chip">Construction</span>
-            <span class="chip">Villa</span>
-            <span class="chip">Piscine</span>
-          </div>
-          <div class="qr-note">
-            <strong>Fiche & QR</strong>
-            Une fiche propre pour présenter le métier, et un QR pour faire circuler le contact.
+            <span class="chip ok">Fiche officielle</span>
+            <span class="chip">Carte + QR</span>
+            <span class="chip">0% commission</span>
           </div>
           <div class="actions">
-            <a class="btn primary" href="./fiche.html?slug=partenaires-mbaye">👁️ Voir la fiche</a>
-            <a class="btn secondary" href="./qr-artisans.html#partenaires-mbaye">📲 QR / Partager</a>
-            <a class="btn green" href="https://wa.me/221776427113?text=Bonjour%20Mbaye%2C%20je%20viens%20de%20DIGIY%20BUILD%20pour%20un%20besoin%20en%20construction.">💬 WhatsApp</a>
+            <a class="btn primary" href="https://mbaye-macon.digiylyfe.com/" target="_blank" rel="noopener">👁️ Ouvrir la fiche</a>
+            <a class="btn green" href="https://wa.me/221776427113?text=Bonjour%20Mbaye%2C%20je%20viens%20de%20DIGIY%20BUILD%20pour%20un%20projet%20de%20construction%20ou%20de%20r%C3%A9novation." target="_blank" rel="noopener">💬 WhatsApp direct</a>
+            <button class="btn secondary share" type="button" data-name="Mbaye Diouf" data-url="https://mbaye-macon.digiylyfe.com/">📤 Partager</button>
           </div>
         </div>
       </article>
-
     </section>
 
     <div class="footer">
-      DIGIY BUILD • Galerie propre • Fiches artisans • QR partageable • Contact direct • BY DIGIYLYFE
+      DIGIY BUILD · Fiches officielles · Contact direct · Paiement direct au pro · 0% commission
     </div>
-  </div>
+  </main>
 
-  <nav class="bottom-nav" aria-label="Navigation rapide DIGIY BUILD">
-    <div class="bottom-nav-inner">
-      <a href="./index.html"><span class="ico">🏠</span><span>Accueil</span></a>
-      <a class="active" href="./listing.html"><span class="ico">👁️</span><span>Profils</span></a>
-      <a href="./qr-artisans.html"><span class="ico">📲</span><span>QR</span></a>
-      <a href="./request.html"><span class="ico">📄</span><span>Besoin</span></a>
-      <a href="https://digiy-hub.digiylyfe.com/"><span class="ico">🧭</span><span>HUB</span></a>
+  <nav class="bottom" aria-label="Navigation DIGIY BUILD">
+    <div class="bottom-inner">
+      <a href="./index.html"><span>🏠</span><span>Accueil</span></a>
+      <a class="active" href="./listing.html"><span>👁️</span><span>Profils</span></a>
+      <a href="./qr-artisans.html"><span>📲</span><span>QR</span></a>
+      <a href="./request.html"><span>📄</span><span>Besoin</span></a>
+      <a href="https://digiy-hub.digiylyfe.com/"><span>🧭</span><span>HUB</span></a>
     </div>
   </nav>
+
+  <script>
+    document.querySelectorAll(".share").forEach(function(button){
+      button.addEventListener("click", async function(){
+        const name = button.dataset.name || "Fiche DIGIY BUILD";
+        const url = button.dataset.url || location.href;
+        const text = name + " — fiche officielle DIGIY BUILD, contact direct.";
+        try{
+          if(navigator.share){
+            await navigator.share({title:name,text:text,url:url});
+          }else if(navigator.clipboard){
+            await navigator.clipboard.writeText(url);
+            button.textContent = "✅ Lien copié";
+            setTimeout(function(){button.textContent="📤 Partager";},1600);
+          }else{
+            window.prompt("Copier le lien :",url);
+          }
+        }catch(_){}
+      });
+    });
+  </script>
 </body>
 </html>
 
