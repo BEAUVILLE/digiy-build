@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <meta name="robots" content="index,follow" />
   <meta name="theme-color" content="#061b14" />
-  <meta name="digiy-version" content="build-inscription-demande-gratuite-activation-pro-sendwave-dore-20260707" />
+  <meta name="digiy-version" content="build-inscription-presence-metier-19900-8000-20260718" />
   <title>Inscription BUILD PRO — Présence artisan France · Sénégal</title>
 
   <style>
@@ -271,6 +271,12 @@
     .option.active {
       border-color: #facc15;
       background: rgba(250,204,21,.18);
+    }
+
+    .option.disabled {
+      opacity: .45;
+      cursor: not-allowed;
+      filter: grayscale(.18);
     }
 
     .code {
@@ -627,8 +633,9 @@
         <h1>Artisans tout corps de métiers.</h1>
         <p>
           BUILD ouvre la porte des services utiles : travaux, dépannage, entretien,
-          chantier, réparation, intervention pratique. La demande d’inscription / orientation ne coûte rien tant qu’aucune présence PRO n’est activée :
-          cette page sert à choisir une activation professionnelle BUILD, sans commission sur les interventions.
+          chantier, réparation et intervention pratique. La demande d’inscription / orientation reste gratuite.
+          Le professionnel active ensuite DIGIY PRÉSENCE à 19 900 FCFA par mois et ajoute DIGIY MÉTIER
+          à +8 000 FCFA par mois seulement s’il veut le logiciel artisan.
         </p>
 
         <div class="pills">
@@ -650,35 +657,41 @@
         <div class="sendwaveGold">🇫🇷 France / diaspora : paiement possible par Sendwave vers Wave Sénégal, sur demande.</div>
 
         <p>
-          Choix cumulables, date dans le message, sous-total, total, WhatsApp ou SMS. Sénégal : Wave direct. France : Sendwave vers le Wave Sénégal de JB BEAUVILLE. Après paiement, envoie la preuve sur WhatsApp.
+          DIGIY PRÉSENCE et DIGIY MÉTIER restent deux choix distincts. Les BOOSTS et RÉSEAU restent séparés.
+          Sénégal : Wave direct. France : Sendwave vers le Wave Sénégal de JB BEAUVILLE.
+          Après paiement, envoie la preuve sur WhatsApp.
         </p>
       </div>
     </section>
 
     <section class="doctrine-card" aria-label="Doctrine économique BUILD">
-      <span class="tag">DEMANDE GRATUITE · ACTIVATION BUILD PAYANTE · 0% COMMISSION</span>
-      <h2>Tu gardes tes clients. Tu gardes tes paiements. DIGIY construit ta visibilité.</h2>
+      <span class="tag">DEMANDE GRATUITE · PRÉSENCE 19 900 · MÉTIER +8 000 FACULTATIF · 0% COMMISSION</span>
+      <h2>Commencer proprement. Monter quand l’activité le demande.</h2>
       <p>
-        DIGIY BUILD ne prélève rien sur tes chantiers, dépannages ou interventions.
-        La gratuité concerne la demande initiale / orientation, pas l’activation de la présence PRO.
-        Tu choisis seulement ce que tu veux activer : fiche artisan, QR officiel,
-        lien partageable, visibilité locale, BOOST ou RÉSEAU.
+        Le socle DIGIY PRÉSENCE donne à l’artisan une identité numérique partageable :
+        fiche professionnelle, QR officiel, lien direct et maintenance essentielle.
+        DIGIY MÉTIER ajoute le logiciel BUILD pour organiser clients, interventions,
+        devis et suivi opérationnel. Cette option reste facultative.
+        PRO CARNET, BOOST et RÉSEAU restent séparés et ne sont jamais imposés.
       </p>
       <div class="doctrine-list">
-        <span>✅ Demande / orientation gratuite</span>
-        <span>🧰 Présence artisan claire</span>
-        <span>🤝 Paiement direct au pro</span>
-        <span class="gold-emphasis">🇫🇷 France : Sendwave possible</span>
+        <span>1 · DIGIY PRÉSENCE · 19 900 FCFA</span>
+        <span>2 · DIGIY MÉTIER · +8 000 FCFA facultatif</span>
+        <span>✅ Total avec logiciel · 27 900 FCFA</span>
+        <span>🤝 Aucun module supplémentaire imposé</span>
       </div>
     </section>
 
     <main class="grid">
       <section class="card">
-        <h2>Tarifs BUILD</h2>
-        <p>Clique un ou plusieurs choix. Si tu te trompes, efface.</p>
+        <h2>Activation BUILD</h2>
+        <p>Commence par le socle. Ajoute le logiciel métier seulement si ton activité le demande.</p>
 
-        <div class="section">🧰 Activation présence BUILD</div>
+        <div class="section">1 · SOCLE — DIGIY PRÉSENCE</div>
         <div class="prices" id="baseOptions"></div>
+
+        <div class="section">2 · OPTION MÉTIER — DIGIY MÉTIER</div>
+        <div class="prices" id="metierOptions"></div>
 
         <div class="section">✨ BOOST visibilité</div>
         <div class="prices" id="boostOptions"></div>
@@ -697,7 +710,7 @@
             <button class="countryBtn gold-emphasis" type="button" data-country="france">🇫🇷 France · Sendwave vers Wave Sénégal</button>
           </div>
           <div class="countryNote" id="countryNote">
-            Les tarifs ne sont pas une conversion au taux de change. Ils sont adaptés au pays, au marché et au mode de règlement.
+            Sénégal : Présence 19 900 FCFA ; Métier +8 000 FCFA. France : socle 29 € ; tarif euro du logiciel à confirmer.
           </div>
         </div>
 
@@ -782,7 +795,7 @@
           <label for="paymentNote">📝 Note / preuve paiement</label>
           <textarea
             id="paymentNote"
-            placeholder="Ex : Paiement Wave envoyé pour BUILD B2 — 29 900 FCFA — au nom de Mamadou Diop — tél +221 77 000 00 00."
+            placeholder="Ex : DIGIY PRÉSENCE BUILD — 19 900 FCFA ; option métier ajoutée — total 27 900 FCFA — Mamadou Diop."
           ></textarea>
         </div>
 
@@ -819,31 +832,22 @@
 
       const PLANS = [
         {
-          code: "B1",
+          code: "PRESENCE",
           cat: "base",
-          name: "BUILD Essentiel",
+          name: "DIGIY PRÉSENCE BUILD",
           fcfa: 19900,
           eur: 29,
-          desc: "Fiche artisan, QR, contact direct et demandes simples.",
-          bonus: ["Fiche artisan visible", "QR et lien partageable", "Demandes client simples"]
+          desc: "Fiche artisan personnalisée, QR officiel, lien partageable, contact direct et maintenance essentielle.",
+          bonus: ["Fiche artisan visible", "QR officiel", "Lien partageable", "Contact direct"]
         },
         {
-          code: "B2",
-          cat: "base",
-          name: "BUILD Pro",
-          fcfa: 29900,
-          eur: 49,
-          desc: "Services, photos, messages prêts, demandes et suivi plus clair.",
-          bonus: ["Services détaillés", "Photos / preuves métier", "Messages prêts", "Suivi demandes"]
-        },
-        {
-          code: "B3",
-          cat: "base",
-          name: "BUILD Chantier",
-          fcfa: 45000,
-          eur: 69,
-          desc: "Présence renforcée pour équipes, chantiers et interventions plus lourdes.",
-          bonus: ["Équipe / chantier", "Présence renforcée", "Devis et intervention", "Organisation terrain"]
+          code: "METIER",
+          cat: "metier",
+          name: "DIGIY MÉTIER BUILD",
+          fcfa: 8000,
+          eur: null,
+          desc: "Option facultative : logiciel artisan pour clients, interventions, devis et suivi opérationnel.",
+          bonus: ["Logiciel métier BUILD", "Clients et interventions", "Devis et suivi opérationnel"]
         },
         {
           code: "E1",
@@ -913,7 +917,6 @@
       const COMMON = [
         "Carte de visite complète",
         "QR et lien partageable",
-        "Logiciel métier BUILD",
         "Voix DIGIY et textes prêts",
         "Validation humaine",
         "0% commission"
@@ -957,8 +960,8 @@
         const note = $("countryNote");
         if (note) {
           note.textContent = country === "france"
-            ? "France : règlement par Sendwave vers le Wave Sénégal de JB BEAUVILLE. Les tarifs France sont une grille pays, pas une conversion au taux de change. BUILD France : B1 29 €, B2 49 €, B3 69 €. Les BOOST France restent sur demande si aucun montant EUR n’est indiqué."
-            : "Sénégal : règlement Wave direct. Les tarifs sont en FCFA et restent une grille terrain locale.";
+            ? "France : socle DIGIY PRÉSENCE BUILD à 29 €. Le tarif euro de DIGIY MÉTIER reste à confirmer. Règlement par Sendwave vers le Wave Sénégal de JB BEAUVILLE."
+            : "Sénégal : DIGIY PRÉSENCE BUILD à 19 900 FCFA ; DIGIY MÉTIER facultatif à +8 000 FCFA ; total avec logiciel 27 900 FCFA.";
         }
 
         update(false);
@@ -1104,33 +1107,61 @@
       }
 
       function render() {
-        ["base", "boost", "reseau"].forEach((cat) => {
+        ["base", "metier", "boost", "reseau"].forEach((cat) => {
           const targetId =
             cat === "base"
               ? "baseOptions"
-              : cat === "boost"
-                ? "boostOptions"
-                : "reseauOptions";
+              : cat === "metier"
+                ? "metierOptions"
+                : cat === "boost"
+                  ? "boostOptions"
+                  : "reseauOptions";
+
+          const presenceSelected = selected.has("PRESENCE");
 
           $(targetId).innerHTML = PLANS
             .filter((p) => p.cat === cat)
-            .map((p) => `
-              <button class="option ${selected.has(p.code) ? "active" : ""}" data-code="${p.code}" type="button">
-                <span class="code ${cat !== "base" ? "extra" : ""}">${p.code}</span>
-                <b>${p.name}</b>
-                <span class="amount">${priceText(p)}</span>
-                <span class="priceNote">${priceNote(p)}</span>
-                <span>${p.desc}</span>
-              </button>
-            `)
+            .map((p) => {
+              const unavailable = p.code === "METIER" && !presenceSelected;
+              const price = country === "france" && p.code === "METIER"
+                ? "Tarif euro à confirmer"
+                : priceText(p);
+              const note = p.code === "METIER"
+                ? (country === "france"
+                    ? "Option facultative · montant EUR à confirmer avant paiement"
+                    : "Option facultative · +8 000 FCFA / mois")
+                : priceNote(p);
+
+              return `
+                <button
+                  class="option ${selected.has(p.code) ? "active" : ""} ${unavailable ? "disabled" : ""}"
+                  data-code="${p.code}"
+                  type="button"
+                  ${unavailable ? "disabled" : ""}
+                >
+                  <span class="code ${cat !== "base" ? "extra" : ""}">${p.code}</span>
+                  <b>${p.name}</b>
+                  <span class="amount">${price}</span>
+                  <span class="priceNote">${note}</span>
+                  <span>${p.desc}</span>
+                </button>
+              `;
+            })
             .join("");
         });
 
         document.querySelectorAll(".option").forEach((button) => {
           button.onclick = () => {
-            selected.has(button.dataset.code)
-              ? selected.delete(button.dataset.code)
-              : selected.add(button.dataset.code);
+            const code = button.dataset.code;
+
+            if (code === "METIER" && !selected.has("PRESENCE")) return;
+
+            if (selected.has(code)) {
+              selected.delete(code);
+              if (code === "PRESENCE") selected.delete("METIER");
+            } else {
+              selected.add(code);
+            }
 
             update(true);
           };
@@ -1154,6 +1185,11 @@ ${identityText()}
 
 Choix :
 ${lines}
+
+Doctrine BUILD :
+- DIGIY PRÉSENCE : socle
+- DIGIY MÉTIER : option facultative
+- PRO CARNET, BOOST et RÉSEAU : séparés
 
 Sous-total : ${totalText(items)}
 Ajustement / remise : 0
@@ -1200,8 +1236,8 @@ Je joins la capture / preuve de paiement à ce message.`;
         const items = chosen();
 
         $("selectedBox").innerHTML = items.length
-          ? `<strong>${items.length} choix sélectionné${items.length > 1 ? "s" : ""}</strong><br>Ajoute ou retire en recliquant.`
-          : "<strong>Aucun choix sélectionné</strong><br>Rien n’est précoché.";
+          ? `<strong>${items.length} choix sélectionné${items.length > 1 ? "s" : ""}</strong><br>${selected.has("METIER") ? "Présence + logiciel métier" : selected.has("PRESENCE") ? "Présence seule" : "Option de visibilité séparée"}`
+          : "<strong>Aucun choix sélectionné</strong><br>Rien n’est précoché. Commence par DIGIY PRÉSENCE.";
 
         $("choiceList").innerHTML = items.length
           ? items.map((p) => `
@@ -1232,7 +1268,12 @@ Je joins la capture / preuve de paiement à ce message.`;
 
         $("benefits").innerHTML = (
           items.length
-            ? [...COMMON, ...items.flatMap((p) => p.bonus)]
+            ? [
+                ...COMMON,
+                ...items
+                  .filter((p) => p.code !== "METIER" || selected.has("METIER"))
+                  .flatMap((p) => p.bonus)
+              ]
             : []
         )
           .slice(0, 22)
@@ -1265,6 +1306,7 @@ Je joins la capture / preuve de paiement à ce message.`;
 
       $("btnClear").onclick = () => {
         selected.clear();
+        if ($("paymentNote")) $("paymentNote").value = "";
         update(true);
       };
 
@@ -1290,6 +1332,17 @@ Je joins la capture / preuve de paiement à ce message.`;
   </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
 
 
 
