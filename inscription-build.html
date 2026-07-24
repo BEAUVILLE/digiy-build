@@ -5,8 +5,8 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <meta name="robots" content="index,follow" />
   <meta name="theme-color" content="#061b14" />
-  <meta name="digiy-version" content="build-visibilite-19900-fiche-moteur-8000-20260723" />
-  <title>Inscription BUILD PRO — Présence artisan France · Sénégal</title>
+  <meta name="digiy-version" content="build-direct-sms-coordonnees-obligatoires-en-haut-20260724" />
+  <title>Inscription BUILD PRO — Coordonnées d’abord · SMS direct</title>
 
   <style>
     :root {
@@ -474,6 +474,54 @@
       box-shadow: 0 0 0 4px rgba(250,204,21,.13);
     }
 
+    .identityBox.identityFirst {
+      margin: 14px 0 18px;
+      border-width: 2px;
+      background:
+        radial-gradient(circle at top right, rgba(250,204,21,.12), transparent 42%),
+        rgba(34,197,94,.10);
+    }
+
+    .requiredMark {
+      color: #fecaca;
+      font-weight: 1000;
+    }
+
+    .sendBlocked {
+      opacity: .48 !important;
+      filter: grayscale(.28);
+      cursor: not-allowed !important;
+    }
+
+    .smsDirectHelp {
+      margin: 10px 0 0;
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(56,189,248,.30);
+      background: rgba(56,189,248,.10);
+      color: #e0f2fe;
+      font-size: 13px;
+      line-height: 1.45;
+      font-weight: 900;
+      text-align: center;
+    }
+
+    .formWarning {
+      display: none;
+      margin-top: 10px;
+      padding: 11px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(248,113,113,.45);
+      background: rgba(127,29,29,.35);
+      color: #fee2e2;
+      line-height: 1.45;
+      font-weight: 950;
+    }
+
+    .formWarning.show {
+      display: block;
+    }
+
     .identityMiniActions {
       display: flex;
       gap: 8px;
@@ -694,10 +742,49 @@
         <h2>Activation BUILD</h2>
         <p>Choisis une formule de visibilité BUILD. Ajoute ensuite la fiche détaillée et le moteur BUILD uniquement si ton activité le demande.</p>
 
-        <div class="section">1 · VISIBILITÉ BUILD — CHOISIR B1, B2 OU B3</div>
+        <div class="identityBox identityFirst" id="identityBox">
+          <h3>1 · Vos coordonnées</h3>
+          <p>
+            Renseignez d’abord ces informations. Aucun SMS, WhatsApp ou envoi de preuve
+            ne peut partir sans elles. Les champs marqués <span class="requiredMark">*</span> sont obligatoires.
+          </p>
+
+          <div class="identityGrid">
+            <div class="identityField">
+              <label for="proName">Nom / responsable <span class="requiredMark">*</span></label>
+              <input id="proName" name="proName" type="text" autocomplete="name"
+                     placeholder="Ex : Mamadou Diop" required />
+            </div>
+
+            <div class="identityField">
+              <label for="proPhone">Téléphone / WhatsApp <span class="requiredMark">*</span></label>
+              <input id="proPhone" name="proPhone" type="tel" inputmode="tel" autocomplete="tel"
+                     placeholder="Ex : +221 77 000 00 00" required minlength="8" />
+            </div>
+
+            <div class="identityField">
+              <label for="proZone">Zone / ville <span class="requiredMark">*</span></label>
+              <input id="proZone" name="proZone" type="text" autocomplete="address-level2"
+                     placeholder="Ex : Saly, Mbour, Dakar" required />
+            </div>
+
+            <div class="identityField">
+              <label for="proActivity">Métier / activité <span class="requiredMark">*</span></label>
+              <input id="proActivity" name="proActivity" type="text" autocomplete="organization-title"
+                     placeholder="Ex : plombier, électricien, maçon" required />
+            </div>
+          </div>
+
+          <div class="identityMiniActions">
+            <button class="clear" id="btnClearIdentity" type="button">🧹 Effacer mes coordonnées</button>
+          </div>
+        </div>
+
+        <div class="section">2 · CHOISIR LA FORMULE BUILD</div>
+        <div class="section">3 · VISIBILITÉ BUILD — CHOISIR B1, B2 OU B3</div>
         <div class="prices" id="baseOptions"></div>
 
-        <div class="section">2 · FICHE DÉTAILLÉE + MOTEUR BUILD — FACULTATIF · +8 000 FCFA / +15 €</div>
+        <div class="section">4 · FICHE DÉTAILLÉE + MOTEUR BUILD — FACULTATIF · +8 000 FCFA / +15 €</div>
         <div class="prices" id="metierOptions"></div>
 
         <div class="section">✨ BOOST visibilité</div>
@@ -725,40 +812,6 @@
         <div class="selected" id="selectedBox">
           <strong>Aucun choix sélectionné</strong><br />
           Rien n'est précoché.
-        </div>
-
-        <div class="identityBox" id="identityBox">
-          <h3>Infos pro pour le paiement</h3>
-          <p>
-            Ces infos servent seulement à identifier ta demande dans le message WhatsApp / SMS.
-            La fiche artisan complète se construit uniquement lorsque l'option BUILD à +8 000 FCFA / +15 € est choisie.
-          </p>
-
-          <div class="identityGrid">
-            <div class="identityField">
-              <label for="proName">Nom / responsable</label>
-              <input id="proName" type="text" autocomplete="name" placeholder="Ex : Mamadou Diop" />
-            </div>
-
-            <div class="identityField">
-              <label for="proPhone">Téléphone / WhatsApp</label>
-              <input id="proPhone" type="tel" autocomplete="tel" placeholder="Ex : +221 77 000 00 00" />
-            </div>
-
-            <div class="identityField">
-              <label for="proZone">Zone / ville</label>
-              <input id="proZone" type="text" autocomplete="address-level2" placeholder="Ex : Saly, Mbour, Dakar" />
-            </div>
-
-            <div class="identityField">
-              <label for="proActivity">Métier / activité</label>
-              <input id="proActivity" type="text" autocomplete="organization-title" placeholder="Ex : plombier, électricien, maçon" />
-            </div>
-          </div>
-
-          <div class="identityMiniActions">
-            <button class="clear" id="btnClearIdentity" type="button">🧹 Effacer mes infos</button>
-          </div>
         </div>
 
         <div id="choiceList"></div>
@@ -812,12 +865,19 @@
 
         <div class="actions">
           <a class="btn green" id="btnWa">💬 WhatsApp</a>
-          <button class="btn" id="btnSms" type="button">📱 SMS</button>
+          <button class="btn gold" id="btnSms" type="button">📱 Ouvrir mon SMS déjà rempli</button>
           <button class="btn clear" id="btnClear" type="button">🧹 Effacer</button>
         </div>
 
+        <div class="smsDirectHelp">
+          Sur téléphone, aucun copier-coller : Messages s’ouvre avec le numéro DIGIY
+          et une demande BUILD courte déjà remplie. Il reste seulement à appuyer sur Envoyer.
+        </div>
+
+        <div class="formWarning" id="formWarning" role="alert" aria-live="assertive"></div>
+
         <div class="actions">
-          <button class="btn" id="btnCopyWave" type="button">📋 Copier Wave</button>
+          <button class="btn" id="btnCopyWave" type="button">Autre solution : copier Wave</button>
           <a class="btn gold" id="btnProof">📸 Envoyer preuve</a>
           <a class="btn gold" href="https://pro-build.digiylyfe.com/">🔐 Espace pro</a>
         </div>
@@ -836,6 +896,12 @@
 
       const IDENTITY_KEY = "digiy_build_payment_identity_v1";
       const COUNTRY_KEY = "digiy_build_country_v1";
+      const IS_IOS_OR_IPADOS =
+        /iPhone|iPad|iPod/i.test(navigator.userAgent) ||
+        (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+      const MOBILE_DEVICE =
+        /Android|Windows Phone|Mobile/i.test(navigator.userAgent) ||
+        IS_IOS_OR_IPADOS;
 
       const PLANS = [
         {
@@ -1218,6 +1284,108 @@
         });
       }
 
+      function requiredIdentityFields() {
+        const fields = identityFields();
+        return Object.values(fields).filter(Boolean);
+      }
+
+      function hasValidBuildChoice() {
+        return ["B1", "B2", "B3", "FIRST"].some((code) => selected.has(code));
+      }
+
+      function hasConfirmedPrice() {
+        return total(chosen()) !== null;
+      }
+
+      function showFormWarning(message) {
+        const warning = $("formWarning");
+        if (!warning) return;
+        warning.textContent = message || "";
+        warning.classList.toggle("show", Boolean(message));
+      }
+
+      function validateBeforeSend(showMessage) {
+        const invalidField = requiredIdentityFields().find(
+          (field) => !String(field.value || "").trim() || !field.checkValidity()
+        );
+
+        if (invalidField) {
+          if (showMessage) {
+            showFormWarning("⚠️ Renseigne d’abord le nom, le téléphone, la ville et le métier / activité.");
+            invalidField.focus({ preventScroll: true });
+            invalidField.scrollIntoView({ behavior: "smooth", block: "center" });
+            invalidField.reportValidity();
+          }
+          return false;
+        }
+
+        if (!hasValidBuildChoice()) {
+          if (showMessage) {
+            showFormWarning("⚠️ Choisis une formule BUILD B1, B2 ou B3, ou FIRST, avant d’envoyer.");
+            $("baseOptions")?.scrollIntoView({ behavior: "smooth", block: "center" });
+          }
+          return false;
+        }
+
+        if (!hasConfirmedPrice()) {
+          if (showMessage) {
+            showFormWarning("⚠️ Un tarif France sélectionné reste à confirmer avant l’envoi.");
+          }
+          return false;
+        }
+
+        showFormWarning("");
+        return true;
+      }
+
+      function updateSendState() {
+        const ready =
+          requiredIdentityFields().every(
+            (field) => String(field.value || "").trim() && field.checkValidity()
+          ) &&
+          hasValidBuildChoice() &&
+          hasConfirmedPrice();
+
+        ["btnWa", "btnSms", "btnProof"].forEach((id) => {
+          const el = $(id);
+          if (!el) return;
+          el.classList.toggle("sendBlocked", !ready);
+          el.setAttribute("aria-disabled", String(!ready));
+        });
+      }
+
+      function shortText(value, maxLength) {
+        const clean = String(value || "").replace(/\s+/g, " ").trim();
+        return clean.length > maxLength ? clean.slice(0, maxLength - 1) + "…" : clean;
+      }
+
+      function smsMsg() {
+        const fields = identityFields();
+        const items = chosen();
+        const codes = items.map((p) => p.code).join(" + ") || "Aucun choix";
+
+        return [
+          "DEMANDE DIGIY BUILD",
+          "Pays: " + (country === "france" ? "France" : "Senegal"),
+          "Choix: " + codes,
+          "Total: " + totalText(items),
+          "Nom/responsable: " + shortText(fields.nom?.value, 55),
+          "Telephone candidat: " + shortText(fields.telephone?.value, 28),
+          "Zone/ville: " + shortText(fields.zone?.value, 45),
+          "Metier/activite: " + shortText(fields.activite?.value, 75),
+          ($("paymentNote")?.value || "").trim()
+            ? "Note: " + shortText($("paymentNote").value, 130)
+            : "",
+          "Je demande a etre recontacte pour valider mon activation BUILD.",
+          "0% commission DIGIY."
+        ].filter(Boolean).join("\n");
+      }
+
+      function buildSmsHref(message) {
+        const separator = IS_IOS_OR_IPADOS ? "&" : "?";
+        return "sms:+" + TEL + separator + "body=" + encodeURIComponent(message);
+      }
+
       function msg() {
         const items = chosen();
         const lines =
@@ -1334,19 +1502,28 @@ Je joins la capture / preuve de paiement à ce message.`;
 
         $("btnWa").href = "https://wa.me/" + TEL + "?text=" + encodeURIComponent(msg());
         $("btnProof").href = "https://wa.me/" + TEL + "?text=" + encodeURIComponent(proofMsg());
+        updateSendState();
 
         if (scroll && matchMedia("(max-width:850px)").matches) {
           summary.scrollIntoView({ behavior: "smooth", block: "start" });
         }
       }
 
-      $("btnSms").onclick = () => {
-        if (!navigator.clipboard) return;
-        navigator.clipboard.writeText(msg()).then(() => {
-          $("btnSms").textContent = "✅ Message SMS copié";
-          setTimeout(() => ($("btnSms").textContent = "📱 SMS"), 1600);
-        });
+      $("btnSms").onclick = (event) => {
+        event.preventDefault();
+        if (!validateBeforeSend(true)) return;
+        window.location.href = buildSmsHref(smsMsg());
       };
+
+      $("btnWa").addEventListener("click", (event) => {
+        if (!validateBeforeSend(true)) event.preventDefault();
+      });
+
+      $("btnProof").addEventListener("click", (event) => {
+        if (!validateBeforeSend(true)) event.preventDefault();
+      });
+
+      $("btnCopyWave").hidden = MOBILE_DEVICE;
 
       $("btnCopyWave").onclick = () => {
         if (!navigator.clipboard) return;
@@ -1359,6 +1536,8 @@ Je joins la capture / preuve de paiement à ce message.`;
       $("btnClear").onclick = () => {
         selected.clear();
         if ($("paymentNote")) $("paymentNote").value = "";
+        clearIdentity();
+        showFormWarning("");
         update(true);
       };
 
@@ -1384,6 +1563,173 @@ Je joins la capture / preuve de paiement à ce message.`;
   </script>
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
