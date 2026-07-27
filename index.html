@@ -2,1926 +2,308 @@
 <html lang="fr">
 <head>
   <meta charset="utf-8">
-  <title>DIGIY BUILD — Artisans et dépannage · Sénégal · ouverture France & Diaspora</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="description" content="DIGIY BUILD — profils artisans au Sénégal, demande claire et contact direct. France et diaspora : inscriptions et ouverture en cours.">
+  <meta name="description" content="DIGIY BUILD — trouvez un artisan, consultez les profils et contactez directement le professionnel. Paiement direct et 0 % commission.">
   <meta name="theme-color" content="#061b14">
   <meta name="robots" content="index,follow">
-  <meta name="digiy-build" content="build-index-moule-generique-supabase-20260718">
-
+  <meta name="digiy-build" content="build-epure-portes-haut-20260727">
+  <title>DIGIY BUILD — Artisans et dépannage · contact direct</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
     :root{
-      --bg:#061b14;
-      --bg2:#0a2b1f;
-      --card:rgba(8,30,22,.94);
-      --line:rgba(255,255,255,.14);
-      --text:#eafff1;
-      --muted:rgba(234,255,241,.72);
-      --gold:#facc15;
-      --orange:#f97316;
-      --green:#22c55e;
-      --shadow:0 20px 55px rgba(0,0,0,.45);
-      --radius:24px;
-      --max:1320px;
+      --bg:#061b14;--bg2:#0a2b1f;--card:#0b2a1f;--card2:#102f24;
+      --line:rgba(255,255,255,.14);--text:#eafff1;--muted:rgba(234,255,241,.72);
+      --gold:#facc15;--orange:#f97316;--green:#22c55e;
+      --shadow:0 20px 55px rgba(0,0,0,.38);--max:1180px;
     }
-
     *{box-sizing:border-box}
-
-    html,body{
-      margin:0;
-      padding:0;
-      min-height:100%;
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;min-height:100vh;color:var(--text);
+      font-family:Outfit,system-ui,-apple-system,"Segoe UI",sans-serif;
       background:
-        radial-gradient(circle at top, rgba(250,204,21,.10), transparent 35%),
-        radial-gradient(circle at right, rgba(249,115,22,.12), transparent 30%),
+        radial-gradient(circle at 8% -5%,rgba(250,204,21,.13),transparent 32%),
+        radial-gradient(circle at 100% 10%,rgba(34,197,94,.11),transparent 30%),
         linear-gradient(145deg,var(--bg),var(--bg2));
-      color:var(--text);
-      font-family:Outfit,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-    }
-
-    body{padding:16px}
-
-    .container{
-      max-width:var(--max);
-      margin:0 auto;
-      padding-bottom:112px;
-    }
-
-    .hero,.panel,.metiers,.return-house{
-      background:linear-gradient(145deg,rgba(11,42,31,.96),rgba(6,35,25,.96));
-      border:1px solid var(--line);
-      border-radius:var(--radius);
-      box-shadow:var(--shadow);
-    }
-
-    .hero{
-      padding:18px;
-      overflow:hidden;
-      position:relative;
-      margin-bottom:24px;
-    }
-
-    .hero::before,.panel::before{
-      content:"";
-      position:absolute;
-      inset:0 0 auto 0;
-      height:4px;
-      background:linear-gradient(90deg,var(--orange),var(--gold),var(--green));
-      opacity:.95;
-    }
-
-    .brand{
-      display:flex;
-      gap:16px;
-      align-items:flex-start;
-      flex-wrap:wrap;
-      position:relative;
-      z-index:1;
-    }
-
-    .brand-logo{
-      width:92px;
-      height:92px;
-      border-radius:24px;
-      object-fit:cover;
-      background:#fff;
-      border:1px solid rgba(250,204,21,.30);
-      box-shadow:0 14px 34px rgba(0,0,0,.28);
-      flex:0 0 auto;
-    }
-
-    .kicker{
-      font-size:11px;
-      font-weight:900;
-      letter-spacing:.16em;
-      text-transform:uppercase;
-      color:rgba(234,255,241,.62);
-      margin:2px 0 8px;
-    }
-
-    h1{
-      margin:0;
-      font-size:clamp(32px,6vw,58px);
-      line-height:1.03;
-      font-weight:900;
-      letter-spacing:.01em;
-    }
-
-    .lead{
-      color:#fff3b2;
-      font-size:clamp(16px,2.6vw,22px);
-      font-weight:900;
-      margin:12px 0 8px;
-      line-height:1.4;
-    }
-
-    .sub{
-      color:var(--muted);
-      font-size:16px;
-      line-height:1.7;
-      font-weight:700;
-      max-width:940px;
-      margin:0;
-    }
-
-    .zones{
-      margin-top:12px;
-      color:rgba(234,255,241,.58);
-      font-size:13px;
-      font-weight:800;
-      line-height:1.6;
-    }
-
-    .hero-pills,.hero-actions,.return-actions,.metier-list{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-    }
-
-    .hero-pills{margin-top:18px}
-    .hero-actions{margin-top:18px}
-
-    .pill{
-      padding:8px 12px;
-      border-radius:999px;
-      border:1px solid var(--line);
-      background:rgba(250,204,21,.08);
-      color:#fff3b2;
-      font-size:12px;
-      font-weight:900;
-      white-space:nowrap;
-    }
-
-    .cta-btn{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      gap:8px;
-      padding:14px 18px;
-      text-decoration:none;
-      border-radius:14px;
-      font-weight:900;
-      font-size:14px;
-      transition:transform .18s ease, border-color .18s ease, box-shadow .18s ease;
-      border:1px solid transparent;
-      min-height:50px;
-    }
-
-    .cta-btn:hover{transform:translateY(-2px)}
-
-    .cta-btn.primary{
-      background:linear-gradient(135deg,var(--orange),var(--gold));
-      color:#111;
-      box-shadow:0 12px 28px rgba(249,115,22,.22);
-    }
-
-    .cta-btn.secondary{
-      background:rgba(255,255,255,.07);
-      color:var(--text);
-      border-color:var(--line);
-    }
-
-    .cta-btn.green{
-      background:linear-gradient(135deg,var(--green),var(--gold));
-      color:#062015;
-    }
-
-    .split{
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      gap:20px;
-      margin-top:22px;
-    }
-
-    @media(max-width:980px){
-      .split{grid-template-columns:1fr}
-      .qr-proof-grid,.bridge-grid{grid-template-columns:1fr}
-      .build-qr-actions{justify-content:flex-start}
-    }
-
-    .panel{
-      padding:20px;
-      position:relative;
-      overflow:hidden;
-    }
-
-    .panel.pro::before{background:linear-gradient(90deg,var(--green),var(--gold))}
-
-    .panel-head{margin-bottom:16px}
-
-    .panel-kicker{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding:7px 12px;
-      border-radius:999px;
-      font-size:12px;
-      font-weight:900;
-      margin-bottom:12px;
-      letter-spacing:.04em;
-    }
-
-    .panel-kicker.public{
-      background:rgba(249,115,22,.14);
-      color:#fdba74;
-      border:1px solid rgba(249,115,22,.35);
-    }
-
-    .panel-kicker.pro{
-      background:rgba(34,197,94,.14);
-      color:#86efac;
-      border:1px solid rgba(34,197,94,.35);
-    }
-
-    .panel h2{
-      font-size:30px;
-      margin:0 0 10px;
-      line-height:1.12;
-      font-weight:900;
-    }
-
-    .panel p{
-      color:var(--muted);
-      line-height:1.7;
-      font-size:15px;
-      font-weight:700;
-      margin:0;
-    }
-
-    .grid{
-      display:grid;
-      grid-template-columns:1fr;
-      gap:16px;
-      margin-top:18px;
-    }
-
-    .card{
-      background:linear-gradient(145deg,rgba(17,24,39,.85),rgba(2,12,27,.92));
-      border:1px solid var(--line);
-      border-radius:20px;
-      padding:18px;
-      box-shadow:0 16px 38px rgba(0,0,0,.38);
-      transition:transform .2s ease, box-shadow .2s ease;
-    }
-
-    .card:hover{
-      transform:translateY(-3px);
-      box-shadow:0 20px 46px rgba(0,0,0,.52);
-    }
-
-
-    .profile-photo{
-      width:100%;
-      aspect-ratio:4/5;
-      border-radius:18px;
-      overflow:hidden;
-      border:1px solid rgba(250,204,21,.24);
-      background:rgba(0,0,0,.22);
-      margin-bottom:14px;
-      box-shadow:0 14px 34px rgba(0,0,0,.30);
-    }
-
-    .profile-photo img{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      display:block;
-    }
-    .profile-placeholder{
-      width:100%;height:100%;display:grid;place-items:center;align-content:center;gap:12px;
-      text-align:center;padding:24px;color:#fff7d6;
-      background:radial-gradient(circle at 78% 16%,rgba(250,204,21,.34),transparent 27%),linear-gradient(145deg,#0b5b3b,#072a20 70%);
-    }
-    .profile-placeholder strong{
-      display:grid;place-items:center;width:112px;height:112px;margin:auto;border-radius:50%;
-      color:#08261c;background:linear-gradient(135deg,#fff0a8,#e2b43f);
-      font-size:2.7rem;font-weight:1000;box-shadow:0 16px 34px rgba(0,0,0,.28);
-    }
-    .profile-placeholder span{max-width:18ch;font-size:1.02rem;font-weight:1000;line-height:1.25}
-
-
-    .featured-profile{
-      border-color:rgba(250,204,21,.35);
-      background:
-        radial-gradient(circle at top right, rgba(250,204,21,.12), transparent 35%),
-        linear-gradient(145deg,rgba(17,24,39,.90),rgba(2,12,27,.94));
-    }
-
-    .direct-phone{
-      color:#fff3b2;
-      font-weight:1000;
-      margin-top:-6px;
-      margin-bottom:12px;
-      font-size:14px;
-      line-height:1.45;
-    }
-
-    .card .name{
-      font-size:23px;
-      font-weight:900;
-      color:#fff3b2;
-      margin-bottom:8px;
-      line-height:1.2;
-    }
-
-    .card .type{
-      font-size:14px;
-      color:var(--muted);
-      font-weight:800;
-      margin-bottom:12px;
-      line-height:1.5;
-    }
-
-    .card .desc{
-      font-size:14px;
-      color:#eefcf3;
-      line-height:1.7;
-      margin-bottom:16px;
-      font-weight:700;
-    }
-
-    .badges{
-      display:flex;
-      gap:8px;
-      flex-wrap:wrap;
-      margin-bottom:16px;
-    }
-
-    .badge{
-      padding:6px 12px;
-      border-radius:999px;
-      font-size:12px;
-      font-weight:900;
-      border:1px solid rgba(255,255,255,.14);
-      background:rgba(255,255,255,.05);
-      color:#eafff1;
-    }
-
-    .badge-public{
-      background:rgba(250,204,21,.10);
-      color:#fff3b2;
-      border-color:rgba(250,204,21,.28);
-    }
-
-    .badge-verified{
-      background:rgba(34,197,94,.12);
-      color:#bbf7d0;
-      border-color:rgba(34,197,94,.35);
-    }
-
-    .badge-pro{
-      background:rgba(249,115,22,.10);
-      color:#fdba74;
-      border-color:rgba(249,115,22,.30);
-    }
-
-    .badge-info{
-      background:rgba(148,163,184,.10);
-      color:#d1d5db;
-      border-color:rgba(148,163,184,.16);
-    }
-
-    .actions{
-      display:flex;
-      gap:10px;
-      flex-direction:column;
-    }
-
-    .btn{
-      width:100%;
-      padding:14px 18px;
-      border:none;
-      border-radius:14px;
-      font-weight:900;
-      font-size:14px;
-      cursor:pointer;
-      transition:all .2s ease;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      gap:8px;
-      text-decoration:none;
-      font-family:inherit;
-      min-height:50px;
-    }
-
-    .btn-primary{
-      background:linear-gradient(135deg,var(--orange),var(--gold));
-      color:#111;
-      box-shadow:0 8px 20px rgba(249,115,22,.26);
-    }
-
-    .btn-green{
-      background:linear-gradient(135deg,var(--green),var(--gold));
-      color:#062015;
-      box-shadow:0 8px 20px rgba(34,197,94,.22);
-    }
-
-    .btn-ghost{
-      background:rgba(255,255,255,.06);
-      color:var(--text);
-      border:1px solid var(--line);
-      box-shadow:none;
-    }
-
-    .btn:hover{
-      transform:translateY(-2px);
-      border-color:rgba(250,204,21,.35);
-    }
-
-    .metiers,.return-house{
-      margin-top:24px;
-      padding:22px;
-    }
-
-
-    .build-bridge{
-      margin-top:24px;
-      padding:22px;
-      background:
-        radial-gradient(circle at top left, rgba(250,204,21,.12), transparent 38%),
-        linear-gradient(145deg,rgba(11,42,31,.96),rgba(6,35,25,.96));
-      border:1px solid rgba(250,204,21,.18);
-      border-radius:var(--radius);
-      box-shadow:var(--shadow);
-    }
-
-    .build-bridge-head{
-      display:flex;
-      justify-content:space-between;
-      align-items:flex-start;
-      gap:14px;
-      flex-wrap:wrap;
-      margin-bottom:16px;
-    }
-
-    .build-bridge h2{
-      margin:0;
-      font-size:clamp(28px,4vw,42px);
-      line-height:1.04;
-      letter-spacing:-.03em;
-      font-weight:900;
-      color:#fff3b2;
-    }
-
-    .build-bridge p{
-      color:var(--muted);
-      line-height:1.7;
-      margin:8px 0 0;
-      font-size:15px;
-      font-weight:760;
-      max-width:820px;
-    }
-
-    .bridge-actions{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      align-items:center;
-    }
-
-    .bridge-grid{
-      display:grid;
-      grid-template-columns:repeat(3,minmax(0,1fr));
-      gap:12px;
-      margin-top:14px;
-    }
-
-    .bridge-card{
-      border-radius:22px;
-      padding:16px;
-      background:rgba(255,255,255,.055);
-      border:1px solid rgba(255,255,255,.10);
-      min-height:132px;
-      display:flex;
-      flex-direction:column;
-      gap:8px;
-    }
-
-    .bridge-card strong{
-      color:#fff3b2;
-      font-size:19px;
-      line-height:1.15;
-      font-weight:900;
-    }
-
-    .bridge-card span{
-      color:var(--muted);
-      font-size:14px;
-      line-height:1.58;
-      font-weight:760;
-    }
-
-
-
-
-    .build-qr-entry{
-      margin-top:24px;
-      padding:24px;
-      position:relative;
-      overflow:hidden;
-      background:
-        radial-gradient(520px 220px at 18% 0%, rgba(250,204,21,.16), transparent 58%),
-        radial-gradient(520px 220px at 100% 0%, rgba(34,197,94,.11), transparent 58%),
-        linear-gradient(145deg,rgba(11,42,31,.98),rgba(6,35,25,.96));
-      border:1px solid rgba(250,204,21,.24);
-      border-radius:var(--radius);
-      box-shadow:var(--shadow);
-    }
-
-    .build-qr-entry::before{
-      content:"";
-      position:absolute;
-      inset:0 0 auto 0;
-      height:4px;
-      background:linear-gradient(90deg,var(--orange),var(--gold),var(--green));
-      opacity:.95;
-    }
-
-    .build-qr-head{
-      display:flex;
-      justify-content:space-between;
-      align-items:flex-start;
-      gap:16px;
-      flex-wrap:wrap;
-      position:relative;
-      z-index:1;
-    }
-
-    .build-qr-title{
-      margin:0;
-      font-size:clamp(30px,4.5vw,48px);
-      line-height:1.02;
-      letter-spacing:-.04em;
-      font-weight:900;
-      color:#fff3b2;
-      max-width:820px;
-    }
-
-    .build-qr-entry p{
-      color:var(--muted);
-      line-height:1.7;
-      margin:10px 0 0;
-      font-size:16px;
-      font-weight:760;
-      max-width:880px;
-    }
-
-    .build-qr-actions{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      align-items:center;
-      justify-content:flex-end;
-    }
-
-    .qr-proof-grid{
-      display:grid;
-      grid-template-columns:repeat(3,minmax(0,1fr));
-      gap:12px;
-      margin-top:18px;
-      position:relative;
-      z-index:1;
-    }
-
-    .qr-proof-card{
-      border-radius:22px;
-      padding:16px;
-      background:rgba(255,255,255,.055);
-      border:1px solid rgba(255,255,255,.10);
-      min-height:126px;
-      display:flex;
-      flex-direction:column;
-      gap:8px;
-    }
-
-    .qr-proof-card strong{
-      color:#fff3b2;
-      font-size:19px;
-      line-height:1.15;
-      font-weight:900;
-    }
-
-    .qr-proof-card span{
-      color:var(--muted);
-      font-size:14px;
-      line-height:1.58;
-      font-weight:760;
-    }
-
-
-    .metiers h3,.return-house h3{
-      font-size:24px;
-      margin:0 0 14px;
-      color:#fff3b2;
-      line-height:1.2;
-    }
-
-    .return-house h3{margin-bottom:8px}
-
-    .metiers p,.return-house p{
-      color:var(--muted);
-      line-height:1.7;
-      margin:0 0 14px;
-      font-size:15px;
-      font-weight:700;
-    }
-
-    .return-house p{margin-bottom:0}
-
-    .metier{
-      padding:10px 14px;
-      border-radius:999px;
-      background:rgba(255,255,255,.05);
-      border:1px solid var(--line);
-      color:#e5e7eb;
-      font-size:13px;
-      font-weight:900;
-    }
-
-    footer{
-      margin-top:28px;
-      text-align:center;
-      color:rgba(234,255,241,.56);
-      font-size:12px;
-      line-height:1.8;
-      font-weight:800;
-    }
-
-    .floating-returns{
-      position:fixed;
-      left:16px;
-      bottom:calc(84px + env(safe-area-inset-bottom,0px));
-      z-index:9999;
-      display:flex;
-      gap:8px;
-      flex-wrap:wrap;
-      align-items:center;
-    }
-
-    .floating-home{
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      gap:10px;
-      padding:14px 18px;
-      border-radius:999px;
-      text-decoration:none;
-      font-weight:900;
-      font-size:14px;
-      color:#111;
-      background:linear-gradient(135deg,var(--orange),var(--gold));
-      border:1px solid rgba(255,255,255,.18);
-      box-shadow:0 16px 36px rgba(0,0,0,.45);
-      transition:transform .2s ease, box-shadow .2s ease, opacity .2s ease;
-    }
-
-    .floating-home.hub{
-      background:rgba(250,204,21,.14);
-      color:#fff3b2;
-      border-color:rgba(250,204,21,.28);
-    }
-
-    .floating-home:hover{transform:translateY(-3px) scale(1.02)}
-    .floating-home .icon{font-size:18px;line-height:1}
-
-    .bottom-nav{
-      position:fixed;
-      left:0;
-      right:0;
-      bottom:0;
-      z-index:9998;
-      padding:8px 10px calc(8px + env(safe-area-inset-bottom,0px));
-      background:rgba(6,27,20,.94);
-      border-top:1px solid rgba(255,255,255,.12);
-      backdrop-filter:blur(12px);
-      -webkit-backdrop-filter:blur(12px);
-    }
-
-    .bottom-nav-inner{
-      width:min(760px,100%);
-      margin:0 auto;
-      display:grid;
-      grid-template-columns:repeat(7,1fr);
-      gap:6px;
-    }
-
-    .bottom-nav a{
-      min-height:54px;
-      border-radius:14px;
-      display:grid;
-      place-items:center;
-      align-content:center;
-      gap:2px;
-      color:rgba(234,255,241,.78);
-      font-size:11px;
-      font-weight:1000;
-      text-align:center;
-      border:1px solid transparent;
-      text-decoration:none;
-      background:transparent;
-      padding:0 4px;
-    }
-
-    .bottom-nav .ico{font-size:18px;line-height:1}
-
-    .bottom-nav a.active{
-      background:linear-gradient(135deg,var(--orange),var(--gold));
-      color:#111;
-    }
-
-    #digiy-audio-btn{
-      bottom:calc(154px + env(safe-area-inset-bottom,0px)) !important;
-    }
-
-    #digiy-audio-btn{
-      position:fixed;
-      display:inline-flex;
-      align-items:center;
-      gap:12px;
-      padding:16px 26px;
-      border:none;
-      border-radius:999px;
-      cursor:pointer;
-      font-family:Outfit,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-      font-weight:900;
       font-size:17px;
-      line-height:1;
-      -webkit-tap-highlight-color:transparent;
-      user-select:none;
-      transition:transform .18s ease,box-shadow .18s ease,opacity .18s ease;
-      right:24px;
-      z-index:99999;
-      background:linear-gradient(135deg,#d4af37,#b78b34);
-      color:#111827;
-      box-shadow:0 10px 30px rgba(0,0,0,.26);
     }
-
-    #digiy-audio-btn:hover{transform:translateY(-2px)}
-    #digiy-audio-btn:active{transform:scale(.97)}
-    #digiy-audio-btn:disabled{opacity:.65;cursor:not-allowed}
-
-    #digiy-audio-btn .digiy-audio-ico{
-      font-size:18px;
-      line-height:1;
+    a{color:inherit;text-decoration:none}
+    button{font:inherit}
+    .wrap{width:min(var(--max),calc(100% - 28px));margin:0 auto}
+    .topbar{
+      position:sticky;top:0;z-index:20;background:rgba(6,27,20,.90);
+      border-bottom:1px solid var(--line);backdrop-filter:blur(14px);
     }
+    .topbar-inner{min-height:70px;display:flex;align-items:center;justify-content:space-between;gap:14px;padding:9px 0}
+    .brand{display:flex;align-items:center;gap:11px;min-width:0}
+    .brand img{width:48px;height:48px;border-radius:15px;object-fit:cover;background:#fff}
+    .brand strong{display:block;font-size:19px;font-weight:1000;color:#fff3b2}
+    .brand small{display:block;color:var(--muted);font-size:12px;font-weight:800;margin-top:2px}
+    .top-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+    .lang-switch{display:inline-flex;gap:4px;padding:4px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.055)}
+    .lang-switch button{min-height:36px;border:0;border-radius:999px;padding:0 12px;background:transparent;color:var(--text);font-weight:1000;cursor:pointer}
+    .lang-switch button.active{background:linear-gradient(135deg,var(--orange),var(--gold));color:#111}
+    .mini-link{min-height:40px;padding:0 13px;border-radius:999px;border:1px solid var(--line);display:inline-flex;align-items:center;justify-content:center;font-size:13px;font-weight:900;background:rgba(255,255,255,.055)}
 
-    #digiy-audio-progress-wrap{
-      position:fixed;
-      left:0;
-      right:0;
-      bottom:0;
-      height:3px;
-      opacity:0;
-      pointer-events:none;
-      transition:opacity .25s ease;
-      z-index:99998;
-      background:rgba(212,175,55,.2);
-    }
-
-    #digiy-audio-progress{
-      width:0%;
-      height:100%;
-      transition:width .18s linear;
-      background:linear-gradient(90deg,#d4af37,#b78b34);
-    }
-
-
-
-    /* === DIGIY BUILD · International + WhatsApp Sénégal / France === */
-    .contact-dual{
-      margin-top:18px;
-      padding:16px;
-      border-radius:22px;
-      border:1px solid rgba(250,204,21,.24);
+    .hero{padding:24px 0 14px}
+    .hero-card{
+      padding:24px;border-radius:28px;border:1px solid var(--line);box-shadow:var(--shadow);
       background:
-        radial-gradient(circle at top left, rgba(250,204,21,.13), transparent 36%),
-        radial-gradient(circle at bottom right, rgba(34,197,94,.10), transparent 42%),
-        rgba(255,255,255,.055);
-      box-shadow:0 16px 38px rgba(0,0,0,.28);
+        radial-gradient(circle at top right,rgba(250,204,21,.13),transparent 32%),
+        linear-gradient(145deg,rgba(11,42,31,.98),rgba(6,35,25,.97));
     }
+    .eyebrow{display:inline-flex;padding:7px 11px;border-radius:999px;border:1px solid rgba(250,204,21,.30);background:rgba(250,204,21,.09);color:#fff3b2;font-size:12px;font-weight:1000;text-transform:uppercase;letter-spacing:.07em}
+    h1{margin:13px 0 9px;font-size:clamp(34px,6vw,58px);line-height:1;letter-spacing:-.045em}
+    .lead{margin:0;color:#fff3b2;font-size:clamp(18px,2.6vw,23px);font-weight:900;line-height:1.38;max-width:800px}
+    .hero-note{margin:10px 0 0;color:var(--muted);font-size:15px;font-weight:760;line-height:1.55;max-width:880px}
+    .hero-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:17px}
+    .btn{min-height:50px;padding:0 17px;border-radius:14px;border:1px solid transparent;display:inline-flex;align-items:center;justify-content:center;gap:8px;font-weight:1000;text-align:center;cursor:pointer}
+    .btn-primary{background:linear-gradient(135deg,var(--orange),var(--gold));color:#111;box-shadow:0 12px 26px rgba(249,115,22,.20)}
+    .btn-green{background:linear-gradient(135deg,var(--green),var(--gold));color:#062015}
+    .btn-soft{background:rgba(255,255,255,.065);border-color:var(--line);color:var(--text)}
 
-    .contact-dual-title{
-      color:#fff3b2;
-      font-size:13px;
-      font-weight:1000;
-      letter-spacing:.12em;
-      text-transform:uppercase;
-      margin-bottom:10px;
+    .doors-section{padding:10px 0 18px}
+    .section-head{margin-bottom:13px}
+    .section-head h2{margin:0;font-size:clamp(27px,4vw,40px);letter-spacing:-.035em}
+    .section-head p{margin:6px 0 0;color:var(--muted);font-size:15px;line-height:1.55;font-weight:760}
+    .doors-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+    .door{
+      min-height:250px;padding:18px;border-radius:24px;border:1px solid var(--line);
+      background:linear-gradient(145deg,rgba(17,45,34,.97),rgba(7,28,21,.97));
+      box-shadow:var(--shadow);display:flex;flex-direction:column;gap:11px;
     }
+    .door.featured{border-color:rgba(250,204,21,.36);background:radial-gradient(circle at top right,rgba(250,204,21,.14),transparent 32%),linear-gradient(145deg,rgba(17,45,34,.98),rgba(7,28,21,.98))}
+    .door-icon{width:52px;height:52px;border-radius:17px;display:grid;place-items:center;background:rgba(250,204,21,.10);border:1px solid rgba(250,204,21,.22);font-size:25px}
+    .door h3{margin:0;color:#fff3b2;font-size:23px;line-height:1.08}
+    .door p{margin:0;color:var(--muted);font-size:15px;line-height:1.55;font-weight:740;flex:1}
+    .door-tags{display:flex;gap:7px;flex-wrap:wrap}
+    .tag{padding:6px 9px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.045);font-size:12px;font-weight:900;color:#dff8e8}
+    .door .btn{width:100%}
 
-    .contact-dual-grid{
-      display:grid;
-      grid-template-columns:repeat(2,minmax(0,1fr));
-      gap:10px;
+    .more{padding:4px 0 26px}
+    details.info-box{border:1px solid rgba(250,204,21,.30);border-radius:24px;overflow:hidden;background:rgba(9,34,25,.92);box-shadow:var(--shadow)}
+    details.info-box>summary{list-style:none;cursor:pointer;min-height:62px;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;gap:14px;background:linear-gradient(135deg,rgba(250,204,21,.16),rgba(34,197,94,.10));color:#fff3b2;font-weight:1000;font-size:17px}
+    details.info-box>summary::-webkit-details-marker{display:none}
+    details.info-box>summary::after{content:"+";width:30px;height:30px;border-radius:999px;background:rgba(255,255,255,.10);display:grid;place-items:center;font-size:21px}
+    details.info-box[open]>summary::after{content:"−"}
+    .info-content{padding:18px;display:grid;gap:16px}
+    .info-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+    .info-card{padding:17px;border-radius:20px;border:1px solid var(--line);background:rgba(255,255,255,.045)}
+    .info-card h3{margin:0 0 7px;color:#fff3b2;font-size:19px}
+    .info-card p{margin:0;color:var(--muted);font-size:14px;line-height:1.58;font-weight:740}
+    .info-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:12px}
+    .info-actions .btn{min-height:45px;padding:0 14px;font-size:13px}
+    .trade-list{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}
+    .trade{padding:7px 10px;border-radius:999px;border:1px solid var(--line);background:rgba(255,255,255,.045);font-size:12px;font-weight:900}
+    footer{padding:0 0 28px;color:rgba(234,255,241,.58);font-size:12px;line-height:1.6;text-align:center;font-weight:800}
+
+    @media(max-width:900px){
+      .doors-grid{grid-template-columns:1fr}
+      .info-grid{grid-template-columns:1fr}
     }
-
-    .contact-dual-note{
-      color:var(--muted);
-      font-size:13px;
-      line-height:1.45;
-      font-weight:760;
-      margin-top:10px;
-    }
-
-    .territory-section{
-      margin-top:24px;
-      padding:24px;
-      background:
-        radial-gradient(circle at top left, rgba(250,204,21,.14), transparent 38%),
-        radial-gradient(circle at bottom right, rgba(34,197,94,.11), transparent 42%),
-        linear-gradient(145deg,rgba(11,42,31,.96),rgba(6,35,25,.96));
-      border:1px solid rgba(250,204,21,.22);
-      border-radius:var(--radius);
-      box-shadow:var(--shadow);
-    }
-
-    .territory-section h2{
-      margin:0;
-      color:#fff3b2;
-      font-size:clamp(30px,4.5vw,48px);
-      line-height:1.03;
-      letter-spacing:-.04em;
-      font-weight:900;
-    }
-
-    .territory-section p{
-      color:var(--muted);
-      line-height:1.7;
-      margin:10px 0 0;
-      font-size:16px;
-      font-weight:760;
-      max-width:920px;
-    }
-
-    .territory-grid{
-      margin-top:16px;
-      display:grid;
-      grid-template-columns:repeat(3,minmax(0,1fr));
-      gap:12px;
-    }
-
-    .territory-card{
-      border-radius:22px;
-      padding:16px;
-      background:rgba(255,255,255,.055);
-      border:1px solid rgba(255,255,255,.10);
-      min-height:132px;
-      display:flex;
-      flex-direction:column;
-      gap:8px;
-    }
-
-    .territory-card strong{
-      color:#fff3b2;
-      font-size:19px;
-      line-height:1.15;
-      font-weight:900;
-    }
-
-    .territory-card span{
-      color:var(--muted);
-      font-size:14px;
-      line-height:1.58;
-      font-weight:760;
-    }
-
-    @media(max-width:980px){
-      .territory-grid{grid-template-columns:1fr}
-      .contact-dual-grid{grid-template-columns:1fr}
-    }
-
-
-    .lang-switch{
-      display:inline-flex;
-      gap:5px;
-      align-items:center;
-      padding:4px;
-      border-radius:999px;
-      border:1px solid rgba(250,204,21,.26);
-      background:rgba(255,255,255,.07);
-      box-shadow:0 10px 24px rgba(0,0,0,.18);
-    }
-
-    .lang-switch button{
-      min-height:38px;
-      border:0;
-      border-radius:999px;
-      padding:0 13px;
-      background:transparent;
-      color:#fff3b2;
-      font:900 13px Outfit,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-      cursor:pointer;
-      touch-action:manipulation;
-    }
-
-    .lang-switch button.active{
-      background:linear-gradient(135deg,var(--orange),var(--gold));
-      color:#111;
-      box-shadow:0 8px 20px rgba(0,0,0,.22);
-    }
-
     @media(max-width:640px){
-  
-    /* === DIGIY BUILD · International + WhatsApp Sénégal / France === */
-    .contact-dual{
-      margin-top:18px;
-      padding:16px;
-      border-radius:22px;
-      border:1px solid rgba(250,204,21,.24);
-      background:
-        radial-gradient(circle at top left, rgba(250,204,21,.13), transparent 36%),
-        radial-gradient(circle at bottom right, rgba(34,197,94,.10), transparent 42%),
-        rgba(255,255,255,.055);
-      box-shadow:0 16px 38px rgba(0,0,0,.28);
-    }
-
-    .contact-dual-title{
-      color:#fff3b2;
-      font-size:13px;
-      font-weight:1000;
-      letter-spacing:.12em;
-      text-transform:uppercase;
-      margin-bottom:10px;
-    }
-
-    .contact-dual-grid{
-      display:grid;
-      grid-template-columns:repeat(2,minmax(0,1fr));
-      gap:10px;
-    }
-
-    .contact-dual-note{
-      color:var(--muted);
-      font-size:13px;
-      line-height:1.45;
-      font-weight:760;
-      margin-top:10px;
-    }
-
-    .territory-section{
-      margin-top:24px;
-      padding:24px;
-      background:
-        radial-gradient(circle at top left, rgba(250,204,21,.14), transparent 38%),
-        radial-gradient(circle at bottom right, rgba(34,197,94,.11), transparent 42%),
-        linear-gradient(145deg,rgba(11,42,31,.96),rgba(6,35,25,.96));
-      border:1px solid rgba(250,204,21,.22);
-      border-radius:var(--radius);
-      box-shadow:var(--shadow);
-    }
-
-    .territory-section h2{
-      margin:0;
-      color:#fff3b2;
-      font-size:clamp(30px,4.5vw,48px);
-      line-height:1.03;
-      letter-spacing:-.04em;
-      font-weight:900;
-    }
-
-    .territory-section p{
-      color:var(--muted);
-      line-height:1.7;
-      margin:10px 0 0;
-      font-size:16px;
-      font-weight:760;
-      max-width:920px;
-    }
-
-    .territory-grid{
-      margin-top:16px;
-      display:grid;
-      grid-template-columns:repeat(3,minmax(0,1fr));
-      gap:12px;
-    }
-
-    .territory-card{
-      border-radius:22px;
-      padding:16px;
-      background:rgba(255,255,255,.055);
-      border:1px solid rgba(255,255,255,.10);
-      min-height:132px;
-      display:flex;
-      flex-direction:column;
-      gap:8px;
-    }
-
-    .territory-card strong{
-      color:#fff3b2;
-      font-size:19px;
-      line-height:1.15;
-      font-weight:900;
-    }
-
-    .territory-card span{
-      color:var(--muted);
-      font-size:14px;
-      line-height:1.58;
-      font-weight:760;
-    }
-
-    @media(max-width:980px){
-      .territory-grid{grid-template-columns:1fr}
-      .contact-dual-grid{grid-template-columns:1fr}
-    }
-
-
-    .lang-switch{width:100%;justify-content:center}
-      .lang-switch button{flex:1}
-    }
-
-    @media (max-width:640px){
-      .container{padding-bottom:132px}
-
-      .lead{font-size:18px}
-
-      .hero-actions,.return-actions{
-        flex-direction:column;
-      }
-
-      .hero-actions .cta-btn,
-      .return-actions .cta-btn{
-        width:100%;
-      }
-
-      .floating-returns{
-        display:none;
-      }
-
-      #digiy-audio-btn{
-        left:12px;
-        right:12px;
-        bottom:calc(92px + env(safe-area-inset-bottom,0px)) !important;
-        justify-content:center;
-        font-size:16px;
-        padding:15px 22px;
-      }
+      .wrap{width:min(var(--max),calc(100% - 18px))}
+      .topbar-inner{align-items:flex-start;flex-wrap:wrap}
+      .top-actions{width:100%;justify-content:flex-start}
+      .mini-link{flex:1}
+      .lang-switch{width:100%;display:grid;grid-template-columns:1fr 1fr}
+      .hero{padding-top:14px}
+      .hero-card{padding:19px;border-radius:23px}
+      .hero-actions{display:grid}
+      .btn{width:100%}
+      .doors-section{padding-top:6px}
+      .door{min-height:auto}
+      details.info-box>summary{font-size:15px}
     }
   </style>
 </head>
-
 <body>
-  <div class="container">
-
-    <section class="hero">
-      <div class="brand">
-        <img
-          class="brand-logo"
-          src="https://digiylyfe.net/wp-content/uploads/2026/03/digiylyfe_logo_qr.jpeg"
-          alt="Logo DIGIYLYFE"
-          onerror="this.onerror=null;this.style.display='none';"
-        />
-        <div>
-          <div class="kicker">Travaux • dépannage • entretien • Afrique • France • Diaspora</div>
-          <h1>DIGIY BUILD</h1>
-          <div class="lead">Travaux, dépannage, entretien : le client explique, le pro répond direct.</div>
-          <p class="sub">
-            Ici, le client décrit son besoin, découvre des profils utiles et avance sans tourner en rond.
-            Le professionnel garde son contact, son prix, son métier et sa relation client. Le lexique Wolof BUILD reste la preuve terrain ; l’ouverture France et diaspora garde le même principe : contact direct, paiement direct, 0% commission. DIGIY organise la porte, pas la commission.
-          </p>
-
-          <div class="zones">Sénégal • profils terrain visibles · France et diaspora • inscriptions en cours</div>
-
-          <div class="hero-pills">
-            <div class="pill">Contact direct</div>
-            <div class="pill">Paiement direct au pro</div>
-            <div class="pill">0% commission</div>
-            <div class="pill">Demande claire</div>
-            <div class="pill">Services utiles</div>
-            <div class="pill">Afrique · France · Diaspora</div>
-            <div class="pill">🇸🇳 Lexique Wolof BUILD</div>
-          </div>
-
-          <div class="hero-actions">
-            <a href="https://digiylyfe.com/" class="cta-btn secondary">🌍 Site DIGIYLYFE</a>
-            <a href="https://digiy-hub.digiylyfe.com/" class="cta-btn secondary">🧭 HUB DIGIY</a>
-            <div class="lang-switch" aria-label="Langue / Language">
-              <button id="langFr" class="active" type="button">FR</button>
-              <button id="langEn" type="button">EN</button>
-            </div>
-            <a href="./inscription-build.html" class="cta-btn green">🧰 Inscription artisan</a>
-            <a href="./listing.html" class="cta-btn primary">👁️ Voir les profils</a>
-            <a href="./qr-artisans.html" class="cta-btn secondary">📲 QR artisans</a>
-            <a href="https://build.digiylyfe.com/lexique-build.html?v=lexique-build-v2-mobile-20260607" class="cta-btn secondary">🇸🇳 Lexique Wolof BUILD</a>
-            <a href="https://digiy-solaire.digiylyfe.com/" class="cta-btn secondary" target="_blank" rel="noopener noreferrer">☀️ Fiche solaire</a>
-            <a href="#territoires-build" class="cta-btn secondary">🌍 Territoires</a>
-            <a href="./request.html" class="cta-btn secondary">📄 Décrire mon besoin</a>
-            <a href="./track.html" class="cta-btn secondary">🔎 Suivre ma demande</a>
-            <a href="./build-pro/pin.html" class="cta-btn green">🔒 Espace pro</a>
-          </div>
-          <div class="contact-dual" aria-label="Contacts WhatsApp DIGIY BUILD">
-            <div class="contact-dual-title">WhatsApp DIGIY BUILD · Sénégal + France</div>
-            <div class="contact-dual-grid">
-              <a class="cta-btn primary" href="https://wa.me/221771342889?text=Bonjour%20DIGIY%20BUILD%2C%20je%20cherche%20un%20artisan%20ou%20je%20veux%20comprendre%20le%20module%20BUILD." data-href-fr="https://wa.me/221771342889?text=Bonjour%20DIGIY%20BUILD%2C%20je%20cherche%20un%20artisan%20ou%20je%20veux%20comprendre%20le%20module%20BUILD." data-href-en="https://wa.me/221771342889?text=Hello%20DIGIY%20BUILD%2C%20I%20am%20looking%20for%20an%20artisan%20or%20I%20want%20to%20understand%20the%20BUILD%20module." target="_blank" rel="noopener noreferrer">🇸🇳 WhatsApp Sénégal / Afrique · +221 77 134 28 89</a>
-              <a class="cta-btn secondary" href="https://wa.me/33638329423?text=Bonjour%20DIGIY%20BUILD%2C%20je%20cherche%20un%20artisan%20ou%20je%20veux%20comprendre%20le%20module%20BUILD%20depuis%20la%20France." data-href-fr="https://wa.me/33638329423?text=Bonjour%20DIGIY%20BUILD%2C%20je%20cherche%20un%20artisan%20ou%20je%20veux%20comprendre%20le%20module%20BUILD%20depuis%20la%20France." data-href-en="https://wa.me/33638329423?text=Hello%20DIGIY%20BUILD%2C%20I%20am%20looking%20for%20an%20artisan%20or%20I%20want%20to%20understand%20the%20BUILD%20module%20from%20France." target="_blank" rel="noopener noreferrer">🇫🇷 WhatsApp France · +33 6 38 32 94 23</a>
-            </div>
-            <div class="contact-dual-note">Deux portes de contact pour l’ouverture internationale. Ensuite, l’artisan garde la relation directe avec son client.</div>
-          </div>
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <a class="brand" href="https://digiylyfe.com/" aria-label="Retour au site DIGIYLYFE">
+        <img src="https://digiylyfe.net/wp-content/uploads/2026/03/digiylyfe_logo_qr.jpeg" alt="Logo DIGIYLYFE">
+        <span><strong>DIGIY BUILD</strong><small data-i18n="brand_sub">Artisans · dépannage · travaux</small></span>
+      </a>
+      <div class="top-actions">
+        <a class="mini-link" href="https://digiy-hub.digiylyfe.com/">🧭 HUB</a>
+        <div class="lang-switch" aria-label="Langue / Language">
+          <button id="langFr" class="active" type="button">FR</button>
+          <button id="langEn" type="button">EN</button>
         </div>
       </div>
-    </section>
-
-
-
-
-    <section class="territory-section" id="territoires-build">
-      <div class="kicker">DIGIY BUILD · Afrique · France · Diaspora</div>
-      <h2>Sénégal actif, France et diaspora en ouverture.</h2>
-      <p>
-        BUILD ne doit pas être lu comme une porte limitée à Saly. Le Sénégal porte déjà les premiers profils terrain.
-        La France et la diaspora sont en ouverture : inscriptions, repérage et préparation des futures fiches,
-        toujours avec contact direct et sans plateforme qui capture la relation.
-      </p>
-      <div class="territory-grid">
-        <div class="territory-card"><strong>🇸🇳 Afrique · preuve terrain</strong><span>Plombiers, maçons, électriciens, solaire, climatisation, dépannage, petits chantiers et services de proximité.</span></div>
-        <div class="territory-card"><strong>🇫🇷 France · ouverture en cours</strong><span>Inscriptions et préparation de fiches pour artisans, indépendants et petites entreprises locales.</span></div>
-        <div class="territory-card"><strong>🌍 Diaspora · ouverture en cours</strong><span>La diaspora peut déjà demander, partager et recommander ; les profils dédiés seront publiés au fur et à mesure des validations.</span></div>
-      </div>
-    </section>
-
-    <section class="build-qr-entry" id="qr-artisans">
-      <div class="build-qr-head">
-        <div>
-          <div class="kicker">DIGIY BUILD · QR artisans</div>
-          <h2 class="build-qr-title">Une fiche. Un QR. Un métier qui circule.</h2>
-          <p>
-            Les artisans BUILD peuvent montrer une présence propre : fiche publique, QR scannable,
-            lien copiable, partage simple et impression possible. Le client voit le métier, la zone,
-            les images et le contact direct sans se perdre, au Sénégal, en France ou dans la diaspora.
-          </p>
-        </div>
-
-        <div class="build-qr-actions">
-          <a class="cta-btn primary" href="./qr-artisans.html">📲 Voir les QR artisans</a>
-          <a class="cta-btn secondary" href="./listing.html">👁️ Voir les profils</a>
-        </div>
-      </div>
-
-      <div class="qr-proof-grid">
-        <div class="qr-proof-card">
-          <strong>📲 QR prêt à partager</strong>
-          <span>Le QR ouvre la fiche officielle BUILD de l’artisan, pas une simple image perdue.</span>
-        </div>
-        <div class="qr-proof-card">
-          <strong>🧰 Prestance métier</strong>
-          <span>Nom, métier, zone, photos et contact direct donnent une vraie fierté au professionnel.</span>
-        </div>
-        <div class="qr-proof-card">
-          <strong>🤝 Chemin client simple</strong>
-          <span>Le client scanne, regarde, comprend et contacte l’artisan sans détour inutile.</span>
-        </div>
-      </div>
-    </section>
-
-    <section class="build-bridge" id="demande-claire">
-      <div class="build-bridge-head">
-        <div>
-          <div class="kicker">Façade publique BUILD</div>
-          <h2>Décrire le besoin avant de perdre le fil.</h2>
-          <p>
-            Une fuite, une panne, un mur à finir, une clim à poser, un chantier à lancer :
-            DIGIY aide le client à formuler une demande claire, puis à garder le contact direct avec le professionnel, quel que soit le territoire.
-          </p>
-        </div>
-        <div class="bridge-actions">
-          <a class="cta-btn primary" href="./request.html">📄 Décrire mon besoin</a>
-          <a class="cta-btn secondary" href="./listing.html">👁️ Voir les profils</a>
-          <a class="cta-btn secondary" href="./qr-artisans.html">📲 QR artisans</a>
-          <a class="cta-btn secondary" href="https://build.digiylyfe.com/lexique-build.html?v=lexique-build-v2-mobile-20260607">🇸🇳 Wolof BUILD</a>
-          <a class="cta-btn secondary" href="./track.html">🔎 Suivre ma demande</a>
-        </div>
-      </div>
-
-      <div class="bridge-grid">
-        <div class="bridge-card">
-          <strong>🧰 Besoin clair</strong>
-          <span>Le client pose le lieu, l’urgence, le métier recherché et les détails utiles.</span>
-        </div>
-        <div class="bridge-card">
-          <strong>📲 Contact direct</strong>
-          <span>DIGIY ne garde pas le client prisonnier. Le pro garde la relation.</span>
-        </div>
-        <div class="bridge-card">
-          <strong>🧾 Suivi simple</strong>
-          <span>La demande garde une trace lisible pour éviter les messages perdus.</span>
-        </div>
-      </div>
-    </section>
-
-    <section class="split">
-
-      <div class="panel">
-        <div class="panel-head">
-          <div class="panel-kicker public">👁️ CÔTÉ CLIENT</div>
-          <h2>Je cherche un professionnel</h2>
-          <p>
-            Trouve un profil pour la maison, le chantier, le dépannage, l’entretien ou une intervention pratique.
-            Le but est simple : une demande claire, un bon contact, un prochain geste sur le terrain.
-          </p>
-        </div>
-
-        <div class="grid">
-
-
-          <article class="card">
-            <div class="name">👁️ Voir les profils</div>
-            <div class="type">Profils • Zones • Services • Contact direct</div>
-            <div class="badges">
-              <div class="badge badge-verified">✅ Public</div>
-              <div class="badge badge-public">Paiement direct</div>
-              <div class="badge badge-info">Sans détour</div>
-            </div>
-            <div class="desc">
-              Parcours les profils disponibles selon le besoin, la zone et le type de service.
-              Le client arrive chez le professionnel, pas dans une cage.
-            </div>
-            <div class="actions">
-              <a class="btn btn-primary" href="./listing.html">👁️ Ouvrir les profils</a>
-              <a class="btn btn-ghost" href="./request.html">📄 Décrire mon besoin</a>
-            </div>
-          </article>
-
-          <article class="card">
-            <div class="name">☀️ Profil solaire DIGIY</div>
-            <div class="type">Énergie solaire • Conseil • Installation • Contact direct</div>
-            <div class="badges">
-              <div class="badge badge-verified">✅ Fiche publique</div>
-              <div class="badge badge-public">Solaire</div>
-              <div class="badge badge-info">Lien direct</div>
-            </div>
-            <div class="desc">
-              Une porte claire pour découvrir l’offre solaire DIGIY : énergie, installation,
-              accompagnement et contact direct. Le client voit le profil, comprend le service et peut avancer sans détour.
-            </div>
-            <div class="actions">
-              <a class="btn btn-primary" href="https://digiy-solaire.digiylyfe.com/" target="_blank" rel="noopener noreferrer">☀️ Ouvrir la fiche solaire</a>
-              <a class="btn btn-ghost" href="./qr-artisans.html">📲 QR artisans</a>
-              <a class="btn btn-ghost" href="./request.html">📄 Décrire mon besoin</a>
-            </div>
-          </article>
-
-          <article class="card">
-            <div class="name">📄 Décrire mon besoin</div>
-            <div class="type">Demande • Devis • Dépannage • Chantier</div>
-            <div class="badges">
-              <div class="badge badge-public">Public</div>
-              <div class="badge badge-info">Simple</div>
-            </div>
-            <div class="desc">
-              Décris le besoin, le lieu, l’urgence et le prochain échange.
-              DIGIY aide à préparer une demande plus propre pour éviter les messages flous.
-            </div>
-            <div class="actions">
-              <a class="btn btn-primary" href="./request.html">📄 Ouvrir la demande</a>
-              <a class="btn btn-ghost" href="./track.html">🔎 Suivre ma demande</a>
-            </div>
-          </article>
-
-          <article class="card">
-            <div class="name">🔎 Suivre ma demande</div>
-            <div class="type">Référence • État • Lecture simple</div>
-            <div class="badges">
-              <div class="badge badge-public">Suivi public</div>
-              <div class="badge badge-info">Référence utile</div>
-            </div>
-            <div class="desc">
-              Entre ta référence publique pour voir l’état utile de ta demande.
-              L’objectif : reprendre la main sans se perdre.
-            </div>
-            <div class="actions">
-              <a class="btn btn-primary" href="./track.html">🔎 Ouvrir le suivi</a>
-              <a class="btn btn-ghost" href="./success.html">✅ Voir la confirmation</a>
-            </div>
-          </article>
-        </div>
-      </div>
-
-      <div class="panel pro">
-        <div class="panel-head">
-          <div class="panel-kicker pro">🔒 CÔTÉ PROFESSIONNEL</div>
-          <h2>Je propose mes services</h2>
-          <p>
-            Mets ton activité en ligne, présente ce que tu sais faire, puis ouvre ton espace.
-            Une fois ton accès validé, tu peux gérer ta présence, tes demandes et tes notes. BUILD reste terrain, mais peut parler Afrique, France et diaspora.
-          </p>
-        </div>
-
-        <div class="grid">
-          <article class="card">
-            <div class="name">💳 Activer mon entrée</div>
-            <div class="type">Inscription fluide • Présence • Accès métier</div>
-            <div class="badges">
-              <div class="badge badge-public">Abonnement</div>
-              <div class="badge badge-info">Commencer ici</div>
-            </div>
-            <div class="desc">
-              Tu fais les travaux, le dépannage, l’entretien ou les services pratiques ?
-              La fiche d’inscription reste fluide pour activer ta présence BUILD dans l’architecture métiers de la Supa-Apps.
-            </div>
-            <div class="actions">
-              <a class="btn btn-green" href="https://commencer-a-payer.digiylyfe.com/?module=BUILD">💳 Commencer à payer</a>
-              <a class="btn btn-ghost" href="https://tarifs.digiylyfe.com/" target="_blank" rel="noopener noreferrer">📦 Voir les tarifs</a>
-              <a class="btn btn-ghost" href="https://commencer-a-payer.digiylyfe.com/?module=BUILD&besoin=support">💬 Besoin d’aide</a>
-            </div>
-          </article>
-
-          <article class="card">
-            <div class="name">🔑 Entrer dans mon espace</div>
-            <div class="type">Code • Accès • Présence • Demandes reçues</div>
-            <div class="badges">
-              <div class="badge badge-pro">🔒 Accès sécurisé</div>
-            </div>
-            <div class="desc">
-              Ton abonnement est déjà activé ? Ouvre ton espace sécurisé.
-              Si ta session est ouverte, tu circules sans retaper ton code pendant 8 heures. Le pro clique, DIGIY l’aide à formuler.
-            </div>
-            <div class="actions">
-              <a class="btn btn-primary" href="./build-pro/pin.html">🔑 Ouvrir mon espace</a>
-              <a class="btn btn-ghost" href="./build-pro/pin.html">🧭 Raccourci d’accès</a>
-            </div>
-          </article>
-        </div>
-      </div>
-    </section>
-
-    <section class="metiers">
-      <h3>🧰 Profils concernés</h3>
-      <p>
-        Cette porte est faite pour les travailleurs utiles, visibles et sérieux :
-        métiers techniques, dépannage, entretien, chantier, interventions ponctuelles ou services pratiques.
-      </p>
-
-      <div class="metier-list">
-        <span class="metier">Plombier</span>
-        <span class="metier">Électricien</span>
-        <span class="metier">Maçon</span>
-        <span class="metier">Menuisier</span>
-        <span class="metier">Soudeur métal</span>
-        <span class="metier">Soudeur aluminium</span>
-        <span class="metier">Mécanicien</span>
-        <span class="metier">Peintre</span>
-        <span class="metier">Carreleur</span>
-        <span class="metier">Frigoriste</span>
-        <span class="metier">Climatisation</span>
-        <span class="metier">Solaire / Énergie</span>
-        <span class="metier">Entretien</span>
-        <span class="metier">Nettoyage</span>
-        <span class="metier">Manœuvre</span>
-        <span class="metier">Aide chantier</span>
-        <span class="metier">Polyvalent</span>
-      </div>
-    </section>
-
-    <section class="return-house" id="retours-digiy">
-      <h3>Revenir dans la maison DIGIY</h3>
-      <p>
-        Cette page présente les services utiles. Pour revenir à la vitrine, au HUB ou aux tarifs officiels,
-        utilise les portes ci-dessous.
-      </p>
-      <div class="return-actions">
-        <a class="cta-btn secondary" href="https://digiylyfe.com/">🌍 Site DIGIYLYFE</a>
-        <a class="cta-btn primary" href="https://digiy-hub.digiylyfe.com/">🧭 HUB DIGIY</a>
-        <a class="cta-btn secondary" href="https://tarifs.digiylyfe.com/" target="_blank" rel="noopener noreferrer">📦 Tarifs</a>
-        <a class="cta-btn secondary" href="https://digiy-solaire.digiylyfe.com/" target="_blank" rel="noopener noreferrer">☀️ Fiche solaire</a>
-        <a class="cta-btn secondary" href="./request.html">📄 Demande client</a>
-        <a class="cta-btn secondary" href="./qr-artisans.html">📲 QR artisans</a>
-        <a class="cta-btn secondary" href="https://build.digiylyfe.com/lexique-build.html?v=lexique-build-v2-mobile-20260607">🇸🇳 Lexique Wolof BUILD</a>
-        <a class="cta-btn green" href="./build-pro/pin.html">🔒 Espace pro</a>
-      </div>
-    </section>
-
-    <footer>
-      DIGIY BUILD — Afrique · France · Diaspora · travaux, dépannage, entretien, solaire, chantier et services pratiques.<br>
-      Contact direct • QR artisans • Lexique Wolof BUILD • Paiement direct au pro • 0% commission • par DIGIYLYFE
-    </footer>
-  </div>
-
-  <nav class="bottom-nav" aria-label="Navigation rapide Je propose mes services">
-    <div class="bottom-nav-inner">
-      <a href="https://digiylyfe.com/"><span class="ico">🌍</span><span>Site</span></a>
-      <a href="https://digiy-hub.digiylyfe.com/"><span class="ico">🧭</span><span>HUB</span></a>
-      <a class="active" href="./listing.html"><span class="ico">👁️</span><span>Profils</span></a>
-      <a href="./qr-artisans.html"><span class="ico">📲</span><span>QR</span></a>
-      <a href="https://build.digiylyfe.com/lexique-build.html?v=lexique-build-v2-mobile-20260607"><span class="ico">🇸🇳</span><span>Wolof</span></a>
-      <a href="./request.html"><span class="ico">📄</span><span>Besoin</span></a>
-      <a href="./build-pro/pin.html"><span class="ico">🔒</span><span>Pro</span></a>
     </div>
-  </nav>
+  </header>
 
-  <div class="floating-returns" aria-label="Retours DIGIY">
-    <a href="https://digiylyfe.com/" class="floating-home" target="_self" aria-label="Revenir au site DIGIYLYFE" title="Revenir au site DIGIYLYFE">
-      <span class="icon">🌍</span>
-      <span>Site</span>
-    </a>
-    <a href="https://digiy-hub.digiylyfe.com/" class="floating-home hub" target="_self" aria-label="Revenir au HUB DIGIY" title="Revenir au HUB DIGIY">
-      <span class="icon">🧭</span>
-      <span>HUB</span>
-    </a>
-  </div>
+  <main>
+    <section class="hero">
+      <div class="wrap hero-card">
+        <span class="eyebrow" data-i18n="eyebrow">Sénégal · France · Diaspora</span>
+        <h1>DIGIY BUILD</h1>
+        <p class="lead" data-i18n="lead">Trouve le bon artisan. Ouvre sa fiche. Contacte-le directement.</p>
+        <p class="hero-note" data-i18n="hero_note">Le professionnel garde son prix, son contact et sa relation client. Paiement direct au pro · 0 % commission DIGIY.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="./listing.html" data-i18n="view_profiles">👁️ Voir les profils</a>
+          <a class="btn btn-green" href="./request.html" data-i18n="describe_need">📄 Décrire mon besoin</a>
+          <a class="btn btn-soft" href="./inscription-build.html" data-i18n="artisan_signup">🧰 Inscription artisan</a>
+        </div>
+      </div>
+    </section>
 
-  <button id="digiy-audio-btn" type="button" aria-label="Écouter l’intro BUILD">
-    <span class="digiy-audio-ico">&#9654;</span>
-    <span class="digiy-audio-lbl">Écouter l’intro BUILD</span>
-  </button>
+    <section class="doors-section" id="portes-build">
+      <div class="wrap">
+        <div class="section-head">
+          <h2 data-i18n="doors_title">Les portes BUILD</h2>
+          <p data-i18n="doors_text">Le client choisit une porte, puis poursuit directement dans la fiche ou le service concerné.</p>
+        </div>
 
-  <div id="digiy-audio-progress-wrap" aria-hidden="true">
-    <div id="digiy-audio-progress"></div>
-  </div>
+        <div class="doors-grid">
+          <article class="door featured">
+            <div class="door-icon">👁️</div>
+            <h3 data-i18n="profiles_title">Profils artisans</h3>
+            <p data-i18n="profiles_text">Parcours les professionnels publiés selon leur métier, leur zone et leurs services. Chaque contact reste direct.</p>
+            <div class="door-tags"><span class="tag" data-i18n="published_profiles">Profils publiés</span><span class="tag">0 % commission</span></div>
+            <a class="btn btn-primary" href="./listing.html" data-i18n="open_profiles">Ouvrir les profils →</a>
+          </article>
 
+          <article class="door">
+            <div class="door-icon">☀️</div>
+            <h3 data-i18n="solar_title">Fiche solaire DIGIY</h3>
+            <p data-i18n="solar_text">Une porte professionnelle dédiée à l’énergie solaire, au conseil et à l’installation avec contact direct.</p>
+            <div class="door-tags"><span class="tag" data-i18n="real_profile">Fiche réelle</span><span class="tag" data-i18n="direct_contact">Contact direct</span></div>
+            <a class="btn btn-green" href="https://digiy-solaire.digiylyfe.com/" target="_blank" rel="noopener noreferrer" data-i18n="open_solar">Ouvrir la fiche solaire →</a>
+          </article>
 
-  <script>
-    (function(){
-      "use strict";
+          <article class="door">
+            <div class="door-icon">📄</div>
+            <h3 data-i18n="need_title">Décrire mon besoin</h3>
+            <p data-i18n="need_text">Fuite, panne, climatisation ou chantier : prépare une demande claire avant de contacter un professionnel.</p>
+            <div class="door-tags"><span class="tag" data-i18n="simple_request">Demande simple</span><span class="tag" data-i18n="tracking">Suivi disponible</span></div>
+            <a class="btn btn-soft" href="./request.html" data-i18n="open_request">Ouvrir la demande →</a>
+          </article>
+        </div>
+      </div>
+    </section>
 
-      window.__DIGIY_LANG = "fr";
+    <section class="more">
+      <div class="wrap">
+        <details class="info-box">
+          <summary data-i18n="discover_build">☰ Découvrir le fonctionnement de DIGIY BUILD</summary>
+          <div class="info-content">
+            <div class="info-grid">
+              <article class="info-card">
+                <h3 data-i18n="client_side">👤 Côté client</h3>
+                <p data-i18n="client_text">Consulte les profils, décris ton besoin et garde une référence pour suivre ta demande. Le professionnel confirme lui-même ses disponibilités et son prix.</p>
+                <div class="info-actions">
+                  <a class="btn btn-primary" href="./listing.html" data-i18n="view_profiles">👁️ Voir les profils</a>
+                  <a class="btn btn-soft" href="./track.html" data-i18n="track_request">🔎 Suivre ma demande</a>
+                </div>
+              </article>
 
-      const META = {"fr": {"title": "DIGIY BUILD — Artisans et dépannage · Sénégal · ouverture France & Diaspora", "description": "DIGIY BUILD — profils artisans au Sénégal, demande claire et contact direct. France et diaspora : inscriptions et ouverture en cours."}, "en": {"title": "DIGIY BUILD — Artisans, work and repairs · Africa · France · Diaspora", "description": "DIGIY BUILD — find an artisan, describe a need, track a request and keep direct contact with the pro. Work, repairs, maintenance, job sites and useful services in Africa, France and the diaspora."}};
-      const EN_MAP = {
+              <article class="info-card">
+                <h3 data-i18n="pro_side">🧰 Côté professionnel</h3>
+                <p data-i18n="pro_text">L’artisan demande son inscription, prépare sa fiche et accède ensuite à son espace sécurisé une fois son entrée validée.</p>
+                <div class="info-actions">
+                  <a class="btn btn-green" href="./inscription-build.html" data-i18n="artisan_signup">🧰 Inscription artisan</a>
+                  <a class="btn btn-soft" href="./build-pro/pin.html" data-i18n="pro_area">🔒 Espace pro</a>
+                  <a class="btn btn-soft" href="https://tarifs.digiylyfe.com/" target="_blank" rel="noopener noreferrer" data-i18n="pricing">📦 Tarifs</a>
+                </div>
+              </article>
 
-        "⚡ le professionnel électricien": "⚡ le professionnel electrician",
-        "⚡ Voir le professionnel": "⚡ View le professionnel",
-        "Électricien": "le professionnel Electrician",
-        "Électricien • Installation • Rénovation • Dépannage • Mise aux normes": "Electrician • Installation • Renovation • Troubleshooting • Standards compliance",
-        "Installation électrique neuve, rénovation, mise aux normes, tableaux, disjoncteurs,\n              prises, éclairage, recherche de panne et dépannage. Le client ouvre la fiche officielle,\n              consulte la carte et contacte directement le professionnel pour expliquer son besoin.": "New electrical installation, renovation, standards compliance, panels, breakers,\n              sockets, lighting, fault finding and troubleshooting. The client opens the official profile,\n              views the card and contacts le professionnel directly to explain the need.",
-        "WhatsApp direct : ": "Direct WhatsApp: ",
+              <article class="info-card">
+                <h3 data-i18n="tools_title">📲 QR et outils terrain</h3>
+                <p data-i18n="tools_text">La fiche et le QR servent à faire circuler le métier. Le lexique Wolof BUILD aide aussi à expliquer les besoins du terrain.</p>
+                <div class="info-actions">
+                  <a class="btn btn-primary" href="./qr-artisans.html" data-i18n="artisan_qr">📲 QR artisans</a>
+                  <a class="btn btn-soft" href="https://build.digiylyfe.com/lexique-build.html?v=lexique-build-v2-mobile-20260607" data-i18n="wolof">🇸🇳 Wolof BUILD</a>
+                </div>
+              </article>
 
+              <article class="info-card">
+                <h3 data-i18n="contacts_title">💬 Contacts DIGIY BUILD</h3>
+                <p data-i18n="contacts_text">Deux portes d’orientation sont disponibles. Ensuite, la relation reste entre le client et l’artisan.</p>
+                <div class="info-actions">
+                  <a class="btn btn-primary" href="https://wa.me/221771342889?text=Bonjour%20DIGIY%20BUILD%2C%20je%20cherche%20un%20artisan%20ou%20je%20veux%20comprendre%20le%20module%20BUILD." target="_blank" rel="noopener noreferrer">🇸🇳 WhatsApp Sénégal</a>
+                  <a class="btn btn-soft" href="https://wa.me/33638329423?text=Bonjour%20DIGIY%20BUILD%2C%20je%20cherche%20un%20artisan%20ou%20je%20veux%20comprendre%20le%20module%20BUILD%20depuis%20la%20France." target="_blank" rel="noopener noreferrer">🇫🇷 WhatsApp France</a>
+                </div>
+              </article>
+            </div>
 
-        "Travaux • dépannage • entretien • Afrique • France • Diaspora": "Work • repairs • maintenance • Africa • France • Diaspora",
-        "Ici, le client décrit son besoin, découvre des profils utiles et avance sans tourner en rond.\n            Le professionnel garde son contact, son prix, son métier et sa relation client. Le lexique Wolof BUILD reste la preuve terrain ; l’ouverture France et diaspora garde le même principe : contact direct, paiement direct, 0% commission. DIGIY organise la porte, pas la commission.": "Here, the client describes the need, finds useful profiles and moves forward without going in circles.\n            The professional keeps their contact, price, trade and client relationship. The Wolof BUILD lexicon remains the field proof; the France and diaspora opening keeps the same principle: direct contact, direct payment, 0% commission. DIGIY organizes the doorway, not the commission.",
-        "Sénégal • profils terrain visibles · France et diaspora • inscriptions en cours": "Senegal • Dakar • Thiès • Saly • Mbour • Touba • France • Diaspora",
-        "Afrique · France · Diaspora": "Africa · France · Diaspora",
-        "🌍 Territoires": "🌍 Territories",
-        "WhatsApp DIGIY BUILD · Sénégal + France": "WhatsApp DIGIY BUILD · Senegal + France",
-        "🇸🇳 WhatsApp Sénégal / Afrique · +221 77 134 28 89": "🇸🇳 WhatsApp Senegal / Africa · +221 77 134 28 89",
-        "🇫🇷 WhatsApp France · +33 6 38 32 94 23": "🇫🇷 WhatsApp France · +33 6 38 32 94 23",
-        "Deux portes de contact pour l’ouverture internationale. Ensuite, l’artisan garde la relation directe avec son client.": "Two contact doors for the international opening. Then the artisan keeps the direct relationship with the customer.",
-        "DIGIY BUILD · Afrique · France · Diaspora": "DIGIY BUILD · Africa · France · Diaspora",
-        "Sénégal actif, France et diaspora en ouverture.": "One BUILD door for several territories.",
-        "BUILD ne doit pas être lu comme une porte limitée à Saly. Le Sénégal reste la preuve terrain.\n        La France ouvre les artisans structurés. La diaspora devient un pont pour demander, recommander,\n        suivre et contacter des professionnels sans plateforme qui capture la relation.": "BUILD should not be read as a doorway limited to Saly. Senegal remains the field proof.\n        France opens structured artisans. The diaspora becomes a bridge to request, recommend,\n        track and contact professionals without a platform capturing the relationship.",
-        "🇸🇳 Afrique · preuve terrain": "🇸🇳 Africa · field proof",
-        "Plombiers, maçons, électriciens, solaire, climatisation, dépannage, petits chantiers et services de proximité.": "Plumbers, masons, electricians, solar, air conditioning, repairs, small job sites and nearby services.",
-        "🇫🇷 France · ouverture en cours": "🇫🇷 France · structured artisans",
-        "Inscriptions et préparation de fiches pour artisans, indépendants et petites entreprises locales.": "Artisans, interventions, maintenance, work, building services, independents and small local businesses.",
-        "🌍 Diaspora · ouverture en cours": "🌍 Diaspora · work bridge",
-        "La diaspora peut déjà demander, partager et recommander ; les profils dédiés seront publiés au fur et à mesure des validations.": "Families, owners and customers can request a local artisan, track a request and keep direct contact.",
-        "Les artisans BUILD peuvent montrer une présence propre : fiche publique, QR scannable,\n            lien copiable, partage simple et impression possible. Le client voit le métier, la zone,\n            les images et le contact direct sans se perdre, au Sénégal, en France ou dans la diaspora.": "BUILD artisans can show a clean presence: public profile, scannable QR,\n            copyable link, simple sharing and printable material. The client sees the trade, area,\n            images and direct contact without getting lost, in Senegal, France or the diaspora.",
-        "Une fuite, une panne, un mur à finir, une clim à poser, un chantier à lancer :\n            DIGIY aide le client à formuler une demande claire, puis à garder le contact direct avec le professionnel, quel que soit le territoire.": "A leak, a breakdown, a wall to finish, an AC unit to install, a job site to launch:\n            DIGIY helps the client make a clear request, then keep direct contact with the professional, whatever the territory.",
-        "Mets ton activité en ligne, présente ce que tu sais faire, puis ouvre ton espace.\n            Une fois ton accès validé, tu peux gérer ta présence, tes demandes et tes notes. BUILD reste terrain, mais peut parler Afrique, France et diaspora.": "Put your activity online, present what you can do, then open your space.\n            Once your access is validated, you can manage your presence, requests and notes. BUILD stays field-based, but can speak Africa, France and diaspora.",
-        "DIGIY BUILD — Afrique · France · Diaspora · travaux, dépannage, entretien, solaire, chantier et services pratiques.": "DIGIY BUILD — Africa · France · Diaspora · work, repairs, maintenance, solar, job sites and practical services.",
+            <article class="info-card">
+              <h3 data-i18n="trades_title">🧰 Métiers concernés</h3>
+              <p data-i18n="trades_text">Profils techniques, dépannage, entretien, chantier et services pratiques.</p>
+              <div class="trade-list">
+                <span class="trade">Plombier</span><span class="trade">Électricien</span><span class="trade">Maçon</span><span class="trade">Menuisier</span><span class="trade">Soudeur</span><span class="trade">Peintre</span><span class="trade">Carreleur</span><span class="trade">Frigoriste</span><span class="trade">Climatisation</span><span class="trade">Solaire</span><span class="trade">Entretien</span><span class="trade">Nettoyage</span>
+              </div>
+            </article>
+          </div>
+        </details>
+      </div>
+    </section>
+  </main>
 
-        "Travaux • dépannage • entretien • Afrique • France • Diaspora": "Work • repairs • maintenance • job sites • useful services",
-        "DIGIY BUILD": "DIGIY BUILD",
-        "Travaux, dépannage, entretien : le client explique, le pro répond direct.": "Work, repairs and maintenance: the client explains, the pro replies directly.",
-        "Ici, le client décrit son besoin, découvre des profils utiles et avance sans tourner en rond.\n            Le professionnel garde son contact, son prix, son métier et sa relation client. Le lexique Wolof BUILD aide à expliquer une fuite, une panne, un devis, une urgence ou une intervention terrain. DIGIY organise la porte, pas la commission.": "Here, the client describes the need, finds useful profiles and moves forward without going in circles.\n            The professional keeps their contact, price, trade and client relationship. The Wolof BUILD lexicon helps explain a leak, a breakdown, a quote, an emergency or a field intervention. DIGIY organizes the doorway, not the commission.",
-        "Sénégal • profils terrain visibles · France et diaspora • inscriptions en cours": "Senegal • Dakar • Thiès • Saly • Mbour • Touba",
-        "Contact direct": "Direct contact",
-        "Paiement direct au pro": "Direct payment to the pro",
-        "0% commission": "0% commission",
-        "Demande claire": "Clear request",
-        "Services utiles": "Useful services",
-        "🇸🇳 Lexique Wolof BUILD": "🇸🇳 Wolof BUILD lexicon",
-        "🌍 Site DIGIYLYFE": "🌍 DIGIYLYFE site",
-        "🧭 HUB DIGIY": "🧭 DIGIY HUB",
-        "🧰 Inscription artisan": "🧰 Artisan registration",
-        "👁️ Voir les profils": "👁️ View profiles",
-        "📲 QR artisans": "📲 Artisan QR",
-        "☀️ Fiche solaire": "☀️ Solar profile",
-        "📄 Décrire mon besoin": "📄 Describe my need",
-        "🔎 Suivre ma demande": "🔎 Track my request",
-        "🔒 Espace pro": "🔒 Pro area",
-        "DIGIY BUILD · QR artisans": "DIGIY BUILD · Artisan QR",
-        "Une fiche. Un QR. Un métier qui circule.": "One profile. One QR. One trade that circulates.",
-        "Les artisans BUILD peuvent montrer une présence propre : fiche publique, QR scannable,\n            lien copiable, partage simple et impression possible. Le client voit le métier, la zone,\n            les images et le contact direct sans se perdre.": "BUILD artisans can show a clean presence: public profile, scannable QR,\n            copyable link, simple sharing and printable material. The client sees the trade, area,\n            images and direct contact without getting lost.",
-        "📲 Voir les QR artisans": "📲 View artisan QR codes",
-        "📲 QR prêt à partager": "📲 QR ready to share",
-        "Le QR ouvre la fiche officielle BUILD de l’artisan, pas une simple image perdue.": "The QR opens the artisan’s official BUILD profile, not just a lost image.",
-        "🧰 Prestance métier": "🧰 Trade presence",
-        "Nom, métier, zone, photos et contact direct donnent une vraie fierté au professionnel.": "Name, trade, area, photos and direct contact give the professional real pride.",
-        "🤝 Chemin client simple": "🤝 Simple client path",
-        "Le client scanne, regarde, comprend et contacte l’artisan sans détour inutile.": "The client scans, looks, understands and contacts the artisan without useless detours.",
-        "Façade publique BUILD": "Public BUILD front",
-        "Décrire le besoin avant de perdre le fil.": "Describe the need before losing the thread.",
-        "Une fuite, une panne, un mur à finir, une clim à poser, un chantier à lancer :\n            DIGIY aide le client à formuler une demande claire, puis à garder le contact direct avec le professionnel.": "A leak, a breakdown, a wall to finish, an AC unit to install, a job site to launch:\n            DIGIY helps the client make a clear request, then keep direct contact with the professional.",
-        "📄 Décrire mon besoin": "📄 Describe my need",
-        "👁️ Voir les profils": "👁️ View profiles",
-        "📲 QR artisans": "📲 Artisan QR",
-        "🇸🇳 Wolof BUILD": "🇸🇳 Wolof BUILD",
-        "🔎 Suivre ma demande": "🔎 Track my request",
-        "🧰 Besoin clair": "🧰 Clear need",
-        "Le client pose le lieu, l’urgence, le métier recherché et les détails utiles.": "The client gives the location, urgency, required trade and useful details.",
-        "📲 Contact direct": "📲 Direct contact",
-        "DIGIY ne garde pas le client prisonnier. Le pro garde la relation.": "DIGIY does not keep the client trapped. The pro keeps the relationship.",
-        "🧾 Suivi simple": "🧾 Simple tracking",
-        "La demande garde une trace lisible pour éviter les messages perdus.": "The request keeps a readable trail to avoid lost messages.",
-        "👁️ CÔTÉ CLIENT": "👁️ CLIENT SIDE",
-        "Je cherche un professionnel": "I am looking for a professional",
-        "Trouve un profil pour la maison, le chantier, le dépannage, l’entretien ou une intervention pratique.\n            Le but est simple : une demande claire, un bon contact, un prochain geste sur le terrain.": "Find a profile for a home, job site, repair, maintenance or practical intervention.\n            The goal is simple: a clear request, the right contact and a next field action.",
-        "🧰 Plombier": "🧰 le professionnel Plumber Pro",
-        "Plomberie • Fuite • Dépannage • Installation sanitaire": "Plumbing • Leak • Repairs • Sanitary installation",
-        "✅ Fiche officielle": "✅ Official profile",
-        "📌 Profil publié": "📌 Published profile",
-        "🕒 Disponibilité à confirmer": "🕒 Availability to confirm",
-        "📲 QR DIGIY": "📲 DIGIY QR",
-        "WhatsApp direct : ": "Direct WhatsApp: ",
-        "Jeune plombier sérieux repéré sur le terrain après un dépannage de fuite.\n              Robinet, WC, lavabo, douche, chasse d’eau, tuyauterie, installation sanitaire\n              et petits travaux de plomberie. Disponibilité et délai à confirmer directement avec le professionnel.": "Serious young plumber identified in the field after a leak repair.\n              Tap, toilet, sink, shower, flush, pipes, sanitary installation\n              and small plumbing jobs. Availability and timing must be confirmed directly with le professionnel.",
-        "👁️ Ouvrir sa fiche": "👁️ Open profile",
-        "💬 WhatsApp direct": "💬 Direct WhatsApp",
-        "👁️ Voir les profils": "👁️ View profiles",
-        "Profils • Zones • Services • Contact direct": "Profiles • Areas • Services • Direct contact",
-        "✅ Public": "✅ Public",
-        "Paiement direct": "Direct payment",
-        "Sans détour": "No detour",
-        "Parcours les profils disponibles selon le besoin, la zone et le type de service.\n              Le client arrive chez le professionnel, pas dans une cage.": "Browse available profiles by need, area and type of service.\n              The client reaches the professional, not a cage.",
-        "👁️ Ouvrir les profils": "👁️ Open profiles",
-        "☀️ Profil solaire DIGIY": "☀️ DIGIY solar profile",
-        "Énergie solaire • Conseil • Installation • Contact direct": "Solar energy • Advice • Installation • Direct contact",
-        "✅ Fiche publique": "✅ Public profile",
-        "Solaire": "Solar",
-        "Lien direct": "Direct link",
-        "Une porte claire pour découvrir l’offre solaire DIGIY : énergie, installation,\n              accompagnement et contact direct. Le client voit le profil, comprend le service et peut avancer sans détour.": "A clear door to discover the DIGIY solar offer: energy, installation,\n              support and direct contact. The client sees the profile, understands the service and can move forward directly.",
-        "☀️ Ouvrir la fiche solaire": "☀️ Open solar profile",
-        "📄 Décrire mon besoin": "📄 Describe my need",
-        "Demande • Devis • Dépannage • Chantier": "Request • Quote • Repair • Job site",
-        "Public": "Public",
-        "Simple": "Simple",
-        "Décris le besoin, le lieu, l’urgence et le prochain échange.\n              DIGIY aide à préparer une demande plus propre pour éviter les messages flous.": "Describe the need, place, urgency and next exchange.\n              DIGIY helps prepare a cleaner request to avoid unclear messages.",
-        "📄 Ouvrir la demande": "📄 Open request",
-        "🔎 Suivre ma demande": "🔎 Track my request",
-        "Référence • État • Lecture simple": "Reference • Status • Simple view",
-        "Suivi public": "Public tracking",
-        "Référence utile": "Useful reference",
-        "Entre ta référence publique pour voir l’état utile de ta demande.\n              L’objectif : reprendre la main sans se perdre.": "Enter your public reference to see the useful status of your request.\n              The goal: regain control without getting lost.",
-        "🔎 Ouvrir le suivi": "🔎 Open tracking",
-        "✅ Voir la confirmation": "✅ View confirmation",
-        "🔒 CÔTÉ PROFESSIONNEL": "🔒 PROFESSIONAL SIDE",
-        "Je propose mes services": "I offer my services",
-        "Mets ton activité en ligne, présente ce que tu sais faire, puis ouvre ton espace.\n            Une fois ton accès validé, tu peux gérer ta présence, tes demandes et tes notes. Le pro clique, DIGIY l’aide à formuler.": "Put your activity online, present what you can do, then open your space.\n            Once your access is validated, you can manage your presence, requests and notes. The pro clicks, DIGIY helps with wording.",
-        "💳 Activer mon entrée": "💳 Activate my entry",
-        "Inscription fluide • Présence • Accès métier": "Smooth registration • Presence • Trade access",
-        "Abonnement": "Subscription",
-        "Commencer ici": "Start here",
-        "Tu fais les travaux, le dépannage, l’entretien ou les services pratiques ?\n              La fiche d’inscription reste fluide pour activer ta présence BUILD dans l’architecture métiers de la Supa-Apps.": "Do you work in repairs, maintenance or practical services?\n              The registration form stays smooth to activate your BUILD presence in the Supa-Apps trade architecture.",
-        "💳 Commencer à payer": "💳 Start paying",
-        "📦 Voir les tarifs": "📦 View pricing",
-        "💬 Besoin d’aide": "💬 Need help",
-        "🔑 Entrer dans mon espace": "🔑 Enter my space",
-        "Code • Accès • Présence • Demandes reçues": "Code • Access • Presence • Received requests",
-        "🔒 Accès sécurisé": "🔒 Secure access",
-        "Ton abonnement est déjà activé ? Ouvre ton espace sécurisé.\n              Si ta session est ouverte, tu circules sans retaper ton code pendant 8 heures. Le pro clique, DIGIY l’aide à formuler.": "Is your subscription already active? Open your secure space.\n              If your session is open, you can move around without re-entering your code for 8 hours. The pro clicks, DIGIY helps with wording.",
-        "🔑 Ouvrir mon espace": "🔑 Open my space",
-        "🧭 Raccourci d’accès": "🧭 Access shortcut",
-        "🧰 Profils concernés": "🧰 Relevant profiles",
-        "Cette porte est faite pour les travailleurs utiles, visibles et sérieux :\n        métiers techniques, dépannage, entretien, chantier, interventions ponctuelles ou services pratiques.": "This door is for useful, visible and serious workers:\n        technical trades, repairs, maintenance, job sites, one-off interventions or practical services.",
-        "Plombier": "Plumber",
-        "Plombier": "le professionnel Plumber Pro",
-        "Électricien": "Electrician",
-        "Maçon": "Mason",
-        "Menuisier": "Carpenter",
-        "Soudeur métal": "Metal welder",
-        "Soudeur aluminium": "Aluminium welder",
-        "Mécanicien": "Mechanic",
-        "Peintre": "Painter",
-        "Carreleur": "Tiler",
-        "Frigoriste": "Refrigeration technician",
-        "Climatisation": "Air conditioning",
-        "Solaire / Énergie": "Solar / Energy",
-        "Entretien": "Maintenance",
-        "Nettoyage": "Cleaning",
-        "Manœuvre": "Labourer",
-        "Aide chantier": "Site helper",
-        "Polyvalent": "Multi-skilled",
-        "Revenir dans la maison DIGIY": "Return to the DIGIY home",
-        "Cette page présente les services utiles. Pour revenir à la vitrine, au HUB ou aux tarifs officiels,\n        utilise les portes ci-dessous.": "This page presents useful services. To return to the showcase, HUB or official pricing,\n        use the doors below.",
-        "🌍 Site DIGIYLYFE": "🌍 DIGIYLYFE site",
-        "🧭 HUB DIGIY": "🧭 DIGIY HUB",
-        "📦 Tarifs": "📦 Pricing",
-        "☀️ Fiche solaire": "☀️ Solar profile",
-        "📄 Demande client": "📄 Client request",
-        "🔒 Espace pro": "🔒 Pro area",
-        "DIGIY BUILD — travaux, dépannage, entretien, solaire, chantier et services pratiques.": "DIGIY BUILD — work, repairs, maintenance, solar, job sites and practical services.",
-        "Contact direct • QR artisans • Lexique Wolof BUILD • Paiement direct au pro • 0% commission • par DIGIYLYFE": "Direct contact • Artisan QR • Wolof BUILD lexicon • Direct payment to the pro • 0% commission • by DIGIYLYFE",
-        "Site": "Site",
-        "HUB": "HUB",
-        "Profils": "Profiles",
-        "QR": "QR",
-        "Wolof": "Wolof",
-        "Besoin": "Need",
-        "Pro": "Pro"
-      };
-
-      const FR_MAP = {};
-      Object.keys(EN_MAP).forEach(function(fr){
-        FR_MAP[EN_MAP[fr]] = fr;
-      });
-
-      function normalizeText(value){
-        return String(value || "").replace(/\s+/g," ").trim();
-      }
-
-      function replaceTextNodes(root, map){
-        const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
-        const nodes = [];
-        while(walker.nextNode()) nodes.push(walker.currentNode);
-
-        nodes.forEach(function(node){
-          const raw = node.nodeValue;
-          const key = normalizeText(raw);
-          if(!key || !map[key]) return;
-          const before = raw.match(/^\s*/)?.[0] || "";
-          const after = raw.match(/\s*$/)?.[0] || "";
-          node.nodeValue = before + map[key] + after;
-        });
-      }
-
-      function applyLang(lang){
-        window.__DIGIY_LANG = lang === "en" ? "en" : "fr";
-        document.documentElement.lang = window.__DIGIY_LANG;
-
-        const pack = META[window.__DIGIY_LANG];
-        if(pack){
-          document.title = pack.title;
-          const desc = document.querySelector('meta[name="description"]');
-          if(desc) desc.setAttribute("content", pack.description);
-        }
-
-        if(window.__DIGIY_LANG === "en") replaceTextNodes(document.body, EN_MAP);
-        else replaceTextNodes(document.body, FR_MAP);
-
-        document.querySelectorAll("[data-href-fr][data-href-en]").forEach(function(link){
-          const href = window.__DIGIY_LANG === "en" ? link.getAttribute("data-href-en") : link.getAttribute("data-href-fr");
-          if(href) link.setAttribute("href", href);
-        });
-
-        const fr = document.getElementById("langFr");
-        const en = document.getElementById("langEn");
-        if(fr) fr.classList.toggle("active", window.__DIGIY_LANG === "fr");
-        if(en) en.classList.toggle("active", window.__DIGIY_LANG === "en");
-
-        window.dispatchEvent(new CustomEvent("digiy:lang", {detail:{lang:window.__DIGIY_LANG}}));
-      }
-
-      document.getElementById("langFr")?.addEventListener("click", function(){applyLang("fr")});
-      document.getElementById("langEn")?.addEventListener("click", function(){applyLang("en")});
-      applyLang("fr");
-    })();
-  </script>
+  <footer class="wrap">
+    DIGIY BUILD · contact direct · paiement direct au professionnel · 0 % commission · par DIGIYLYFE
+  </footer>
 
   <script>
-    (function(){
-      "use strict";
-
-      const btn = document.getElementById("digiy-audio-btn");
-      const progressWrap = document.getElementById("digiy-audio-progress-wrap");
-      const progressBar = document.getElementById("digiy-audio-progress");
-
-      if (!btn || !progressWrap || !progressBar) return;
-      if (!("speechSynthesis" in window) || typeof SpeechSynthesisUtterance === "undefined") {
-        btn.style.display = "none";
-        return;
+  (function(){
+    "use strict";
+    const I18N={
+      fr:{
+        brand_sub:"Artisans · dépannage · travaux",eyebrow:"Sénégal · France · Diaspora",
+        lead:"Trouve le bon artisan. Ouvre sa fiche. Contacte-le directement.",
+        hero_note:"Le professionnel garde son prix, son contact et sa relation client. Paiement direct au pro · 0 % commission DIGIY.",
+        view_profiles:"👁️ Voir les profils",describe_need:"📄 Décrire mon besoin",artisan_signup:"🧰 Inscription artisan",
+        doors_title:"Les portes BUILD",doors_text:"Le client choisit une porte, puis poursuit directement dans la fiche ou le service concerné.",
+        profiles_title:"Profils artisans",profiles_text:"Parcours les professionnels publiés selon leur métier, leur zone et leurs services. Chaque contact reste direct.",published_profiles:"Profils publiés",open_profiles:"Ouvrir les profils →",
+        solar_title:"Fiche solaire DIGIY",solar_text:"Une porte professionnelle dédiée à l’énergie solaire, au conseil et à l’installation avec contact direct.",real_profile:"Fiche réelle",direct_contact:"Contact direct",open_solar:"Ouvrir la fiche solaire →",
+        need_title:"Décrire mon besoin",need_text:"Fuite, panne, climatisation ou chantier : prépare une demande claire avant de contacter un professionnel.",simple_request:"Demande simple",tracking:"Suivi disponible",open_request:"Ouvrir la demande →",
+        discover_build:"☰ Découvrir le fonctionnement de DIGIY BUILD",client_side:"👤 Côté client",client_text:"Consulte les profils, décris ton besoin et garde une référence pour suivre ta demande. Le professionnel confirme lui-même ses disponibilités et son prix.",track_request:"🔎 Suivre ma demande",
+        pro_side:"🧰 Côté professionnel",pro_text:"L’artisan demande son inscription, prépare sa fiche et accède ensuite à son espace sécurisé une fois son entrée validée.",pro_area:"🔒 Espace pro",pricing:"📦 Tarifs",
+        tools_title:"📲 QR et outils terrain",tools_text:"La fiche et le QR servent à faire circuler le métier. Le lexique Wolof BUILD aide aussi à expliquer les besoins du terrain.",artisan_qr:"📲 QR artisans",wolof:"🇸🇳 Wolof BUILD",
+        contacts_title:"💬 Contacts DIGIY BUILD",contacts_text:"Deux portes d’orientation sont disponibles. Ensuite, la relation reste entre le client et l’artisan.",
+        trades_title:"🧰 Métiers concernés",trades_text:"Profils techniques, dépannage, entretien, chantier et services pratiques."
+      },
+      en:{
+        brand_sub:"Artisans · repairs · work",eyebrow:"Senegal · France · Diaspora",
+        lead:"Find the right artisan. Open the profile. Contact the pro directly.",
+        hero_note:"The professional keeps the price, contact and client relationship. Direct payment to the pro · 0% DIGIY commission.",
+        view_profiles:"👁️ View profiles",describe_need:"📄 Describe my need",artisan_signup:"🧰 Artisan registration",
+        doors_title:"BUILD doors",doors_text:"The client chooses a door, then continues directly to the relevant profile or service.",
+        profiles_title:"Artisan profiles",profiles_text:"Browse published professionals by trade, area and services. Every contact stays direct.",published_profiles:"Published profiles",open_profiles:"Open profiles →",
+        solar_title:"DIGIY solar profile",solar_text:"A professional door dedicated to solar energy, advice and installation with direct contact.",real_profile:"Real profile",direct_contact:"Direct contact",open_solar:"Open solar profile →",
+        need_title:"Describe my need",need_text:"Leak, breakdown, air conditioning or job site: prepare a clear request before contacting a professional.",simple_request:"Simple request",tracking:"Tracking available",open_request:"Open request →",
+        discover_build:"☰ Discover how DIGIY BUILD works",client_side:"👤 Client side",client_text:"Browse profiles, describe your need and keep a reference to track the request. The professional confirms availability and price directly.",track_request:"🔎 Track my request",
+        pro_side:"🧰 Professional side",pro_text:"The artisan requests registration, prepares a profile and then accesses the secure area once entry is validated.",pro_area:"🔒 Pro area",pricing:"📦 Pricing",
+        tools_title:"📲 QR and field tools",tools_text:"The profile and QR help the trade circulate. The Wolof BUILD lexicon also helps explain field needs.",artisan_qr:"📲 Artisan QR",wolof:"🇸🇳 Wolof BUILD",
+        contacts_title:"💬 DIGIY BUILD contacts",contacts_text:"Two orientation doors are available. Then the relationship stays between the client and artisan.",
+        trades_title:"🧰 Relevant trades",trades_text:"Technical profiles, repairs, maintenance, job sites and practical services."
       }
-
-      const synth = window.speechSynthesis;
-      const originalLabel = "Écouter l’intro BUILD";
-      const originalAria = "Écouter l’intro BUILD";
-
-      let playing = false;
-      let utterance = null;
-      let timer = null;
-      let launchId = 0;
-
-      function digiyAudioPronunciation(value){
-        return String(value || "")
-          .replace(/DIGIYLYFE/gi,"diji laïfe")
-          .replace(/DIGIY/gi,"diji i")
-          .replace(/BUILD/gi,"artisans tout corps de métiers");
-      }
-
-      function getAudioConfig(){
-        const isEnglish = window.__DIGIY_LANG === "en";
-        return isEnglish ? {
-          lang:"en-US",
-          rate:0.96,
-          pitch:1.0,
-          volume:1,
-          text:"DIGIY BUILD connects clients with useful tradespeople for work, repairs, maintenance, job sites and practical services. The client describes the need, finds a clear profile and contacts the professional directly. DIGIY organizes the doorway. The professional keeps the relationship, the price and the business value."
-        } : {
-          lang:"fr-FR",
-          rate:0.90,
-          pitch:1.0,
-          volume:1,
-          text:"DIGIY BUILD rassemble les métiers utiles du terrain : travaux, dépannage, entretien, chantier, solaire et services pratiques. Le client décrit son besoin, trouve un profil clair et contacte directement le professionnel. DIGIY organise la porte. Le professionnel garde sa relation client, son prix et la valeur de son travail."
-        };
-      }
-
-      function getPreferredVoice(lang){
-        const voices = synth.getVoices();
-        const prefix = String(lang || "fr").slice(0,2).toLowerCase();
-        return voices.find(v => String(v.lang || "").toLowerCase().startsWith(prefix) && /female|audrey|amelie|thomas|hortense|marie|samantha|zira|google|microsoft/i.test(v.name))
-            || voices.find(v => String(v.lang || "").toLowerCase().startsWith(prefix))
-            || voices[0]
-            || null;
-      }
-
-      function setIdle(){
-        playing = false;
-        btn.disabled = false;
-        btn.setAttribute("aria-label", originalAria);
-        btn.querySelector(".digiy-audio-ico").innerHTML = "&#9654;";
-        btn.querySelector(".digiy-audio-lbl").textContent = originalLabel;
-        progressWrap.style.opacity = "0";
-        progressBar.style.width = "0%";
-      }
-
-      function setPlaying(){
-        playing = true;
-        btn.disabled = false;
-        btn.setAttribute("aria-label", "Arrêter l’intro BUILD");
-        btn.querySelector(".digiy-audio-ico").innerHTML = "&#9632;";
-        btn.querySelector(".digiy-audio-lbl").textContent = "Arrêter";
-        progressWrap.style.opacity = "1";
-      }
-
-      function clearTimer(){
-        if (timer) clearInterval(timer);
-        timer = null;
-      }
-
-      function stop(){
-        launchId += 1;
-        clearTimer();
-        try { synth.cancel(); } catch(e){}
-        utterance = null;
-        setIdle();
-      }
-
-      function startProgress(text, id){
-        clearTimer();
-        const duration = Math.max(5000, text.length * 78);
-        const start = Date.now();
-        timer = setInterval(() => {
-          if (id !== launchId) {
-            clearTimer();
-            return;
-          }
-          const pct = Math.min(96, ((Date.now() - start) / duration) * 100);
-          progressBar.style.width = pct + "%";
-        }, 180);
-      }
-
-      function launch(){
-        const currentId = ++launchId;
-        clearTimer();
-        try { synth.cancel(); } catch(e){}
-
-        const cfg = getAudioConfig();
-        const speechText = digiyAudioPronunciation(cfg.text);
-
-        utterance = new SpeechSynthesisUtterance(speechText);
-        utterance.lang = cfg.lang;
-        utterance.rate = cfg.rate;
-        utterance.pitch = cfg.pitch;
-        utterance.volume = cfg.volume;
-
-        const voice = getPreferredVoice(cfg.lang);
-        if (voice) utterance.voice = voice;
-
-        utterance.onstart = () => {
-          if (currentId !== launchId) return;
-          setPlaying();
-          startProgress(speechText, currentId);
-        };
-
-        utterance.onend = () => {
-          if (currentId !== launchId) return;
-          clearInterval(timer);
-          timer = null;
-          progressBar.style.width = "100%";
-          setTimeout(() => {
-            if (currentId === launchId) setIdle();
-          }, 250);
-        };
-
-        utterance.onerror = () => {
-          if (currentId !== launchId) return;
-          stop();
-        };
-
-        synth.speak(utterance);
-      }
-
-      function play(){
-        if (playing) return;
-
-        if (synth.speaking || synth.pending) {
-          try { synth.cancel(); } catch(e){}
-        }
-
-        const voices = synth.getVoices();
-        if (voices && voices.length) {
-          launch();
-          return;
-        }
-
-        let launched = false;
-
-        function handleVoicesChanged(){
-          if (launched) return;
-          launched = true;
-          synth.removeEventListener("voiceschanged", handleVoicesChanged);
-          launch();
-        }
-
-        synth.addEventListener("voiceschanged", handleVoicesChanged);
-
-        setTimeout(() => {
-          if (launched) return;
-          launched = true;
-          synth.removeEventListener("voiceschanged", handleVoicesChanged);
-          launch();
-        }, 700);
-      }
-
-      btn.addEventListener("click", () => {
-        if (playing) stop();
-        else play();
+    };
+    function applyLang(lang){
+      lang=lang==="en"?"en":"fr";
+      document.documentElement.lang=lang;
+      document.querySelectorAll("[data-i18n]").forEach(function(el){
+        const value=I18N[lang][el.dataset.i18n];
+        if(value!=null) el.textContent=value;
       });
-
-      window.addEventListener("digiy:lang", stop);
-      window.addEventListener("beforeunload", stop);
-
-      document.addEventListener("visibilitychange", () => {
-        if (document.hidden && playing) stop();
-      });
-
-      setIdle();
-    })();
+      document.getElementById("langFr").classList.toggle("active",lang==="fr");
+      document.getElementById("langEn").classList.toggle("active",lang==="en");
+      document.title=lang==="fr"?"DIGIY BUILD — Artisans et dépannage · contact direct":"DIGIY BUILD — Artisans and repairs · direct contact";
+      const u=new URL(location.href);
+      if(lang==="en")u.searchParams.set("lang","en");else u.searchParams.delete("lang");
+      history.replaceState({},"",u.pathname+u.search+u.hash);
+    }
+    document.getElementById("langFr").addEventListener("click",function(){applyLang("fr")});
+    document.getElementById("langEn").addEventListener("click",function(){applyLang("en")});
+    applyLang(new URLSearchParams(location.search).get("lang")==="en"?"en":"fr");
+  })();
   </script>
-  <!-- DIGIY BUILD — AUDIO PRONONCIATION DOCTRINE OK : DIGIYLYFE=diji laïfe / DIGIY=diji i / BUILD=artisans tout corps de métiers — 20260605 -->
-<script>
-    (function(){
-      "use strict";
-      const btn = document.getElementById("artisanShareBtn");
-      if(!btn) return;
-
-      const url = "https://profil-artisan.digiylyfe.com/";
-      const title = "Entrepreneur maçon — DIGIY BUILD";
-      const message = "Entrepreneur maçon · villas · piscines · rénovation · Saly, Mbour et Thiès · contact direct.";
-
-      btn.addEventListener("click", async function(){
-        try{
-          if(navigator.share){
-            await navigator.share({title:title, text:message, url:url});
-            return;
-          }
-        }catch(_){}
-
-        try{
-          await navigator.clipboard.writeText(title + "\n" + message + "\n" + url);
-          btn.textContent = "✅ Lien copié";
-          setTimeout(function(){ btn.textContent = "📤 Partager la fiche"; }, 1800);
-        }catch(_){
-          window.open("https://wa.me/?text=" + encodeURIComponent(title + "\n" + message + "\n" + url), "_blank", "noopener");
-        }
-      });
-    })();
-  </script>
-<script>
-    (function(){
-      "use strict";
-      const btn = document.getElementById("artisanShareBtn2");
-      if(!btn) return;
-
-      const url = "https://build.digiylyfe.com/";
-      const title = "Électricien — DIGIY BUILD";
-      const message = "Installation · rénovation · dépannage électrique · Saly et Petite Côte · contact direct.";
-
-      btn.addEventListener("click", async function(){
-        try{
-          if(navigator.share){
-            await navigator.share({title:title, text:message, url:url});
-            return;
-          }
-        }catch(_){}
-
-        try{
-          await navigator.clipboard.writeText(title + "\n" + message + "\n" + url);
-          btn.textContent = "✅ Lien copié";
-          setTimeout(function(){ btn.textContent = "📤 Partager la fiche"; }, 1800);
-        }catch(_){
-          window.open("https://wa.me/?text=" + encodeURIComponent(title + "\n" + message + "\n" + url), "_blank", "noopener");
-        }
-      });
-    })();
-  </script>
-<script src="https://pro-action-digiy.digiylyfe.com/assets/js/digiy-retour-voix.js?v=retour-voix-20260606-v3" defer></script>
 </body>
-  
 </html>
+
 
 
 
