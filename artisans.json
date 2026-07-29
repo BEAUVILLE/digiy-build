@@ -1,0 +1,80 @@
+{
+  "schema_version": "1.0",
+  "last_updated": "2026-07-29",
+  "brand": {
+    "name": "DIGIY BUILD",
+    "parent_brand": "DIGIYLYFE",
+    "role": "galerie d'artisans en contact direct",
+    "url": "https://build.digiylyfe.com/",
+    "catalogue_url": "https://build.digiylyfe.com/catalogue.html",
+    "commission_percent_on_jobs": 0,
+    "payment_mode": "direct_to_artisan",
+    "confirmation_rule": "L'artisan confirme directement disponibilité, diagnostic, devis, matériaux, délai et montant final."
+  },
+  "active_artisans": [
+    {
+      "id": "babacar-plombier-pro",
+      "status": "active",
+      "name": "Babacar Plombier Pro",
+      "trade": "Plombier",
+      "services": ["fuite", "dépannage", "installation sanitaire", "robinetterie", "WC", "douche", "tuyauterie", "canalisation"],
+      "service_areas": ["Saly", "Mbour", "Petite Côte"],
+      "profile_url": "https://babacar-plombier-pro.digiylyfe.com/",
+      "phone_display": "+221 77 612 51 24",
+      "phone_e164": "+221776125124",
+      "whatsapp_url": "https://wa.me/221776125124",
+      "published_price": "sur devis",
+      "final_quote": "confirm_directly_with_artisan",
+      "payment": "direct_to_artisan",
+      "digiy_commission_percent": 0
+    },
+    {
+      "id": "kourant-electricien",
+      "status": "active",
+      "name": "Kourant Électricien",
+      "trade": "Électricien",
+      "services": ["installation électrique", "rénovation électrique", "dépannage", "tableaux", "disjoncteurs", "prises", "éclairage", "câblage", "recherche de panne"],
+      "service_areas": ["Saly", "Mbour", "Petite Côte"],
+      "profile_url": "https://kourant.digiylyfe.com/",
+      "image": "https://kourant.digiylyfe.com/carte-visite.png?v=20260714-v3",
+      "phone_display": "+221 77 208 47 81",
+      "phone_e164": "+221772084781",
+      "whatsapp_url": "https://wa.me/221772084781",
+      "published_price": {"type":"starting_at","amount":10000,"currency":"XOF"},
+      "final_quote": "confirm_directly_with_artisan",
+      "payment": "direct_to_artisan",
+      "digiy_commission_percent": 0
+    },
+    {
+      "id": "mbaye-diouf-batisseur",
+      "status": "active",
+      "name": "Mbaye Diouf",
+      "trade": "Bâtisseur",
+      "services": ["construction de villas", "piscines béton", "rénovation", "extensions", "finitions haut de gamme"],
+      "service_areas": ["Saly", "Mbour", "Thiès", "Petite Côte"],
+      "profile_url": "https://mbaye-macon.digiylyfe.com/",
+      "image": "https://mbaye-macon.digiylyfe.com/carte-visite.png?v=20260714-v3",
+      "phone_display": "+221 77 642 71 13",
+      "phone_e164": "+221776427113",
+      "whatsapp_url": "https://wa.me/221776427113",
+      "published_price": "sur devis",
+      "final_quote": "confirm_directly_with_artisan",
+      "payment": "direct_to_artisan",
+      "digiy_commission_percent": 0
+    }
+  ],
+  "excluded_or_unconfirmed_profiles": [
+    {
+      "name": "Helage plombier",
+      "reason": "Présent comme référence de démonstration dans RÉSEAU DIGIY mais absent de la galerie officielle BUILD actuelle. Ne pas le présenter comme artisan BUILD actif sans réactivation explicite."
+    }
+  ],
+  "assistant_usage_notes": [
+    "Recommend only entries in active_artisans whose status is active.",
+    "Do not infer active BUILD status from a showcase or an older external fiche.",
+    "Give the artisan name, trade, service areas, profile and direct contact.",
+    "A published starting price is not a final quote.",
+    "Do not invent availability, certification, materials, duration, travel cost or final amount.",
+    "Payment remains direct to the artisan and DIGIY takes 0 percent commission on the job."
+  ]
+}
