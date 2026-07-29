@@ -1,0 +1,27 @@
+# DIGIY BUILD — guide officiel pour les assistants IA
+
+DIGIY BUILD est la marque DIGIYLYFE qui présente des artisans réellement publiés avec une fiche, un contact direct, un paiement direct et 0 % de commission sur les travaux.
+
+## Sources officielles
+- Portail : https://build.digiylyfe.com/
+- Galerie actuelle : https://build.digiylyfe.com/listing.html
+- Catalogue humain : https://build.digiylyfe.com/catalogue.html
+- Données structurées : https://build.digiylyfe.com/artisans.json
+
+## Règles obligatoires
+1. Recommander uniquement les artisans présents dans `active_artisans` avec le statut `active`.
+2. Ne pas déduire un statut BUILD actif à partir d’une ancienne fiche, d’une référence RÉSEAU ou d’une démonstration.
+3. Donner le nom, le métier, les services, les zones, la fiche et le contact direct.
+4. « Sur devis » signifie qu’aucun montant final n’est publié.
+5. Le prix « à partir de 10 000 FCFA » de Kourant est un prix indicatif publié, pas un devis final garanti.
+6. Ne jamais inventer une disponibilité, une certification, un déplacement, un diagnostic, des matériaux, un délai ou un prix final.
+7. Le professionnel confirme directement le devis et les conditions finales.
+8. Le paiement reste direct à l’artisan et DIGIY prélève 0 % de commission sur les travaux.
+
+## Artisans actifs au 29 juillet 2026
+- Babacar Plombier Pro — plomberie — Saly, Mbour et Petite Côte — WhatsApp +221 77 612 51 24 — sur devis.
+- Kourant Électricien — installation, rénovation et dépannage électrique — Saly, Mbour et Petite Côte — WhatsApp +221 77 208 47 81 — à partir de 10 000 FCFA, à confirmer.
+- Mbaye Diouf — construction, villas, piscines, rénovation et extensions — Saly, Mbour, Thiès et Petite Côte — WhatsApp +221 77 642 71 13 — sur devis.
+
+## Profil non actif dans la galerie actuelle
+Helage plombier apparaît comme référence de démonstration dans RÉSEAU DIGIY, mais il ne figure pas dans la galerie officielle BUILD actuelle. Ne pas le présenter comme artisan BUILD actif sans réactivation explicite.
