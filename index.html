@@ -1,1 +1,35 @@
-<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate"><meta name="robots" content="index,follow"><title>DIGIYLYFE · Module multilingue</title><style>html,body{margin:0;min-height:100%;background:#06140f;color:#fff;font-family:system-ui,-apple-system,Segoe UI,Arial,sans-serif}body{display:grid;place-items:center;text-align:center}.loading{padding:24px;font-weight:900}</style></head><body><p class="loading">DIGIYLYFE — chargement…</p><script>(function(){var a=/^(fr|en|es|de|it|nl|ar)$/,p=new URLSearchParams(location.search),l=(p.get('lang')||'').toLowerCase();try{if(!a.test(l))l=(localStorage.getItem('digiy-lang')||'').toLowerCase()}catch(e){}if(!a.test(l))l=(navigator.language||'fr').slice(0,2).toLowerCase();if(!a.test(l))l='fr';try{localStorage.setItem('digiy-lang',l)}catch(e){}fetch('./app.html?v=20260730c',{cache:'no-store'}).then(function(r){if(!r.ok)throw new Error('load');return r.text()}).then(function(h){var x='<base href="./"><script>try{localStorage.setItem("digiy-lang","'+l+'") }catch(e){}<\/script><script src="https://digiylyfe.com/assets/i18n/digiy-i18n.js?v=20260730c" defer><\/script><script src="https://digiylyfe.com/assets/i18n/digiy-route.js?v=20260730c" data-lang="'+l+'" defer><\/script>';h=h.replace(/<head([^>]*)>/i,'<head$1>'+x);document.open();document.write(h);document.close()}).catch(function(){location.replace('./app.html?lang='+l)})})();</script></body></html>
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta name="robots" content="index,follow">
+  <title>DIGIY BUILD · Module multilingue</title>
+  <style>html,body{margin:0;min-height:100%;background:#06140f;color:#fff;font-family:system-ui,-apple-system,Segoe UI,Arial,sans-serif}body{display:grid;place-items:center;text-align:center}.loading{padding:24px;font-weight:900}</style>
+</head>
+<body>
+  <p class="loading">DIGIY BUILD — chargement…</p>
+  <script>
+  (function(){
+    var allowed=/^(fr|en|es|de|it|nl|ar)$/;
+    var params=new URLSearchParams(location.search);
+    var lang=(params.get('lang')||'').toLowerCase();
+    try{if(!allowed.test(lang))lang=(localStorage.getItem('digiy-lang')||'').toLowerCase()}catch(e){}
+    if(!allowed.test(lang))lang=(navigator.language||'fr').slice(0,2).toLowerCase();
+    if(!allowed.test(lang))lang='fr';
+    try{localStorage.setItem('digiy-lang',lang)}catch(e){}
+    fetch('./app.html?v=20260730-build7',{cache:'no-store'}).then(function(r){if(!r.ok)throw new Error('load');return r.text()}).then(function(html){
+      var inject='<base href="./">'+
+        '<script>try{localStorage.setItem("digiy-lang","'+lang+'") }catch(e){}<\/script>'+
+        '<script src="https://digiylyfe.com/assets/i18n/digiy-i18n.js?v=20260730-build7" defer><\/script>'+
+        '<script src="./build-i18n-data.js?v=20260730-build7" defer><\/script>'+
+        '<script src="./build-i18n.js?v=20260730-build7" defer><\/script>'+
+        '<script src="https://digiylyfe.com/assets/i18n/digiy-route.js?v=20260730-build7" data-lang="'+lang+'" defer><\/script>';
+      html=html.replace(/<head([^>]*)>/i,'<head$1>'+inject);
+      document.open();document.write(html);document.close();
+    }).catch(function(){location.replace('./app.html?lang='+lang)});
+  })();
+  </script>
+</body>
+</html>
