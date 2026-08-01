@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta name="robots" content="index,follow">
+  <meta name="theme-color" content="#061b14">
+  <title>DIGIY BUILD — inscription multilingue</title>
+  <style>
+    html,body{margin:0;min-height:100%;background:#061b14;color:#fff;font-family:system-ui,-apple-system,Segoe UI,Arial,sans-serif}
+    body{display:grid;place-items:center;text-align:center}.loading{padding:24px;font-weight:900}
+  </style>
+</head>
+<body>
+  <p class="loading">DIGIY BUILD — chargement…</p>
+  <script>
+  (function(){
+    var VERSION='20260731-build-inscription-v1';
+    var supported=/^(fr|en|es|de|it|nl|ar)$/;
+    var params=new URLSearchParams(location.search);
+    var lang=(params.get('lang')||'').toLowerCase();
+
+    try{if(!supported.test(lang))lang=(localStorage.getItem('digiy-lang')||'').toLowerCase()}catch(e){}
+    if(!supported.test(lang))lang=(navigator.language||'fr').slice(0,2).toLowerCase();
+    if(!supported.test(lang))lang='fr';
+    try{localStorage.setItem('digiy-lang',lang)}catch(e){}
+
+    fetch('./inscription-build.html?v='+encodeURIComponent(VERSION),{cache:'no-store'})
+      .then(function(response){if(!response.ok)throw new Error('load');return response.text()})
+      .then(function(html){
+        var boot='<script>try{localStorage.setItem("digiy-lang","'+lang+'") }catch(e){}<\/script>';
+        var scripts=
+          '<script src="./assets/js/build-inscription-en.js?v='+VERSION+'" defer><\/script>'+ 
+          '<script src="./assets/js/build-inscription-es.js?v='+VERSION+'" defer><\/script>'+ 
+          '<script src="./assets/js/build-inscription-de.js?v='+VERSION+'" defer><\/script>'+ 
+          '<script src="./assets/js/build-inscription-it.js?v='+VERSION+'" defer><\/script>'+ 
+          '<script src="./assets/js/build-inscription-nl.js?v='+VERSION+'" defer><\/script>'+ 
+          '<script src="./assets/js/build-inscription-ar.js?v='+VERSION+'" defer><\/script>'+ 
+          '<script src="./assets/js/build-inscription-i18n.js?v='+VERSION+'" defer><\/script>';
+        html=html.replace(/<head([^>]*)>/i,'<head$1><base href="./">'+boot+scripts);
+        document.open();document.write(html);document.close();
+      })
+      .catch(function(){
+        var direct=new URL('./inscription-build.html',location.href);
+        params.forEach(function(value,key){if(key!=='v')direct.searchParams.set(key,value)});
+        direct.searchParams.set('lang',lang);
+        location.replace(direct.toString());
+      });
+  })();
+  </script>
+</body>
+</html>
