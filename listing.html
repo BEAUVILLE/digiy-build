@@ -7,242 +7,175 @@
   <meta name="description" content="Galerie officielle DIGIY BUILD : Babacar Plombier Pro, Kourant Électricien et Mbaye Diouf. Contact direct et 0% commission.">
   <meta name="theme-color" content="#061b14">
   <meta name="robots" content="index,follow">
-  <meta name="digiy-build" content="listing-officiel-babacar-kourant-mbaye-20260714-v2">
+  <meta name="digiy-build" content="listing-multilingue-7-langues-20260801-v1">
+  <link rel="canonical" href="https://build.digiylyfe.com/listing.html">
   <style>
-    :root{
-      --bg:#061b14;
-      --bg2:#0a2b1f;
-      --card:#09251b;
-      --line:rgba(255,255,255,.14);
-      --text:#eafff1;
-      --muted:rgba(234,255,241,.72);
-      --gold:#facc15;
-      --orange:#f97316;
-      --green:#22c55e;
-      --radius:25px;
-      --shadow:0 22px 58px rgba(0,0,0,.42);
-    }
-    *{box-sizing:border-box}
-    html,body{margin:0;min-height:100%}
-    body{
-      color:var(--text);
-      font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;
-      padding:16px 16px calc(94px + env(safe-area-inset-bottom,0px));
-      background:
-        radial-gradient(circle at top left,rgba(250,204,21,.12),transparent 34%),
-        radial-gradient(circle at top right,rgba(249,115,22,.13),transparent 30%),
-        linear-gradient(145deg,var(--bg),var(--bg2));
-    }
-    a{text-decoration:none;color:inherit}
-    .app{width:min(1180px,100%);margin:auto}
-    .hero,.card,.notice{
-      border:1px solid var(--line);
-      background:linear-gradient(145deg,rgba(11,42,31,.97),rgba(6,35,25,.97));
-      border-radius:var(--radius);
-      box-shadow:var(--shadow);
-    }
-    .hero{padding:22px;margin-bottom:18px;position:relative;overflow:hidden}
-    .hero::before{
-      content:"";position:absolute;inset:0 0 auto;height:4px;
-      background:linear-gradient(90deg,var(--orange),var(--gold),var(--green));
-    }
+    :root{--bg:#061b14;--bg2:#0a2b1f;--card:#09251b;--line:rgba(255,255,255,.14);--text:#eafff1;--muted:rgba(234,255,241,.72);--gold:#facc15;--orange:#f97316;--green:#22c55e;--radius:25px;--shadow:0 22px 58px rgba(0,0,0,.42)}
+    *{box-sizing:border-box}html,body{margin:0;min-height:100%}
+    body{color:var(--text);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;padding:16px 16px calc(94px + env(safe-area-inset-bottom,0px));background:radial-gradient(circle at top left,rgba(250,204,21,.12),transparent 34%),radial-gradient(circle at top right,rgba(249,115,22,.13),transparent 30%),linear-gradient(145deg,var(--bg),var(--bg2))}
+    a{text-decoration:none;color:inherit}.app{width:min(1180px,100%);margin:auto}
+    .hero,.card,.notice{border:1px solid var(--line);background:linear-gradient(145deg,rgba(11,42,31,.97),rgba(6,35,25,.97));border-radius:var(--radius);box-shadow:var(--shadow)}
+    .hero{padding:22px;margin-bottom:18px;position:relative;overflow:hidden}.hero::before{content:"";position:absolute;inset:0 0 auto;height:4px;background:linear-gradient(90deg,var(--orange),var(--gold),var(--green))}
     .kicker{font-size:11px;font-weight:1000;letter-spacing:.15em;text-transform:uppercase;color:var(--muted)}
-    h1{font-size:clamp(34px,7vw,58px);line-height:1;margin:8px 0 12px}
-    .lead{font-size:clamp(16px,3vw,21px);line-height:1.55;color:#fff3b2;font-weight:900;max-width:900px}
-    .actions,.chips{display:flex;gap:9px;flex-wrap:wrap}
-    .actions{margin-top:17px}
-    .btn{
-      min-height:48px;padding:12px 16px;border-radius:14px;
-      display:inline-flex;align-items:center;justify-content:center;
-      font-weight:950;border:1px solid var(--line)
-    }
-    .btn.primary{background:linear-gradient(135deg,var(--orange),var(--gold));color:#111;border:0}
-    .btn.green{background:linear-gradient(135deg,var(--green),var(--gold));color:#062015;border:0}
-    .btn.secondary{background:rgba(255,255,255,.06)}
-    .notice{padding:14px 16px;margin-bottom:18px;color:var(--muted);font-weight:800;line-height:1.55}
-    .notice strong{color:#fff3b2}
-    .grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
-    .card{overflow:hidden;display:flex;flex-direction:column}
-    .visual{
-      height:330px;display:grid;place-items:center;
-      background:#04130d;border-bottom:1px solid var(--line);
-      padding:12px;
-    }
-    .visual img{width:100%;height:100%;object-fit:contain;display:block}
-    .placeholder{
-      width:100%;height:100%;border-radius:20px;
-      display:grid;place-items:center;align-content:center;gap:14px;
-      background:
-        radial-gradient(circle at 75% 18%,rgba(250,204,21,.35),transparent 25%),
-        linear-gradient(145deg,#0b5b3b,#072a20 70%);
-      text-align:center;
-    }
-    .placeholder strong{
-      width:118px;height:118px;border-radius:50%;display:grid;place-items:center;
-      background:linear-gradient(135deg,#fff2aa,#e2b43f);color:#08261c;
-      font-size:44px;box-shadow:0 16px 35px rgba(0,0,0,.3)
-    }
-    .placeholder span{font-size:21px;font-weight:1000;color:#fff7d6}
-    .body{padding:17px;display:flex;flex-direction:column;gap:11px;flex:1}
-    .price{width:max-content;padding:7px 10px;border-radius:999px;background:rgba(250,204,21,.1);color:#fff3b2;font-size:12px;font-weight:1000}
-    h2{font-size:28px;line-height:1.05;margin:0}
-    .trade{color:#fff3b2;font-weight:900;line-height:1.4}
-    .zone,.bio{color:var(--muted);font-weight:750;line-height:1.55}
-    .chip{padding:6px 10px;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid var(--line);font-size:12px;font-weight:900}
-    .chip.ok{background:rgba(34,197,94,.13);color:#bbf7d0;border-color:rgba(34,197,94,.34)}
-    .card .actions{margin-top:auto;display:grid}
-    .share{font:inherit;cursor:pointer;color:inherit}
-    .footer{text-align:center;color:var(--muted);font-size:12px;font-weight:800;margin:22px 0}
-    .bottom{
-      position:fixed;left:0;right:0;bottom:0;z-index:20;
-      padding:8px 10px calc(8px + env(safe-area-inset-bottom,0px));
-      background:rgba(6,27,20,.95);border-top:1px solid var(--line);
-      backdrop-filter:blur(12px)
-    }
-    .bottom-inner{width:min(760px,100%);margin:auto;display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
-    .bottom a{min-height:54px;border-radius:14px;display:grid;place-items:center;align-content:center;font-size:11px;font-weight:950}
-    .bottom a.active{background:linear-gradient(135deg,var(--orange),var(--gold));color:#111}
-    @media(max-width:980px){.grid{grid-template-columns:1fr}.visual{height:360px}}
-    @media(max-width:520px){
-      body{padding:12px 12px calc(92px + env(safe-area-inset-bottom,0px))}
-      .hero{padding:18px}.visual{height:320px}.actions .btn{width:100%}
-    }
+    h1{font-size:clamp(34px,7vw,58px);line-height:1;margin:8px 0 12px}.lead{font-size:clamp(16px,3vw,21px);line-height:1.55;color:#fff3b2;font-weight:900;max-width:900px}
+    .actions,.chips{display:flex;gap:9px;flex-wrap:wrap}.actions{margin-top:17px}
+    .btn{min-height:48px;padding:12px 16px;border-radius:14px;display:inline-flex;align-items:center;justify-content:center;font-weight:950;border:1px solid var(--line)}
+    .btn.primary{background:linear-gradient(135deg,var(--orange),var(--gold));color:#111;border:0}.btn.green{background:linear-gradient(135deg,var(--green),var(--gold));color:#062015;border:0}.btn.secondary{background:rgba(255,255,255,.06)}
+    .notice{padding:14px 16px;margin-bottom:18px;color:var(--muted);font-weight:800;line-height:1.55}.notice strong{color:#fff3b2}
+    .grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.card{overflow:hidden;display:flex;flex-direction:column}
+    .visual{height:330px;display:grid;place-items:center;background:#04130d;border-bottom:1px solid var(--line);padding:12px}.visual img{width:100%;height:100%;object-fit:contain;display:block}
+    .placeholder{width:100%;height:100%;border-radius:20px;display:grid;place-items:center;align-content:center;gap:14px;background:radial-gradient(circle at 75% 18%,rgba(250,204,21,.35),transparent 25%),linear-gradient(145deg,#0b5b3b,#072a20 70%);text-align:center}
+    .placeholder strong{width:118px;height:118px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,#fff2aa,#e2b43f);color:#08261c;font-size:44px;box-shadow:0 16px 35px rgba(0,0,0,.3)}.placeholder span{font-size:21px;font-weight:1000;color:#fff7d6}
+    .body{padding:17px;display:flex;flex-direction:column;gap:11px;flex:1}.price{width:max-content;padding:7px 10px;border-radius:999px;background:rgba(250,204,21,.1);color:#fff3b2;font-size:12px;font-weight:1000}
+    h2{font-size:28px;line-height:1.05;margin:0}.trade{color:#fff3b2;font-weight:900;line-height:1.4}.zone,.bio{color:var(--muted);font-weight:750;line-height:1.55}
+    .chip{padding:6px 10px;border-radius:999px;background:rgba(255,255,255,.06);border:1px solid var(--line);font-size:12px;font-weight:900}.chip.ok{background:rgba(34,197,94,.13);color:#bbf7d0;border-color:rgba(34,197,94,.34)}
+    .card .actions{margin-top:auto;display:grid}.share{font:inherit;cursor:pointer;color:inherit}.footer{text-align:center;color:var(--muted);font-size:12px;font-weight:800;margin:22px 0}
+    .bottom{position:fixed;left:0;right:0;bottom:0;z-index:20;padding:8px 10px calc(8px + env(safe-area-inset-bottom,0px));background:rgba(6,27,20,.95);border-top:1px solid var(--line);backdrop-filter:blur(12px)}
+    .bottom-inner{width:min(760px,100%);margin:auto;display:grid;grid-template-columns:repeat(5,1fr);gap:6px}.bottom a{min-height:54px;border-radius:14px;display:grid;place-items:center;align-content:center;font-size:11px;font-weight:950}.bottom a.active{background:linear-gradient(135deg,var(--orange),var(--gold));color:#111}
+    html[dir="rtl"] body{text-align:right}html[dir="rtl"] .actions,html[dir="rtl"] .chips{direction:rtl}
+    @media(max-width:980px){.grid{grid-template-columns:1fr}.visual{height:360px}}@media(max-width:520px){body{padding:12px 12px calc(92px + env(safe-area-inset-bottom,0px))}.hero{padding:18px}.visual{height:320px}.actions .btn{width:100%}}
   </style>
 </head>
 <body>
   <main class="app">
     <section class="hero">
-      <div class="kicker">DIGIY BUILD · Travailleurs officiels</div>
-      <h1>Artisans présents sur le terrain</h1>
-      <div class="lead">
-        Une fiche réelle, un métier clair et un contact direct. Cette galerie ne contient plus les anciens profils retirés.
-      </div>
+      <div class="kicker" id="heroKicker">DIGIY BUILD · Travailleurs officiels</div>
+      <h1 id="heroTitle">Artisans présents sur le terrain</h1>
+      <div class="lead" id="heroLead">Une fiche réelle, un métier clair et un contact direct. Cette galerie ne contient plus les anciens profils retirés.</div>
       <div class="actions">
-        <a class="btn primary" href="./request.html">📄 Décrire mon besoin</a>
-        <a class="btn secondary" href="./index.html">🏠 Accueil BUILD</a>
-        <a class="btn secondary" href="https://digiy-hub.digiylyfe.com/">🧭 HUB</a>
+        <a class="btn primary" id="needTop" href="./request.html">📄 Décrire mon besoin</a>
+        <a class="btn secondary" id="homeTop" href="./index.html">🏠 Accueil BUILD</a>
+        <a class="btn secondary" id="hubTop" href="https://digiy-hub.digiylyfe.com/">🧭 HUB</a>
       </div>
     </section>
 
-    <div class="notice">
-      <strong>3 travailleurs actifs :</strong> Babacar pour la plomberie, Kourant pour l’électricité et Mbaye pour la construction.
-    </div>
+    <div class="notice"><strong id="noticeStrong">3 travailleurs actifs :</strong> <span id="noticeText">Babacar pour la plomberie, Kourant pour l’électricité et Mbaye pour la construction.</span></div>
 
-    <section class="grid" aria-label="Galerie des artisans officiels DIGIY BUILD">
-      <article class="card">
-        <div class="visual">
-          <div class="placeholder" role="img" aria-label="Babacar Plombier Pro">
-            <strong>BP</strong>
-            <span>BABACAR<br>PLOMBIER PRO</span>
-          </div>
-        </div>
+    <section class="grid" id="artisanGrid" aria-label="Galerie des artisans officiels DIGIY BUILD">
+      <article class="card" data-artisan="babacar">
+        <div class="visual"><div class="placeholder" role="img" aria-label="Babacar Plombier Pro"><strong>BP</strong><span>BABACAR<br>PLOMBIER PRO</span></div></div>
         <div class="body">
-          <div class="price">Sur devis</div>
-          <h2>Babacar Plombier Pro</h2>
+          <div class="price">Sur devis</div><h2>Babacar Plombier Pro</h2>
           <div class="trade">Plomberie · fuite · dépannage · installation sanitaire</div>
           <div class="zone">📍 Saly · Mbour · Petite Côte</div>
-          <div class="bio">
-            Robinet, WC, lavabo, douche, chasse d’eau, tuyauterie, canalisation et petits travaux sanitaires.
-          </div>
-          <div class="chips">
-            <span class="chip ok">Fiche officielle</span>
-            <span class="chip">Contact direct</span>
-            <span class="chip">0% commission</span>
-          </div>
+          <div class="bio">Robinet, WC, lavabo, douche, chasse d’eau, tuyauterie, canalisation et petits travaux sanitaires.</div>
+          <div class="chips"><span class="chip ok">Fiche officielle</span><span class="chip">Contact direct</span><span class="chip">0% commission</span></div>
           <div class="actions">
-            <a class="btn primary" href="https://babacar-plombier-pro.digiylyfe.com/" target="_blank" rel="noopener">👁️ Ouvrir la fiche</a>
-            <a class="btn green" href="https://wa.me/221776125124?text=Bonjour%20Babacar%20Plombier%20Pro%2C%20je%20viens%20de%20DIGIY%20BUILD%20pour%20un%20besoin%20en%20plomberie." target="_blank" rel="noopener">💬 WhatsApp direct</a>
+            <a class="btn primary profile" href="https://babacar-plombier-pro.digiylyfe.com/" target="_blank" rel="noopener">👁️ Ouvrir la fiche</a>
+            <a class="btn green whatsapp" href="https://wa.me/221776125124" target="_blank" rel="noopener">💬 WhatsApp direct</a>
             <button class="btn secondary share" type="button" data-name="Babacar Plombier Pro" data-url="https://babacar-plombier-pro.digiylyfe.com/">📤 Partager</button>
           </div>
         </div>
       </article>
 
-      <article class="card">
-        <a class="visual" href="https://kourant.digiylyfe.com/" target="_blank" rel="noopener">
-          <img src="https://kourant.digiylyfe.com/carte-visite.png?v=20260714-v3" alt="Carte officielle de Kourant Électricien" loading="lazy">
-        </a>
+      <article class="card" data-artisan="kourant">
+        <a class="visual profile" href="https://kourant.digiylyfe.com/" target="_blank" rel="noopener"><img src="https://kourant.digiylyfe.com/carte-visite.png?v=20260714-v3" alt="Carte officielle de Kourant Électricien" loading="lazy"></a>
         <div class="body">
-          <div class="price">À partir de 10 000 FCFA</div>
-          <h2>Kourant Électricien</h2>
+          <div class="price">À partir de 10 000 FCFA</div><h2>Kourant Électricien</h2>
           <div class="trade">Installation · rénovation · dépannage électrique</div>
           <div class="zone">📍 Saly · Mbour · Petite Côte</div>
-          <div class="bio">
-            Tableaux, disjoncteurs, prises, éclairage, câblage, recherche de panne et rénovation électrique.
-          </div>
-          <div class="chips">
-            <span class="chip ok">Fiche officielle</span>
-            <span class="chip">Carte + QR</span>
-            <span class="chip">0% commission</span>
-          </div>
+          <div class="bio">Tableaux, disjoncteurs, prises, éclairage, câblage, recherche de panne et rénovation électrique.</div>
+          <div class="chips"><span class="chip ok">Fiche officielle</span><span class="chip">Carte + QR</span><span class="chip">0% commission</span></div>
           <div class="actions">
-            <a class="btn primary" href="https://kourant.digiylyfe.com/" target="_blank" rel="noopener">👁️ Ouvrir la fiche</a>
-            <a class="btn green" href="https://wa.me/221772084781?text=Bonjour%20Kourant%2C%20je%20viens%20de%20DIGIY%20BUILD%20pour%20un%20besoin%20en%20%C3%A9lectricit%C3%A9." target="_blank" rel="noopener">💬 WhatsApp direct</a>
+            <a class="btn primary profile" href="https://kourant.digiylyfe.com/" target="_blank" rel="noopener">👁️ Ouvrir la fiche</a>
+            <a class="btn green whatsapp" href="https://wa.me/221772084781" target="_blank" rel="noopener">💬 WhatsApp direct</a>
             <button class="btn secondary share" type="button" data-name="Kourant Électricien" data-url="https://kourant.digiylyfe.com/">📤 Partager</button>
           </div>
         </div>
       </article>
 
-      <article class="card">
-        <a class="visual" href="https://mbaye-macon.digiylyfe.com/" target="_blank" rel="noopener">
-          <img src="https://mbaye-macon.digiylyfe.com/carte-visite.png?v=20260714-v3" alt="Carte officielle de Mbaye Diouf" loading="lazy">
-        </a>
+      <article class="card" data-artisan="mbaye">
+        <a class="visual profile" href="https://mbaye-macon.digiylyfe.com/" target="_blank" rel="noopener"><img src="https://mbaye-macon.digiylyfe.com/carte-visite.png?v=20260714-v3" alt="Carte officielle de Mbaye Diouf" loading="lazy"></a>
         <div class="body">
-          <div class="price">Sur devis</div>
-          <h2>Mbaye Diouf</h2>
+          <div class="price">Sur devis</div><h2>Mbaye Diouf</h2>
           <div class="trade">Bâtisseur · villas · piscines · rénovation · extensions</div>
           <div class="zone">📍 Saly · Mbour · Thiès · Petite Côte</div>
-          <div class="bio">
-            Construction de villas, piscines béton, rénovation, extensions et finitions haut de gamme.
-          </div>
-          <div class="chips">
-            <span class="chip ok">Fiche officielle</span>
-            <span class="chip">Carte + QR</span>
-            <span class="chip">0% commission</span>
-          </div>
+          <div class="bio">Construction de villas, piscines béton, rénovation, extensions et finitions haut de gamme.</div>
+          <div class="chips"><span class="chip ok">Fiche officielle</span><span class="chip">Carte + QR</span><span class="chip">0% commission</span></div>
           <div class="actions">
-            <a class="btn primary" href="https://mbaye-macon.digiylyfe.com/" target="_blank" rel="noopener">👁️ Ouvrir la fiche</a>
-            <a class="btn green" href="https://wa.me/221776427113?text=Bonjour%20Mbaye%2C%20je%20viens%20de%20DIGIY%20BUILD%20pour%20un%20projet%20de%20construction%20ou%20de%20r%C3%A9novation." target="_blank" rel="noopener">💬 WhatsApp direct</a>
+            <a class="btn primary profile" href="https://mbaye-macon.digiylyfe.com/" target="_blank" rel="noopener">👁️ Ouvrir la fiche</a>
+            <a class="btn green whatsapp" href="https://wa.me/221776427113" target="_blank" rel="noopener">💬 WhatsApp direct</a>
             <button class="btn secondary share" type="button" data-name="Mbaye Diouf" data-url="https://mbaye-macon.digiylyfe.com/">📤 Partager</button>
           </div>
         </div>
       </article>
     </section>
 
-    <div class="footer">
-      DIGIY BUILD · Fiches officielles · Contact direct · Paiement direct au pro · 0% commission
-    </div>
+    <div class="footer" id="footerText">DIGIY BUILD · Fiches officielles · Contact direct · Paiement direct au pro · 0% commission</div>
   </main>
 
   <nav class="bottom" aria-label="Navigation DIGIY BUILD">
     <div class="bottom-inner">
-      <a href="./index.html"><span>🏠</span><span>Accueil</span></a>
-      <a class="active" href="./listing.html"><span>👁️</span><span>Profils</span></a>
-      <a href="./qr-artisans.html"><span>📲</span><span>QR</span></a>
-      <a href="./request.html"><span>📄</span><span>Besoin</span></a>
-      <a href="https://digiy-hub.digiylyfe.com/"><span>🧭</span><span>HUB</span></a>
+      <a id="navHome" href="./index.html"><span>🏠</span><span>Accueil</span></a>
+      <a id="navProfiles" class="active" href="./listing.html"><span>👁️</span><span>Profils</span></a>
+      <a id="navQr" href="./qr-artisans.html"><span>📲</span><span>QR</span></a>
+      <a id="navNeed" href="./request.html"><span>📄</span><span>Besoin</span></a>
+      <a id="navHub" href="https://digiy-hub.digiylyfe.com/"><span>🧭</span><span>HUB</span></a>
     </div>
   </nav>
 
   <script>
+  (function(){
+    "use strict";
+    var SUPPORTED=["fr","en","es","de","it","nl","ar"];
+    var q=(new URL(location.href)).searchParams.get("lang")||"";
+    var lang=String(q).slice(0,2).toLowerCase();
+    try{if(SUPPORTED.indexOf(lang)<0)lang=String(localStorage.getItem("digiy-lang")||"").slice(0,2).toLowerCase()}catch(e){}
+    if(SUPPORTED.indexOf(lang)<0)lang="fr";
+    try{localStorage.setItem("digiy-lang",lang)}catch(e){}
+    document.documentElement.lang=lang;
+    document.documentElement.dir=lang==="ar"?"rtl":"ltr";
+
+    var T={
+      fr:{title:"DIGIY BUILD — Artisans officiels",description:"Galerie officielle DIGIY BUILD : artisans visibles, contact direct et 0% commission.",kicker:"DIGIY BUILD · Travailleurs officiels",hero:"Artisans présents sur le terrain",lead:"Une fiche réelle, un métier clair et un contact direct. Cette galerie ne contient plus les anciens profils retirés.",need:"📄 Décrire mon besoin",home:"🏠 Accueil BUILD",noticeStrong:"3 travailleurs actifs :",notice:"Babacar pour la plomberie, Kourant pour l’électricité et Mbaye pour la construction.",quote:"Sur devis",from:"À partir de 10 000 FCFA",official:"Fiche officielle",direct:"Contact direct",cardQr:"Carte + QR",open:"👁️ Ouvrir la fiche",whatsapp:"💬 WhatsApp direct",share:"📤 Partager",footer:"DIGIY BUILD · Fiches officielles · Contact direct · Paiement direct au pro · 0% commission",navHome:"Accueil",navProfiles:"Profils",navNeed:"Besoin",copied:"✅ Lien copié",copyPrompt:"Copier le lien :",shareText:"fiche officielle DIGIY BUILD, contact direct.",trades:["Plomberie · fuite · dépannage · installation sanitaire","Installation · rénovation · dépannage électrique","Bâtisseur · villas · piscines · rénovation · extensions"],bios:["Robinet, WC, lavabo, douche, chasse d’eau, tuyauterie, canalisation et petits travaux sanitaires.","Tableaux, disjoncteurs, prises, éclairage, câblage, recherche de panne et rénovation électrique.","Construction de villas, piscines béton, rénovation, extensions et finitions haut de gamme."],wa:["Bonjour Babacar Plombier Pro, je viens de DIGIY BUILD pour un besoin en plomberie.","Bonjour Kourant, je viens de DIGIY BUILD pour un besoin en électricité.","Bonjour Mbaye, je viens de DIGIY BUILD pour un projet de construction ou de rénovation."],alts:["Babacar Plombier Pro","Carte officielle de Kourant Électricien","Carte officielle de Mbaye Diouf"]},
+      en:{title:"DIGIY BUILD — Official artisans",description:"Official DIGIY BUILD gallery: visible artisans, direct contact and 0% commission.",kicker:"DIGIY BUILD · Official workers",hero:"Artisans active in the field",lead:"A real profile, a clear trade and direct contact. This gallery contains only active official profiles.",need:"📄 Describe my need",home:"🏠 BUILD home",noticeStrong:"3 active workers:",notice:"Babacar for plumbing, Kourant for electrical work and Mbaye for construction.",quote:"Quote on request",from:"From 10,000 FCFA",official:"Official profile",direct:"Direct contact",cardQr:"Card + QR",open:"👁️ Open profile",whatsapp:"💬 Direct WhatsApp",share:"📤 Share",footer:"DIGIY BUILD · Official profiles · Direct contact · Direct payment to the professional · 0% commission",navHome:"Home",navProfiles:"Profiles",navNeed:"Need",copied:"✅ Link copied",copyPrompt:"Copy the link:",shareText:"official DIGIY BUILD profile, direct contact.",trades:["Plumbing · leaks · repairs · sanitary installation","Installation · renovation · electrical repairs","Builder · villas · pools · renovation · extensions"],bios:["Taps, toilets, sinks, showers, flush systems, pipes, drains and small sanitary jobs.","Electrical panels, breakers, sockets, lighting, wiring, fault finding and renovation.","Villa construction, concrete pools, renovation, extensions and high-end finishes."],wa:["Hello Babacar Plombier Pro, I come from DIGIY BUILD and need plumbing help.","Hello Kourant, I come from DIGIY BUILD and need electrical work.","Hello Mbaye, I come from DIGIY BUILD for a construction or renovation project."],alts:["Babacar Plombier Pro","Official card of Kourant Electrician","Official card of Mbaye Diouf"]},
+      es:{title:"DIGIY BUILD — Artesanos oficiales",description:"Galería oficial DIGIY BUILD: artesanos visibles, contacto directo y 0% de comisión.",kicker:"DIGIY BUILD · Trabajadores oficiales",hero:"Artesanos presentes sobre el terreno",lead:"Una ficha real, un oficio claro y contacto directo. Esta galería contiene únicamente perfiles oficiales activos.",need:"📄 Describir mi necesidad",home:"🏠 Inicio BUILD",noticeStrong:"3 trabajadores activos:",notice:"Babacar para fontanería, Kourant para electricidad y Mbaye para construcción.",quote:"Presupuesto bajo petición",from:"Desde 10.000 FCFA",official:"Ficha oficial",direct:"Contacto directo",cardQr:"Tarjeta + QR",open:"👁️ Abrir la ficha",whatsapp:"💬 WhatsApp directo",share:"📤 Compartir",footer:"DIGIY BUILD · Fichas oficiales · Contacto directo · Pago directo al profesional · 0% de comisión",navHome:"Inicio",navProfiles:"Perfiles",navNeed:"Necesidad",copied:"✅ Enlace copiado",copyPrompt:"Copiar el enlace:",shareText:"ficha oficial DIGIY BUILD, contacto directo.",trades:["Fontanería · fugas · reparación · instalación sanitaria","Instalación · renovación · reparación eléctrica","Constructor · villas · piscinas · renovación · ampliaciones"],bios:["Grifos, WC, lavabos, duchas, cisternas, tuberías, desagües y pequeños trabajos sanitarios.","Cuadros eléctricos, disyuntores, enchufes, iluminación, cableado, búsqueda de averías y renovación.","Construcción de villas, piscinas de hormigón, renovación, ampliaciones y acabados de alta gama."],wa:["Hola Babacar Plombier Pro, vengo de DIGIY BUILD y necesito un servicio de fontanería.","Hola Kourant, vengo de DIGIY BUILD y necesito un servicio eléctrico.","Hola Mbaye, vengo de DIGIY BUILD para un proyecto de construcción o renovación."],alts:["Babacar Plombier Pro","Tarjeta oficial de Kourant Electricista","Tarjeta oficial de Mbaye Diouf"]},
+      de:{title:"DIGIY BUILD — Offizielle Handwerker",description:"Offizielle DIGIY BUILD Galerie: sichtbare Handwerker, direkter Kontakt und 0% Provision.",kicker:"DIGIY BUILD · Offizielle Fachkräfte",hero:"Handwerker vor Ort",lead:"Ein echtes Profil, ein klares Handwerk und direkter Kontakt. Diese Galerie enthält nur aktive offizielle Profile.",need:"📄 Bedarf beschreiben",home:"🏠 BUILD Startseite",noticeStrong:"3 aktive Fachkräfte:",notice:"Babacar für Sanitärarbeiten, Kourant für Elektrik und Mbaye für Bauarbeiten.",quote:"Preis auf Anfrage",from:"Ab 10.000 FCFA",official:"Offizielles Profil",direct:"Direkter Kontakt",cardQr:"Karte + QR",open:"👁️ Profil öffnen",whatsapp:"💬 Direktes WhatsApp",share:"📤 Teilen",footer:"DIGIY BUILD · Offizielle Profile · Direkter Kontakt · Direkte Zahlung an den Profi · 0% Provision",navHome:"Start",navProfiles:"Profile",navNeed:"Bedarf",copied:"✅ Link kopiert",copyPrompt:"Link kopieren:",shareText:"offizielles DIGIY BUILD Profil, direkter Kontakt.",trades:["Sanitär · Leckagen · Reparatur · Sanitärinstallation","Installation · Renovierung · Elektroreparatur","Bauunternehmer · Villen · Pools · Renovierung · Erweiterungen"],bios:["Armaturen, Toiletten, Waschbecken, Duschen, Spülkästen, Rohrleitungen, Abflüsse und kleine Sanitärarbeiten.","Schalttafeln, Sicherungen, Steckdosen, Beleuchtung, Verkabelung, Fehlersuche und Renovierung.","Bau von Villen, Betonpools, Renovierung, Erweiterungen und hochwertige Ausführungen."],wa:["Hallo Babacar Plombier Pro, ich komme über DIGIY BUILD und benötige Sanitärhilfe.","Hallo Kourant, ich komme über DIGIY BUILD und benötige Elektroarbeiten.","Hallo Mbaye, ich komme über DIGIY BUILD wegen eines Bau- oder Renovierungsprojekts."],alts:["Babacar Plombier Pro","Offizielle Karte von Kourant Elektriker","Offizielle Karte von Mbaye Diouf"]},
+      it:{title:"DIGIY BUILD — Artigiani ufficiali",description:"Galleria ufficiale DIGIY BUILD: artigiani visibili, contatto diretto e 0% commissioni.",kicker:"DIGIY BUILD · Professionisti ufficiali",hero:"Artigiani presenti sul territorio",lead:"Una scheda reale, un mestiere chiaro e un contatto diretto. Questa galleria contiene solo profili ufficiali attivi.",need:"📄 Descrivi la mia esigenza",home:"🏠 Home BUILD",noticeStrong:"3 professionisti attivi:",notice:"Babacar per l’idraulica, Kourant per l’elettricità e Mbaye per le costruzioni.",quote:"Preventivo su richiesta",from:"Da 10.000 FCFA",official:"Scheda ufficiale",direct:"Contatto diretto",cardQr:"Carta + QR",open:"👁️ Apri la scheda",whatsapp:"💬 WhatsApp diretto",share:"📤 Condividi",footer:"DIGIY BUILD · Schede ufficiali · Contatto diretto · Pagamento diretto al professionista · 0% commissioni",navHome:"Home",navProfiles:"Profili",navNeed:"Esigenza",copied:"✅ Link copiato",copyPrompt:"Copia il link:",shareText:"scheda ufficiale DIGIY BUILD, contatto diretto.",trades:["Idraulica · perdite · riparazioni · impianti sanitari","Installazione · ristrutturazione · riparazioni elettriche","Costruttore · ville · piscine · ristrutturazione · ampliamenti"],bios:["Rubinetti, WC, lavabi, docce, cassette, tubazioni, scarichi e piccoli lavori sanitari.","Quadri elettrici, interruttori, prese, illuminazione, cablaggio, ricerca guasti e ristrutturazione.","Costruzione di ville, piscine in cemento, ristrutturazioni, ampliamenti e finiture di pregio."],wa:["Ciao Babacar Plombier Pro, arrivo da DIGIY BUILD e ho bisogno di un intervento idraulico.","Ciao Kourant, arrivo da DIGIY BUILD e ho bisogno di un intervento elettrico.","Ciao Mbaye, arrivo da DIGIY BUILD per un progetto di costruzione o ristrutturazione."],alts:["Babacar Plombier Pro","Carta ufficiale di Kourant Elettricista","Carta ufficiale di Mbaye Diouf"]},
+      nl:{title:"DIGIY BUILD — Officiële vakmensen",description:"Officiële DIGIY BUILD-galerij: zichtbare vakmensen, direct contact en 0% commissie.",kicker:"DIGIY BUILD · Officiële vakmensen",hero:"Vakmensen actief op het terrein",lead:"Een echt profiel, een duidelijk vak en direct contact. Deze galerij bevat alleen actieve officiële profielen.",need:"📄 Mijn behoefte beschrijven",home:"🏠 BUILD-home",noticeStrong:"3 actieve vakmensen:",notice:"Babacar voor loodgieterswerk, Kourant voor elektriciteit en Mbaye voor bouw.",quote:"Prijs op aanvraag",from:"Vanaf 10.000 FCFA",official:"Officieel profiel",direct:"Direct contact",cardQr:"Kaart + QR",open:"👁️ Profiel openen",whatsapp:"💬 Direct WhatsApp",share:"📤 Delen",footer:"DIGIY BUILD · Officiële profielen · Direct contact · Rechtstreekse betaling aan de vakman · 0% commissie",navHome:"Home",navProfiles:"Profielen",navNeed:"Behoefte",copied:"✅ Link gekopieerd",copyPrompt:"Kopieer de link:",shareText:"officieel DIGIY BUILD-profiel, direct contact.",trades:["Loodgieterij · lekkages · reparatie · sanitaire installatie","Installatie · renovatie · elektrische reparatie","Bouwer · villa’s · zwembaden · renovatie · uitbreidingen"],bios:["Kranen, toiletten, wastafels, douches, stortbakken, leidingen, afvoeren en kleine sanitaire werken.","Elektrische panelen, automaten, stopcontacten, verlichting, bekabeling, storingsonderzoek en renovatie.","Bouw van villa’s, betonnen zwembaden, renovatie, uitbreidingen en hoogwaardige afwerking."],wa:["Hallo Babacar Plombier Pro, ik kom via DIGIY BUILD en heb loodgietershulp nodig.","Hallo Kourant, ik kom via DIGIY BUILD en heb elektriciteitswerk nodig.","Hallo Mbaye, ik kom via DIGIY BUILD voor een bouw- of renovatieproject."],alts:["Babacar Plombier Pro","Officiële kaart van Kourant Elektricien","Officiële kaart van Mbaye Diouf"]},
+      ar:{title:"DIGIY BUILD — الحرفيون الرسميون",description:"معرض DIGIY BUILD الرسمي: حرفيون ظاهرون واتصال مباشر وعمولة 0%.",kicker:"DIGIY BUILD · حرفيون رسميون",hero:"حرفيون موجودون في الميدان",lead:"ملف حقيقي ومهنة واضحة واتصال مباشر. يعرض هذا المعرض الملفات الرسمية النشطة فقط.",need:"📄 وصف حاجتي",home:"🏠 الصفحة الرئيسية BUILD",noticeStrong:"3 حرفيين نشطين:",notice:"باباكار للسباكة، وكورانت للكهرباء، ومباي للبناء.",quote:"السعر حسب الطلب",from:"ابتداءً من 10,000 FCFA",official:"ملف رسمي",direct:"اتصال مباشر",cardQr:"بطاقة + QR",open:"👁️ فتح الملف",whatsapp:"💬 واتساب مباشر",share:"📤 مشاركة",footer:"DIGIY BUILD · ملفات رسمية · اتصال مباشر · دفع مباشر للمحترف · عمولة 0%",navHome:"الرئيسية",navProfiles:"الملفات",navNeed:"الحاجة",copied:"✅ تم نسخ الرابط",copyPrompt:"انسخ الرابط:",shareText:"ملف DIGIY BUILD رسمي واتصال مباشر.",trades:["سباكة · تسربات · إصلاح · تجهيزات صحية","تركيب · تجديد · إصلاحات كهربائية","مقاول بناء · فلل · مسابح · تجديد · توسعات"],bios:["صنابير ومراحيض وأحواض ودُش وخزانات ومواسير وصرف وأعمال صحية صغيرة.","لوحات كهربائية وقواطع ومقابس وإنارة وأسلاك وكشف أعطال وتجديد.","بناء فلل ومسابح خرسانية وتجديدات وتوسعات وتشطيبات عالية الجودة."],wa:["مرحباً باباكار، وصلت عبر DIGIY BUILD وأحتاج إلى خدمة سباكة.","مرحباً كورانت، وصلت عبر DIGIY BUILD وأحتاج إلى خدمة كهرباء.","مرحباً مباي، وصلت عبر DIGIY BUILD من أجل مشروع بناء أو تجديد."],alts:["باباكار سباك محترف","البطاقة الرسمية لكورانت الكهربائي","البطاقة الرسمية لمباي ضيوف"]}
+    };
+    var t=T[lang]||T.fr;
+    document.title=t.title;
+    var meta=document.querySelector('meta[name="description"]');if(meta)meta.content=t.description;
+    function text(id,value){var el=document.getElementById(id);if(el)el.textContent=value}
+    text("heroKicker",t.kicker);text("heroTitle",t.hero);text("heroLead",t.lead);text("needTop",t.need);text("homeTop",t.home);text("noticeStrong",t.noticeStrong);text("noticeText",t.notice);text("footerText",t.footer);
+    text("navHome",t.navHome);text("navProfiles",t.navProfiles);text("navNeed",t.navNeed);
+    var cards=document.querySelectorAll(".card");
+    cards.forEach(function(card,i){
+      card.querySelector(".price").textContent=i===1?t.from:t.quote;
+      card.querySelector(".trade").textContent=t.trades[i];
+      card.querySelector(".bio").textContent=t.bios[i];
+      var chips=card.querySelectorAll(".chip");chips[0].textContent=t.official;chips[1].textContent=i===0?t.direct:t.cardQr;
+      var profile=card.querySelectorAll(".profile");profile.forEach(function(a){var u=new URL(a.href);u.searchParams.set("lang",lang);a.href=u.toString()});
+      var open=card.querySelector(".actions .profile");if(open)open.textContent=t.open;
+      var wa=card.querySelector(".whatsapp");if(wa){var wu=new URL(wa.href);wu.searchParams.set("text",t.wa[i]);wa.href=wu.toString();wa.textContent=t.whatsapp}
+      var share=card.querySelector(".share");if(share){share.textContent=t.share;var su=new URL(share.dataset.url);su.searchParams.set("lang",lang);share.dataset.url=su.toString()}
+      var img=card.querySelector("img");if(img)img.alt=t.alts[i];
+    });
+    function withLang(value){var u=new URL(value,location.href);u.searchParams.set("lang",lang);return u.toString()}
+    document.getElementById("needTop").href=withLang("./request.html");
+    document.getElementById("homeTop").href=withLang("./index.html");
+    document.getElementById("hubTop").href=withLang("https://digiy-hub.digiylyfe.com/");
+    document.getElementById("navHome").href=withLang("./index.html");
+    document.getElementById("navProfiles").href=withLang("./listing.html");
+    document.getElementById("navQr").href=withLang("./qr-artisans.html");
+    document.getElementById("navNeed").href=withLang("./request.html");
+    document.getElementById("navHub").href=withLang("https://digiy-hub.digiylyfe.com/");
+
     document.querySelectorAll(".share").forEach(function(button){
-      button.addEventListener("click", async function(){
-        const name = button.dataset.name || "Fiche DIGIY BUILD";
-        const url = button.dataset.url || location.href;
-        const text = name + " — fiche officielle DIGIY BUILD, contact direct.";
+      button.addEventListener("click",async function(){
+        var name=button.dataset.name||"DIGIY BUILD";
+        var url=button.dataset.url||location.href;
+        var shareMessage=name+" — "+t.shareText;
         try{
-          if(navigator.share){
-            await navigator.share({title:name,text:text,url:url});
-          }else if(navigator.clipboard){
-            await navigator.clipboard.writeText(url);
-            button.textContent = "✅ Lien copié";
-            setTimeout(function(){button.textContent="📤 Partager";},1600);
-          }else{
-            window.prompt("Copier le lien :",url);
-          }
-        }catch(_){}
+          if(navigator.share){await navigator.share({title:name,text:shareMessage,url:url})}
+          else if(navigator.clipboard){await navigator.clipboard.writeText(url);button.textContent=t.copied;setTimeout(function(){button.textContent=t.share},1600)}
+          else{window.prompt(t.copyPrompt,url)}
+        }catch(e){}
       });
     });
+  })();
   </script>
 </body>
 </html>
-
