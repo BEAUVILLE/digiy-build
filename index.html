@@ -12,7 +12,7 @@
   <p class="loading">DIGIY BUILD — chargement…</p>
   <script>
   (function(){
-    var VERSION='20260731-build-inscription-v1';
+    var VERSION='20260801-build-cartouche-v2';
     var allowed=/^(fr|en|es|de|it|nl|ar)$/;
     var params=new URLSearchParams(location.search);
     var lang=(params.get('lang')||'').toLowerCase();
@@ -20,6 +20,48 @@
     if(!allowed.test(lang))lang=(navigator.language||'fr').slice(0,2).toLowerCase();
     if(!allowed.test(lang))lang='fr';
     try{localStorage.setItem('digiy-lang',lang)}catch(e){}
+
+    var words={
+      fr:{title:'Accès directs BUILD',lead:'Chaque bouton ouvre un vrai fichier ou une vraie porte du module.',profiles:'Profils artisans',signup:'Inscription artisan',need:'Décrire mon besoin',track:'Suivre ma demande',qr:'QR artisans',wolof:'Wolof BUILD',pro:'Espace pro',site:'Site DIGIYLYFE',hub:'HUB DIGIY'},
+      en:{title:'BUILD direct access',lead:'Every button opens a real file or a real module door.',profiles:'Artisan profiles',signup:'Artisan registration',need:'Describe my need',track:'Track my request',qr:'Artisan QR',wolof:'Wolof BUILD',pro:'Pro area',site:'DIGIYLYFE site',hub:'DIGIY HUB'},
+      es:{title:'Accesos directos BUILD',lead:'Cada botón abre un archivo real o una puerta real del módulo.',profiles:'Perfiles de artesanos',signup:'Registro de artesano',need:'Describir mi necesidad',track:'Seguir mi solicitud',qr:'QR de artesanos',wolof:'Wolof BUILD',pro:'Espacio profesional',site:'Sitio DIGIYLYFE',hub:'HUB DIGIY'},
+      de:{title:'BUILD-Direktzugänge',lead:'Jede Schaltfläche öffnet eine echte Datei oder Modultür.',profiles:'Handwerkerprofile',signup:'Handwerker anmelden',need:'Bedarf beschreiben',track:'Anfrage verfolgen',qr:'Handwerker-QR',wolof:'Wolof BUILD',pro:'Pro-Bereich',site:'DIGIYLYFE-Seite',hub:'DIGIY HUB'},
+      it:{title:'Accessi diretti BUILD',lead:'Ogni pulsante apre un file reale o una porta reale del modulo.',profiles:'Profili artigiani',signup:'Iscrizione artigiano',need:'Descrivi il bisogno',track:'Segui la richiesta',qr:'QR artigiani',wolof:'Wolof BUILD',pro:'Spazio professionale',site:'Sito DIGIYLYFE',hub:'HUB DIGIY'},
+      nl:{title:'Directe BUILD-toegang',lead:'Elke knop opent een echt bestand of een echte moduledeur.',profiles:'Vakprofielen',signup:'Vakman inschrijven',need:'Mijn behoefte beschrijven',track:'Mijn aanvraag volgen',qr:'QR vakmensen',wolof:'Wolof BUILD',pro:'Pro-ruimte',site:'DIGIYLYFE-site',hub:'DIGIY HUB'},
+      ar:{title:'مداخل BUILD المباشرة',lead:'كل زر يفتح ملفاً حقيقياً أو باباً حقيقياً داخل الوحدة.',profiles:'ملفات الحرفيين',signup:'تسجيل حرفي',need:'وصف حاجتي',track:'متابعة طلبي',qr:'رموز QR للحرفيين',wolof:'Wolof BUILD',pro:'المساحة المهنية',site:'موقع DIGIYLYFE',hub:'بوابة DIGIY'}
+    };
+    var t=words[lang]||words.fr;
+    var base='https://build.digiylyfe.com/';
+    var cartoucheStyle=
+      '.build-file-cartouche{padding:0 0 18px}'+
+      '.build-file-panel{padding:18px;border-radius:24px;border:1px solid rgba(250,204,21,.34);background:linear-gradient(145deg,rgba(11,42,31,.98),rgba(6,35,25,.97));box-shadow:0 20px 55px rgba(0,0,0,.38)}'+
+      '.build-file-head{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:13px}'+
+      '.build-file-head h2{margin:0;color:#fff3b2;font-size:clamp(24px,4vw,35px);letter-spacing:-.03em}'+
+      '.build-file-head p{margin:5px 0 0;color:rgba(234,255,241,.72);font-size:14px;line-height:1.5;font-weight:760}'+
+      '.build-file-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}'+
+      '.build-file-link{min-height:74px;padding:12px 13px;border-radius:17px;border:1px solid rgba(255,255,255,.14);background:rgba(255,255,255,.055);display:flex;align-items:center;gap:11px;text-decoration:none;color:#eafff1;font-weight:1000;transition:transform .16s ease,border-color .16s ease,background .16s ease}'+
+      '.build-file-link:hover,.build-file-link:focus-visible{transform:translateY(-2px);border-color:rgba(250,204,21,.55);background:rgba(250,204,21,.10);outline:none}'+
+      '.build-file-link strong{display:block;font-size:15px;line-height:1.2}'+
+      '.build-file-link small{display:block;margin-top:4px;color:rgba(234,255,241,.58);font-size:11px;font-weight:850;word-break:break-all}'+
+      '.build-file-icon{width:42px;height:42px;flex:0 0 42px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(135deg,#f97316,#facc15);color:#111;font-size:20px}'+
+      '@media(max-width:900px){.build-file-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}'+
+      '@media(max-width:560px){.build-file-grid{grid-template-columns:1fr}.build-file-link{min-height:66px}}';
+    var links=[
+      ['👁️',t.profiles,'listing.html',base+'listing.html'],
+      ['🧰',t.signup,'inscription-lang.html',base+'inscription-lang.html?lang='+encodeURIComponent(lang)],
+      ['📄',t.need,'request.html',base+'request.html'],
+      ['🔎',t.track,'track.html',base+'track.html'],
+      ['📲',t.qr,'qr-artisans.html',base+'qr-artisans.html'],
+      ['🇸🇳',t.wolof,'lexique-build.html',base+'lexique-build.html'],
+      ['🔒',t.pro,'build-pro/pin.html',base+'build-pro/pin.html'],
+      ['🌍',t.site,'digiylyfe.com','https://digiylyfe.com/'],
+      ['🧭',t.hub,'digiy-hub.digiylyfe.com','https://digiy-hub.digiylyfe.com/']
+    ];
+    var items=links.map(function(item){
+      return '<a class="build-file-link" href="'+item[3]+'"><span class="build-file-icon" aria-hidden="true">'+item[0]+'</span><span><strong>'+item[1]+'</strong><small>'+item[2]+'</small></span></a>';
+    }).join('');
+    var cartouche='<section class="build-file-cartouche" id="fichiers-build"><div class="wrap"><div class="build-file-panel"><div class="build-file-head"><div><h2>'+t.title+'</h2><p>'+t.lead+'</p></div></div><div class="build-file-grid">'+items+'</div></div></div></section>';
+
     fetch('./app.html?v='+VERSION,{cache:'no-store'}).then(function(r){if(!r.ok)throw new Error('load');return r.text()}).then(function(html){
       var inject='<base href="./">'+
         '<script>try{localStorage.setItem("digiy-lang","'+lang+'") }catch(e){}<\/script>'+
@@ -29,6 +71,17 @@
         '<script src="./build-public-route.js?v='+VERSION+'" defer><\/script>'+
         '<script src="https://digiylyfe.com/assets/i18n/digiy-route.js?v='+VERSION+'" data-lang="'+lang+'" defer><\/script>';
       html=html.replace(/<head([^>]*)>/i,'<head$1>'+inject);
+      html=html.replace('</style>',cartoucheStyle+'</style>');
+      html=html.replace(/<section class="doors-section"/i,cartouche+'<section class="doors-section"');
+
+      html=html
+        .replaceAll('href="./listing.html"','href="'+base+'listing.html"')
+        .replaceAll('href="./request.html"','href="'+base+'request.html"')
+        .replaceAll('href="./track.html"','href="'+base+'track.html"')
+        .replaceAll('href="./qr-artisans.html"','href="'+base+'qr-artisans.html"')
+        .replaceAll('href="./build-pro/pin.html"','href="'+base+'build-pro/pin.html"')
+        .replaceAll('href="./inscription-build.html"','href="'+base+'inscription-lang.html?lang='+encodeURIComponent(lang)+'"');
+
       document.open();document.write(html);document.close();
     }).catch(function(){location.replace('./app.html?lang='+lang)});
   })();
