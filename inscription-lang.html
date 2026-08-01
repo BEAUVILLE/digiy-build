@@ -16,7 +16,7 @@
   <p class="loading">DIGIY BUILD — chargement…</p>
   <script>
   (function(){
-    var VERSION='20260731-build-inscription-v1';
+    var VERSION='20260801-build-inscription-europe-v2';
     var supported=/^(fr|en|es|de|it|nl|ar)$/;
     var params=new URLSearchParams(location.search);
     var lang=(params.get('lang')||'').toLowerCase();
@@ -37,7 +37,8 @@
           '<script src="./assets/js/build-inscription-it.js?v='+VERSION+'" defer><\/script>'+ 
           '<script src="./assets/js/build-inscription-nl.js?v='+VERSION+'" defer><\/script>'+ 
           '<script src="./assets/js/build-inscription-ar.js?v='+VERSION+'" defer><\/script>'+ 
-          '<script src="./assets/js/build-inscription-i18n.js?v='+VERSION+'" defer><\/script>';
+          '<script src="./assets/js/build-inscription-i18n.js?v='+VERSION+'" defer><\/script>'+ 
+          '<script src="./assets/js/build-inscription-europe.js?v='+VERSION+'" defer><\/script>';
         html=html.replace(/<head([^>]*)>/i,'<head$1><base href="./">'+boot+scripts);
         document.open();document.write(html);document.close();
       })
