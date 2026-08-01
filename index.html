@@ -22,7 +22,7 @@
   <p class="loading">DIGIY BUILD — chargement…</p>
   <script>
   (function(){
-    var VERSION='20260801-build-international-v4';
+    var VERSION='20260801-build-international-v5';
     var allowed=/^(fr|en|es|de|it|nl|ar)$/;
     var params=new URLSearchParams(location.search);
     var lang=(params.get('lang')||'').toLowerCase();
@@ -106,8 +106,7 @@
         '<script src="https://digiylyfe.com/assets/i18n/digiy-i18n.js?v='+VERSION+'" defer><\/script>'+
         '<script src="./build-i18n-data.js?v='+VERSION+'" defer><\/script>'+
         '<script src="./build-i18n.js?v='+VERSION+'" defer><\/script>'+
-        '<script src="./build-public-route.js?v='+VERSION+'" defer><\/script>'+
-        '<script src="https://digiylyfe.com/assets/i18n/digiy-route.js?v='+VERSION+'" data-lang="'+lang+'" defer><\/script>';
+        '<script src="./build-public-route.js?v='+VERSION+'" defer><\/script>';
       html=html.replace(/<head([^>]*)>/i,'<head$1>'+inject);
       html=html.replace('</style>',cartoucheStyle+'</style>');
       html=html.replace(/<section class="doors-section"/i,cartouche+'<section class="doors-section"');
