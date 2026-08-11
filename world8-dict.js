@@ -1,0 +1,23 @@
+window.DIGIY_WORLD8_PAGE={pt:{
+"DIGIY BUILD · Professionnels par métier":"DIGIY BUILD · Profissionais por profissão",
+"Professionnels classés par métier":"Profissionais organizados por profissão",
+"Contact direct · 0 % commission":"Contacto direto · 0% de comissão",
+"Choisis le métier":"Escolhe a profissão",
+"Un cartouche ouvre directement les professionnels de la catégorie.":"Um cartão abre diretamente os profissionais da categoria.",
+"Les métiers actifs apparaissent d’abord. Les autres catégories sont déjà prêtes pour les prochains professionnels.":"As profissões ativas aparecem primeiro. As outras categorias já estão prontas para os próximos profissionais.",
+"Professionnels disponibles":"Profissionais disponíveis",
+"3 professionnels actifs":"3 profissionais ativos",
+"Autres métiers":"Outras profissões",
+"profils":"perfis",
+"Catégorie prête":"Categoria pronta",
+"📄 Décrire mon besoin":"📄 Descrever a minha necessidade",
+"🧰 Inscription artisan":"🧰 Registo de artesão",
+"🔎 Suivre ma demande":"🔎 Acompanhar o meu pedido",
+"🔒 Espace pro":"🔒 Espaço profissional",
+"📲 QR artisans":"📲 QR dos artesãos",
+"🇸🇳 Wolof BUILD":"🇸🇳 Wolof BUILD",
+"📦 Tarifs":"📦 Preços",
+"👁️ Tous les profils":"👁️ Todos os perfis",
+"DIGIY BUILD · Le professionnel garde son contact, son prix et son client.":"DIGIY BUILD · O profissional mantém o contacto, o preço e o cliente.",
+"Tous":"Todos","Plombier":"Canalizador","Électricien":"Eletricista","Maçon":"Pedreiro","Entrepreneur bâtiment":"Empreiteiro de construção","Menuisier":"Carpinteiro","Carreleur":"Ladrilhador","Peintre":"Pintor","Soudeur":"Soldador","Climatisation":"Climatização","Solaire":"Solar"
+}};
