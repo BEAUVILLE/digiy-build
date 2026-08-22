@@ -69,5 +69,9 @@ document.getElementById("grid").innerHTML=shown.map(card).join("");document.getE
 document.querySelectorAll(".share").forEach(function(b){b.addEventListener("click",async function(){var url=b.dataset.url,name=b.dataset.name;try{if(navigator.share)await navigator.share({title:name,text:name+" — "+t.shareText,url:url});else if(navigator.clipboard){await navigator.clipboard.writeText(url);b.textContent=t.copied;setTimeout(function(){b.textContent=t.share},1500)}else window.prompt(t.copyPrompt,url)}catch(e){}})});
 })();
 </script>
+
+<div class="digiy-global-home-return" style="max-width:980px;margin:18px auto;padding:0 14px;text-align:center">
+  <a href="https://digiylyfe.com/" style="display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:10px 15px;border-radius:999px;text-decoration:none;font:900 14px/1.2 system-ui,-apple-system,Segoe UI,sans-serif;border:1px solid rgba(127,127,127,.28);background:rgba(255,255,255,.08);color:inherit">🏠 Retour à l’accueil DIGIYLYFE</a>
+</div>
 </body>
 </html>
