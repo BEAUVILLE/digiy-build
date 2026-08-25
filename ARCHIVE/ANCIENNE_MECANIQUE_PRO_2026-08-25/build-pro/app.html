@@ -1,0 +1,176 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"/>
+  <meta name="theme-color" content="#0b2a1f"/>
+  <title>Je propose mes services — Mon espace</title>
+
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="./guard.js?v=buildpro-final"></script>
+
+  <style>
+    body{
+      margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto;
+      background:#061b14;color:#eafff1;padding:16px
+    }
+    header{
+      display:flex;justify-content:space-between;align-items:center;
+      gap:12px;flex-wrap:wrap;margin-bottom:16px
+    }
+    .brand{
+      display:flex;gap:10px;align-items:center;
+      padding:10px 14px;border-radius:999px;
+      border:1px solid rgba(255,255,255,.12)
+    }
+    .logo{
+      width:32px;height:32px;border-radius:10px;
+      display:grid;place-items:center;
+      background:#22c55e;color:#062014;font-weight:900
+    }
+    .btn{
+      padding:10px 14px;border-radius:999px;
+      border:1px solid rgba(255,255,255,.14);
+      background:rgba(0,0,0,.25);color:#eafff1;
+      cursor:pointer
+    }
+    .btn.primary{
+      background:#22c55e;color:#062014;font-weight:900;border:none
+    }
+    .card{
+      border:1px solid rgba(255,255,255,.12);
+      border-radius:18px;padding:14px;margin-bottom:14px;
+      background:rgba(0,0,0,.25)
+    }
+    .row{margin-top:8px;font-size:14px;color:rgba(234,255,241,.8)}
+    .actions{
+      display:flex;gap:10px;flex-wrap:wrap;margin-top:12px
+    }
+    .a{
+      padding:10px 12px;border-radius:14px;
+      border:1px solid rgba(255,255,255,.14);
+      background:rgba(0,0,0,.25);
+      color:#eafff1;cursor:pointer
+    }
+    .a.green{background:#22c55e;color:#062014;border:none;font-weight:900}
+    .a.red{border-color:#ef4444;color:#ef4444}
+    .status{
+      display:inline-block;padding:6px 10px;border-radius:999px;
+      font-size:12px;margin-bottom:6px
+    }
+    .status.new{background:#facc15;color:#062014}
+    .status.doing{background:#3b82f6}
+    .status.done{background:#22c55e;color:#062014}
+    .status.cancel{background:#ef4444}
+  </style>
+</head>
+
+<body>
+<header>
+  <div class="brand">
+    <div class="logo">🧱</div>
+    <div>
+      <b>JE PROPOSE MES SERVICES</b><br>
+      <small id="slugLabel"></small>
+    </div>
+  </div>
+  <div>
+    <button class="btn" id="refresh">🔄 Rafraîchir</button>
+    <button class="btn" id="logout">🚪 Sortir</button>
+    <button class="btn primary">🔓 Accès complet</button>
+  </div>
+</header>
+
+<div id="list"></div>
+
+<script>
+/* =============================
+   INIT SESSION
+============================= */
+const BUILD = window.DIGIY?.BUILD;
+const SB = BUILD?.sb;
+const SESSION = BUILD.requireSession({ redirectTo:"./pin.html", allowNoSlug:true });
+const OWNER_ID = SESSION.owner_id;
+document.getElementById("slugLabel").textContent =
+  SESSION.slug ? "identifiant : " + SESSION.slug : "mode terrain";
+
+/* =============================
+   UTILS
+============================= */
+const list = document.getElementById("list");
+function esc(v){return String(v??"").replace(/[&<>"']/g,c=>({
+  "&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"
+}[c]));}
+
+function badge(status){
+  status = status || "new";
+  return `<span class="status ${status}">${status}</span>`;
+}
+
+/* =============================
+   LOAD REQUESTS
+============================= */
+async function load(){
+  list.innerHTML = "Chargement…";
+
+  const { data, error } = await SB
+    .from("digiy_build_requests")
+    .select("*")
+    .eq("owner_id", OWNER_ID)
+    .order("created_at", { ascending:false });
+
+  if(error){
+    list.innerHTML = "Erreur chargement";
+    console.error(error);
+    return;
+  }
+
+  if(!data.length){
+    list.innerHTML = "<div class='card'>Aucune demande pour l’instant.</div>";
+    return;
+  }
+
+  list.innerHTML = data.map(r=>{
+    return `
+      <section class="card" data-id="${esc(r.id)}">
+        ${badge(r.status)}
+        <div class="row"><b>Service :</b> ${esc(r.service || "—")}</div>
+        <div class="row"><b>Zone :</b> ${esc(r.area || "—")}</div>
+        <div class="row"><b>Client :</b> ${esc(r.customer_name || "—")}</div>
+        <div class="row"><b>Téléphone :</b> ${esc(r.customer_phone || "—")}</div>
+        <div class="row"><b>Note :</b> ${esc(r.note || "")}</div>
+
+        <div class="actions">
+          <button class="a green" onclick="setStatus('${r.id}','doing')">🔵 En cours</button>
+          <button class="a green" onclick="setStatus('${r.id}','done')">✅ Terminer</button>
+          <button class="a red" onclick="setStatus('${r.id}','cancel')">🛑 Annuler</button>
+        </div>
+      </section>
+    `;
+  }).join("");
+}
+
+/* =============================
+   UPDATE STATUS
+============================= */
+async function setStatus(id, status){
+  await SB.from("digiy_build_requests")
+    .update({ status })
+    .eq("id", id);
+  load();
+}
+
+/* =============================
+   EVENTS
+============================= */
+document.getElementById("refresh").onclick = load;
+document.getElementById("logout").onclick = ()=>BUILD.logout("./pin.html");
+
+/* =============================
+   BOOT
+============================= */
+load();
+</script>
+</body>
+</html>
