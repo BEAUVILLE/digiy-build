@@ -1,20 +1,44 @@
 {
-  "schema_version": "1.0",
+  "schema_version": "1.1",
   "last_updated": "2026-08-29",
   "brand": {
     "name": "DIGIY BUILD",
     "parent_brand": "DIGIYLYFE",
-    "role": "galerie d'artisans en contact direct",
+    "role": "galerie d'artisans organisée par départements métiers en contact direct",
     "url": "https://build.digiylyfe.com/",
     "catalogue_url": "https://build.digiylyfe.com/catalogue.html",
     "commission_percent_on_jobs": 0,
     "payment_mode": "direct_to_artisan",
     "confirmation_rule": "L'artisan confirme directement disponibilité, diagnostic, devis, matériaux, délai et montant final."
   },
+  "departments": [
+    {
+      "id": "plomberie",
+      "label": "PLOMBERIE",
+      "icon": "💧",
+      "active": true,
+      "sort_order": 10
+    },
+    {
+      "id": "electricite",
+      "label": "ÉLECTRICITÉ",
+      "icon": "⚡",
+      "active": true,
+      "sort_order": 20
+    },
+    {
+      "id": "maconnerie-batisseurs",
+      "label": "MAÇONNERIE / BÂTISSEURS",
+      "icon": "🧱",
+      "active": true,
+      "sort_order": 30
+    }
+  ],
   "active_artisans": [
     {
       "id": "babacar-plombier-pro",
       "status": "active",
+      "department_id": "plomberie",
       "name": "Babacar Plombier Pro",
       "trade": "Plombier",
       "services": ["fuite", "dépannage", "installation sanitaire", "robinetterie", "WC", "douche", "tuyauterie", "canalisation"],
@@ -31,6 +55,7 @@
     {
       "id": "kourant-electricien",
       "status": "active",
+      "department_id": "electricite",
       "name": "Kourant Électricien",
       "trade": "Électricien",
       "services": ["installation électrique", "rénovation électrique", "dépannage", "tableaux", "disjoncteurs", "prises", "éclairage", "câblage", "recherche de panne"],
@@ -48,6 +73,7 @@
     {
       "id": "mbaye-diouf-batisseur",
       "status": "active",
+      "department_id": "maconnerie-batisseurs",
       "name": "Mbaye Diouf",
       "trade": "Bâtisseur",
       "services": ["construction de villas", "piscines béton", "rénovation", "extensions", "finitions haut de gamme"],
@@ -65,6 +91,7 @@
     {
       "id": "helage-plombier",
       "status": "active",
+      "department_id": "plomberie",
       "name": "Helage",
       "trade": "Plombier multi-services",
       "services": ["dépannage fuites", "robinets", "WC", "installation douche", "lavabo", "chauffe-eau", "désengorgement", "petits chantiers sanitaires"],
@@ -81,6 +108,8 @@
   ],
   "excluded_or_unconfirmed_profiles": [],
   "assistant_usage_notes": [
+    "Route first by department_id, then by service area and service.",
+    "Display as active departments only departments that contain at least one active artisan.",
     "Recommend only entries in active_artisans whose status is active.",
     "Do not infer active BUILD status from a showcase or an older external fiche.",
     "Give the artisan name, trade, service areas, profile and direct contact.",
