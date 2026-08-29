@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "last_updated": "2026-07-29",
+  "last_updated": "2026-08-29",
   "brand": {
     "name": "DIGIY BUILD",
     "parent_brand": "DIGIYLYFE",
@@ -40,7 +40,7 @@
       "phone_display": "+221 77 208 47 81",
       "phone_e164": "+221772084781",
       "whatsapp_url": "https://wa.me/221772084781",
-      "published_price": {"type":"starting_at","amount":10000,"currency":"XOF"},
+      "published_price": {"type": "starting_at", "amount": 10000, "currency": "XOF"},
       "final_quote": "confirm_directly_with_artisan",
       "payment": "direct_to_artisan",
       "digiy_commission_percent": 0
@@ -61,14 +61,25 @@
       "final_quote": "confirm_directly_with_artisan",
       "payment": "direct_to_artisan",
       "digiy_commission_percent": 0
-    }
-  ],
-  "excluded_or_unconfirmed_profiles": [
+    },
     {
-      "name": "Helage plombier",
-      "reason": "Présent comme référence de démonstration dans RÉSEAU DIGIY mais absent de la galerie officielle BUILD actuelle. Ne pas le présenter comme artisan BUILD actif sans réactivation explicite."
+      "id": "helage-plombier",
+      "status": "active",
+      "name": "Helage",
+      "trade": "Plombier multi-services",
+      "services": ["dépannage fuites", "robinets", "WC", "installation douche", "lavabo", "chauffe-eau", "désengorgement", "petits chantiers sanitaires"],
+      "service_areas": ["Saly", "Petite Côte"],
+      "profile_url": "https://helage-plombier.digiylyfe.com/",
+      "image": "https://helage-plombier.digiylyfe.com/carte-visite.png?v=20260814-adherent",
+      "phone_e164": "+221774513523",
+      "whatsapp_url": "https://wa.me/221774513523",
+      "published_price": "non publié",
+      "final_quote": "confirm_directly_with_artisan",
+      "payment": "direct_to_artisan",
+      "digiy_commission_percent": 0
     }
   ],
+  "excluded_or_unconfirmed_profiles": [],
   "assistant_usage_notes": [
     "Recommend only entries in active_artisans whose status is active.",
     "Do not infer active BUILD status from a showcase or an older external fiche.",
