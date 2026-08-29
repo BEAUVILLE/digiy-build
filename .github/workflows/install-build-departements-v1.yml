@@ -1,0 +1,53 @@
+name: Install DIGIY BUILD departments
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/install-build-departements-v1.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  install:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+      - name: Install department runtime
+        shell: python
+        run: |
+          from pathlib import Path
+          p=Path('index.html')
+          s=p.read_text(encoding='utf-8')
+          tag='<script src="/assets/digiy-build-departements-v1.js?v=20260829-v1" defer></script>'
+          if tag not in s:
+              if '</body>' not in s:
+                  raise SystemExit('STOP: </body> absent')
+              s=s.replace('</body>', tag+'\n</body>', 1)
+              p.write_text(s, encoding='utf-8')
+          checks=[
+              'babacar-plombier-pro.digiylyfe.com',
+              'kourant.digiylyfe.com',
+              'digiy-mbaye-diouf-signature-v1.js',
+              'digiy-helage-signature-v1.js',
+              'data-digiy-return-home',
+              tag,
+          ]
+          missing=[x for x in checks if x not in p.read_text(encoding='utf-8')]
+          if missing:
+              raise SystemExit('STOP: verrous absents: '+', '.join(missing))
+      - name: Commit validated department loader
+        run: |
+          if git diff --quiet -- index.html; then
+            echo "Loader already installed"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git commit -m "Install DIGIY BUILD trade departments [skip ci]"
+          git push origin main
