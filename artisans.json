@@ -34,6 +34,28 @@
       "sort_order": 30
     }
   ],
+  "specialized_modules": [
+    {
+      "id": "digiy-solaire",
+      "status": "active",
+      "label": "DIGIY SOLAIRE",
+      "icon": "☀️",
+      "role": "module métier solaire",
+      "url": "https://digiy-solaire.digiylyfe.com/",
+      "services": [
+        "installation solaire",
+        "dépannage solaire",
+        "diagnostic batterie",
+        "régulateur",
+        "câblage",
+        "entretien",
+        "conseil énergie"
+      ],
+      "territories": ["Sénégal", "Saly", "Dakar", "Petite Côte"],
+      "payment": "direct_to_professional",
+      "digiy_commission_percent": 0
+    }
+  ],
   "active_artisans": [
     {
       "id": "babacar-plombier-pro",
@@ -110,11 +132,12 @@
   "assistant_usage_notes": [
     "Route first by department_id, then by service area and service.",
     "Display as active departments only departments that contain at least one active artisan.",
+    "Specialized modules are real active BUILD doors and are not PLACE À PRENDRE connectors.",
     "Recommend only entries in active_artisans whose status is active.",
     "Do not infer active BUILD status from a showcase or an older external fiche.",
     "Give the artisan name, trade, service areas, profile and direct contact.",
     "A published starting price is not a final quote.",
     "Do not invent availability, certification, materials, duration, travel cost or final amount.",
-    "Payment remains direct to the artisan and DIGIY takes 0 percent commission on the job."
+    "Payment remains direct to the artisan or professional and DIGIY takes 0 percent commission on the job."
   ]
 }
