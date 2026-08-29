@@ -1,0 +1,73 @@
+name: Install Mbaye Diouf signature
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/install-mbaye-diouf-signature.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  install-mbaye-signature:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install shared Mbaye Carte Vitrine loader
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          path = Path('index.html')
+          if not path.exists():
+              raise SystemExit('index.html missing')
+          text = path.read_text(encoding='utf-8')
+          marker = '<script src="https://digiylyfe.com/assets/digiy-mbaye-diouf-signature-v1.js?v=20260829-v1" defer></script>'
+          if 'digiy-mbaye-diouf-signature-v1.js' not in text:
+              if '</body>' not in text:
+                  raise SystemExit('No </body> marker in index.html')
+              head, tail = text.rsplit('</body>', 1)
+              text = head.rstrip() + '\n' + marker + '\n</body>' + tail
+              path.write_text(text, encoding='utf-8')
+              print('INSTALLED: index.html')
+          else:
+              print('OK already installed: index.html')
+          PY
+
+      - name: Verify public BUILD structure
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          text = Path('index.html').read_text(encoding='utf-8')
+          checks = {
+              'Mbaye loader': 'digiy-mbaye-diouf-signature-v1.js' in text,
+              'Mbaye fiche preserved': 'https://mbaye-macon.digiylyfe.com/' in text,
+              'Mbaye contact preserved': '221776427113' in text,
+              'Babacar preserved': 'Babacar Plombier Pro' in text,
+              'Kourant preserved': 'Kourant' in text,
+              '8 languages preserved': all(('data-lang="%s"' % x) in text for x in ['fr','en','es','pt','it','de','nl','ar']),
+              '0 percent doctrine preserved': '0 %' in text,
+          }
+          bad=[k for k,v in checks.items() if not v]
+          for k,v in checks.items(): print(('OK  ' if v else 'FAIL'),k)
+          if bad: raise SystemExit('Verification failed: '+', '.join(bad))
+          PY
+
+      - name: Commit installed loader
+        shell: bash
+        run: |
+          if git diff --quiet; then
+            echo "No page needed an update."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          git commit -m "Install Mbaye Diouf card signature [skip ci]"
+          git push
