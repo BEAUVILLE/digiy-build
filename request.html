@@ -472,6 +472,7 @@
             <span class="pill">Paiement direct au pro</span>
             <span class="pill">0% commission</span>
             <span class="pill">Demande claire</span>
+            <span class="pill">Particulier ou pro du chantier</span>
           </div>
 
           <div class="hero-actions">
@@ -511,6 +512,18 @@
           </div>
 
           <div>
+            <label for="demandeur_role">Je suis</label>
+            <select id="demandeur_role" name="demandeur_role">
+              <option value="Particulier">Particulier</option>
+              <option value="Architecte">Architecte</option>
+              <option value="Maître d'œuvre">Maître d’œuvre</option>
+              <option value="Entreprise">Entreprise / promoteur</option>
+              <option value="Chef de chantier">Chef de chantier</option>
+              <option value="Autre professionnel">Autre professionnel</option>
+            </select>
+          </div>
+
+          <div>
             <label for="ville">Ville du chantier</label>
             <input id="ville" name="ville" required placeholder="Ex : Saly / Dakar / Thiès">
           </div>
@@ -530,8 +543,37 @@
               <option value="Mécanique">Mécanique</option>
               <option value="Climatisation / Froid">Climatisation / Froid</option>
               <option value="Manœuvre">Manœuvre</option>
+              <option value="Équipe de bâtisseurs / multi-métiers">Équipe de bâtisseurs / multi-métiers</option>
               <option value="Autre">Autre</option>
             </select>
+          </div>
+        </div>
+
+        <div id="teamBlock" hidden>
+          <div class="grid">
+            <div>
+              <label for="team_metiers">Métiers recherchés</label>
+              <input id="team_metiers" name="team_metiers" placeholder="Ex : 2 maçons · 1 électricien · 1 plombier">
+            </div>
+
+            <div>
+              <label for="team_size">Taille d’équipe souhaitée</label>
+              <input id="team_size" name="team_size" type="number" inputmode="numeric" min="1" step="1" placeholder="Ex : 6">
+            </div>
+
+            <div>
+              <label for="start_date">Démarrage souhaité</label>
+              <input id="start_date" name="start_date" type="date">
+            </div>
+
+            <div>
+              <label for="mission_duration">Durée / mission</label>
+              <input id="mission_duration" name="mission_duration" placeholder="Ex : 3 semaines · gros œuvre villa">
+            </div>
+          </div>
+
+          <div class="mini">
+            Réseau chantier : l’architecte, le maître d’œuvre ou l’entreprise décrit l’équipe nécessaire. DIGIY oriente le besoin vers les bâtisseurs compatibles ; l’accord reste direct entre professionnels.
           </div>
         </div>
 
@@ -540,7 +582,7 @@
           id="description"
           name="description"
           required
-          placeholder="Ex : fuite dans la salle de bain, portail à souder, prise à réparer, mur à monter, moteur à vérifier… Mets aussi le quartier, les dimensions et les photos si tu peux."
+          placeholder="Ex : fuite, mur à monter, chantier villa… Si tu cherches une équipe, précise les métiers, le nombre de personnes, la zone et la mission."
         ></textarea>
 
         <div class="grid">
@@ -833,11 +875,27 @@
         const description = cleanText(formData.get("description"));
         const budgetRaw = cleanText(formData.get("budget"));
         const urgence = cleanText(formData.get("urgence")) || "Normal";
+        const demandeurRole = cleanText(formData.get("demandeur_role")) || "Particulier";
+        const teamMetiers = cleanText(formData.get("team_metiers"));
+        const teamSize = cleanText(formData.get("team_size"));
+        const startDate = cleanText(formData.get("start_date"));
+        const missionDuration = cleanText(formData.get("mission_duration"));
 
         const contextBlock = buildContextBlock();
-        const finalDescription = contextBlock
-          ? `${contextBlock}\n\n${description}`
-          : description;
+        const networkParts = [];
+        if(demandeurRole !== "Particulier") networkParts.push(`Demandeur : ${demandeurRole}`);
+        if(teamMetiers) networkParts.push(`Métiers recherchés : ${teamMetiers}`);
+        if(teamSize) networkParts.push(`Taille équipe : ${teamSize}`);
+        if(startDate) networkParts.push(`Démarrage souhaité : ${startDate}`);
+        if(missionDuration) networkParts.push(`Durée / mission : ${missionDuration}`);
+
+        const networkBlock = networkParts.length
+          ? `[Besoin réseau chantier]\n${networkParts.join(" | ")}`
+          : "";
+
+        const finalDescription = [contextBlock, networkBlock, description]
+          .filter(Boolean)
+          .join("\n\n");
 
         return {
           artisan_id: state.selected.artisan_id || null,
@@ -925,8 +983,19 @@
         }
       }
 
+      function updateTeamBlock(){
+        const role = cleanText($("demandeur_role")?.value);
+        const type = cleanText($("type_travaux")?.value);
+        const show = role !== "Particulier" || type === "Équipe de bâtisseurs / multi-métiers";
+        const block = $("teamBlock");
+        if(block) block.hidden = !show;
+      }
+
       function bindUi() {
         $("form").addEventListener("submit", submitForm);
+        $("demandeur_role")?.addEventListener("change", updateTeamBlock);
+        $("type_travaux")?.addEventListener("change", updateTeamBlock);
+        updateTeamBlock();
       }
 
       async function init() {
