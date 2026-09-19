@@ -279,7 +279,7 @@
       <div class="topActions">
         <a class="btn ghost" href="https://digiylyfe.com/">Site</a>
         <a class="btn ghost" href="https://digiy-hub.digiylyfe.com/">HUB</a>
-        <a class="btn secondary" href="./listing.html">Retour galerie</a>
+        <a class="btn secondary" href="./listing.html">Retour galerie</a>\n        <a class="btn ghost" id="ownerAccessBtn" href="./acces-proprietaire-v2.html" hidden>🔐 Accès propriétaire</a>
       </div>
     </header>
 
@@ -420,6 +420,16 @@
 
       const params = new URLSearchParams(location.search);
       const requestedSlug = normSlug(params.get("slug") || params.get("id") || "");
+      const ownerAccessBtn = $("ownerAccessBtn");
+      if(ownerAccessBtn && requestedSlug){
+        const ownerUrl = new URL("./acces-proprietaire-v2.html", location.href);
+        ownerUrl.searchParams.set("site", requestedSlug);
+        ownerUrl.searchParams.set("return", location.href);
+        const currentLang = params.get("lang");
+        if(currentLang) ownerUrl.searchParams.set("lang", currentLang);
+        ownerAccessBtn.href = ownerUrl.pathname + ownerUrl.search;
+        ownerAccessBtn.hidden = false;
+      }
 
       let currentProfile = null;
       let currentProfileUrl = "";
