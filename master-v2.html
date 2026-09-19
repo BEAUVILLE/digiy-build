@@ -203,7 +203,7 @@
     $("sendMagic").disabled=true;
     const redirect = new URL("gestion-build-v2.html", location.href);
     redirect.searchParams.set("site",CFG.siteSlug);
-    redirect.searchParams.set("lang",lang);
+    redirect.searchParams.set("lang",lang);\n    redirect.searchParams.set("return",location.href);
     const {error}=await sb.auth.signInWithOtp({
       email,
       options:{shouldCreateUser:false,emailRedirectTo:redirect.href}
