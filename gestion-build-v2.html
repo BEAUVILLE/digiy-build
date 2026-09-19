@@ -7,6 +7,7 @@
   <meta name="theme-color" content="#073f32">
   <title>DIGIY BUILD · Gestion propriétaire</title>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0"></script>
+<script src="./owner-phone-mfa-v1.js"></script>
   <style>
     :root{--g:#073f32;--gold:#d8ad46;--cream:#f6f1e5;--paper:#fffefa;--ink:#173b31;--muted:#6e8179;--line:#dfe8e2;--bad:#8a2a2a;--ok:#1d6a3b}
     *{box-sizing:border-box}html,body{margin:0}body{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--cream);color:var(--ink)}
@@ -130,6 +131,11 @@
     const {data:{user:currentUser},error:userError}=await sb.auth.getUser();
     if(userError || !currentUser){ message(tr("noSession")); return; }
     user=currentUser;
+
+    try{
+      const allowed = await window.DIGIY_OWNER_PHONE_MFA.guard({supabase:sb,beforeId:"editor"});
+      if(!allowed) return;
+    }catch(e){ message(e?.message || String(e)); return; }
 
     const {data,error}=await sb
       .from(CORE.table)
