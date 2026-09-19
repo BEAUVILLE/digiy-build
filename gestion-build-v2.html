@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="theme-color" content="#073f32">
+  <title>DIGIY BUILD · Gestion propriétaire</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0"></script>
+  <style>
+    :root{--g:#073f32;--gold:#d8ad46;--cream:#f6f1e5;--paper:#fffefa;--ink:#173b31;--muted:#6e8179;--line:#dfe8e2;--bad:#8a2a2a;--ok:#1d6a3b}
+    *{box-sizing:border-box}html,body{margin:0}body{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--cream);color:var(--ink)}
+    .wrap{width:min(100% - 24px,760px);margin:auto}header{background:var(--g);color:#fff;border-bottom:4px solid var(--gold);padding:18px 0}.brand{font-size:21px;font-weight:950}.sub{font-size:11px;color:#eadfae;margin-top:3px}
+    main{padding:18px 0 40px}.top{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;margin-bottom:12px}.btn{border-radius:999px;padding:10px 13px;border:1px solid var(--line);background:#fff;color:var(--ink);font:900 11px system-ui;cursor:pointer;text-decoration:none}.primary{background:var(--g);color:#fff;border-color:var(--g)}
+    .card{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:17px;box-shadow:0 9px 22px rgba(7,63,50,.07)}h1{font-size:22px;margin:0 0 4px}.who{color:var(--muted);font-size:12px;margin-bottom:16px}
+    label{display:block;font-size:11px;font-weight:900;margin:14px 0 6px}.hint{display:block;color:var(--muted);font-size:10px;font-weight:500;margin-top:3px}textarea,input{width:100%;border:1px solid var(--line);border-radius:12px;padding:12px;background:#fff;font:inherit;color:var(--ink)}textarea{min-height:140px;resize:vertical}
+    .save{width:100%;margin-top:16px;border:0;border-radius:999px;padding:13px;background:var(--g);color:#fff;font-weight:950;cursor:pointer}.save:disabled{opacity:.5;cursor:default}
+    .msg{display:none;margin:12px 0;padding:11px;border-radius:11px;font-size:12px;line-height:1.4}.msg.show{display:block}.msg.ok{background:#edf8f0;color:var(--ok)}.msg.bad{background:#fff0f0;color:var(--bad)}
+    .lock{font-size:11px;background:#fff8df;border:1px solid #ead28a;border-left:4px solid var(--gold);border-radius:11px;padding:10px;color:#5e5124;line-height:1.45;margin:12px 0}
+    .langs{display:flex;gap:5px;flex-wrap:wrap;margin-top:12px}.langs button{border:1px solid rgba(255,255,255,.3);background:transparent;color:#fff;border-radius:999px;padding:5px 7px;font-size:9px;font-weight:850;cursor:pointer}.langs button.active{background:var(--gold);color:var(--g)}
+    html[dir="rtl"] body{direction:rtl}html[dir="rtl"] .lock{border-left:1px solid #ead28a;border-right:4px solid var(--gold)}
+  </style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="brand">🛠️ DIGIY BUILD · <span data-i18n="manage">Gestion propriétaire</span></div>
+    <div class="sub" data-i18n="sub">Simple : prestations · zone · disponibilité</div>
+    <div class="langs">
+      <button data-lang="fr">🇫🇷 FR</button><button data-lang="en">🇬🇧 EN</button><button data-lang="es">🇪🇸 ES</button><button data-lang="pt">🇵🇹 PT</button><button data-lang="it">🇮🇹 IT</button><button data-lang="de">🇩🇪 DE</button><button data-lang="nl">🇳🇱 NL</button><button data-lang="ar">🌙 AR</button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="top">
+    <a class="btn" id="returnBtn" href="./master-v2.html" data-i18n="back">← Retour à la fiche</a>
+    <button class="btn" id="logoutBtn" type="button" data-i18n="logout">Déconnexion</button>
+  </div>
+
+  <div id="msg" class="msg"></div>
+
+  <section class="card" id="editor" hidden>
+    <h1 id="businessName">DIGIY BUILD</h1>
+    <div class="who" id="ownerInfo"></div>
+
+    <div class="lock" data-i18n="lock">Vous ne gérez ici que les informations qui changent souvent. Identité, publication, vérification et structure de la fiche restent protégées.</div>
+
+    <label>
+      <span data-i18n="services">Prestations / savoir-faire</span>
+      <span class="hint" data-i18n="servicesHint">Une ligne ou une phrase simple par prestation.</span>
+    </label>
+    <textarea id="services" maxlength="3000"></textarea>
+
+    <label>
+      <span data-i18n="zone">Zone d’intervention</span>
+      <span class="hint" data-i18n="zoneHint">Ex. ville, communes, rayon ou territoire réellement couvert.</span>
+    </label>
+    <input id="zone" type="text" maxlength="300">
+
+    <label>
+      <span data-i18n="availability">Disponibilité affichée</span>
+      <span class="hint" data-i18n="availabilityHint">Écrivez seulement ce qui est vrai aujourd’hui.</span>
+    </label>
+    <input id="availability" type="text" maxlength="120">
+
+    <button class="save" id="saveBtn" type="button" data-i18n="save">Enregistrer</button>
+  </section>
+</main>
+
+<script>
+(() => {
+  const CORE = {
+    url:"https://wesqmwjjtsefyjnluosj.supabase.co",
+    key:"sb_publishable_tGHItRgeWDmGjnd0CK1DVQ_BIep4Ug3",
+    table:"digiy_build_public_profiles"
+  };
+  const sb = window.supabase.createClient(CORE.url, CORE.key, {
+    auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}
+  });
+  const $ = id => document.getElementById(id);
+  const params = new URL(location.href).searchParams;
+  const siteSlug = (params.get("site") || "").trim();
+  let lang = params.get("lang") || localStorage.getItem("digiy_lang") || "fr";
+  let user = null;
+
+  const I18N = {
+    fr:{manage:"Gestion propriétaire",sub:"Simple : prestations · zone · disponibilité",back:"← Retour à la fiche",logout:"Déconnexion",lock:"Vous ne gérez ici que les informations qui changent souvent. Identité, publication, vérification et structure de la fiche restent protégées.",services:"Prestations / savoir-faire",servicesHint:"Une ligne ou une phrase simple par prestation.",zone:"Zone d’intervention",zoneHint:"Ex. ville, communes, rayon ou territoire réellement couvert.",availability:"Disponibilité affichée",availabilityHint:"Écrivez seulement ce qui est vrai aujourd’hui.",save:"Enregistrer",saved:"Modifications enregistrées.",noSession:"Ouvrez cette page depuis le lien reçu par email.",noSite:"Aucun commerce BUILD n’est indiqué dans ce lien.",forbidden:"Aucune fiche BUILD ne correspond à ce compte.",loading:"Chargement…"},
+    en:{manage:"Owner management",sub:"Simple: services · area · availability",back:"← Back to profile",logout:"Sign out",lock:"Only frequently changing information is editable here. Identity, publication, verification and profile structure stay protected.",services:"Services / know-how",servicesHint:"One simple line or sentence per service.",zone:"Service area",zoneHint:"City, towns, radius or territory actually covered.",availability:"Displayed availability",availabilityHint:"Write only what is true today.",save:"Save",saved:"Changes saved.",noSession:"Open this page from the link received by email.",noSite:"No BUILD profile is specified in this link.",forbidden:"No BUILD profile matches this account.",loading:"Loading…"},
+    es:{manage:"Gestión propietario",sub:"Simple: servicios · zona · disponibilidad",back:"← Volver a la ficha",logout:"Cerrar sesión",lock:"Aquí solo se editan los datos que cambian a menudo. Identidad, publicación, verificación y estructura quedan protegidas.",services:"Servicios / saber hacer",servicesHint:"Una línea o frase simple por servicio.",zone:"Zona de intervención",zoneHint:"Ciudad, municipios, radio o territorio realmente cubierto.",availability:"Disponibilidad mostrada",availabilityHint:"Escriba solo lo que sea cierto hoy.",save:"Guardar",saved:"Cambios guardados.",noSession:"Abra esta página desde el enlace recibido por email.",noSite:"Este enlace no indica ningún perfil BUILD.",forbidden:"Ningún perfil BUILD corresponde a esta cuenta.",loading:"Cargando…"},
+    pt:{manage:"Gestão do proprietário",sub:"Simples: serviços · zona · disponibilidade",back:"← Voltar à ficha",logout:"Terminar sessão",lock:"Aqui só edita informações que mudam com frequência. Identidade, publicação, verificação e estrutura ficam protegidas.",services:"Serviços / saber-fazer",servicesHint:"Uma linha ou frase simples por serviço.",zone:"Zona de intervenção",zoneHint:"Cidade, municípios, raio ou território realmente coberto.",availability:"Disponibilidade apresentada",availabilityHint:"Escreva apenas o que é verdade hoje.",save:"Guardar",saved:"Alterações guardadas.",noSession:"Abra esta página pelo link recebido por email.",noSite:"Nenhum perfil BUILD indicado neste link.",forbidden:"Nenhum perfil BUILD corresponde a esta conta.",loading:"A carregar…"},
+    it:{manage:"Gestione proprietario",sub:"Semplice: servizi · zona · disponibilità",back:"← Torna alla scheda",logout:"Disconnetti",lock:"Qui si modificano solo le informazioni che cambiano spesso. Identità, pubblicazione, verifica e struttura restano protette.",services:"Servizi / competenze",servicesHint:"Una riga o frase semplice per servizio.",zone:"Zona di intervento",zoneHint:"Città, comuni, raggio o territorio realmente coperto.",availability:"Disponibilità mostrata",availabilityHint:"Scrivi solo ciò che è vero oggi.",save:"Salva",saved:"Modifiche salvate.",noSession:"Apri questa pagina dal link ricevuto via email.",noSite:"Nessun profilo BUILD indicato nel link.",forbidden:"Nessun profilo BUILD corrisponde a questo account.",loading:"Caricamento…"},
+    de:{manage:"Inhaberverwaltung",sub:"Einfach: Leistungen · Gebiet · Verfügbarkeit",back:"← Zurück zum Profil",logout:"Abmelden",lock:"Hier werden nur häufig wechselnde Angaben bearbeitet. Identität, Veröffentlichung, Prüfung und Profilstruktur bleiben geschützt.",services:"Leistungen / Know-how",servicesHint:"Eine einfache Zeile oder ein Satz pro Leistung.",zone:"Einsatzgebiet",zoneHint:"Stadt, Gemeinden, Radius oder tatsächlich bedientes Gebiet.",availability:"Angezeigte Verfügbarkeit",availabilityHint:"Nur eintragen, was heute stimmt.",save:"Speichern",saved:"Änderungen gespeichert.",noSession:"Öffnen Sie diese Seite über den Link aus der E-Mail.",noSite:"In diesem Link ist kein BUILD-Profil angegeben.",forbidden:"Kein BUILD-Profil gehört zu diesem Konto.",loading:"Laden…"},
+    nl:{manage:"Eigenaarsbeheer",sub:"Eenvoudig: diensten · gebied · beschikbaarheid",back:"← Terug naar profiel",logout:"Uitloggen",lock:"Hier bewerkt u alleen informatie die vaak verandert. Identiteit, publicatie, verificatie en profielstructuur blijven beschermd.",services:"Diensten / vakkennis",servicesHint:"Eén eenvoudige regel of zin per dienst.",zone:"Werkgebied",zoneHint:"Stad, gemeenten, straal of werkelijk bediend gebied.",availability:"Getoonde beschikbaarheid",availabilityHint:"Schrijf alleen wat vandaag klopt.",save:"Opslaan",saved:"Wijzigingen opgeslagen.",noSession:"Open deze pagina via de link in uw e-mail.",noSite:"Deze link bevat geen BUILD-profiel.",forbidden:"Geen BUILD-profiel hoort bij dit account.",loading:"Laden…"},
+    ar:{manage:"إدارة المالك",sub:"بسيط: الخدمات · المنطقة · التوفر",back:"العودة إلى الملف →",logout:"تسجيل الخروج",lock:"يمكن هنا تعديل المعلومات التي تتغير كثيرًا فقط. الهوية والنشر والتحقق وبنية الملف تبقى محمية.",services:"الخدمات / الخبرة",servicesHint:"سطر أو جملة بسيطة لكل خدمة.",zone:"منطقة التدخل",zoneHint:"المدينة أو البلديات أو النطاق الذي تتم خدمته فعليًا.",availability:"التوفر المعروض",availabilityHint:"اكتب فقط ما هو صحيح اليوم.",save:"حفظ",saved:"تم حفظ التعديلات.",noSession:"افتح هذه الصفحة من الرابط المرسل إلى بريدك الإلكتروني.",noSite:"لا يوجد ملف BUILD محدد في هذا الرابط.",forbidden:"لا يوجد ملف BUILD مرتبط بهذا الحساب.",loading:"جار التحميل…"}
+  };
+
+  if(!I18N[lang]) lang="fr";
+  function tr(k){ return I18N[lang]?.[k] || I18N.fr[k] || k; }
+  function applyLang(){
+    document.documentElement.lang=lang;
+    document.documentElement.dir=lang==="ar"?"rtl":"ltr";
+    document.querySelectorAll("[data-i18n]").forEach(el=>el.textContent=tr(el.dataset.i18n));
+    document.querySelectorAll("[data-lang]").forEach(b=>b.classList.toggle("active",b.dataset.lang===lang));
+    localStorage.setItem("digiy_lang",lang);
+  }
+  document.querySelectorAll("[data-lang]").forEach(b=>b.addEventListener("click",()=>{lang=b.dataset.lang;applyLang();}));
+
+  function message(text,type="bad"){
+    const el=$("msg");el.textContent=text;el.className="msg show "+type;
+  }
+
+  const returnParam=params.get("return");
+  if(returnParam){
+    try{
+      const u=new URL(returnParam,location.origin);
+      if(u.origin===location.origin || u.hostname.endsWith(".digiylyfe.com")){
+        $("returnBtn").href=u.href;
+      }
+    }catch(_){}
+  } else {
+    const u=new URL("./master-v2.html",location.href);u.searchParams.set("lang",lang);$("returnBtn").href=u.href;
+  }
+
+  async function boot(){
+    applyLang();
+    if(!siteSlug){ message(tr("noSite")); return; }
+    message(tr("loading"),"ok");
+
+    const {data:{user:currentUser},error:userError}=await sb.auth.getUser();
+    if(userError || !currentUser){ message(tr("noSession")); return; }
+    user=currentUser;
+
+    const {data,error}=await sb
+      .from(CORE.table)
+      .select("slug,owner_id,display_name,trade,services_text,zone,hub_badge")
+      .eq("slug",siteSlug)
+      .eq("owner_id",user.id)
+      .maybeSingle();
+
+    if(error || !data){ message(tr("forbidden")); return; }
+
+    $("businessName").textContent=data.display_name || "DIGIY BUILD";
+    $("ownerInfo").textContent=[data.trade,user.email].filter(Boolean).join(" · ");
+    $("services").value=data.services_text || "";
+    $("zone").value=data.zone || "";
+    $("availability").value=data.hub_badge || "";
+    $("editor").hidden=false;
+    $("msg").className="msg";
+  }
+
+  $("saveBtn").addEventListener("click",async()=>{
+    if(!user)return;
+    $("saveBtn").disabled=true;
+    const patch={
+      services_text:$("services").value.trim(),
+      zone:$("zone").value.trim(),
+      hub_badge:$("availability").value.trim()
+    };
+    const {data,error}=await sb
+      .from(CORE.table)
+      .update(patch)
+      .eq("slug",siteSlug)
+      .eq("owner_id",user.id)
+      .select("slug")
+      .maybeSingle();
+    $("saveBtn").disabled=false;
+    if(error || !data){ message(error?.message || tr("forbidden")); return; }
+    message(tr("saved"),"ok");
+  });
+
+  $("logoutBtn").addEventListener("click",async()=>{
+    await sb.auth.signOut();
+    location.href=$("returnBtn").href;
+  });
+
+  boot();
+})();
+</script>
+</body>
+</html>
