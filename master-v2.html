@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#073f32">
+  <title>DIGIY BUILD · MASTER V2</title>
+  <meta name="description" content="DIGIY BUILD · artisan local · contact direct · 0 % commission DIGIYLYFE.">
+  <script>
+    window.DIGIY_BUILD_CONFIG = {
+      siteSlug: "__MASTER__",
+      get masterMode(){ return this.siteSlug === "__MASTER__"; }
+    };
+    if (window.DIGIY_BUILD_CONFIG.masterMode) {
+      const m = document.createElement("meta");
+      m.name = "robots";
+      m.content = "noindex,nofollow";
+      document.head.appendChild(m);
+    }
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0"></script>
+  <style>
+    :root{--g:#073f32;--g2:#0d634b;--gold:#d8ad46;--cream:#f6f1e5;--paper:#fffefa;--ink:#173b31;--muted:#6e8179;--line:#dfe8e2;--ok:#e9f4ed}
+    *{box-sizing:border-box}html,body{margin:0;padding:0}body{font-family:system-ui,-apple-system,"Segoe UI",sans-serif;background:var(--cream);color:var(--ink)}
+    a{color:inherit}.wrap{width:min(100% - 24px,920px);margin:auto}
+    header{background:var(--g);color:#fff;border-bottom:4px solid var(--gold);padding:18px 0}
+    .head{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}.brand{font-size:23px;font-weight:950}.sub{font-size:11px;color:#eadfae;margin-top:3px}
+    .zero{border:1px solid var(--gold);color:#f2d77e;border-radius:999px;padding:7px 10px;font-size:10px;font-weight:900;text-align:center;white-space:nowrap}
+    .langs{display:flex;gap:5px;flex-wrap:wrap;margin-top:12px}.langs button{border:1px solid rgba(255,255,255,.3);background:transparent;color:#fff;border-radius:999px;padding:6px 8px;font-size:10px;font-weight:850;cursor:pointer}.langs button.active{background:var(--gold);color:var(--g);border-color:var(--gold)}
+    main{padding:16px 0 40px}.topbar{display:flex;justify-content:space-between;gap:8px;margin-bottom:12px}.back,.owner{border-radius:999px;padding:9px 12px;text-decoration:none;font-size:10px;font-weight:900;border:1px solid var(--line);background:#fff;cursor:pointer}.back{background:var(--g);color:#fff;border-color:var(--gold)}
+    .card{background:var(--paper);border:1px solid var(--line);border-radius:20px;overflow:hidden;box-shadow:0 10px 25px rgba(7,63,50,.08)}
+    .hero{height:260px;background:#dde7e0;position:relative;overflow:hidden}.hero img{width:100%;height:100%;object-fit:cover;display:block}.hero .fallback{height:100%;display:grid;place-items:center;font-size:70px}
+    .body{padding:18px}.eyebrow{font-size:10px;font-weight:950;color:#a97d17;letter-spacing:.7px}.title{font-size:27px;line-height:1.05;margin:5px 0 4px}.trade{font-size:14px;color:var(--muted);margin:0 0 7px}
+    .chips{display:flex;gap:6px;flex-wrap:wrap;margin:10px 0}.chip{background:#edf4ef;border:1px solid #d9e5dc;border-radius:999px;padding:6px 8px;font-size:11px;font-weight:800}
+    .bio{line-height:1.55;color:#405c53;font-size:13px}.grid{display:grid;gap:10px;margin-top:15px}.box{border:1px solid var(--line);border-radius:14px;padding:12px;background:#fff}.box strong{display:block;font-size:11px;color:var(--g);margin-bottom:5px}.box div,.box p{font-size:12px;line-height:1.45;margin:0;color:#4a625a;white-space:pre-line}
+    .direct{background:#fff8df;border:1px solid #ead28a;border-left:4px solid var(--gold);border-radius:12px;padding:11px 12px;margin-top:14px;font-size:11px;line-height:1.45;color:#5e5124}
+    .actions{display:grid;grid-template-columns:1fr;gap:8px;margin-top:14px}.btn{border:0;border-radius:999px;padding:12px;text-align:center;text-decoration:none;font-size:12px;font-weight:950;cursor:pointer}.primary{background:var(--g);color:#fff}.wa{border:1px solid #178d58;color:#178d58;background:#fff}.disabled{opacity:.45;pointer-events:none}
+    .status{display:inline-flex;align-items:center;gap:6px;background:var(--ok);border-radius:999px;padding:6px 9px;font-size:11px;font-weight:850}
+    .msg{display:none;margin:12px 0;padding:10px;border-radius:11px;font-size:12px}.msg.show{display:block}.msg.bad{background:#fff0f0;color:#8a2a2a}.msg.ok{background:#edf8f0;color:#1d6a3b}
+    dialog{border:0;border-radius:18px;width:min(92vw,440px);padding:0;box-shadow:0 30px 70px rgba(0,0,0,.28)}dialog::backdrop{background:rgba(0,0,0,.45)}.modal{padding:18px}.modal h2{margin:0 0 6px;font-size:18px}.modal p{font-size:12px;color:var(--muted);line-height:1.45}.modal input{width:100%;padding:12px;border:1px solid var(--line);border-radius:11px;font:inherit}.modal .row{display:flex;gap:8px;margin-top:10px}.modal .row button{flex:1;border-radius:999px;padding:10px;border:1px solid var(--line);font-weight:900;cursor:pointer}.modal .send{background:var(--g);color:#fff;border-color:var(--g)}
+    footer{text-align:center;color:var(--muted);font-size:9px;padding:22px 0}
+    html[dir="rtl"] body{direction:rtl}html[dir="rtl"] .direct{border-left:1px solid #ead28a;border-right:4px solid var(--gold)}
+    @media(min-width:700px){.hero{height:390px}.grid{grid-template-columns:1fr 1fr}.actions{grid-template-columns:1fr 1fr}.body{padding:24px}.title{font-size:34px}}
+  </style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <div class="head">
+      <div><div class="brand">🛠️ DIGIY BUILD</div><div class="sub" data-i18n="sub">Artisans & métiers terrain · contact direct</div></div>
+      <div class="zero">0 % COMMISSION<br>DIGIYLYFE</div>
+    </div>
+    <div class="langs" id="langs">
+      <button data-lang="fr">🇫🇷 FR</button><button data-lang="en">🇬🇧 EN</button><button data-lang="es">🇪🇸 ES</button><button data-lang="pt">🇵🇹 PT</button><button data-lang="it">🇮🇹 IT</button><button data-lang="de">🇩🇪 DE</button><button data-lang="nl">🇳🇱 NL</button><button data-lang="ar">🌙 AR</button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap">
+  <div class="topbar">
+    <a class="back" href="https://digiylyfe.com/" data-i18n="back">← Retour DIGIYLYFE</a>
+    <button class="owner" id="ownerBtn" type="button" data-i18n="owner">🔐 Accès propriétaire</button>
+  </div>
+
+  <div id="pageMsg" class="msg"></div>
+
+  <article class="card" id="profileCard">
+    <div class="hero" id="hero"><div class="fallback">🛠️</div></div>
+    <div class="body">
+      <div class="eyebrow" data-i18n="eyebrow">PRÉSENCE PROFESSIONNELLE DIRECTE</div>
+      <h1 class="title" id="name">Nom du professionnel</h1>
+      <p class="trade" id="trade">Métier terrain</p>
+      <div class="chips" id="chips"></div>
+      <p class="bio" id="bio" data-i18n="previewBio">Présentation du savoir-faire et de l’activité.</p>
+
+      <div class="grid">
+        <section class="box"><strong data-i18n="services">Prestations / savoir-faire</strong><div id="services">—</div></section>
+        <section class="box"><strong data-i18n="zone">Zone d’intervention</strong><div id="zone">—</div></section>
+        <section class="box"><strong data-i18n="availability">Disponibilité</strong><div><span class="status" id="availability">—</span></div></section>
+        <section class="box"><strong data-i18n="price">Tarif / devis</strong><div id="price">—</div></section>
+      </div>
+
+      <div class="direct" data-i18n="doctrine">Diagnostic, devis, matériaux, délais, tarif final et prestation sont convenus directement avec l’artisan et restent sous sa responsabilité. DIGIYLYFE n’encaisse pas la prestation.</div>
+
+      <div class="actions">
+        <a class="btn primary disabled" id="callBtn" href="#" data-i18n="call">Appeler directement</a>
+        <a class="btn wa disabled" id="waBtn" href="#" target="_blank" rel="noopener" data-i18n="quote">Demander un devis sur WhatsApp</a>
+      </div>
+    </div>
+  </article>
+</main>
+
+<footer>© DIGIYLYFE · BUILD · <span data-i18n="footer">Le professionnel garde la main.</span></footer>
+
+<dialog id="ownerDialog">
+  <div class="modal">
+    <h2 data-i18n="ownerTitle">Accès propriétaire</h2>
+    <p data-i18n="ownerText">Saisissez l’email autorisé. Un lien de connexion unique vous sera envoyé.</p>
+    <input id="ownerEmail" type="email" autocomplete="email" placeholder="email@exemple.com">
+    <div id="ownerMsg" class="msg"></div>
+    <div class="row">
+      <button type="button" id="closeOwner" data-i18n="close">Fermer</button>
+      <button type="button" class="send" id="sendMagic" data-i18n="send">Envoyer le lien</button>
+    </div>
+  </div>
+</dialog>
+
+<script>
+(() => {
+  const CORE = {
+    url: "https://wesqmwjjtsefyjnluosj.supabase.co",
+    key: "sb_publishable_tGHItRgeWDmGjnd0CK1DVQ_BIep4Ug3",
+    table: "digiy_build_public_profiles"
+  };
+  const CFG = window.DIGIY_BUILD_CONFIG;
+  const sb = window.supabase.createClient(CORE.url, CORE.key, {
+    auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}
+  });
+
+  const I18N = {
+    fr:{sub:"Artisans & métiers terrain · contact direct",back:"← Retour DIGIYLYFE",owner:"🔐 Accès propriétaire",eyebrow:"PRÉSENCE PROFESSIONNELLE DIRECTE",previewBio:"Présentation du savoir-faire et de l’activité.",services:"Prestations / savoir-faire",zone:"Zone d’intervention",availability:"Disponibilité",price:"Tarif / devis",doctrine:"Diagnostic, devis, matériaux, délais, tarif final et prestation sont convenus directement avec l’artisan et restent sous sa responsabilité. DIGIYLYFE n’encaisse pas la prestation.",call:"Appeler directement",quote:"Demander un devis sur WhatsApp",footer:"Le professionnel garde la main.",ownerTitle:"Accès propriétaire",ownerText:"Saisissez l’email autorisé. Un lien de connexion unique vous sera envoyé.",close:"Fermer",send:"Envoyer le lien",sent:"Lien envoyé. Vérifiez votre boîte email.",master:"MASTER atelier : configurez uniquement siteSlug dans l’instance.",notfound:"Cette fiche BUILD n’est pas disponible."},
+    en:{sub:"Local trades & field professionals · direct contact",back:"← Back to DIGIYLYFE",owner:"🔐 Owner access",eyebrow:"DIRECT PROFESSIONAL PRESENCE",previewBio:"Presentation of skills and activity.",services:"Services / know-how",zone:"Service area",availability:"Availability",price:"Price / quote",doctrine:"Diagnosis, quote, materials, deadlines, final price and work are agreed directly with the professional and remain their responsibility. DIGIYLYFE does not collect payment for the work.",call:"Call directly",quote:"Request a quote on WhatsApp",footer:"The professional stays in control.",ownerTitle:"Owner access",ownerText:"Enter the authorized email. A one-time sign-in link will be sent.",close:"Close",send:"Send link",sent:"Link sent. Check your email.",master:"Workshop MASTER: configure only siteSlug in the instance.",notfound:"This BUILD profile is unavailable."},
+    es:{sub:"Artesanos y oficios de terreno · contacto directo",back:"← Volver a DIGIYLYFE",owner:"🔐 Acceso propietario",eyebrow:"PRESENCIA PROFESIONAL DIRECTA",previewBio:"Presentación del saber hacer y la actividad.",services:"Servicios / saber hacer",zone:"Zona de intervención",availability:"Disponibilidad",price:"Tarifa / presupuesto",doctrine:"Diagnóstico, presupuesto, materiales, plazos, precio final y trabajo se acuerdan directamente con el profesional y quedan bajo su responsabilidad. DIGIYLYFE no cobra la prestación.",call:"Llamar directamente",quote:"Pedir presupuesto por WhatsApp",footer:"El profesional mantiene el control.",ownerTitle:"Acceso propietario",ownerText:"Introduzca el email autorizado. Recibirá un enlace único.",close:"Cerrar",send:"Enviar enlace",sent:"Enlace enviado. Revise su email.",master:"MASTER de taller: configure solo siteSlug en la instancia.",notfound:"Este perfil BUILD no está disponible."},
+    pt:{sub:"Artesãos e ofícios de terreno · contacto direto",back:"← Voltar à DIGIYLYFE",owner:"🔐 Acesso do proprietário",eyebrow:"PRESENÇA PROFISSIONAL DIRETA",previewBio:"Apresentação do saber-fazer e da atividade.",services:"Serviços / saber-fazer",zone:"Zona de intervenção",availability:"Disponibilidade",price:"Preço / orçamento",doctrine:"Diagnóstico, orçamento, materiais, prazos, preço final e serviço são acordados diretamente com o profissional e ficam sob sua responsabilidade. A DIGIYLYFE não recebe o pagamento do serviço.",call:"Ligar diretamente",quote:"Pedir orçamento no WhatsApp",footer:"O profissional mantém o controlo.",ownerTitle:"Acesso do proprietário",ownerText:"Introduza o email autorizado. Será enviado um link único.",close:"Fechar",send:"Enviar link",sent:"Link enviado. Verifique o email.",master:"MASTER de oficina: configure apenas siteSlug na instância.",notfound:"Este perfil BUILD não está disponível."},
+    it:{sub:"Artigiani e mestieri sul territorio · contatto diretto",back:"← Torna a DIGIYLYFE",owner:"🔐 Accesso proprietario",eyebrow:"PRESENZA PROFESSIONALE DIRETTA",previewBio:"Presentazione delle competenze e dell’attività.",services:"Servizi / competenze",zone:"Zona di intervento",availability:"Disponibilità",price:"Tariffa / preventivo",doctrine:"Diagnosi, preventivo, materiali, tempi, prezzo finale e prestazione sono concordati direttamente con il professionista e restano sotto la sua responsabilità. DIGIYLYFE non incassa la prestazione.",call:"Chiama direttamente",quote:"Richiedi un preventivo su WhatsApp",footer:"Il professionista mantiene il controllo.",ownerTitle:"Accesso proprietario",ownerText:"Inserisci l’email autorizzata. Riceverai un link di accesso unico.",close:"Chiudi",send:"Invia link",sent:"Link inviato. Controlla l’email.",master:"MASTER laboratorio: configura solo siteSlug nell’istanza.",notfound:"Questo profilo BUILD non è disponibile."},
+    de:{sub:"Handwerker & Berufe vor Ort · direkter Kontakt",back:"← Zurück zu DIGIYLYFE",owner:"🔐 Inhaberzugang",eyebrow:"DIREKTE PROFESSIONELLE PRÄSENZ",previewBio:"Vorstellung von Können und Tätigkeit.",services:"Leistungen / Know-how",zone:"Einsatzgebiet",availability:"Verfügbarkeit",price:"Preis / Angebot",doctrine:"Diagnose, Angebot, Material, Fristen, Endpreis und Leistung werden direkt mit dem Profi vereinbart und liegen in seiner Verantwortung. DIGIYLYFE kassiert die Leistung nicht.",call:"Direkt anrufen",quote:"Angebot über WhatsApp anfragen",footer:"Der Profi behält die Kontrolle.",ownerTitle:"Inhaberzugang",ownerText:"Autorisierte E-Mail eingeben. Ein einmaliger Login-Link wird gesendet.",close:"Schließen",send:"Link senden",sent:"Link gesendet. E-Mail prüfen.",master:"Werkstatt-MASTER: in der Instanz nur siteSlug konfigurieren.",notfound:"Dieses BUILD-Profil ist nicht verfügbar."},
+    nl:{sub:"Vakmensen & terreinberoepen · direct contact",back:"← Terug naar DIGIYLYFE",owner:"🔐 Eigenaartoegang",eyebrow:"DIRECTE PROFESSIONELE AANWEZIGHEID",previewBio:"Presentatie van vakkennis en activiteit.",services:"Diensten / vakkennis",zone:"Werkgebied",availability:"Beschikbaarheid",price:"Tarief / offerte",doctrine:"Diagnose, offerte, materialen, termijnen, eindprijs en uitvoering worden rechtstreeks met de vakman afgesproken en blijven zijn verantwoordelijkheid. DIGIYLYFE int de betaling niet.",call:"Direct bellen",quote:"Offerte vragen via WhatsApp",footer:"De vakman houdt de controle.",ownerTitle:"Eigenaartoegang",ownerText:"Voer het geautoriseerde e-mailadres in. Er wordt een eenmalige inloglink gestuurd.",close:"Sluiten",send:"Link sturen",sent:"Link verzonden. Controleer uw e-mail.",master:"Werkplaats-MASTER: configureer alleen siteSlug in de instantie.",notfound:"Dit BUILD-profiel is niet beschikbaar."},
+    ar:{sub:"الحرفيون ومهن الميدان · تواصل مباشر",back:"العودة إلى DIGIYLYFE →",owner:"🔐 دخول المالك",eyebrow:"حضور مهني مباشر",previewBio:"عرض الخبرة والنشاط.",services:"الخدمات / الخبرة",zone:"منطقة التدخل",availability:"التوفر",price:"السعر / عرض السعر",doctrine:"التشخيص وعرض السعر والمواد والآجال والسعر النهائي والخدمة يتم الاتفاق عليها مباشرة مع المهني وتبقى تحت مسؤوليته. DIGIYLYFE لا تستلم ثمن الخدمة.",call:"اتصال مباشر",quote:"طلب عرض سعر عبر واتساب",footer:"المهني يبقى صاحب القرار.",ownerTitle:"دخول المالك",ownerText:"أدخل البريد الإلكتروني المصرح به. سيتم إرسال رابط دخول لمرة واحدة.",close:"إغلاق",send:"إرسال الرابط",sent:"تم إرسال الرابط. تحقق من بريدك.",master:"MASTER الورشة: اضبط siteSlug فقط في النسخة.",notfound:"ملف BUILD هذا غير متاح."}
+  };
+
+  const $ = id => document.getElementById(id);
+  let lang = new URL(location.href).searchParams.get("lang") || localStorage.getItem("digiy_lang") || "fr";
+  if(!I18N[lang]) lang = "fr";
+
+  function tr(k){ return I18N[lang]?.[k] || I18N.fr[k] || k; }
+  function applyLang(){
+    document.documentElement.lang = lang;
+    document.documentElement.dir = lang === "ar" ? "rtl" : "ltr";
+    document.querySelectorAll("[data-i18n]").forEach(el => el.textContent = tr(el.dataset.i18n));
+    document.querySelectorAll("[data-lang]").forEach(b => b.classList.toggle("active", b.dataset.lang === lang));
+    localStorage.setItem("digiy_lang", lang);
+  }
+  document.querySelectorAll("[data-lang]").forEach(b => b.addEventListener("click", () => { lang=b.dataset.lang; applyLang(); }));
+
+  function setMsg(text,type="bad"){
+    const el=$("pageMsg"); el.textContent=text; el.className="msg show "+type;
+  }
+  function escWa(v){ return String(v||"").replace(/\D/g,""); }
+  function render(row){
+    $("name").textContent = row.display_name || "—";
+    $("trade").textContent = [row.trade || row.metier || row.profession, row.city].filter(Boolean).join(" · ") || "—";
+    $("bio").textContent = row.bio || row.description || tr("previewBio");
+    $("services").textContent = row.services_text || (Array.isArray(row.specialties) ? row.specialties.join(" · ") : "—");
+    $("zone").textContent = row.zone || row.region || row.city || "—";
+    $("availability").textContent = row.hub_badge || "—";
+    $("price").textContent = row.price_label || "—";
+    const chips = Array.isArray(row.specialties) ? row.specialties : (Array.isArray(row.tags) ? row.tags : []);
+    $("chips").innerHTML = chips.slice(0,8).map(x => `<span class="chip">${String(x).replace(/[&<>"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m]))}</span>`).join("");
+    const img = row.cover_url || row.photo_url || row.logo_url;
+    if(img) $("hero").innerHTML = `<img src="${String(img).replace(/"/g,"&quot;")}" alt="">`;
+    const phone = escWa(row.phone || row.whatsapp);
+    if(phone){
+      $("callBtn").href="tel:+"+phone; $("callBtn").classList.remove("disabled");
+      const msg = encodeURIComponent("Bonjour, je vous contacte depuis votre présence DIGIY BUILD.");
+      $("waBtn").href=`https://wa.me/${phone}?text=${msg}`; $("waBtn").classList.remove("disabled");
+    }
+  }
+
+  async function load(){
+    applyLang();
+    if(CFG.masterMode){
+      render({
+        display_name:"NOM DU PROFESSIONNEL",
+        trade:"Métier terrain",
+        city:"Ville / territoire",
+        bio:tr("previewBio"),
+        services_text:"Prestation 1\nPrestation 2\nPrestation 3",
+        zone:"Zone d’intervention",
+        hub_badge:"Disponibilité à renseigner",
+        price_label:"À convenir directement",
+        specialties:["Savoir-faire","Intervention terrain"]
+      });
+      setMsg(tr("master"),"ok");
+      return;
+    }
+    const {data,error}=await sb.from(CORE.table).select("*").eq("slug",CFG.siteSlug).eq("is_active",true).eq("is_published",true).maybeSingle();
+    if(error || !data){ setMsg(tr("notfound")); return; }
+    render(data);
+  }
+
+  const dlg=$("ownerDialog");
+  $("ownerBtn").addEventListener("click",()=>dlg.showModal());
+  $("closeOwner").addEventListener("click",()=>dlg.close());
+  dlg.addEventListener("click",e=>{ if(e.target===dlg) dlg.close(); });
+  document.addEventListener("keydown",e=>{ if(e.key==="Escape" && dlg.open) dlg.close(); });
+
+  $("sendMagic").addEventListener("click", async()=>{
+    const msg=$("ownerMsg");
+    msg.className="msg";
+    if(CFG.masterMode){ msg.textContent=tr("master"); msg.className="msg show bad"; return; }
+    const email=$("ownerEmail").value.trim();
+    if(!email){ msg.textContent="Email requis."; msg.className="msg show bad"; return; }
+    $("sendMagic").disabled=true;
+    const redirect = new URL("gestion-build-v2.html", location.href);
+    redirect.searchParams.set("site",CFG.siteSlug);
+    redirect.searchParams.set("lang",lang);
+    const {error}=await sb.auth.signInWithOtp({
+      email,
+      options:{shouldCreateUser:false,emailRedirectTo:redirect.href}
+    });
+    $("sendMagic").disabled=false;
+    if(error){ msg.textContent=error.message; msg.className="msg show bad"; return; }
+    msg.textContent=tr("sent"); msg.className="msg show ok";
+  });
+
+  load();
+})();
+</script>
+</body>
+</html>
