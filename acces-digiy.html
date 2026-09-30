@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>DIGIY BUILD — Accès DIGIY</title>
+<style>
+body{margin:0;min-height:100vh;display:grid;place-items:center;background:#f6f1e5;color:#173b31;font-family:system-ui;padding:20px}.card{width:min(520px,100%);background:#fffefa;border:1px solid #dfe8e2;border-radius:20px;padding:22px}.field{display:grid;gap:6px;margin:14px 0}input{padding:12px;border:1px solid #dfe8e2;border-radius:12px;font:inherit}.btn{border:0;border-radius:999px;background:#073f32;color:#fff;padding:13px 18px;font-weight:900;cursor:pointer}.small{color:#6e8179;font-size:13px}
+</style>
+</head>
+<body>
+<main class="card">
+<div class="small">🛠️ DIGIY BUILD</div>
+<h1>Accès DIGIY</h1>
+<p>Accès interne à la gestion des demandes BUILD.</p>
+<div class="field"><label for="email">Email</label><input id="email" type="email" autocomplete="email"></div>
+<button class="btn" id="send">Recevoir mon magic-link</button>
+<p id="msg" class="small"></p>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0/dist/umd/supabase.min.js"></script>
+<script>
+const sb=supabase.createClient("https://wesqmwjjtsefyjnluosj.supabase.co","sb_publishable_tGHItRgeWDmGjnd0CK1DVQ_BIep4Ug3");
+const msg=document.getElementById("msg");
+async function check(){
+ const {data:{user}}=await sb.auth.getUser();
+ if(!user)return;
+ const {data:ok,error}=await sb.rpc("digiy_build_admin_access_v1");
+ if(!error&&ok===true) location.replace("./gestion-digiy.html");
+}
+document.getElementById("send").onclick=async()=>{
+ const email=document.getElementById("email").value.trim();
+ if(!email){msg.textContent="Email requis.";return}
+ const redirect=new URL("./acces-digiy.html",location.href).href;
+ const {error}=await sb.auth.signInWithOtp({email,options:{emailRedirectTo:redirect}});
+ msg.textContent=error?"⚠️ "+error.message:"✅ Magic-link envoyé.";
+};
+check();
+</script>
+</body>
+</html>
