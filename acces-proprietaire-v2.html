@@ -39,7 +39,7 @@ function apply(){document.documentElement.lang=lang;document.documentElement.dir
 document.querySelectorAll("[data-lang]").forEach(b=>b.onclick=()=>{lang=b.dataset.lang;apply()});
 try{const u=new URL(ret,location.origin);if(u.origin===location.origin||u.hostname.endsWith(".digiylyfe.com"))$("back").href=u.href}catch(_){}
 function msg(t,type="bad"){const e=$("msg");e.textContent=t;e.className="msg show "+type}
-$("send").onclick=async()=>{const email=$("email").value.trim();if(!email){msg(tr("email"));return}$("send").disabled=true;const redirect=new URL("./gestion-build-v2.html",location.href);if(site)redirect.searchParams.set("site",site);redirect.searchParams.set("lang",lang);redirect.searchParams.set("return",$("back").href);const {error}=await sb.auth.signInWithOtp({email,options:{shouldCreateUser:false,emailRedirectTo:redirect.href}});$("send").disabled=false;if(error){msg(error.message);return}msg(tr("sent"),"ok")};apply();
+$("send").onclick=async()=>{const email=$("email").value.trim();if(!email){msg(tr("email"));return}$("send").disabled=true;const redirect="https://build.digiylyfe.com/gestion-build-v2.html";const {error}=await sb.auth.signInWithOtp({email,options:{shouldCreateUser:false,emailRedirectTo:redirect}});$("send").disabled=false;if(error){msg(error.message);return}msg(tr("sent"),"ok")};apply();
 })();
 </script>
 </body>
