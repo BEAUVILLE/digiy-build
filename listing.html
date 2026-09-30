@@ -57,9 +57,9 @@ document.getElementById("homeLink").href=link("./index.html");document.getElemen
 var cats=["all","plombier","electricien","macon","entrepreneur","menuisier","carreleur","peintre","soudeur","climatisation","solaire"];
 document.getElementById("filters").innerHTML=cats.map(function(c){return '<a class="filter '+(c===trade?"active":"")+'" href="'+link("./listing.html",c)+'"><span>'+icons[c]+'</span>'+t.cats[c]+'</a>'}).join("");
 var profiles=[
-{name:"Babacar Plombier Pro",roles:["plombier"],phone:"221776125124",url:"./fiche.html?site=babacar-plombier-pro",price:"quote",zone:"📍 Saly · Mbour · Petite Côte",initials:"BP"},
-{name:"Kourant Électricien",roles:["electricien"],phone:"221772084781",url:"./fiche.html?site=partenaires-kourant",price:"from",zone:"📍 Saly · Mbour · Petite Côte",image:"https://kourant.digiylyfe.com/carte-visite.png?v=20260714-v3"},
-{name:"Mbaye Diouf",roles:["macon","entrepreneur"],phone:"221776427113",url:"./fiche.html?site=partenaires-mbaye",price:"quote",zone:"📍 Saly · Mbour · Thiès · Petite Côte",image:"https://mbaye-macon.digiylyfe.com/carte-visite.png?v=20260714-v3"}
+{name:"Babacar Plombier Pro",roles:["plombier"],phone:"221776125124",url:"./fiche.html?slug=babacar-plombier-pro",price:"quote",zone:"📍 Saly · Mbour · Petite Côte",initials:"BP"},
+{name:"Kourant Électricien",roles:["electricien"],phone:"221772084781",url:"./fiche.html?slug=partenaires-kourant",price:"from",zone:"📍 Saly · Mbour · Petite Côte",image:"https://kourant.digiylyfe.com/carte-visite.png?v=20260714-v3"},
+{name:"Mbaye Diouf",roles:["macon","entrepreneur"],phone:"221776427113",url:"./fiche.html?slug=partenaires-mbaye",price:"quote",zone:"📍 Saly · Mbour · Thiès · Petite Côte",image:"https://mbaye-macon.digiylyfe.com/carte-visite.png?v=20260714-v3"}
 ];
 var shown=profiles.filter(function(p){return trade==="all"||p.roles.indexOf(trade)>=0});
 txt("result",shown.length+" "+(shown.length===1?t.resultOne:t.resultMany));
