@@ -81,7 +81,7 @@
   });
   const $ = id => document.getElementById(id);
   const params = new URL(location.href).searchParams;
-  const siteSlug = (params.get("site") || "").trim();
+  let siteSlug = (params.get("site") || "").trim();
   let lang = params.get("lang") || localStorage.getItem("digiy_lang") || "fr";
   let user = null;
 
@@ -125,12 +125,25 @@
 
   async function boot(){
     applyLang();
-    if(!siteSlug){ message(tr("noSite")); return; }
     message(tr("loading"),"ok");
 
     const {data:{user:currentUser},error:userError}=await sb.auth.getUser();
     if(userError || !currentUser){ message(tr("noSession")); return; }
     user=currentUser;
+
+    if(!siteSlug){
+      const {data:owned,error:ownedError}=await sb
+        .from(CORE.table)
+        .select("slug")
+        .eq("owner_id",user.id)
+        .eq("is_active",true)
+        .order("display_name")
+        .limit(2);
+      if(ownedError || !owned || !owned.length){ message(tr("forbidden")); return; }
+      if(owned.length>1){ message(tr("noSite")); return; }
+      siteSlug=owned[0].slug;
+      const u=new URL(location.href);u.searchParams.set("site",siteSlug);history.replaceState(null,"",u);
+    }
 
     try{
       const allowed = await window.DIGIY_OWNER_PHONE_MFA.guard({supabase:sb,beforeId:"editor"});

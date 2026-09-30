@@ -30,7 +30,7 @@
 <section class="hero"><div class="wrap hero-card"><div class="kicker" id="kicker">Professionnels officiels</div><h1 id="title">Professionnels par métier</h1><p class="lead" id="lead">Choisis une catégorie puis contacte directement le professionnel.</p></div></section>
 <section><div class="wrap"><div class="filters" id="filters"></div><div class="result" id="result"></div><div class="grid" id="grid"></div><div class="empty" id="empty"><h2 id="emptyTitle">Aucun professionnel publié</h2><p id="emptyText">Cette catégorie est prête. Tu peux décrire ton besoin ou proposer l’inscription d’un professionnel.</p><div class="empty-actions"><a class="btn main" id="emptyNeed" href="./request.html">📄 Décrire mon besoin</a><a class="btn green" id="emptySignup" href="./inscription-lang.html">🧰 Inscription artisan</a></div></div></div></section>
 </main>
-<nav class="bottom"><div class="bottomin"><a id="navHome" href="./index.html"><span>🏠</span><span>Accueil</span></a><a id="navProfiles" class="active" href="./listing.html"><span>👁️</span><span>Profils</span></a><a id="navNeed" href="./request.html"><span>📄</span><span>Besoin</span></a><a id="navPro" href="./build-pro/pin.html"><span>🔒</span><span>Pro</span></a></div></nav>
+<nav class="bottom"><div class="bottomin"><a id="navHome" href="./index.html"><span>🏠</span><span>Accueil</span></a><a id="navProfiles" class="active" href="./listing.html"><span>👁️</span><span>Profils</span></a><a id="navNeed" href="./request.html"><span>📄</span><span>Besoin</span></a><a id="navPro" href="./acces-proprietaire-v2.html"><span>🔐</span><span>Propriétaire</span></a></div></nav>
 <script>
 (function(){
 "use strict";
@@ -57,9 +57,9 @@ document.getElementById("homeLink").href=link("./index.html");document.getElemen
 var cats=["all","plombier","electricien","macon","entrepreneur","menuisier","carreleur","peintre","soudeur","climatisation","solaire"];
 document.getElementById("filters").innerHTML=cats.map(function(c){return '<a class="filter '+(c===trade?"active":"")+'" href="'+link("./listing.html",c)+'"><span>'+icons[c]+'</span>'+t.cats[c]+'</a>'}).join("");
 var profiles=[
-{name:"Babacar Plombier Pro",roles:["plombier"],phone:"221776125124",url:"https://babacar-plombier-pro.digiylyfe.com/",price:"quote",zone:"📍 Saly · Mbour · Petite Côte",initials:"BP"},
-{name:"Kourant Électricien",roles:["electricien"],phone:"221772084781",url:"https://kourant.digiylyfe.com/",price:"from",zone:"📍 Saly · Mbour · Petite Côte",image:"https://kourant.digiylyfe.com/carte-visite.png?v=20260714-v3"},
-{name:"Mbaye Diouf",roles:["macon","entrepreneur"],phone:"221776427113",url:"https://mbaye-macon.digiylyfe.com/",price:"quote",zone:"📍 Saly · Mbour · Thiès · Petite Côte",image:"https://mbaye-macon.digiylyfe.com/carte-visite.png?v=20260714-v3"}
+{name:"Babacar Plombier Pro",roles:["plombier"],phone:"221776125124",url:"./fiche.html?slug=babacar-plombier-pro",price:"quote",zone:"📍 Saly · Mbour · Petite Côte",initials:"BP"},
+{name:"Kourant Électricien",roles:["electricien"],phone:"221772084781",url:"./fiche.html?slug=partenaires-kourant",price:"from",zone:"📍 Saly · Mbour · Petite Côte",image:"https://kourant.digiylyfe.com/carte-visite.png?v=20260714-v3"},
+{name:"Mbaye Diouf",roles:["macon","entrepreneur"],phone:"221776427113",url:"./fiche.html?slug=partenaires-mbaye",price:"quote",zone:"📍 Saly · Mbour · Thiès · Petite Côte",image:"https://mbaye-macon.digiylyfe.com/carte-visite.png?v=20260714-v3"}
 ];
 var shown=profiles.filter(function(p){return trade==="all"||p.roles.indexOf(trade)>=0});
 txt("result",shown.length+" "+(shown.length===1?t.resultOne:t.resultMany));
