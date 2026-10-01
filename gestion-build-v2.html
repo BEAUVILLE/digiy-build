@@ -17,7 +17,7 @@
     label{display:block;font-size:17px;font-weight:900;line-height:1.25;margin:20px 0 8px}.hint{display:block;color:var(--muted);font-size:14px;font-weight:600;line-height:1.45;margin-top:5px}textarea,input{width:100%;border:1px solid var(--line);border-radius:14px;padding:14px 15px;background:#fff;font:700 17px/1.45 system-ui;color:var(--ink)}input{min-height:52px}textarea{min-height:170px;resize:vertical}
     .save{width:100%;margin-top:20px;border:0;border-radius:999px;padding:15px;background:var(--g);color:#fff;font:950 16px system-ui;cursor:pointer}.save:disabled{opacity:.5;cursor:default}
     .requests{margin-top:18px}.requests h2{font-size:24px;margin:0 0 6px}.requests-sub{color:var(--muted);font-size:14px;line-height:1.45;margin-bottom:12px}
-    .request-list{display:grid;gap:12px}.request-card{border:1px solid var(--line);border-radius:16px;padding:15px;background:#fff}.request-top{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}.request-name{font-size:18px;font-weight:950}.request-type{color:var(--g);font-weight:900}.request-meta,.request-desc{margin-top:8px;font-size:14px;line-height:1.5}.request-meta{color:var(--muted)}.request-desc{white-space:pre-wrap}.request-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.request-actions a{border-radius:999px;padding:9px 12px;text-decoration:none;font-size:13px;font-weight:900;border:1px solid var(--line);color:var(--ink);background:#fff}.request-actions a.primary{background:var(--g);color:#fff;border-color:var(--g)}
+    .request-list{display:grid;gap:12px}.request-card{border:1px solid var(--line);border-radius:16px;padding:15px;background:#fff}.request-top{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}.request-name{font-size:18px;font-weight:950}.request-type{color:var(--g);font-weight:900}.request-meta,.request-desc{margin-top:8px;font-size:14px;line-height:1.5}.request-meta{color:var(--muted)}.request-desc{white-space:pre-wrap}.request-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}.request-actions a{border-radius:999px;padding:9px 12px;text-decoration:none;font-size:13px;font-weight:900;border:1px solid var(--line);color:var(--ink);background:#fff}.request-actions a.primary{background:var(--g);color:#fff;border-color:var(--g)}.request-actions button{border-radius:999px;padding:9px 12px;font:900 13px system-ui;border:1px solid #fecaca;color:#b91c1c;background:#fff;cursor:pointer}
     .msg{display:none;margin:14px 0;padding:13px;border-radius:12px;font-size:14px;line-height:1.5}.msg.show{display:block}.msg.ok{background:#edf8f0;color:var(--ok)}.msg.bad{background:#fff0f0;color:var(--bad)}
     .lock{font-size:14px;background:#fff8df;border:1px solid #ead28a;border-left:4px solid var(--gold);border-radius:12px;padding:13px;color:#5e5124;line-height:1.55;margin:14px 0}
     .langs{display:flex;gap:6px;flex-wrap:wrap;margin-top:14px}.langs button{border:1px solid rgba(255,255,255,.3);background:transparent;color:#fff;border-radius:999px;padding:7px 9px;font-size:11px;font-weight:850;cursor:pointer}.langs button.active{background:var(--gold);color:var(--g)}
@@ -169,11 +169,31 @@
       const digits=phoneDigits(r.client_phone);
       const when=r.created_at ? new Date(r.created_at).toLocaleString(lang==="fr"?"fr-FR":undefined) : "";
       const meta=[r.client_ville,r.urgence,r.budget_estime ? Number(r.budget_estime).toLocaleString("fr-FR")+" FCFA" : "",when].filter(Boolean).join(" · ");
-      const actions=digits ? '<div class="request-actions"><a class="primary" href="https://wa.me/'+digits+'" target="_blank" rel="noopener">💬 WhatsApp client</a><a href="tel:+'+digits+'">📞 Appeler</a></div>' : "";
+      const contactActions=digits ? '<a class="primary" href="https://wa.me/'+digits+'" target="_blank" rel="noopener">💬 WhatsApp client</a><a href="tel:+'+digits+'">📞 Appeler</a>' : "";
+      const actions='<div class="request-actions">'+contactActions+'<button type="button" data-delete-request="'+esc(r.id)+'">🗑️ Effacer</button></div>';
       const need=cleanClientDescription(r.description_projet);
       const needHtml=need ? '<div class="request-desc"><b>Besoin client</b><br>'+esc(need)+'</div>' : "";
       return '<article class="request-card"><div class="request-top"><div><div class="request-name">'+esc(r.client_nom||"Client")+'</div><div class="request-type">'+esc(r.type_travaux||"Demande BUILD")+'</div></div><div>'+esc(statusLabel(r.status))+'</div></div><div class="request-meta">'+esc(meta)+'</div>'+needHtml+actions+'</article>';
     }).join("");
+
+    list.querySelectorAll("[data-delete-request]").forEach(btn=>{
+      btn.addEventListener("click",async()=>{
+        const id=btn.getAttribute("data-delete-request");
+        if(!id || !confirm("Effacer définitivement cette demande client ?")) return;
+        btn.disabled=true;
+        const {error}=await sb
+          .from("digiy_build_demandes")
+          .delete()
+          .eq("id",id)
+          .eq("assigned_pro_slug",siteSlug);
+        if(error){
+          btn.disabled=false;
+          message(error.message || "Suppression impossible.");
+          return;
+        }
+        await loadRequests();
+      });
+    });
   }
 
   async function boot(){
