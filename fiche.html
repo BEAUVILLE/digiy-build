@@ -512,6 +512,7 @@
 
       function makeRequestUrl(profile){
         const u = new URL("./request.html", location.href);
+        if(profile.slug) u.searchParams.set("slug", profile.slug);
         if(profile.display_name) u.searchParams.set("nom", profile.display_name);
         if(profile.trade) u.searchParams.set("metier", profile.trade);
         if(profile.city) u.searchParams.set("ville", profile.city);
