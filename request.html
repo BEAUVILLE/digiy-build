@@ -917,6 +917,7 @@
           localStorage.setItem(KEY_LAST, JSON.stringify({
             demande_id: data.id,
             public_code: data.public_code || null,
+            target_slug: state.selected.slug || null,
             target_name: state.selected.nom || null,
             target_trade: state.selected.metier || null,
             target_city: state.selected.ville || null,
