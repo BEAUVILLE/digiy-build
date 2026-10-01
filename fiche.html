@@ -297,6 +297,21 @@
 
           <div style="margin-top:18px" class="text" id="fullDescriptionBox">—</div>
 
+          <div id="ownerLiveFields" style="margin-top:20px;display:grid;gap:12px">
+            <div class="miniStat" id="servicesLive" hidden>
+              <div class="miniLabel">Prestations / savoir-faire</div>
+              <div class="miniValue" id="servicesLiveValue">—</div>
+            </div>
+            <div class="miniStat" id="zoneLive" hidden>
+              <div class="miniLabel">Zone d’intervention</div>
+              <div class="miniValue" id="zoneLiveValue">—</div>
+            </div>
+            <div class="miniStat" id="availabilityLive" hidden>
+              <div class="miniLabel">Disponibilité</div>
+              <div class="miniValue" id="availabilityLiveValue">—</div>
+            </div>
+          </div>
+
           <div style="margin-top:18px" class="gallery" id="gallery">
             <div class="empty">Aucune photo disponible pour le moment.</div>
           </div>
@@ -560,12 +575,15 @@
         const region = text(firstOf(row,["region","city_zone"]));
         const sector = text(firstOf(row,["sector","category"]));
         const bio = text(firstOf(row,["bio","description","short_description","about"]));
+        const services_text = text(firstOf(row,["services_text","services","skills"]));
+        const service_zone = text(firstOf(row,["zone","service_zone","intervention_zone"]));
+        const availability = text(firstOf(row,["hub_badge","availability","availability_text"]));
         const photo_url = text(firstOf(row,["photo_url","cover_url","image_url","photo","image","cover","hero_image"]));
         const phone = text(firstOf(row,["phone","contact_phone","tel","telephone"]));
         const whatsapp = text(firstOf(row,["whatsapp","whatsapp_phone","wa_phone","mobile"]));
         const slug = normSlug(firstOf(row,["slug"], display_name || trade));
         const tags = parseTags(firstOf(row,["tags","keywords","tag_list"],[]));
-        return {raw:row, slug, display_name, trade, city, region, sector, bio, photo_url, phone, whatsapp, tags};
+        return {raw:row, slug, display_name, trade, city, region, sector, bio, services_text, service_zone, availability, photo_url, phone, whatsapp, tags};
       }
 
       async function loadProfile(){
@@ -635,8 +653,20 @@
         $("chipsBox").innerHTML = chips.join("");
 
         $("fullDescriptionBox").textContent = profile.bio || "Professionnel visible avec fiche détaillée, secteur clair et contact direct.";
+
+        const liveFields = [
+          ["servicesLive","servicesLiveValue",profile.services_text],
+          ["zoneLive","zoneLiveValue",profile.service_zone],
+          ["availabilityLive","availabilityLiveValue",profile.availability]
+        ];
+        liveFields.forEach(([boxId,valueId,value])=>{
+          const box=$(boxId);
+          if(value){ $(valueId).textContent=value; box.hidden=false; }
+          else { box.hidden=true; }
+        });
+
         $("categoryBox").textContent = profile.trade || profile.sector || "Service utile";
-        $("locationBox").textContent = [profile.city, profile.region].filter(Boolean).join(" • ") || "Zone à préciser";
+        $("locationBox").textContent = profile.service_zone || [profile.city, profile.region].filter(Boolean).join(" • ") || "Zone à préciser";
         $("contactBox").textContent = (profile.whatsapp || profile.phone) ? "WhatsApp disponible" : "Via la demande DIGIY";
 
         const requestUrl = makeRequestUrl(profile);
