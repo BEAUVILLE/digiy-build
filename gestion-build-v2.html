@@ -82,8 +82,8 @@
   });
   const $ = id => document.getElementById(id);
   const params = new URL(location.href).searchParams;
-  let siteSlug = (params.get("site") || "").trim();
-  let lang = params.get("lang") || localStorage.getItem("digiy_lang") || "fr";
+  let siteSlug = (params.get("site") || localStorage.getItem("digiy_build_owner_site") || "").trim();
+  let lang = params.get("lang") || localStorage.getItem("digiy_build_owner_lang") || localStorage.getItem("digiy_lang") || "fr";
   let user = null;
 
   const I18N = {
@@ -112,7 +112,7 @@
     const el=$("msg");el.textContent=text;el.className="msg show "+type;
   }
 
-  const returnParam=params.get("return");
+  const returnParam=params.get("return") || localStorage.getItem("digiy_build_owner_return");
   if(returnParam){
     try{
       const u=new URL(returnParam,location.origin);
@@ -168,6 +168,11 @@
     $("availability").value=data.hub_badge || "";
     $("editor").hidden=false;
     $("msg").className="msg";
+    try{
+      localStorage.setItem("digiy_build_owner_site",siteSlug);
+      localStorage.setItem("digiy_build_owner_return",$("returnBtn").href);
+      localStorage.setItem("digiy_build_owner_lang",lang);
+    }catch(_){}
   }
 
   $("saveBtn").addEventListener("click",async()=>{
