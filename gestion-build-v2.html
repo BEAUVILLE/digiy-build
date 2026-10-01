@@ -132,6 +132,24 @@
   function esc(v){return String(v ?? "").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;");}
   function phoneDigits(v){return String(v||"").replace(/\D/g,"");}
 
+  function cleanClientDescription(v){
+    const raw=String(v||"").trim();
+    if(!raw) return "";
+    return raw
+      .replace(/^\[Contexte cible\][\s\S]*?(?:\n\n|$)/i,"")
+      .replace(/^\[Besoin réseau chantier\][\s\S]*?(?:\n\n|$)/i,"")
+      .trim();
+  }
+
+  function statusLabel(v){
+    const s=String(v||"pending").toLowerCase();
+    if(s==="pending") return "Nouvelle demande";
+    if(s==="accepted") return "Acceptée";
+    if(s==="done" || s==="completed") return "Terminée";
+    if(s==="cancelled" || s==="canceled") return "Annulée";
+    return v || "Nouvelle demande";
+  }
+
   async function loadRequests(){
     const {data,error}=await sb
       .from("digiy_build_demandes")
@@ -152,7 +170,9 @@
       const when=r.created_at ? new Date(r.created_at).toLocaleString(lang==="fr"?"fr-FR":undefined) : "";
       const meta=[r.client_ville,r.urgence,r.budget_estime ? Number(r.budget_estime).toLocaleString("fr-FR")+" FCFA" : "",when].filter(Boolean).join(" · ");
       const actions=digits ? '<div class="request-actions"><a class="primary" href="https://wa.me/'+digits+'" target="_blank" rel="noopener">💬 WhatsApp client</a><a href="tel:+'+digits+'">📞 Appeler</a></div>' : "";
-      return '<article class="request-card"><div class="request-top"><div><div class="request-name">'+esc(r.client_nom||"Client")+'</div><div class="request-type">'+esc(r.type_travaux||"Demande BUILD")+'</div></div><div>'+esc(r.status||"pending")+'</div></div><div class="request-meta">'+esc(meta)+'</div><div class="request-desc">'+esc(r.description_projet||"")+'</div>'+actions+'</article>';
+      const need=cleanClientDescription(r.description_projet);
+      const needHtml=need ? '<div class="request-desc"><b>Besoin client</b><br>'+esc(need)+'</div>' : "";
+      return '<article class="request-card"><div class="request-top"><div><div class="request-name">'+esc(r.client_nom||"Client")+'</div><div class="request-type">'+esc(r.type_travaux||"Demande BUILD")+'</div></div><div>'+esc(statusLabel(r.status))+'</div></div><div class="request-meta">'+esc(meta)+'</div>'+needHtml+actions+'</article>';
     }).join("");
   }
 
