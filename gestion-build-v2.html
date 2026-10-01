@@ -120,8 +120,8 @@
         $("returnBtn").href=u.href;
       }
     }catch(_){}
-  } else {
-    const u=new URL("./master-v2.html",location.href);u.searchParams.set("lang",lang);$("returnBtn").href=u.href;
+  } else if(siteSlug) {
+    const u=new URL("./fiche.html",location.href);u.searchParams.set("slug",siteSlug);u.searchParams.set("lang",lang);$("returnBtn").href=u.href;
   }
 
   async function boot(){
@@ -144,6 +144,7 @@
       if(owned.length>1){ message(tr("noSite")); return; }
       siteSlug=owned[0].slug;
       const u=new URL(location.href);u.searchParams.set("site",siteSlug);history.replaceState(null,"",u);
+      const back=new URL("./fiche.html",location.href);back.searchParams.set("slug",siteSlug);back.searchParams.set("lang",lang);$("returnBtn").href=back.href;
     }
 
     try{
