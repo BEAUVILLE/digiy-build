@@ -676,6 +676,7 @@
         const local = readLastRequest();
 
         return {
+          slug: cleanText(getUrlParam("slug") || local.target_slug),
           name: cleanText(getUrlParam("nom") || local.target_name),
           metier: cleanText(getUrlParam("metier") || local.target_trade),
           ville: cleanText(getUrlParam("ville") || local.target_city)
@@ -687,6 +688,23 @@
         $("btnNewTop").href = "./request.html";
         $("btnDeposit").href = "./request.html";
         $("btnNeed").href = "./request.html";
+      }
+
+      async function refreshTargetFromProfile(target) {
+        if(!target.slug) return target;
+        try{
+          const {data,error}=await sb
+            .from("digiy_build_public_profiles")
+            .select("slug,display_name,trade,city")
+            .eq("slug",target.slug)
+            .maybeSingle();
+          if(!error && data){
+            target.name=cleanText(data.display_name) || target.name;
+            target.metier=cleanText(data.trade) || target.metier;
+            target.ville=cleanText(data.city) || target.ville;
+          }
+        }catch(_){}
+        return target;
       }
 
       function showTarget(target) {
@@ -757,7 +775,7 @@
       }
 
       async function init() {
-        const target = getTargetContext();
+        const target = await refreshTargetFromProfile(getTargetContext());
         showTarget(target);
         setNewRequestLinks();
 
