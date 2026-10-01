@@ -279,7 +279,8 @@
       <div class="topActions">
         <a class="btn ghost" href="https://digiylyfe.com/">Site</a>
         <a class="btn ghost" href="https://digiy-hub.digiylyfe.com/">HUB</a>
-        <a class="btn secondary" href="./listing.html">Retour galerie</a>\n        <a class="btn ghost" id="ownerAccessBtn" href="./acces-proprietaire-v3.html" hidden>🔐 Accès propriétaire</a>
+        <a class="btn secondary" href="./listing.html">Retour galerie</a>
+        <a class="btn ghost" id="ownerAccessBtn" href="./acces-proprietaire-v3.html" hidden>🔐 Accès propriétaire</a>
       </div>
     </header>
 
@@ -648,11 +649,20 @@
         `;
 
         const chips = [];
-        chips.push(`<span class="chip ok">Contact direct</span>`);
-        if(profile.sector) chips.push(`<span class="chip">${escapeHtml(profile.sector)}</span>`);
-        if(profile.city) chips.push(`<span class="chip">${escapeHtml(profile.city)}</span>`);
-        if(profile.region) chips.push(`<span class="chip">${escapeHtml(profile.region)}</span>`);
-        (profile.tags || []).slice(0,4).forEach(tag => chips.push(`<span class="chip">${escapeHtml(tag)}</span>`));
+        const seenChips = new Set();
+        const addChip = (value, ok=false) => {
+          const clean = text(value);
+          if(!clean) return;
+          const key = clean.toLocaleLowerCase();
+          if(seenChips.has(key)) return;
+          seenChips.add(key);
+          chips.push(`<span class="chip${ok ? " ok" : ""}">${escapeHtml(clean)}</span>`);
+        };
+        addChip("Contact direct", true);
+        addChip(profile.sector);
+        addChip(profile.city);
+        addChip(profile.region);
+        (profile.tags || []).slice(0,4).forEach(tag => addChip(tag));
         $("chipsBox").innerHTML = chips.join("");
 
         $("fullDescriptionBox").textContent = profile.bio || "Professionnel visible avec fiche détaillée, secteur clair et contact direct.";
