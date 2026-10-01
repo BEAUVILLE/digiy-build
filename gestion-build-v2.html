@@ -112,17 +112,14 @@
     const el=$("msg");el.textContent=text;el.className="msg show "+type;
   }
 
-  const returnParam=params.get("return") || localStorage.getItem("digiy_build_owner_return");
-  if(returnParam){
-    try{
-      const u=new URL(returnParam,location.origin);
-      if(u.origin===location.origin || u.hostname.endsWith(".digiylyfe.com")){
-        $("returnBtn").href=u.href;
-      }
-    }catch(_){}
-  } else if(siteSlug) {
-    const u=new URL("./fiche.html",location.href);u.searchParams.set("slug",siteSlug);u.searchParams.set("lang",lang);$("returnBtn").href=u.href;
+  function setCanonicalReturn(){
+    if(!siteSlug) return;
+    const u=new URL("./fiche.html",location.href);
+    u.searchParams.set("slug",siteSlug);
+    u.searchParams.set("lang",lang);
+    $("returnBtn").href=u.href;
   }
+  setCanonicalReturn();
 
   async function boot(){
     applyLang();
@@ -144,7 +141,7 @@
       if(owned.length>1){ message(tr("noSite")); return; }
       siteSlug=owned[0].slug;
       const u=new URL(location.href);u.searchParams.set("site",siteSlug);history.replaceState(null,"",u);
-      const back=new URL("./fiche.html",location.href);back.searchParams.set("slug",siteSlug);back.searchParams.set("lang",lang);$("returnBtn").href=back.href;
+      setCanonicalReturn();
     }
 
     try{
