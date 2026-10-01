@@ -223,7 +223,7 @@
       backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
     }
     .publicBottomNavInner{
-      width:min(100%,760px);margin:0 auto;display:grid;grid-template-columns:repeat(5,1fr);gap:6px;
+      width:min(100%,820px);margin:0 auto;display:grid;grid-template-columns:repeat(6,1fr);gap:6px;
     }
     .publicBottomNav a,.publicBottomNav button{
       min-height:62px;border-radius:17px;display:grid;place-items:center;align-content:center;gap:3px;
@@ -371,6 +371,7 @@
       <a href="#gallery"><span class="icoBottom">🖼️</span><span>Images</span></a>
       <a class="active" id="bottomNeed" href="./request.html"><span class="icoBottom">📄</span><span>Besoin</span></a>
       <a id="bottomWhatsapp" href="./request.html"><span class="icoBottom">💬</span><span>WhatsApp</span></a>
+      <a id="bottomOwner" href="./acces-proprietaire-v3.html"><span class="icoBottom">🔐</span><span>Proprio</span></a>
       <button id="bottomShare" type="button"><span class="icoBottom">📤</span><span>Partager</span></button>
     </div>
   </nav>
@@ -444,6 +445,8 @@
         if(currentLang) ownerUrl.searchParams.set("lang", currentLang);
         ownerAccessBtn.href = ownerUrl.pathname + ownerUrl.search;
         ownerAccessBtn.hidden = false;
+        const bottomOwner = $("bottomOwner");
+        if(bottomOwner) bottomOwner.href = ownerUrl.pathname + ownerUrl.search;
       }
 
       let currentProfile = null;
