@@ -436,7 +436,21 @@
       const profileWrap = $("profileWrap");
 
       const params = new URLSearchParams(location.search);
-      const requestedSlug = normSlug(params.get("slug") || params.get("id") || "");
+      let requestedSlug = normSlug(params.get("slug") || params.get("id") || "");
+      if(!requestedSlug){
+        try{
+          requestedSlug = normSlug(localStorage.getItem("digiy_build_owner_site") || "");
+          if(requestedSlug){
+            const u = new URL(location.href);
+            u.searchParams.set("slug", requestedSlug);
+            if(!u.searchParams.get("lang")){
+              const savedLang = localStorage.getItem("digiy_build_owner_lang") || localStorage.getItem("digiy_lang") || "fr";
+              u.searchParams.set("lang", savedLang);
+            }
+            history.replaceState(null,"",u);
+          }
+        }catch(_){}
+      }
       const ownerAccessBtn = $("ownerAccessBtn");
       if(ownerAccessBtn && requestedSlug){
         const ownerUrl = new URL("./acces-proprietaire-v3.html", location.href);
