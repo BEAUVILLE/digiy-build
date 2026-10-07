@@ -640,9 +640,52 @@
         }
       }
 
+      function updateMachineMetadata(profile, profileUrl){
+        const title = `${profile.display_name || "Fiche artisan"} — DIGIY BUILD`;
+        const description = [profile.trade, profile.service_zone || profile.city, profile.bio]
+          .map(text).filter(Boolean).join(" · ").slice(0, 300);
+
+        document.title = title;
+
+        let metaDescription = document.querySelector('meta[name="description"]');
+        if(metaDescription) metaDescription.setAttribute("content", description || "Fiche publique DIGIY BUILD");
+
+        let canonical = document.querySelector('link[rel="canonical"]');
+        if(!canonical){
+          canonical = document.createElement("link");
+          canonical.rel = "canonical";
+          document.head.appendChild(canonical);
+        }
+        canonical.href = profileUrl;
+
+        const schema = {
+          "@context": "https://schema.org",
+          "@type": profile.sector === "plomberie" ? "Plumber" : "LocalBusiness",
+          "name": profile.display_name || undefined,
+          "description": description || undefined,
+          "url": profileUrl,
+          "image": profile.photo_url || undefined,
+          "telephone": profile.phone || profile.whatsapp || undefined,
+          "areaServed": [profile.service_zone, profile.city, profile.region].map(text).filter(Boolean),
+          "knowsAbout": [profile.trade, profile.services_text, ...(profile.tags || [])].map(text).filter(Boolean)
+        };
+
+        Object.keys(schema).forEach(key => schema[key] === undefined && delete schema[key]);
+
+        let jsonLd = document.getElementById("digiy-profile-schema");
+        if(!jsonLd){
+          jsonLd = document.createElement("script");
+          jsonLd.type = "application/ld+json";
+          jsonLd.id = "digiy-profile-schema";
+          document.head.appendChild(jsonLd);
+        }
+        jsonLd.textContent = JSON.stringify(schema);
+      }
+
       function renderProfile(profile){
         currentProfile = profile;
         currentProfileUrl = publicProfileUrl(profile);
+        updateMachineMetadata(profile, currentProfileUrl);
 
         hideMsg();
         profileWrap.style.display = "";
