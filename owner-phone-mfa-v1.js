@@ -67,10 +67,14 @@ async function enrollAndActivate(sb,ctx,box){
   box.className="digiyOwnerMfa ok";box.innerHTML="<strong>✅ Double sécurité activée</strong><div>Les prochaines connexions exigeront aussi le téléphone enregistré.</div>";
   setTimeout(()=>location.reload(),700);
 }
-async function guard({supabase:sb,beforeId="editor"}){
+async function guard({supabase:sb,beforeId="editor",offerEnrollment=true}){
   const {data:ctx,error}=await sb.rpc("digiy_owner_mfa_context");
   if(error) throw error;
   if(!ctx?.ok) return true;
+  // Email magic-link owners with phone MFA not required must not be pushed
+  // into an SMS enrollment flow that may be disabled or billable.
+  // The required=true branch still enforces the existing phone lock.
+  if(!ctx.required && !offerEnrollment) return true;
   const box=boxBefore(beforeId);
   const level=await aal(sb);
   const list=await factors(sb);

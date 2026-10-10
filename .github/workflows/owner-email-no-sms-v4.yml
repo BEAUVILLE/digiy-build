@@ -1,0 +1,32 @@
+name: DIGIY BUILD — email propriétaire sans SMS
+on:
+  pull_request:
+    paths:
+      - 'gestion-build-v2.html'
+      - 'owner-phone-mfa-v1.js'
+      - 'owner-email-no-sms-v4.test.cjs'
+      - '.github/workflows/owner-email-no-sms-v4.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'gestion-build-v2.html'
+      - 'owner-phone-mfa-v1.js'
+      - 'owner-email-no-sms-v4.test.cjs'
+      - '.github/workflows/owner-email-no-sms-v4.yml'
+permissions:
+  contents: read
+jobs:
+  owner-email:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Syntaxe
+        run: |
+          node --check owner-phone-mfa-v1.js
+          node --check owner-email-no-sms-v4.test.cjs
+      - name: Accès email, aucun SMS facultatif, sécurité obligatoire préservée
+        run: node --test owner-email-no-sms-v4.test.cjs
