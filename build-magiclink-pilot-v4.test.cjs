@@ -98,5 +98,5 @@ test('BUILD magic-link return without slug discovers sole Auth-owned active prof
  const r=await management({withSite:false});
  assert.equal(r.d.$('editor').hidden,false);
  assert.equal(r.historyWrites.length,1);
- assert.match(r.historyWrites[0],/site=jb-baptiste-build/);
+ assert.match(String(r.historyWrites[0]),/site=jb-baptiste-build/);
 });
