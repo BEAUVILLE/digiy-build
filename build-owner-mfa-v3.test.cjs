@@ -41,5 +41,7 @@ test('client request data is escaped before displayed',()=>{
  assert.match(html,/esc\(r\.type_travaux\|\|"Demande BUILD"\)/);
  assert.match(html,/esc\(need\)/);
  assert.match(html,/DIGIY_OWNER_PHONE_MFA\.guard/);
- assert.ok(html.indexOf('DIGIY_OWNER_PHONE_MFA.guard')<html.indexOf('if(!siteSlug){\n       const {data:owned'),'guard must precede fallback owner lookup');
+ const discovery=html.search(/if\(!siteSlug\)\s*\{\s*const \{data:owned/);
+ assert.ok(discovery>=0,'owner profile discovery found');
+ assert.ok(html.indexOf('DIGIY_OWNER_PHONE_MFA.guard')<discovery,'guard must precede fallback owner lookup');
 });
