@@ -47,7 +47,7 @@ BEGIN
     RAISE EXCEPTION 'REFUS : preuve OPS insuffisante ou contenant une adresse email';
   END IF;
 
-  SELECT count(*),min(id)
+  SELECT count(*),(array_agg(id))[1]
     INTO v_user_count,v_uid
   FROM auth.users
   WHERE lower(btrim(email))=lower(btrim(v_owner_email))
