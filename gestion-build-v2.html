@@ -210,7 +210,7 @@
       message("Double sécurité téléphone indisponible.");return;
     }
     try{
-      const allowed=await window.DIGIY_OWNER_PHONE_MFA.guard({supabase:sb,beforeId:"editor"});
+      const allowed=await window.DIGIY_OWNER_PHONE_MFA.guard({supabase:sb,beforeId:"editor",offerEnrollment:false});
       if(!allowed) return;
     }catch(e){message(e?.message||String(e));return}
 
