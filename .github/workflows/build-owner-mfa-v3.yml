@@ -1,0 +1,30 @@
+name: DIGIY BUILD V3 — propriétaire avant profils
+on:
+  pull_request:
+    paths:
+      - 'gestion-build-v2.html'
+      - 'build-owner-mfa-v3.test.cjs'
+      - 'docs/BUILD_CORE_V3_OWNER_RECONCILIATION_20261010.md'
+      - '.github/workflows/build-owner-mfa-v3.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'gestion-build-v2.html'
+      - 'build-owner-mfa-v3.test.cjs'
+      - 'docs/BUILD_CORE_V3_OWNER_RECONCILIATION_20261010.md'
+      - '.github/workflows/build-owner-mfa-v3.yml'
+permissions:
+  contents: read
+jobs:
+  owner-contract:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Contrôler le refus téléphone et l'identité propriétaire
+        run: |
+          node --check build-owner-mfa-v3.test.cjs
+          node --test build-owner-mfa-v3.test.cjs
