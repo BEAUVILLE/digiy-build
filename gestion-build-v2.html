@@ -204,6 +204,16 @@
     if(userError || !currentUser){ message(tr("noSession")); return; }
     user=currentUser;
 
+    // Verify phone first, even when the owner URL has no site slug.
+    // RLS on BUILD profiles already requires the owner MFA gate.
+    if(!window.DIGIY_OWNER_PHONE_MFA?.guard){
+      message("Double sécurité téléphone indisponible.");return;
+    }
+    try{
+      const allowed=await window.DIGIY_OWNER_PHONE_MFA.guard({supabase:sb,beforeId:"editor"});
+      if(!allowed) return;
+    }catch(e){message(e?.message||String(e));return}
+
     if(!siteSlug){
       const {data:owned,error:ownedError}=await sb
         .from(CORE.table)
@@ -218,11 +228,6 @@
       const u=new URL(location.href);u.searchParams.set("site",siteSlug);history.replaceState(null,"",u);
       setCanonicalReturn();
     }
-
-    try{
-      const allowed = await window.DIGIY_OWNER_PHONE_MFA.guard({supabase:sb,beforeId:"editor"});
-      if(!allowed) return;
-    }catch(e){ message(e?.message || String(e)); return; }
 
     const {data,error}=await sb
       .from(CORE.table)
