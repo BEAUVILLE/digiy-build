@@ -1,0 +1,60 @@
+name: BUILD V5 — rattachement Auth vérifié, test PostgreSQL isolé
+on:
+  pull_request:
+    paths:
+      - 'supabase/ops/BUILD_OWNER_IDENTITY_BIND_V5_MANUAL.sql'
+      - 'tests/build-owner-identity-bind-v5.test.cjs'
+      - 'docs/BUILD_OWNER_IDENTITY_V5_HANDOVER.md'
+      - '.github/workflows/build-owner-bind-v5.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'supabase/ops/BUILD_OWNER_IDENTITY_BIND_V5_MANUAL.sql'
+      - 'tests/build-owner-identity-bind-v5.test.cjs'
+      - 'docs/BUILD_OWNER_IDENTITY_V5_HANDOVER.md'
+      - '.github/workflows/build-owner-bind-v5.yml'
+permissions:
+  contents: read
+jobs:
+  owner-identity-isolated:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: fixture-only-not-prod
+          POSTGRES_DB: build_owner_fixture
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d build_owner_fixture"
+          --health-interval 5s
+          --health-timeout 3s
+          --health-retries 12
+    env:
+      PGHOST: 127.0.0.1
+      PGPORT: '5432'
+      PGUSER: postgres
+      PGPASSWORD: fixture-only-not-prod
+      PGDATABASE: build_owner_fixture
+      BUILD_OWNER_FIXTURE_POSTGRES: '1'
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: PostgreSQL client only
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y postgresql-client > /dev/null
+      - name: Isolated database confirmation
+        run: |
+          test "$PGDATABASE" = build_owner_fixture
+          test "$PGHOST" = 127.0.0.1
+          psql -X -v ON_ERROR_STOP=1 -c "select current_database()"
+      - name: Refus identité, aperçu sans écriture, mutation autorisée et audit privé
+        run: |
+          node --check tests/build-owner-identity-bind-v5.test.cjs
+          node --test tests/build-owner-identity-bind-v5.test.cjs
