@@ -1,0 +1,30 @@
+name: DIGIY BUILD V4 — essai magic link propriétaire
+on:
+  pull_request:
+    paths:
+      - 'build-magiclink-pilot-v4.test.cjs'
+      - 'acces-proprietaire-v3.html'
+      - 'gestion-build-v2.html'
+      - '.github/workflows/build-magiclink-pilot-v4.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'build-magiclink-pilot-v4.test.cjs'
+      - 'acces-proprietaire-v3.html'
+      - 'gestion-build-v2.html'
+      - '.github/workflows/build-magiclink-pilot-v4.yml'
+permissions:
+  contents: read
+jobs:
+  owner-email:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Vérifier syntaxe et parcours propriétaire email
+        run: |
+          node --check build-magiclink-pilot-v4.test.cjs
+          node --test build-magiclink-pilot-v4.test.cjs
