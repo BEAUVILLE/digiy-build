@@ -35,14 +35,14 @@ BEGIN
   ) THEN
     RAISE EXCEPTION 'REFUS : slug non autorisé pour cette mission';
   END IF;
-  IF v_owner_email LIKE '__%' OR btrim(v_owner_email) = ''
+  IF left(v_owner_email,2)='__' OR btrim(v_owner_email) = ''
       OR position('@' in v_owner_email) < 2 THEN
     RAISE EXCEPTION 'REFUS : adresse email propriétaire non fournie/incorrecte';
   END IF;
   IF NOT v_ownership_proved THEN
     RAISE EXCEPTION 'REFUS : validation humaine identité et accord propriétaire manquants';
   END IF;
-  IF v_approval_reference LIKE '__%' OR length(btrim(v_approval_reference)) < 15
+  IF left(v_approval_reference,2)='__' OR length(btrim(v_approval_reference)) < 15
       OR position('@' IN v_approval_reference) > 0 THEN
     RAISE EXCEPTION 'REFUS : preuve OPS insuffisante ou contenant une adresse email';
   END IF;
