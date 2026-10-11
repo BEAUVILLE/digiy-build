@@ -21,7 +21,8 @@ test("annuaire : appel traduit en huit langues", () => {
   const dictionary = JSON.parse(match[1]);
   const langs = ["fr", "en", "es", "pt", "it", "de", "nl", "ar"];
   for (const lang of langs) {
-    assert.ok(dictionary[lang]?.call?.includes("Babacar"), lang);
+    const expectedName = lang === "ar" ? "باباكار" : "Babacar";
+    assert.ok(dictionary[lang]?.call?.includes(expectedName), lang);
   }
 });
 
