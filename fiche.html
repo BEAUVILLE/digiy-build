@@ -206,6 +206,7 @@
     .miniHint{margin-top:7px;color:var(--muted);font-size:16px;font-weight:800;line-height:1.45}
 
     .actions{display:grid;grid-template-columns:1fr;gap:10px;margin-top:4px}
+    .actions a[hidden]{display:none}
     .gallery{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
     .photo{
       position:relative;display:block;border-radius:20px;overflow:hidden;
@@ -355,6 +356,7 @@
 
         <div class="actions">
           <a id="waBtn" class="btn primary" href="./request.html">💬 WhatsApp direct</a>
+          <a id="directCallBtn" class="btn green" hidden>📞 Appeler directement</a>
           <a id="callBtn" class="btn secondary" href="./request.html">📄 Décrire mon besoin</a>
           <a id="listingBtn" class="btn ghost" href="./listing.html">← Retour galerie</a>
         </div>
@@ -556,6 +558,17 @@
         }
       }
 
+      function phoneCallUrl(profile){
+        // Appels seulement vers un numéro PUBLIC explicitement prévu pour le téléphone.
+        // Pas de déduction d'un numéro d'appel à partir du WhatsApp seul.
+        const raw = text(profile.phone);
+        const digits = normalizePhone(raw);
+        if(!/^[1-9][0-9]{7,14}$/.test(digits)) return "";
+        // Sans préfixe +, seul l'indicatif Sénégal 221 déjà présent est accepté.
+        if(!raw.startsWith("+") && !/^221[0-9]{9}$/.test(digits)) return "";
+        return `tel:+${digits}`;
+      }
+
       function whatsappUrl(profile){
         const wa = normalizePhone(profile.whatsapp || profile.phone);
         if(!wa) return "";
@@ -741,8 +754,19 @@
         $("contactBox").textContent = (profile.whatsapp || profile.phone) ? "WhatsApp disponible" : "Via la demande DIGIY";
 
         const requestUrl = makeRequestUrl(profile);
-        $("callBtn").href = requestUrl;
+        $("callBtn").href = requestUrl; // formulaire conservé
         $("bottomNeed").href = requestUrl;
+
+        const directCall = $("directCallBtn");
+        const directPhone = phoneCallUrl(profile);
+        directCall.hidden = !directPhone;
+        if(directPhone){
+          directCall.href = directPhone;
+          directCall.textContent = profile.slug === "babacar-plombier-pro" ? "📞 Appeler Babacar" : "📞 Appeler directement";
+          directCall.setAttribute("aria-label", `Appeler ${profile.display_name || "ce professionnel"}`);
+        }else{
+          directCall.removeAttribute("href");
+        }
 
         const wa = whatsappUrl(profile);
         if(wa){
