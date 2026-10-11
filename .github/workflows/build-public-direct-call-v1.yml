@@ -1,0 +1,30 @@
+name: DIGIY BUILD — appel direct public
+on:
+  pull_request:
+    paths:
+      - 'index.html'
+      - 'fiche.html'
+      - 'tests/build-public-direct-call-v1.test.cjs'
+      - '.github/workflows/build-public-direct-call-v1.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'index.html'
+      - 'fiche.html'
+      - 'tests/build-public-direct-call-v1.test.cjs'
+      - '.github/workflows/build-public-direct-call-v1.yml'
+permissions:
+  contents: read
+jobs:
+  public-direct-call:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Syntaxe, numéro Babacar, huit langues et refus téléphone absent
+        run: |
+          node --check tests/build-public-direct-call-v1.test.cjs
+          node --test tests/build-public-direct-call-v1.test.cjs
