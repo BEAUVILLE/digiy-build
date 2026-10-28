@@ -18,6 +18,12 @@ for(const [lang,strings] of Object.entries(UNIFIED_TEXT)){
   UNIFIED_KEYS.forEach((source,i)=>{ PACKS[lang].text[source]=strings[i]; });
 }
 
+// La Carte DIGIY reste indépendante de l'abonnement BUILD.
+const CARD_ONLY_KEYS=["Carte de visite DIGIY seule · sans abonnement","Carte avec QR et contact direct : Sénégal 15 000 FCFA, France 20 €, paiement unique. La carte est déjà comprise dans l'adhésion BUILD : ne la paie pas deux fois.","🪪 Demander seulement ma carte DIGIY →"];
+const CARD_ONLY_TRANSLATIONS={"en":["DIGIY business card only · no subscription","Card with QR and direct contact: Senegal 15,000 FCFA, France €20, one-time payment. This card is included with BUILD membership; do not pay twice.","🪪 Request only my DIGIY card →"],"es":["Solo tarjeta de visita DIGIY · sin suscripción","Tarjeta con QR y contacto directo: Senegal 15.000 FCFA, Francia 20 €, pago único. La tarjeta está incluida en la adhesión BUILD; no pagues dos veces.","🪪 Pedir solo mi tarjeta DIGIY →"],"de":["Nur DIGIY-Visitenkarte · ohne Abo","Karte mit QR und direktem Kontakt: Senegal 15.000 FCFA, Frankreich 20 €, Einmalzahlung. Die Karte ist in BUILD bereits enthalten; nicht doppelt bezahlen.","🪪 Nur meine DIGIY-Karte bestellen →"],"it":["Solo biglietto da visita DIGIY · senza abbonamento","Biglietto con QR e contatto diretto: Senegal 15.000 FCFA, Francia 20 €, pagamento unico. È già incluso in BUILD; non pagare due volte.","🪪 Richiedi solo la mia carta DIGIY →"],"nl":["Alleen DIGIY-visitekaartje · geen abonnement","Kaart met QR en direct contact: Senegal 15.000 FCFA, Frankrijk €20, eenmalige betaling. De kaart is al inbegrepen bij BUILD; betaal niet twee keer.","🪪 Alleen mijn DIGIY-kaart aanvragen →"],"ar":["بطاقة تعريف DIGIY فقط · دون اشتراك","بطاقة مع رمز QR واتصال مباشر: السنغال 15000 فرنك وفرنسا 20 يورو، دفعة واحدة. البطاقة مشمولة في BUILD، لا تدفع مرتين.","🪪 اطلب بطاقة DIGIY فقط ←"]};
+for(const [lang,strings] of Object.entries(CARD_ONLY_TRANSLATIONS)){
+  if(PACKS[lang]) CARD_ONLY_KEYS.forEach((original,i)=>{PACKS[lang].text[original]=strings[i];});
+}
 let activeLang=readLanguage(),applying=false,scheduled=false;
 const originals=new WeakMap();
 let sortedKeys=[];
@@ -261,6 +267,13 @@ function apply(root){
     walk(root||document.body);
     translateAttributes(root||document);
     updateDocument();
+    const cardOnly=document.getElementById("buildCardOnlyCta");
+    if(cardOnly){
+      const url=new URL("https://digiylyfe.com/carte-gratuite.html");
+      url.searchParams.set("lang",activeLang);
+      url.searchParams.set("country",document.querySelector('[data-country="france"].active')?"FR":"SN");
+      if(cardOnly.href!==url.toString()) cardOnly.href=url.toString();
+    }
     translateWhatsApp();
     bindSms();
   }finally{

@@ -677,6 +677,12 @@
       </nav>
     </header>
 
+    <section aria-labelledby="digiy-carte-seule-title" style="margin:14px 0;padding:15px;border:1px solid #facc15;border-radius:18px;background:rgba(250,204,21,.09)">
+      <h2 id="digiy-carte-seule-title" style="margin:0 0 7px;font-size:clamp(19px,4vw,24px);color:#fff3b2">Carte de visite DIGIY seule · sans abonnement</h2>
+      <p style="margin:0 0 12px;line-height:1.5;font-size:14px">Carte avec QR et contact direct : Sénégal 15 000 FCFA, France 20 €, paiement unique. La carte est déjà comprise dans l'adhésion BUILD : ne la paie pas deux fois.</p>
+      <a id="buildCardOnlyCta" href="https://digiylyfe.com/carte-gratuite.html?country=SN&amp;lang=fr" style="display:flex;min-height:48px;align-items:center;justify-content:center;padding:10px 14px;border-radius:13px;background:#facc15;color:#061b14;text-decoration:none;text-align:center;font-weight:950;font-size:14px">🪪 Demander seulement ma carte DIGIY →</a>
+    </section>
+
     <!-- Aperçu public : professionnels déjà référencés sur la galerie BUILD.
          Ce bloc n'active ni ne crée de profil ; les pages individuelles restent les sources. -->
     <section aria-labelledby="build-references-title" style="margin:14px 0 20px;padding:15px;border:1px solid rgba(250,204,21,.45);border-radius:18px;background:rgba(255,255,255,.06)">
@@ -1047,6 +1053,13 @@
             : "Sénégal : adhésion BUILD 19 900 FCFA/mois ; option métier +8 000 FCFA/mois.";
         }
 
+        const cardOnly=document.getElementById("buildCardOnlyCta");
+        if(cardOnly){
+          const target=new URL("https://digiylyfe.com/carte-gratuite.html");
+          target.searchParams.set("country",country === "france" ? "FR" : "SN");
+          target.searchParams.set("lang",new URLSearchParams(location.search).get("lang") || "fr");
+          cardOnly.href=target.toString();
+        }
         update(false);
       }
 
