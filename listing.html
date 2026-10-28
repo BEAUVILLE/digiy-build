@@ -28,7 +28,7 @@
 <header class="top"><div class="wrap topin"><div class="brand">DIGIY BUILD</div><a class="back" id="homeLink" href="./index.html">← Accueil métiers</a></div></header>
 <main>
 <section class="hero"><div class="wrap hero-card"><div class="kicker" id="kicker">Professionnels officiels</div><h1 id="title">Professionnels par métier</h1><p class="lead" id="lead">Choisis une catégorie puis contacte directement le professionnel.</p></div></section>
-<section><div class="wrap"><div class="filters" id="filters"></div><div class="result" id="result"></div><div class="grid" id="grid"></div><div class="empty" id="empty"><h2 id="emptyTitle">Aucun professionnel publié</h2><p id="emptyText">Cette catégorie est prête. Tu peux décrire ton besoin ou proposer l’inscription d’un professionnel.</p><div class="empty-actions"><a class="btn main" id="emptyNeed" href="./request.html">📄 Décrire mon besoin</a><a class="btn green" id="emptySignup" href="./inscription-lang.html">🧰 Inscription artisan</a></div></div></div></section>
+<section><div class="wrap"><div class="filters" id="filters"></div><div class="result" id="result"></div><div class="grid" id="grid"></div><div class="empty" id="empty"><h2 id="emptyTitle">Aucun professionnel publié</h2><p id="emptyText">Cette catégorie est prête. Tu peux décrire ton besoin ou proposer l’inscription d’un professionnel.</p><div class="empty-actions"><a class="btn main" id="emptyNeed" href="./request.html">📄 Décrire mon besoin</a><a class="btn green" id="emptySignup" href="https://digiylyfe.com/tarifs-adherents-1.html?country=sn">🧰 Inscription artisan</a></div></div></div></section>
 </main>
 <nav class="bottom"><div class="bottomin"><a id="navHome" href="./index.html"><span>🏠</span><span>Accueil</span></a><a id="navProfiles" class="active" href="./listing.html"><span>👁️</span><span>Profils</span></a><a id="navNeed" href="./request.html"><span>📄</span><span>Besoin</span></a><a id="navPro" href="./acces-proprietaire-v3.html"><span>🔐</span><span>Propriétaire</span></a></div></nav>
 <script>
@@ -53,7 +53,10 @@ function link(path,cat){var u=new URL(path,location.href);u.searchParams.set("la
 document.title="DIGIY BUILD · "+t.cats[trade];document.querySelector('meta[name="description"]').content=t.lead;
 function txt(id,v){var e=document.getElementById(id);if(e)e.textContent=v}
 txt("homeLink",t.home);txt("kicker",t.kicker);txt("title",trade==="all"?t.title:t.cats[trade]);txt("lead",t.lead);txt("emptyTitle",t.emptyTitle);txt("emptyText",t.emptyText);txt("emptyNeed",t.need);txt("emptySignup",t.signup);txt("navHome",t.navHome);txt("navProfiles",t.navProfiles);txt("navNeed",t.navNeed);txt("navPro",t.navPro);
-document.getElementById("homeLink").href=link("./index.html");document.getElementById("emptyNeed").href=link("./request.html");document.getElementById("emptySignup").href=link("./inscription-lang.html");document.getElementById("navHome").href=link("./index.html");document.getElementById("navProfiles").href=link("./listing.html","all");document.getElementById("navNeed").href=link("./request.html");
+document.getElementById("homeLink").href=link("./index.html");document.getElementById("emptyNeed").href=link("./request.html");var tariffs=new URL("https://digiylyfe.com/tarifs-adherents-1.html");
+tariffs.searchParams.set("country","sn");
+tariffs.searchParams.set("lang",lang);
+document.getElementById("emptySignup").href=tariffs.toString();document.getElementById("navHome").href=link("./index.html");document.getElementById("navProfiles").href=link("./listing.html","all");document.getElementById("navNeed").href=link("./request.html");
 var cats=["all","plombier","electricien","macon","entrepreneur","menuisier","carreleur","peintre","soudeur","climatisation","solaire"];
 document.getElementById("filters").innerHTML=cats.map(function(c){return '<a class="filter '+(c===trade?"active":"")+'" href="'+link("./listing.html",c)+'"><span>'+icons[c]+'</span>'+t.cats[c]+'</a>'}).join("");
 var profiles=[
