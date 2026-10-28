@@ -2,57 +2,33 @@
 <html lang="fr">
 <head>
   <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-  <meta name="robots" content="index,follow">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,follow">
   <meta name="theme-color" content="#061b14">
-  <title>DIGIY BUILD — inscription multilingue</title>
-  <style>
-    html,body{margin:0;min-height:100%;background:#061b14;color:#fff;font-family:system-ui,-apple-system,Segoe UI,Arial,sans-serif}
-    body{display:grid;place-items:center;text-align:center}.loading{padding:24px;font-weight:900}
-  </style>
+  <title>DIGIY BUILD — Tarifs adhérents</title>
+  <noscript><meta http-equiv="refresh" content="0;url=https://digiylyfe.com/tarifs-adherents-1.html?country=sn"></noscript>
 </head>
-<body>
-  <p class="loading">DIGIY BUILD — chargement…</p>
+<body style="margin:0;min-height:100vh;display:grid;place-items:center;background:#061b14;color:#fff;font:700 16px/1.5 system-ui,Arial,sans-serif">
+  <main style="text-align:center;padding:24px">
+    <p>Redirection vers les tarifs adhérents DIGIYLYFE…</p>
+    <a id="tarifs" href="https://digiylyfe.com/tarifs-adherents-1.html?country=sn" style="color:#facc15">Ouvrir les tarifs adhérents →</a>
+  </main>
   <script>
-  (function(){
-    var VERSION='20260801-build-inscription-europe-v2';
-    var supported=/^(fr|en|es|de|it|nl|ar)$/;
-    var params=new URLSearchParams(location.search);
-    var lang=(params.get('lang')||'').toLowerCase();
-
-    try{if(!supported.test(lang))lang=(localStorage.getItem('digiy-lang')||'').toLowerCase()}catch(e){}
-    if(!supported.test(lang))lang=(navigator.language||'fr').slice(0,2).toLowerCase();
-    if(!supported.test(lang))lang='fr';
-    try{localStorage.setItem('digiy-lang',lang)}catch(e){}
-
-    fetch('./inscription-build.html?v='+encodeURIComponent(VERSION),{cache:'no-store'})
-      .then(function(response){if(!response.ok)throw new Error('load');return response.text()})
-      .then(function(html){
-        var boot='<script>try{localStorage.setItem("digiy-lang","'+lang+'") }catch(e){}<\/script>';
-        var scripts=
-          '<script src="./assets/js/build-inscription-en.js?v='+VERSION+'" defer><\/script>'+ 
-          '<script src="./assets/js/build-inscription-es.js?v='+VERSION+'" defer><\/script>'+ 
-          '<script src="./assets/js/build-inscription-de.js?v='+VERSION+'" defer><\/script>'+ 
-          '<script src="./assets/js/build-inscription-it.js?v='+VERSION+'" defer><\/script>'+ 
-          '<script src="./assets/js/build-inscription-nl.js?v='+VERSION+'" defer><\/script>'+ 
-          '<script src="./assets/js/build-inscription-ar.js?v='+VERSION+'" defer><\/script>'+ 
-          '<script src="./assets/js/build-inscription-i18n.js?v='+VERSION+'" defer><\/script>'+ 
-          '';
-        html=html.replace(/<head([^>]*)>/i,'<head$1><base href="./">'+boot+scripts);
-        document.open();document.write(html);document.close();
-      })
-      .catch(function(){
-        var direct=new URL('./inscription-build.html',location.href);
-        params.forEach(function(value,key){if(key!=='v')direct.searchParams.set(key,value)});
-        direct.searchParams.set('lang',lang);
-        location.replace(direct.toString());
-      });
-  })();
+    (function(){
+      var query=new URLSearchParams(location.search);
+      var l=String(query.get("lang")||"").toLowerCase();
+      var supported=["fr","en","es","pt","de","it","nl","ar"];
+      try{if(!supported.includes(l))l=String(localStorage.getItem("digiy-lang")||"").toLowerCase()}catch(e){}
+      if(!supported.includes(l))l="fr";
+      var country=String(query.get("country")||query.get("pays")||"").toLowerCase();
+      if(!country){try{country=String(localStorage.getItem("digiy_build_country_v1")||"").toLowerCase()}catch(e){}}
+      country=country==="fr"||country==="france"?"fr":country==="us"||country==="usa"?"us":"sn";
+      var target=new URL("https://digiylyfe.com/tarifs-adherents-1.html");
+      target.searchParams.set("country",country);
+      target.searchParams.set("lang",l);
+      document.getElementById("tarifs").href=target.toString();
+      location.replace(target.toString());
+    })();
   </script>
-
-<div class="digiy-global-home-return" style="max-width:980px;margin:18px auto;padding:0 14px;text-align:center">
-  <a href="https://digiylyfe.com/" style="display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:10px 15px;border-radius:999px;text-decoration:none;font:900 14px/1.2 system-ui,-apple-system,Segoe UI,sans-serif;border:1px solid rgba(127,127,127,.28);background:rgba(255,255,255,.08);color:inherit">🏠 Retour à l’accueil DIGIYLYFE</a>
-</div>
 </body>
 </html>
