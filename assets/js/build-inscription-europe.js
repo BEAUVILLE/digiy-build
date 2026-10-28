@@ -213,7 +213,7 @@
       .filter(Boolean);
     if (fields.some((field) => !String(field.value || "").trim() || !field.checkValidity())) return false;
     const codes = Array.from(document.querySelectorAll(".option.active")).map((el) => el.dataset.code);
-    return codes.some((code) => ["B1", "B2", "B3", "FIRST"].includes(code));
+    return codes.some((code) => ["PRO", "FIRST"].includes(code));
   }
 
   function localizedSms() {
