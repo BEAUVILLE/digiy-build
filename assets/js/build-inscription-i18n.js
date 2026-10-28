@@ -18,6 +18,15 @@ for(const [lang,strings] of Object.entries(UNIFIED_TEXT)){
   UNIFIED_KEYS.forEach((source,i)=>{ PACKS[lang].text[source]=strings[i]; });
 }
 
+
+// Carte DIGIY achetée seule : libellés publics traduits, sans ajouter de plan BUILD.
+const SINGLE_CARD_KEYS=["🪪 Carte de visite DIGIY seule · Sans abonnement obligatoire","Sénégal : 15 000 FCFA (paiement unique). France : 20 € (paiement unique). Si vous adhérez à BUILD, la carte numérique et le QR sont déjà inclus dans l'adhésion : pas de deuxième facture.","Voir tarifs et demander la carte seule →"];
+const SINGLE_CARD_TRANSLATIONS={"en":["🪪 DIGIY standalone card · No subscription required","Senegal: 15,000 FCFA one-time. France: €20 one-time. If you join BUILD, your digital card and QR are already included: no double charge.","See pricing and request the standalone card →"],"es":["🪪 Tarjeta DIGIY independiente · Sin suscripción","Senegal: 15.000 FCFA pago único. Francia: 20 € pago único. Si te adhieres a BUILD, la tarjeta digital y el QR ya están incluidos: sin doble cobro.","Ver tarifas y solicitar la tarjeta →"],"de":["🪪 DIGIY-Karte einzeln · Kein Abo erforderlich","Senegal: 15.000 FCFA einmalig. Frankreich: 20 € einmalig. Bei BUILD sind digitale Karte und QR bereits enthalten: keine doppelte Zahlung.","Preise und Einzelkarte ansehen →"],"it":["🪪 Carta DIGIY singola · Senza abbonamento","Senegal: 15.000 FCFA una tantum. Francia: 20 € una tantum. Con BUILD la carta digitale e il QR sono già inclusi: nessun doppio pagamento.","Vedi tariffe e richiedi la carta →"],"nl":["🪪 Losse DIGIY-kaart · Geen abonnement vereist","Senegal: 15.000 FCFA eenmalig. Frankrijk: €20 eenmalig. Met BUILD zijn digitale kaart en QR al inbegrepen: geen dubbele betaling.","Bekijk tarieven en vraag de kaart aan →"],"ar":["🪪 بطاقة DIGIY مستقلة · دون اشتراك","السنغال: 15000 فرنك إفريقي تدفع مرة واحدة. فرنسا: 20 يورو مرة واحدة. مع اشتراك BUILD تكون البطاقة الرقمية ورمز QR مشمولين، دون دفع مزدوج.","عرض الأسعار وطلب البطاقة المستقلة ←"]};
+for(const [code,labels] of Object.entries(SINGLE_CARD_TRANSLATIONS)){
+  if(!PACKS[code]) continue;
+  PACKS[code].text=PACKS[code].text||{};
+  SINGLE_CARD_KEYS.forEach((key,index)=>{PACKS[code].text[key]=labels[index]});
+}
 let activeLang=readLanguage(),applying=false,scheduled=false;
 const originals=new WeakMap();
 let sortedKeys=[];
