@@ -204,7 +204,7 @@ function validSms(){
   const fields=["proName","proPhone","proZone","proActivity"].map(id=>document.getElementById(id)).filter(Boolean);
   if(fields.some(field=>!String(field.value||"").trim()||!field.checkValidity())) return false;
   const codes=Array.from(document.querySelectorAll(".option.active")).map(el=>el.dataset.code);
-  if(!codes.some(code=>["B1","B2","B3","FIRST"].includes(code))) return false;
+  if(!codes.some(code=>["PRO","FIRST"].includes(code))) return false;
   const country=document.querySelector("[data-country].active")?.dataset.country||"senegal";
   return !(country==="france"&&codes.some(code=>["E1","E2","E3"].includes(code)));
 }
