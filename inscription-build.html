@@ -674,6 +674,7 @@
       <nav class="nav">
         <a href="./index.html">← BUILD public</a>
         <a href="https://digiylyfe.com/">🏠 DIGIYLYFE</a>
+        <a id="buildOfficialTarifs" href="https://digiylyfe.com/tarifs-adherents-1.html?country=sn">📋 Tarifs adhérents</a>
       </nav>
     </header>
 
@@ -688,16 +689,6 @@
         <a href="https://mbaye-macon.digiylyfe.com/" style="display:block;min-height:67px;padding:11px 12px;border:1px solid rgba(255,255,255,.26);border-radius:13px;background:#103c2c;color:#fff;text-decoration:none;line-height:1.4"><strong>Mbaye Diouf</strong><span style="display:block;font-size:12px;color:#e1eddf">Construction · Saly / Mbour ↗</span></a>
       </div>
       <a href="./listing.html" style="display:flex;align-items:center;justify-content:center;min-height:48px;margin-top:12px;padding:10px 14px;border-radius:12px;background:#facc15;color:#061b14;font-size:14px;font-weight:900;text-decoration:none;text-align:center">👁️ Voir la galerie des artisans BUILD →</a>
-    </section>
-
-    <!-- Porte autonome : la carte DIGIY seule n'est pas un abonnement BUILD. -->
-    <section aria-label="Carte de visite DIGIY à paiement unique" style="margin:0 0 16px;padding:16px;border:2px solid #facc15;border-radius:18px;background:#123728;color:#fff">
-      <h2 style="margin:0 0 8px;font-size:clamp(20px,4vw,27px);color:#fff3b2">🪪 Carte de visite DIGIY seule · Sans abonnement obligatoire</h2>
-      <p style="margin:0 0 12px;font-size:15px;line-height:1.5;color:#ecfff3">Sénégal : 15 000 FCFA (paiement unique). France : 20 € (paiement unique). Si vous adhérez à BUILD, la carte numérique et le QR sont déjà inclus dans l'adhésion : pas de deuxième facture.</p>
-      <div style="display:flex;gap:9px;flex-wrap:wrap;align-items:center">
-        <a id="buildSingleCardLink" href="https://digiylyfe.com/tarifs-adherents-1.html?country=sn" style="display:inline-flex;justify-content:center;align-items:center;min-height:48px;padding:10px 14px;border-radius:12px;background:#facc15;color:#061b14;text-align:center;text-decoration:none;font-size:14px;font-weight:950">Voir tarifs et demander la carte seule →</a>
-        <a href="mailto:contact@digiylyfe.com" style="display:inline-flex;align-items:center;min-height:44px;color:#f4ffe9;font-size:13px;font-weight:800">✉️ contact@digiylyfe.com</a>
-      </div>
     </section>
 
     <section class="hero">
@@ -1045,11 +1036,13 @@
       function setCountry(next) {
         country = next === "france" ? "france" : "senegal";
         try { localStorage.setItem(COUNTRY_KEY, country); } catch (_) {}
-        const standaloneCardLink = document.getElementById("buildSingleCardLink");
-        if (standaloneCardLink) {
-          const cardUrl = new URL("https://digiylyfe.com/tarifs-adherents-1.html");
-          cardUrl.searchParams.set("country", country === "france" ? "fr" : "sn");
-          standaloneCardLink.href = cardUrl.toString();
+        const tariffsLink = document.getElementById("buildOfficialTarifs");
+        if (tariffsLink) {
+          const url = new URL("https://digiylyfe.com/tarifs-adherents-1.html");
+          url.searchParams.set("country", country === "france" ? "fr" : "sn");
+          const selectedLang = new URLSearchParams(location.search).get("lang") || "fr";
+          url.searchParams.set("lang", selectedLang);
+          tariffsLink.href = url.toString();
         }
 
         document.querySelectorAll("[data-country]").forEach((button) => {
