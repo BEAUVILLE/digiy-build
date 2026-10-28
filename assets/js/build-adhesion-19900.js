@@ -2,14 +2,14 @@
   'use strict';
   const SUP=['fr','en','es','pt','de','it','nl','ar'];
   const COPY={
-    fr:{main:'🧰 FORMULES BUILD · B1 / B2 / B3',prices:'📦 Voir la grille BUILD · B1 / B2 / B3'},
-    en:{main:'🧰 BUILD PLANS · B1 / B2 / B3',prices:'📦 See BUILD plans · B1 / B2 / B3'},
-    es:{main:'🧰 PLANES BUILD · B1 / B2 / B3',prices:'📦 Ver planes BUILD · B1 / B2 / B3'},
-    pt:{main:'🧰 PLANOS BUILD · B1 / B2 / B3',prices:'📦 Ver planos BUILD · B1 / B2 / B3'},
-    de:{main:'🧰 BUILD-TARIFE · B1 / B2 / B3',prices:'📦 BUILD-Tarife ansehen · B1 / B2 / B3'},
-    it:{main:'🧰 PIANI BUILD · B1 / B2 / B3',prices:'📦 Vedi piani BUILD · B1 / B2 / B3'},
-    nl:{main:'🧰 BUILD-PAKKETTEN · B1 / B2 / B3',prices:'📦 Bekijk BUILD-pakketten · B1 / B2 / B3'},
-    ar:{main:'🧰 باقات BUILD · B1 / B2 / B3',prices:'📦 عرض باقات BUILD · B1 / B2 / B3'}
+    fr:{main:'🧰 ADHÉSION BUILD · OFFRE UNIQUE',prices:'📦 Voir adhésion BUILD'},
+    en:{main:'🧰 BUILD MEMBERSHIP · ONE PLAN',prices:'📦 View BUILD membership'},
+    es:{main:'🧰 BUILD · UNA CUOTA',prices:'📦 Ver adhesión BUILD'},
+    pt:{main:'🧰 BUILD · ADESÃO ÚNICA',prices:'📦 Ver adesão BUILD'},
+    de:{main:'🧰 BUILD · EIN TARIF',prices:'📦 BUILD-Mitgliedschaft ansehen'},
+    it:{main:'🧰 BUILD · UN SOLO PIANO',prices:'📦 Vedi adesione BUILD'},
+    nl:{main:'🧰 BUILD · ÉÉN TARIEF',prices:'📦 Bekijk BUILD-lidmaatschap'},
+    ar:{main:'🧰 BUILD · اشتراك واحد',prices:'📦 عرض اشتراك BUILD'}
   };
   function lang(){
     try{
