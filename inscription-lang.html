@@ -38,7 +38,7 @@
           '<script src="./assets/js/build-inscription-nl.js?v='+VERSION+'" defer><\/script>'+ 
           '<script src="./assets/js/build-inscription-ar.js?v='+VERSION+'" defer><\/script>'+ 
           '<script src="./assets/js/build-inscription-i18n.js?v='+VERSION+'" defer><\/script>'+ 
-          '<script src="./assets/js/build-inscription-europe.js?v='+VERSION+'" defer><\/script>';
+          '';
         html=html.replace(/<head([^>]*)>/i,'<head$1><base href="./">'+boot+scripts);
         document.open();document.write(html);document.close();
       })
