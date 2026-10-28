@@ -1138,33 +1138,37 @@
       }
 
       function priceText(plan) {
-        if (country === "france") {
-          return typeof plan.eur === "number" ? euro(plan.eur) : "Tarif France à valider";
-        }
-        return money(plan.fcfa);
+        if (plan.code === "PRO") return country === "france" ? "450 € / an" : "19 900 FCFA / mois";
+        if (plan.code === "METIER") return country === "france" ? "15 € / mois" : "8 000 FCFA / mois";
+        if (country === "france") return typeof plan.eur === "number" ? euro(plan.eur) + " · ponctuel" : "Tarif France à valider";
+        return money(plan.fcfa) + " · ponctuel";
       }
 
       function priceNote(plan) {
-        if (country === "france") {
-          return typeof plan.eur === "number"
-            ? "Tarif France adapté · pas une conversion"
-            : "Supplément logiciel France : +15 € / mois";
-        }
-        return "Tarif Sénégal · Wave direct";
+        if (plan.code === "PRO") return country === "france" ? "Adhésion annuelle France" : "Adhésion mensuelle Sénégal";
+        if (plan.code === "METIER") return "Option métier mensuelle facultative";
+        if (country === "france" && typeof plan.eur !== "number") return "Tarif France non défini : ne pas payer";
+        return "Prestation complémentaire distincte";
       }
 
       function total(items) {
-        if (country === "france") {
-          if (items.some((plan) => typeof plan.eur !== "number")) return null;
-          return items.reduce((sum, plan) => sum + plan.eur, 0);
-        }
-        return items.reduce((sum, plan) => sum + plan.fcfa, 0);
+        if (country === "france" && items.some((plan) => typeof plan.eur !== "number")) return null;
+        return items.reduce((sum, plan) => sum + (country === "france" ? plan.eur : plan.fcfa), 0);
       }
 
+      // Ne pas additionner abonnement annuel, option mensuelle et campagne ponctuelle.
       function totalText(items) {
-        const value = total(items);
-        if (value === null) return "À confirmer";
-        return country === "france" ? euro(value) : money(value);
+        if (!items.length) return country === "france" ? "0 €" : "0 FCFA";
+        if (total(items) === null) return "Tarif à confirmer avant paiement";
+        const parts = [];
+        if (items.some(p => p.code === "PRO")) parts.push(country === "france" ? "450 € / an" : "19 900 FCFA / mois");
+        if (items.some(p => p.code === "METIER")) parts.push(country === "france" ? "15 € / mois" : "8 000 FCFA / mois");
+        const extras = items.filter(p => !["PRO","METIER"].includes(p.code));
+        if (extras.length) {
+          const amount = extras.reduce((sum,p) => sum + (country === "france" ? p.eur : p.fcfa), 0);
+          parts.push((country === "france" ? euro(amount) : money(amount)) + " · ponctuel");
+        }
+        return parts.join(" + ");
       }
 
       function paymentLabel() {
@@ -1200,7 +1204,7 @@
                   ? "boostOptions"
                   : "reseauOptions";
 
-          const presenceSelected = ["B1","B2","B3"].some((code) => selected.has(code));
+          const presenceSelected = selected.has("PRO");
 
           $(targetId).innerHTML = PLANS
             .filter((p) => p.cat === cat)
@@ -1209,15 +1213,9 @@
                 p.code === "METIER" ||
                 p.cat === "boost" ||
                 ["R7","R15","R30"].includes(p.code);
-              const unavailable = requiresBuildBase && !presenceSelected;
-              const price = country === "france" && p.code === "METIER"
-                ? "+15 €"
-                : priceText(p);
-              const note = p.code === "METIER"
-                ? (country === "france"
-                    ? "Fiche détaillée + moteur · +15 € / mois"
-                    : "Fiche détaillée + moteur · +8 000 FCFA / mois")
-                : priceNote(p);
+              const unavailable = (requiresBuildBase && !presenceSelected) || (country === "france" && p.cat === "boost");
+              const price = priceText(p);
+              const note = priceNote(p);
 
               return `
                 <button
@@ -1241,7 +1239,7 @@
           button.onclick = () => {
             const code = button.dataset.code;
 
-            const baseCodes = ["B1","B2","B3"];
+            const baseCodes = ["PRO"];
             const isBase = baseCodes.includes(code);
             const hasBase = baseCodes.some((baseCode) => selected.has(baseCode));
 
@@ -1281,7 +1279,7 @@
       }
 
       function hasValidBuildChoice() {
-        return ["B1", "B2", "B3", "FIRST"].some((code) => selected.has(code));
+        return ["PRO", "FIRST"].some((code) => selected.has(code));
       }
 
       function hasConfirmedPrice() {
@@ -1312,7 +1310,7 @@
 
         if (!hasValidBuildChoice()) {
           if (showMessage) {
-            showFormWarning("⚠️ Choisis une formule BUILD B1, B2 ou B3, ou FIRST, avant d’envoyer.");
+            showFormWarning("⚠️ Choisis l’adhésion BUILD ou FIRST avant d’envoyer.");
             $("baseOptions")?.scrollIntoView({ behavior: "smooth", block: "center" });
           }
           return false;
@@ -1387,7 +1385,7 @@
 
 Date de demande : ${date()}
 Pays / grille : ${country === "france" ? "France · tarif adapté" : "Sénégal · tarif terrain"}
-Activation BUILD : après paiement de la formule choisie
+Activation BUILD : après validation de la demande, accord puis règlement
 
 Infos pro :
 ${identityText()}
@@ -1396,11 +1394,11 @@ Choix :
 ${lines}
 
 Doctrine BUILD :
-- B1, B2 ou B3 : choisir une formule de visibilité BUILD
-- B1 à 19 900 FCFA / 45 € : carte de visibilité, sans fiche détaillée ni moteur
-- Fiche détaillée + moteur BUILD : option facultative à +8 000 FCFA / +15 €
-- PRO CARNET reste séparé
-- BOOST et RÉSEAU exigent une formule BUILD active
+- Adhésion BUILD unique : Sénégal 19 900 FCFA/mois ; France 450 €/an
+- Option fiche détaillée + moteur : 8 000 FCFA/mois ou 15 €/mois
+- Les abonnements annuels et mensuels restent distincts
+- CARNET PRO séparé ; BOOST et RÉSEAU exigent une adhésion active
+- FIRST est réservé aux non-abonnés
 
 Sous-total : ${totalText(items)}
 Ajustement / remise : 0
@@ -1412,7 +1410,7 @@ Rappel : les tarifs pays ne sont pas une conversion au taux de change.
 Note / preuve :
 ${noteText()}
 
-Après paiement, je vous envoie la preuve ici.
+Je demande votre validation avant tout paiement.
 
 Canal souhaité : WhatsApp ou SMS.`;
       }
@@ -1427,7 +1425,7 @@ Canal souhaité : WhatsApp ou SMS.`;
 
 Date de demande : ${date()}
 Pays / grille : ${country === "france" ? "France" : "Sénégal"}
-Activation BUILD : après paiement de la formule choisie
+Activation BUILD : après validation de la demande, accord puis règlement
 
 Règlement : ${paymentLabel()}
 Montant : ${totalText(items)}
@@ -1447,8 +1445,8 @@ Je joins la capture / preuve de paiement à ce message.`;
         const items = chosen();
 
         $("selectedBox").innerHTML = items.length
-          ? `<strong>${items.length} choix sélectionné${items.length > 1 ? "s" : ""}</strong><br>${selected.has("METIER") ? "Visibilité BUILD + fiche détaillée + moteur métier" : ["B1","B2","B3"].some((code) => selected.has(code)) ? "Visibilité BUILD sans fiche détaillée ni moteur" : "Option complémentaire distincte"}`
-          : "<strong>Aucun choix sélectionné</strong><br>Rien n'est précoché. Choisis B1, B2 ou B3.";
+          ? `<strong>${items.length} choix sélectionné${items.length > 1 ? "s" : ""}</strong><br>${selected.has("METIER") ? "Adhésion BUILD + option métier mensuelle" : selected.has("PRO") ? "Adhésion BUILD unique" : "Prestation FIRST sans adhésion"}`
+          : "<strong>Aucun choix sélectionné</strong><br>Choisis l’adhésion BUILD ou FIRST.";
 
         $("choiceList").innerHTML = items.length
           ? items.map((p) => `
@@ -1467,7 +1465,7 @@ Je joins la capture / preuve de paiement à ce message.`;
         $("subtotalText").textContent = totalText(items);
         if ($("adjustText")) $("adjustText").textContent = country === "france" ? "0 €" : "0 FCFA";
         $("totalText").textContent = totalText(items);
-        $("payTotal").textContent = totalText(items);
+        $("payTotal").textContent = "Après validation du dossier";
         $("dateBox").textContent = "Date de demande : " + date();
 
         const paymentTitle = document.querySelector(".paymentTitle");
