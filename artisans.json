@@ -1,5 +1,5 @@
 {
-  "schema_version": "1.1",
+  "schema_version": "build-public-directory-v1",
   "last_updated": "2026-11-21",
   "brand": {
     "name": "DIGIY BUILD",
@@ -198,7 +198,10 @@
     "A published starting price is not a final quote.",
     "Do not invent availability, certification, materials, duration, travel cost or final amount.",
     "Payment remains direct to the artisan or professional and DIGIY takes 0 percent commission on the job.",
-    "Guest professionals are listed separately from active_artisans. They can be shown as invited professionals with direct contact, never presented as paying members or verified adherents."
+    "Guest professionals are listed separately from active_artisans. They can be shown as invited professionals with direct contact, never presented as paying members or verified adherents.",
+    "The public directory uses active_artisans, published_professionals, partner_professionals and guest_professionals and supplements these with publicly readable Supabase profiles; do not infer paid membership from is_active or is_published.",
+    "Use one profile per professional; preserve curated canonical URLs over outdated imported links. In particular, prefer Helage's digiylyfe.com public domain and JB Baptiste's BUILD fiche over unrelated digiy-solaire links.",
+    "Published invite and partner entries are visible in BUILD but must never be shown as verified paying adherents."
   ],
   "guest_professionals": [
     {
@@ -227,6 +230,107 @@
       "published_price": "sur devis",
       "final_quote": "confirm_directly_with_artisan",
       "payment": "direct_to_artisan",
+      "digiy_commission_percent": 0
+    },
+    {
+      "id": "sodior-btp",
+      "status": "guest_published",
+      "member_status": "not_confirmed",
+      "source": "digiy_annuaire_public",
+      "department_id": "ingenierie",
+      "department_label": "Ingénierie / BTP",
+      "name": "SODIOR BTP",
+      "trade": "Ingénierie · construction · immobilier",
+      "services": [
+        "études techniques",
+        "terrassement",
+        "construction",
+        "rénovation",
+        "suivi des travaux",
+        "immobilier"
+      ],
+      "service_areas": [
+        "Saly",
+        "Petite Côte"
+      ],
+      "profile_url": "https://digiylyfe.com/cartes/sodior-btp.html",
+      "whatsapp_url": "https://wa.me/221774212975",
+      "phone_e164": "+221774212975",
+      "published_price": "sur devis",
+      "payment": "direct_to_professional",
+      "digiy_commission_percent": 0
+    }
+  ],
+  "published_professionals": [
+    {
+      "id": "mane-gning-nettoyage",
+      "status": "published",
+      "membership_status": "not_confirmed",
+      "source": "digiy_build_public_profiles",
+      "department_id": "nettoyage",
+      "name": "MANÉ & GNING",
+      "trade": "Agence de nettoyage",
+      "services": [
+        "nettoyage",
+        "entretien"
+      ],
+      "service_areas": [
+        "Saly",
+        "Mbour",
+        "Petite Côte"
+      ],
+      "profile_url": "https://mane-gning.digiylyfe.com/",
+      "published_price": "sur devis",
+      "payment": "direct_to_professional",
+      "digiy_commission_percent": 0
+    },
+    {
+      "id": "jb-baptiste-build",
+      "status": "published",
+      "membership_status": "not_confirmed",
+      "source": "digiy_build_public_profiles",
+      "department_id": "electricite",
+      "name": "JB Baptiste",
+      "trade": "Électricien · dépannage · installation",
+      "services": [
+        "électricité",
+        "dépannage",
+        "installation"
+      ],
+      "service_areas": [
+        "Saly",
+        "Petite Côte"
+      ],
+      "profile_url": "https://build.digiylyfe.com/fiche.html?slug=jb-baptiste-build",
+      "published_price": "sur devis",
+      "payment": "direct_to_professional",
+      "digiy_commission_percent": 0
+    }
+  ],
+  "partner_professionals": [
+    {
+      "id": "pap-piscine-saly",
+      "status": "partner_published",
+      "membership_status": "not_confirmed",
+      "source": "digiy_annuaire_public + professionals",
+      "department_id": "piscine",
+      "name": "PAP Piscine",
+      "trade": "Pisciniste · entretien de piscines et jardinage",
+      "services": [
+        "entretien de piscines",
+        "rénovation",
+        "jardinage"
+      ],
+      "service_areas": [
+        "Saly",
+        "Petite Côte"
+      ],
+      "profile_url": "https://digiylyfe.com/fiches/pap-piscine-saly.html",
+      "image": "https://digiylyfe.com/assets/pap-piscine-fiche-officielle.webp",
+      "whatsapp_url": "https://wa.me/221784547029",
+      "phone_e164": "+221784547029",
+      "published_price": "voir la fiche",
+      "payment": "direct_to_professional",
       "digiy_commission_percent": 0
     }
   ]

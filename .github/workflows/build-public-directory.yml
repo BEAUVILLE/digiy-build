@@ -1,0 +1,39 @@
+name: DIGIY BUILD — répertoire unifié public
+on:
+  pull_request:
+    paths:
+      - 'artisans.json'
+      - 'assets/digiy-build-public-directory-v1.js'
+      - 'assets/digiy-build-public-directory-v1.css'
+      - 'index.html'
+      - 'listing.html'
+      - 'catalogue.html'
+      - 'tests/build-public-directory.test.cjs'
+      - '.github/workflows/build-public-directory.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'artisans.json'
+      - 'assets/digiy-build-public-directory-v1.js'
+      - 'assets/digiy-build-public-directory-v1.css'
+      - 'index.html'
+      - 'listing.html'
+      - 'catalogue.html'
+      - 'tests/build-public-directory.test.cjs'
+      - '.github/workflows/build-public-directory.yml'
+permissions:
+  contents: read
+jobs:
+  unified-public-directory:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify nine published profiles and three public entry points
+        run: |
+          node --check assets/digiy-build-public-directory-v1.js
+          node --check tests/build-public-directory.test.cjs
+          node --test tests/build-public-directory.test.cjs
