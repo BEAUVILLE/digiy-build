@@ -1,6 +1,6 @@
 {
   "schema_version": "1.1",
-  "last_updated": "2026-08-29",
+  "last_updated": "2026-11-21",
   "brand": {
     "name": "DIGIY BUILD",
     "parent_brand": "DIGIYLYFE",
@@ -51,7 +51,12 @@
         "entretien",
         "conseil énergie"
       ],
-      "territories": ["Sénégal", "Saly", "Dakar", "Petite Côte"],
+      "territories": [
+        "Sénégal",
+        "Saly",
+        "Dakar",
+        "Petite Côte"
+      ],
       "payment": "direct_to_professional",
       "digiy_commission_percent": 0
     }
@@ -63,8 +68,21 @@
       "department_id": "plomberie",
       "name": "Babacar Plombier Pro",
       "trade": "Plombier",
-      "services": ["fuite", "dépannage", "installation sanitaire", "robinetterie", "WC", "douche", "tuyauterie", "canalisation"],
-      "service_areas": ["Saly", "Mbour", "Petite Côte"],
+      "services": [
+        "fuite",
+        "dépannage",
+        "installation sanitaire",
+        "robinetterie",
+        "WC",
+        "douche",
+        "tuyauterie",
+        "canalisation"
+      ],
+      "service_areas": [
+        "Saly",
+        "Mbour",
+        "Petite Côte"
+      ],
       "profile_url": "https://babacar-plombier-pro.digiylyfe.com/",
       "phone_display": "+221 77 612 51 24",
       "phone_e164": "+221776125124",
@@ -80,14 +98,32 @@
       "department_id": "electricite",
       "name": "Kourant Électricien",
       "trade": "Électricien",
-      "services": ["installation électrique", "rénovation électrique", "dépannage", "tableaux", "disjoncteurs", "prises", "éclairage", "câblage", "recherche de panne"],
-      "service_areas": ["Saly", "Mbour", "Petite Côte"],
+      "services": [
+        "installation électrique",
+        "rénovation électrique",
+        "dépannage",
+        "tableaux",
+        "disjoncteurs",
+        "prises",
+        "éclairage",
+        "câblage",
+        "recherche de panne"
+      ],
+      "service_areas": [
+        "Saly",
+        "Mbour",
+        "Petite Côte"
+      ],
       "profile_url": "https://kourant.digiylyfe.com/",
       "image": "https://kourant.digiylyfe.com/carte-visite.png?v=20260714-v3",
       "phone_display": "+221 77 208 47 81",
       "phone_e164": "+221772084781",
       "whatsapp_url": "https://wa.me/221772084781",
-      "published_price": {"type": "starting_at", "amount": 10000, "currency": "XOF"},
+      "published_price": {
+        "type": "starting_at",
+        "amount": 10000,
+        "currency": "XOF"
+      },
       "final_quote": "confirm_directly_with_artisan",
       "payment": "direct_to_artisan",
       "digiy_commission_percent": 0
@@ -98,8 +134,19 @@
       "department_id": "maconnerie-batisseurs",
       "name": "Mbaye Diouf",
       "trade": "Bâtisseur",
-      "services": ["construction de villas", "piscines béton", "rénovation", "extensions", "finitions haut de gamme"],
-      "service_areas": ["Saly", "Mbour", "Thiès", "Petite Côte"],
+      "services": [
+        "construction de villas",
+        "piscines béton",
+        "rénovation",
+        "extensions",
+        "finitions haut de gamme"
+      ],
+      "service_areas": [
+        "Saly",
+        "Mbour",
+        "Thiès",
+        "Petite Côte"
+      ],
       "profile_url": "https://mbaye-macon.digiylyfe.com/",
       "image": "https://mbaye-macon.digiylyfe.com/carte-visite.png?v=20260714-v3",
       "phone_display": "+221 77 642 71 13",
@@ -116,8 +163,20 @@
       "department_id": "plomberie",
       "name": "Helage",
       "trade": "Plombier multi-services",
-      "services": ["dépannage fuites", "robinets", "WC", "installation douche", "lavabo", "chauffe-eau", "désengorgement", "petits chantiers sanitaires"],
-      "service_areas": ["Saly", "Petite Côte"],
+      "services": [
+        "dépannage fuites",
+        "robinets",
+        "WC",
+        "installation douche",
+        "lavabo",
+        "chauffe-eau",
+        "désengorgement",
+        "petits chantiers sanitaires"
+      ],
+      "service_areas": [
+        "Saly",
+        "Petite Côte"
+      ],
       "profile_url": "https://helage-plombier.digiylyfe.com/",
       "image": "https://helage-plombier.digiylyfe.com/carte-visite.png?v=20260814-adherent",
       "phone_e164": "+221774513523",
@@ -138,6 +197,37 @@
     "Give the artisan name, trade, service areas, profile and direct contact.",
     "A published starting price is not a final quote.",
     "Do not invent availability, certification, materials, duration, travel cost or final amount.",
-    "Payment remains direct to the artisan or professional and DIGIY takes 0 percent commission on the job."
+    "Payment remains direct to the artisan or professional and DIGIY takes 0 percent commission on the job.",
+    "Guest professionals are listed separately from active_artisans. They can be shown as invited professionals with direct contact, never presented as paying members or verified adherents."
+  ],
+  "guest_professionals": [
+    {
+      "id": "rene-rebiez",
+      "status": "guest_published",
+      "member_status": "not_confirmed",
+      "department_label": "Peinture / bâtiment",
+      "name": "René Rebiez",
+      "trade": "Peintre en bâtiment",
+      "services": [
+        "peinture de maisons",
+        "peinture d'immeubles",
+        "étanchéité",
+        "plusieurs équipes disponibles"
+      ],
+      "service_areas": [
+        "Touba Leugeune",
+        "Petite Côte",
+        "autres régions selon chantier"
+      ],
+      "profile_url": "https://build.digiylyfe.com/rene-rebiez.html",
+      "image": "https://build.digiylyfe.com/assets/rene-rebiez-9x16.png",
+      "phone_display": "+221 77 687 30 46",
+      "phone_e164": "+221776873046",
+      "whatsapp_url": "https://wa.me/221776873046",
+      "published_price": "sur devis",
+      "final_quote": "confirm_directly_with_artisan",
+      "payment": "direct_to_artisan",
+      "digiy_commission_percent": 0
+    }
   ]
 }
