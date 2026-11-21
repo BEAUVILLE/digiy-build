@@ -91,8 +91,8 @@ test('New published BUILD and invited artisan appear automatically, without gran
 test('One shared component is wired to home, listing and catalogue',()=>{
  for(const page of ['index.html','listing.html','catalogue.html']){
   const html=fs.readFileSync(path.join(root,page),'utf8');
-  assert.match(html,/digiy-build-public-directory-v1\.js\?v=20261121-unified/);
-  assert.match(html,/digiy-build-public-directory-v1\.css\?v=20261121-unified/);
+  assert.match(html,/digiy-build-public-directory-v1\.js\?v=20261121-solaire-separe/);
+  assert.match(html,/digiy-build-public-directory-v1\.css\?v=20261121-solaire-separe/);
  }
  const css=fs.readFileSync(path.join(root,'assets/digiy-build-public-directory-v1.css'),'utf8');
  assert.match(css,/body\[data-digiy-directory-page="home"\]/);
@@ -107,7 +107,7 @@ test('All ten languages have visible labels, correct status labels and trade cat
  assert.equal(API.LANGS.length,10);
  for(const l of API.LANGS){
   assert.ok(data[l],l);
-  assert.equal(data[l].trades.length,8,l);
+  assert.equal(data[l].trades.length,9,l);
   for(const field of ['title','lead','search','all','open','contact','published','partner','guest','count','none']){
    assert.ok(data[l][field]&&typeof data[l][field]==='string',l+' '+field);
   }
@@ -137,4 +137,47 @@ test('Quarantine remains effective for the slug even if an old API row stays act
  assert.ok(rows.some(x=>x.name==='PAP Piscine'));
  assert.ok(rows.some(x=>x.name==='SODIOR BTP'));
  assert.ok(rows.some(x=>x.name==='MANÉ & GNING'));
+});
+
+
+test('DIGIY SOLAIRE is a distinct trade module, not an electrician or a named artisan',()=>{
+ const pros=API.buildRegistry(json);
+ assert.equal(pros.length,8,'Eight people remain unchanged');
+ assert.ok(!pros.some(x=>x.name==='JB Baptiste'), 'Legacy JB stays quarantined');
+ const modules=API.buildModules(json);
+ assert.equal(modules.length,1,'One validated solar module');
+ const solar=modules[0];
+ assert.equal(solar.name,'DIGIY SOLAIRE');
+ assert.equal(solar.id,'digiy-solaire');
+ assert.equal(solar.kind,'module','Module must not masquerade as a published artisan');
+ assert.equal(solar.department,'solaire');
+ assert.equal(solar.url,'https://digiy-solaire.digiylyfe.com/');
+ assert.ok(solar.services.length>=3);
+ assert.ok(!pros.some(x=>x.url===solar.url),'Solar destination is not duplicated as an artisan');
+});
+
+test('Solar always classifies as solar even when a legacy sector says electrical',()=>{
+ assert.equal(API.tradeFor({department_id:'solaire',trade:'Installation électrique'}),'solaire');
+ assert.equal(API.tradeFor({department_id:'electricite',trade:'Installation solaire photovoltaïque'}),'solaire');
+ assert.equal(API.tradeFor({department_id:'electricite',trade:'Dépannage électrique'}),'electricite');
+ assert.equal(API.tradeFor({sector:'électricité',trade:'Diagnostic batteries solaires'}),'solaire');
+ assert.equal(API.tradeFor({department_id:'electricite',trade:'Électricien'}),'electricite');
+ assert.ok(API.DEPTS.includes('solaire'));
+ assert.notEqual(API.DEPTS.indexOf('solaire'),API.DEPTS.indexOf('electricite'));
+});
+
+test('Solar category exists in all ten public languages without changing existing eight profiles',()=>{
+ for(const l of API.LANGS){
+  assert.equal(API.WORDS[l].trades.length,9,l);
+  assert.ok(API.WORDS[l].trades[7],l+' solar translated');
+  assert.ok(API.WORDS[l].module,l+' module badge');
+  assert.ok(API.WORDS[l].modules,l+' plural module label');
+ }
+ const listing=fs.readFileSync(path.join(root,'listing.html'),'utf8');
+ assert.match(listing,/metier/);
+ assert.match(script,/const moduleCount=list\.filter\(p=>p\.kind==="module"\)\.length/);
+ assert.match(script,/const artisanCount=list\.filter\(p=>p\.kind!=="module"\)\.length/);
+ assert.match(script,/buildModules\(seed\)/);
+ const solar=API.buildModules(json)[0];
+ assert.equal(solar.url,'https://digiy-solaire.digiylyfe.com/');
 });
