@@ -18,7 +18,7 @@ const names=['Babacar Plombier Pro','Helage','JB Baptiste','Kourant Électricien
 test('Nine distinctly published cards, no fictional paid memberships',()=>{
  const list=API.buildRegistry(json);
  assert.equal(list.length,9);
- assert.deepEqual(list.map(x=>x.name).sort(),names.sort());
+ assert.deepEqual(Array.from(list,x=>x.name).sort(),names.slice().sort());
  assert.deepEqual(list.reduce((out,x)=>(out[x.kind]=(out[x.kind]||0)+1,out),{}),{published:6,partner:1,guest:2});
  assert.ok(list.every(x=>x.url.startsWith('https://')));
  assert.ok(list.every(x=>!/(adhérent|verified member|membre payant)/i.test(x.kind)));
