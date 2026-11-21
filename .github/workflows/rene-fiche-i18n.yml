@@ -1,0 +1,28 @@
+name: DIGIY BUILD — fiche René 10 langues
+on:
+  pull_request:
+    paths:
+      - 'rene-rebiez.html'
+      - 'tests/rene-fiche-i18n.test.cjs'
+      - '.github/workflows/rene-fiche-i18n.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'rene-rebiez.html'
+      - 'tests/rene-fiche-i18n.test.cjs'
+      - '.github/workflows/rene-fiche-i18n.yml'
+permissions:
+  contents: read
+jobs:
+  rene-fiche-i18n:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Validate script and all ten language changes
+        run: |
+          node --check tests/rene-fiche-i18n.test.cjs
+          node --test tests/rene-fiche-i18n.test.cjs
