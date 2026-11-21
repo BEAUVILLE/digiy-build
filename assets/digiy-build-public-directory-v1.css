@@ -19,6 +19,7 @@
 .digiyDirectoryBody{display:flex;flex-direction:column;gap:7px;padding:12px;flex:1}
 .digiyDirectoryBadge{align-self:flex-start;padding:5px 9px;border-radius:999px;background:#e3f2e6;color:#0d5a3a;border:1px solid #b9dbc5;font-size:10px;font-weight:950}
 .digiyDirectoryBadge-guest{background:#fff2d1;color:#7a5008;border-color:#f0d088}
+.digiyDirectoryBadge-module{background:#fff1bc;color:#674800;border-color:#e2b940}
 .digiyDirectoryBadge-partner{background:#e5f2fe;color:#164b77;border-color:#b8d8f3}
 .digiyDirectoryCard h3{font-size:clamp(16px,2.5vw,20px)!important;line-height:1.2;color:#073f32!important;font-weight:950;margin:0!important}
 .digiyDirectoryTrade{font-size:13px;font-weight:850;color:#0d634b;margin:0}

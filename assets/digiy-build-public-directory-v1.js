@@ -11,24 +11,26 @@ const LANGS=["fr","wo","zh","en","es","pt","it","de","nl","ar"];
 const API="https://wesqmwjjtsefyjnluosj.supabase.co/rest/v1/";
 const API_KEY="sb_publishable_tGHItRgeWDmGjnd0CK1DVQ_BIep4Ug3";
 const WORDS={
-fr:{title:"Tous les professionnels publiés",lead:"Bâtiment, entretien, piscine et métiers du terrain · contact direct · 0 % commission",search:"Rechercher un nom ou un métier",all:"Tous les métiers",open:"Voir la fiche",contact:"WhatsApp direct",published:"Publié dans BUILD",partner:"Partenaire DIGIY",guest:"Invité DIGIY",count:"professionnels",none:"Aucun résultat pour cette recherche.",return:"Retour à DIGIYLYFE",trades:["Plomberie","Électricité","Construction","Peinture","Nettoyage","Piscines & jardins","Ingénierie & BTP","Autres métiers"]},
-wo:{title:"Boroom liggéey yi ñu siiwal",lead:"Tabax, setal, piscine ak liggéeyu terrain · jokkoo bu jub · 0 % commission",search:"Seet tur walla métier",all:"Liggéey yépp",open:"Xool fiche bi",contact:"Jokkoo ci WhatsApp",published:"Ñu siiwal ci BUILD",partner:"Partaneeru DIGIY",guest:"Ganu DIGIY",count:"boroom liggéey",none:"Amul ku méngoo ak sa seet.",return:"Dellu ci DIGIYLYFE",trades:["Plomberie","Elektrisite","Tabax","Pentir","Setal","Piscine ak tool","Inseñeri ak BTP","Yeneen métier"]},
-zh:{title:"所有已公开的专业人士",lead:"建筑、维护、泳池及现场服务 · 直接联系 · 0% 佣金",search:"搜索姓名或工种",all:"全部工种",open:"查看资料",contact:"WhatsApp 直接联系",published:"BUILD 已发布",partner:"DIGIY 合作伙伴",guest:"DIGIY 嘉宾",count:"位专业人士",none:"没有符合条件的结果。",return:"返回 DIGIYLYFE",trades:["管道维修","电气","建筑施工","油漆","清洁","泳池与园艺","工程与建筑","其他工种"]},
-en:{title:"All published professionals",lead:"Construction, maintenance, pools and field services · direct contact · 0% commission",search:"Search by name or trade",all:"All trades",open:"Open profile",contact:"Direct WhatsApp",published:"Published on BUILD",partner:"DIGIY partner",guest:"DIGIY guest",count:"professionals",none:"No matching professionals.",return:"Back to DIGIYLYFE",trades:["Plumbing","Electrical","Construction","Painting","Cleaning","Pools & gardens","Engineering & building","Other trades"]},
-es:{title:"Todos los profesionales publicados",lead:"Construcción, mantenimiento, piscinas y servicios · contacto directo · 0 % comisión",search:"Buscar nombre u oficio",all:"Todos los oficios",open:"Ver ficha",contact:"WhatsApp directo",published:"Publicado en BUILD",partner:"Colaborador DIGIY",guest:"Invitado DIGIY",count:"profesionales",none:"No se encontraron profesionales.",return:"Volver a DIGIYLYFE",trades:["Fontanería","Electricidad","Construcción","Pintura","Limpieza","Piscinas y jardines","Ingeniería y obras","Otros oficios"]},
-pt:{title:"Todos os profissionais publicados",lead:"Construção, manutenção, piscinas e serviços locais · contacto direto · 0 % comissão",search:"Procurar nome ou profissão",all:"Todas as profissões",open:"Ver perfil",contact:"WhatsApp direto",published:"Publicado no BUILD",partner:"Parceiro DIGIY",guest:"Convidado DIGIY",count:"profissionais",none:"Nenhum profissional encontrado.",return:"Voltar ao DIGIYLYFE",trades:["Canalização","Eletricidade","Construção","Pintura","Limpeza","Piscinas e jardins","Engenharia e obras","Outras profissões"]},
-it:{title:"Tutti i professionisti pubblicati",lead:"Edilizia, manutenzione, piscine e servizi locali · contatto diretto · 0% commissioni",search:"Cerca nome o mestiere",all:"Tutti i mestieri",open:"Apri scheda",contact:"WhatsApp diretto",published:"Pubblicato su BUILD",partner:"Partner DIGIY",guest:"Ospite DIGIY",count:"professionisti",none:"Nessun risultato.",return:"Torna a DIGIYLYFE",trades:["Idraulica","Elettricità","Edilizia","Pittura","Pulizie","Piscine e giardini","Ingegneria e costruzioni","Altri mestieri"]},
-de:{title:"Alle veröffentlichten Fachkräfte",lead:"Bau, Wartung, Pools und Dienstleistungen · direkter Kontakt · 0 % Provision",search:"Name oder Handwerk suchen",all:"Alle Gewerke",open:"Profil öffnen",contact:"Direkt per WhatsApp",published:"Auf BUILD veröffentlicht",partner:"DIGIY Partner",guest:"DIGIY Gast",count:"Fachkräfte",none:"Keine passenden Fachkräfte.",return:"Zurück zu DIGIYLYFE",trades:["Sanitär","Elektrik","Bau","Malerei","Reinigung","Pools und Gärten","Ingenieurwesen und Bau","Weitere Gewerke"]},
-nl:{title:"Alle gepubliceerde vakmensen",lead:"Bouw, onderhoud, zwembaden en lokale diensten · direct contact · 0% commissie",search:"Zoek naam of vak",all:"Alle vakken",open:"Open profiel",contact:"Direct WhatsApp",published:"Gepubliceerd op BUILD",partner:"DIGIY partner",guest:"DIGIY gast",count:"vakmensen",none:"Geen passende professionals.",return:"Terug naar DIGIYLYFE",trades:["Loodgieterswerk","Elektriciteit","Bouw","Schilderwerk","Schoonmaak","Zwembaden en tuinen","Techniek en bouw","Andere vakken"]},
-ar:{title:"جميع المهنيين المنشورين",lead:"البناء والصيانة والمسابح والخدمات الميدانية · اتصال مباشر · عمولة صفر",search:"البحث بالاسم أو المهنة",all:"جميع المهن",open:"عرض الملف",contact:"واتساب مباشر",published:"منشور على BUILD",partner:"شريك DIGIY",guest:"ضيف DIGIY",count:"مهنيون",none:"لا توجد نتائج مطابقة.",return:"العودة إلى DIGIYLYFE",trades:["السباكة","الكهرباء","البناء","الدهان","التنظيف","المسابح والحدائق","الهندسة والبناء","مهن أخرى"]}
+fr:{title:"Tous les professionnels publiés",lead:"Bâtiment, entretien, piscine et métiers du terrain · contact direct · 0 % commission",search:"Rechercher un nom ou un métier",all:"Tous les métiers",open:"Voir la fiche",contact:"WhatsApp direct",published:"Publié dans BUILD",partner:"Partenaire DIGIY",guest:"Invité DIGIY",module:"Module métier",modules:"modules métiers",count:"professionnels",none:"Aucun résultat pour cette recherche.",return:"Retour à DIGIYLYFE",trades:["Plomberie","Électricité","Construction","Peinture","Nettoyage","Piscines & jardins","Ingénierie & BTP","Solaire / Énergie","Autres métiers"]},
+wo:{title:"Boroom liggéey yi ñu siiwal",lead:"Tabax, setal, piscine ak liggéeyu terrain · jokkoo bu jub · 0 % commission",search:"Seet tur walla métier",all:"Liggéey yépp",open:"Xool fiche bi",contact:"Jokkoo ci WhatsApp",published:"Ñu siiwal ci BUILD",partner:"Partaneeru DIGIY",guest:"Ganu DIGIY",module:"Module métier",modules:"Module métier yi",count:"boroom liggéey",none:"Amul ku méngoo ak sa seet.",return:"Dellu ci DIGIYLYFE",trades:["Plomberie","Elektrisite","Tabax","Pentir","Setal","Piscine ak tool","Inseñeri ak BTP","Enerzi solar","Yeneen métier"]},
+zh:{title:"所有已公开的专业人士",lead:"建筑、维护、泳池及现场服务 · 直接联系 · 0% 佣金",search:"搜索姓名或工种",all:"全部工种",open:"查看资料",contact:"WhatsApp 直接联系",published:"BUILD 已发布",partner:"DIGIY 合作伙伴",guest:"DIGIY 嘉宾",module:"专业模块",modules:"专业模块",count:"位专业人士",none:"没有符合条件的结果。",return:"返回 DIGIYLYFE",trades:["管道维修","电气","建筑施工","油漆","清洁","泳池与园艺","工程与建筑","太阳能 / 能源","其他工种"]},
+en:{title:"All published professionals",lead:"Construction, maintenance, pools and field services · direct contact · 0% commission",search:"Search by name or trade",all:"All trades",open:"Open profile",contact:"Direct WhatsApp",published:"Published on BUILD",partner:"DIGIY partner",guest:"DIGIY guest",module:"Trade module",modules:"trade modules",count:"professionals",none:"No matching professionals.",return:"Back to DIGIYLYFE",trades:["Plumbing","Electrical","Construction","Painting","Cleaning","Pools & gardens","Engineering & building","Solar / Energy","Other trades"]},
+es:{title:"Todos los profesionales publicados",lead:"Construcción, mantenimiento, piscinas y servicios · contacto directo · 0 % comisión",search:"Buscar nombre u oficio",all:"Todos los oficios",open:"Ver ficha",contact:"WhatsApp directo",published:"Publicado en BUILD",partner:"Colaborador DIGIY",guest:"Invitado DIGIY",module:"Módulo de oficio",modules:"módulos de oficio",count:"profesionales",none:"No se encontraron profesionales.",return:"Volver a DIGIYLYFE",trades:["Fontanería","Electricidad","Construcción","Pintura","Limpieza","Piscinas y jardines","Ingeniería y obras","Solar / Energía","Otros oficios"]},
+pt:{title:"Todos os profissionais publicados",lead:"Construção, manutenção, piscinas e serviços locais · contacto direto · 0 % comissão",search:"Procurar nome ou profissão",all:"Todas as profissões",open:"Ver perfil",contact:"WhatsApp direto",published:"Publicado no BUILD",partner:"Parceiro DIGIY",guest:"Convidado DIGIY",module:"Módulo profissional",modules:"módulos profissionais",count:"profissionais",none:"Nenhum profissional encontrado.",return:"Voltar ao DIGIYLYFE",trades:["Canalização","Eletricidade","Construção","Pintura","Limpeza","Piscinas e jardins","Engenharia e obras","Solar / Energia","Outras profissões"]},
+it:{title:"Tutti i professionisti pubblicati",lead:"Edilizia, manutenzione, piscine e servizi locali · contatto diretto · 0% commissioni",search:"Cerca nome o mestiere",all:"Tutti i mestieri",open:"Apri scheda",contact:"WhatsApp diretto",published:"Pubblicato su BUILD",partner:"Partner DIGIY",guest:"Ospite DIGIY",module:"Modulo professionale",modules:"moduli professionali",count:"professionisti",none:"Nessun risultato.",return:"Torna a DIGIYLYFE",trades:["Idraulica","Elettricità","Edilizia","Pittura","Pulizie","Piscine e giardini","Ingegneria e costruzioni","Solare / Energia","Altri mestieri"]},
+de:{title:"Alle veröffentlichten Fachkräfte",lead:"Bau, Wartung, Pools und Dienstleistungen · direkter Kontakt · 0 % Provision",search:"Name oder Handwerk suchen",all:"Alle Gewerke",open:"Profil öffnen",contact:"Direkt per WhatsApp",published:"Auf BUILD veröffentlicht",partner:"DIGIY Partner",guest:"DIGIY Gast",module:"Fachmodul",modules:"Fachmodule",count:"Fachkräfte",none:"Keine passenden Fachkräfte.",return:"Zurück zu DIGIYLYFE",trades:["Sanitär","Elektrik","Bau","Malerei","Reinigung","Pools und Gärten","Ingenieurwesen und Bau","Solar / Energie","Weitere Gewerke"]},
+nl:{title:"Alle gepubliceerde vakmensen",lead:"Bouw, onderhoud, zwembaden en lokale diensten · direct contact · 0% commissie",search:"Zoek naam of vak",all:"Alle vakken",open:"Open profiel",contact:"Direct WhatsApp",published:"Gepubliceerd op BUILD",partner:"DIGIY partner",guest:"DIGIY gast",module:"Vakmodule",modules:"vakmodules",count:"vakmensen",none:"Geen passende professionals.",return:"Terug naar DIGIYLYFE",trades:["Loodgieterswerk","Elektriciteit","Bouw","Schilderwerk","Schoonmaak","Zwembaden en tuinen","Techniek en bouw","Zonne-energie","Andere vakken"]},
+ar:{title:"جميع المهنيين المنشورين",lead:"البناء والصيانة والمسابح والخدمات الميدانية · اتصال مباشر · عمولة صفر",search:"البحث بالاسم أو المهنة",all:"جميع المهن",open:"عرض الملف",contact:"واتساب مباشر",published:"منشور على BUILD",partner:"شريك DIGIY",guest:"ضيف DIGIY",module:"وحدة مهنية",modules:"وحدات مهنية",count:"مهنيون",none:"لا توجد نتائج مطابقة.",return:"العودة إلى DIGIYLYFE",trades:["السباكة","الكهرباء","البناء","الدهان","التنظيف","المسابح والحدائق","الهندسة والبناء","الطاقة الشمسية","مهن أخرى"]}
 };
-const DEPTS=["plomberie","electricite","construction","peinture","nettoyage","piscine","ingenierie","autres"];
-const ICONS={plomberie:"🔧",electricite:"⚡",construction:"🧱",peinture:"🎨",nettoyage:"🧹",piscine:"💧",ingenierie:"🏗️",autres:"🛠️"};
+const DEPTS=["plomberie","electricite","construction","peinture","nettoyage","piscine","ingenierie","solaire","autres"];
+const ICONS={plomberie:"🔧",electricite:"⚡",construction:"🧱",peinture:"🎨",nettoyage:"🧹",piscine:"💧",ingenierie:"🏗️",solaire:"☀️",autres:"🛠️"};
 function norm(value){return String(value||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[^a-z0-9]+/g," ").trim();}
 function safeUrl(value){if(!String(value||"").trim())return"";try{const u=new URL(String(value),"https://build.digiylyfe.com/");if(u.protocol!=="https:"&&u.protocol!=="http:")return"";return u.href;}catch(_){return"";}}
 function urlKey(value){const safe=safeUrl(value);if(!safe)return"";const u=new URL(safe);let suffix=u.pathname.replace(/\/+$/,"")||"/";if(suffix.endsWith("/fiche.html"))suffix+="?slug="+(u.searchParams.get("slug")||"");return u.hostname.toLowerCase()+suffix.toLowerCase();}
 function tradeFor(item){
  const code=norm(item.department_id||"");
+ const solarDescription=norm([item.trade,item.activity_label,item.sector,item.specialite,item.description].join(" "));
+ if(code==="solaire"||code==="energie"||/solaire|photovoltai/.test(solarDescription))return"solaire";
  if(code==="plomberie")return"plomberie";
  if(code==="electricite")return"electricite";
  if(["maconnerie batisseurs","construction","maconnerie"].includes(code))return"construction";
@@ -41,7 +43,7 @@ function tradeFor(item){
  if(/peint|etanche/.test(t))return"peinture";
  if(/nettoy|menage|blanchiss/.test(t))return"nettoyage";
  if(/ingenier|etudes|bureau d etudes|terrass|immobilier|btp/.test(t))return"ingenierie";
- if(/elect|solaire/.test(t))return"electricite";
+ if(/elect/.test(t))return"electricite";
  if(/plomb|sanitair/.test(t))return"plomberie";
  if(/macon|batisseur|construction|renovation|villa/.test(t))return"construction";
  return"autres";
@@ -96,6 +98,18 @@ function buildRegistry(seed,buildRows=[],annuaireRows=[],professionalRows=[]){
  });
  return profiles.sort((a,b)=>a.name.localeCompare(b.name,"fr"));
 }
+
+/* DIGIY SOLAIRE is a published trade module, not a verified individual artisan. */
+function buildModules(seed){
+ return (seed.specialized_modules||[])
+   .filter(x=>x.id==="digiy-solaire"&&x.status==="active")
+   .map(x=>makeProfile({
+      id:x.id,name:x.label||"DIGIY SOLAIRE",trade:"Installation solaire · Dépannage · Batterie · Entretien",
+      department_id:"solaire",services:x.services||[],service_areas:x.territories||[],
+      profile_url:x.url
+   },"module","build-module"))
+   .filter(Boolean);
+}
 function currentLang(){
  let k="fr";try{k=(new URLSearchParams(root.location.search).get("lang")||"fr").toLowerCase().slice(0,2);}catch(_){}
  return LANGS.includes(k)?k:"fr";
@@ -113,17 +127,20 @@ function canonicalLink(url,lang){
  if(u.hostname==="digiylyfe.com"||u.hostname.endsWith(".digiylyfe.com"))u.searchParams.set("lang",lang);
  return u.href;
 }
-function populate(rootEl,profiles,page){
+function populate(rootEl,profiles,page,modules=[]){
  let lang=currentLang(),words=WORDS[lang],filter=selectedTrade(),query="";
  const main=document.querySelector("main");
  function render(){
   lang=currentLang();words=WORDS[lang];
-  const list=profiles.filter(p=>(filter==="all"||p.department===filter)&&(!query||norm([p.name,p.trade,...p.services,...p.areas].join(" ")).includes(norm(query))));
+  const list=profiles.concat(modules).filter(p=>(filter==="all"||p.department===filter)&&(!query||norm([p.name,p.trade,...p.services,...p.areas].join(" ")).includes(norm(query))));
   rootEl.replaceChildren();
   const head=node("div","digiyDirectoryHeader");
   head.appendChild(node("h2","digiyDirectoryTitle",words.title));
   head.appendChild(node("p","digiyDirectoryLead",words.lead));
-  const count=node("p","digiyDirectoryCount",list.length+" "+words.count);
+  const artisanCount=list.filter(p=>p.kind!=="module").length;
+  const moduleCount=list.filter(p=>p.kind==="module").length;
+  const countLabel=[artisanCount?artisanCount+" "+words.count:"",moduleCount?moduleCount+" "+(moduleCount===1?words.module:words.modules):""].filter(Boolean).join(" · ")||"0 "+words.count;
+  const count=node("p","digiyDirectoryCount",countLabel);
   count.setAttribute("aria-live","polite");head.appendChild(count);rootEl.appendChild(head);
   const controls=node("div","digiyDirectoryControls");
   const search=node("input","digiyDirectorySearch");search.type="search";search.placeholder=words.search;search.value=query;search.setAttribute("aria-label",words.search);
@@ -141,7 +158,7 @@ function populate(rootEl,profiles,page){
    rootEl.appendChild(languages);
   }
   const cards=node("div","digiyDirectoryCards");
-  const statusWords={published:words.published,partner:words.partner,guest:words.guest};
+  const statusWords={published:words.published,partner:words.partner,guest:words.guest,module:words.module};
   for(const p of list){
    const card=node("article","digiyDirectoryCard");card.dataset.directoryId=p.id;
    const imgBox=node("div","digiyDirectoryArt");
@@ -208,7 +225,7 @@ async function run(){
   host=node("section","digiyDirectory");hero.insertAdjacentElement("afterend",host);
  }
  host.id="digiyUnifiedDirectory";
- const control=populate(host,buildRegistry(seed),page);
+ const control=populate(host,buildRegistry(seed),page,buildModules(seed));
  const results=await Promise.allSettled([
   readApi("digiy_build_public_profiles",{select:"slug,slug_key,display_name,trade,sector,region,city,is_published,is_active,photo_url",is_published:"eq.true",is_active:"eq.true"}),
   readApi("digiy_annuaire_public",{select:"display_name,activity_label,short_description,category,status,entry_type,public_url,is_public,is_active",entry_type:"eq.professional",is_public:"eq.true",is_active:"eq.true"}),
@@ -217,7 +234,7 @@ async function run(){
  const payload=results.map(x=>x.status==="fulfilled"?x.value:[]);
  control.refresh(buildRegistry(seed,payload[0],payload[1],payload[2]));
 }
-root.DIGIY_BUILD_DIRECTORY_V1={buildRegistry,tradeFor,WORDS,LANGS};
+root.DIGIY_BUILD_DIRECTORY_V1={buildRegistry,buildModules,tradeFor,WORDS,LANGS,DEPTS};
 if(typeof document!=="undefined"&&typeof root.fetch==="function"){
  const begin=()=>run().catch(e=>root.console?.warn?.("DIGIY BUILD unified directory fallback:",e));
  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",begin,{once:true});else begin();
