@@ -53,7 +53,7 @@ var valid=Object.keys(t.cats);if(valid.indexOf(trade)<0)trade="all";
 function link(path,cat){var u=new URL(path,location.href);u.searchParams.set("lang",lang);if(cat)u.searchParams.set("metier",cat);return u.toString()}
 document.title="DIGIY BUILD · "+t.cats[trade];document.querySelector('meta[name="description"]').content=t.lead;
 function txt(id,v){var e=document.getElementById(id);if(e)e.textContent=v}
-txt("homeLink",t.home);txt("kicker",t.kicker);txt("title",trade==="all"?t.title:t.cats[trade]);txt("lead",t.lead);txt("emptyTitle",t.emptyTitle);txt("emptyText",t.emptyText);txt("emptyNeed",t.need);txt("emptySignup",t.signup);txt("navHome",t.navHome);txt("navProfiles",t.navProfiles);txt("navNeed",t.navNeed);txt("navPro",t.navPro);
+txt("homeLink",t.home);txt("kicker",t.kicker);txt("title",trade==="all"?t.title:(t.cats[trade]||t.title));txt("lead",t.lead);txt("emptyTitle",t.emptyTitle);txt("emptyText",t.emptyText);txt("emptyNeed",t.need);txt("emptySignup",t.signup);txt("navHome",t.navHome);txt("navProfiles",t.navProfiles);txt("navNeed",t.navNeed);txt("navPro",t.navPro);
 document.getElementById("homeLink").href=link("./index.html");document.getElementById("emptyNeed").href=link("./request.html");var tariffs=new URL("https://digiylyfe.com/tarifs-adherents-1.html");
 tariffs.searchParams.set("country","sn");
 tariffs.searchParams.set("lang",lang);

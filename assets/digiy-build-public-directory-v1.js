@@ -155,6 +155,15 @@ function populate(rootEl,profiles,page){
   }
   if(!list.length)cards.appendChild(node("p","digiyDirectoryEmpty",words.none));
   rootEl.appendChild(cards);
+  if(page==="listing"||page==="catalogue"){
+   document.documentElement.lang=lang==="zh"?"zh-CN":lang;
+   document.documentElement.dir=lang==="ar"?"rtl":"ltr";
+  }
+  if(page==="listing"){
+   const title=document.getElementById("title"),lead=document.getElementById("lead");
+   if(title)title.textContent=filter==="all"?words.title:(WORDS[lang].trades[DEPTS.indexOf(filter)]||words.title);
+   if(lead)lead.textContent=words.lead;
+  }
   if(page==="home"){
    const headerTitle=document.querySelector("main .section [data-i18n='title']");
    if(headerTitle)headerTitle.textContent="DIGIY BUILD · "+words.title;

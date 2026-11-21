@@ -118,3 +118,12 @@ test('No Supabase mutations, owner changes or backend SQL shipped',()=>{
  assert.doesNotMatch(script,/method\s*:\s*['"](?:POST|PATCH|PUT|DELETE)['"]/i);
  assert.doesNotMatch(script,/service_role|sb_secret_/);
 });
+
+test('Trade title fallback and all ten locale keys on category pages',()=>{
+ const listing=fs.readFileSync(path.join(root,'listing.html'),'utf8');
+ assert.match(listing,/trade==="all"\?t\.title:\(t\.cats\[trade\]\|\|t\.title\)/);
+ assert.match(script,/if\(page==="listing"\)/);
+ assert.match(script,/document\.documentElement\.lang=lang==="zh"\?"zh-CN":lang/);
+ assert.match(script,/document\.documentElement\.dir=lang==="ar"\?"rtl":"ltr"/);
+ assert.match(script,/WORDS\[lang\]\.trades\[DEPTS\.indexOf\(filter\)\]/);
+});
