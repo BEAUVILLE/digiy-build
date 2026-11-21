@@ -53,6 +53,7 @@ test('Ten language buttons translate headings, notice, footer, meta and directio
  const history={replaceState(_a,_b,value){href=String(value);}};
  const context={document,window:{location},location,history,URL,URLSearchParams};
  vm.runInNewContext(script,context,{timeout:1000});
+ assert.match(html, /id="cardReturnSite"[^>]*href="https:\/\/digiylyfe\.com\//, 'card must contain a real return link');
  assert.equal(document.documentElement.lang,'en');
  for(const lang of langs){
    const button=node('lang-'+lang);
@@ -67,6 +68,7 @@ test('Ten language buttons translate headings, notice, footer, meta and directio
    assert.equal(node('downloadActions').attrs['aria-label'],UI[lang].downloadAria,'accessibility '+lang);
    assert.equal(node('cardImage').alt,UI[lang].imageAlt,'card alt '+lang);
    assert.equal(node('backBuild').href,'https://build.digiylyfe.com/?lang='+lang,'return BUILD '+lang);
+   assert.equal(node('cardReturnSite').href,'https://digiylyfe.com/?lang='+lang,'card return site '+lang);
    assert.equal(new URL(href).searchParams.get('lang'),lang,'query language '+lang);
    assert.equal(new URL(href).searchParams.get('utm_source'),'test','preserve query source '+lang);
    assert.equal(button['aria-pressed'],'true','selected button '+lang);
