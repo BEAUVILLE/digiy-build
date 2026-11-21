@@ -24,5 +24,6 @@ const names={fr:'🇫🇷 FR',wo:'🇸🇳 WO',en:'🇬🇧 EN',es:'🇪🇸 ES'
 const target=document.getElementById('langs');
 Object.keys(names).forEach(k=>{const b=document.createElement('button');b.innerText=names[k];b.id='lang-'+k;b.onclick=()=>setLanguage(k);target.appendChild(b);});
 function setLanguage(k){lang=k;const t=T[k];document.getElementById('translated').dir=k==='ar'?'rtl':'ltr';document.getElementById('job').innerText=t[1];document.getElementById('servicesTitle').innerText=t[9];['s1','s2','s3','s4'].forEach((id,i)=>document.getElementById(id).innerText=t[i+2]);document.getElementById('coverageTitle').innerText=t[10];document.getElementById('coverage').innerText=t[6];document.getElementById('cta').innerText=t[7];const c=CARD_LINKS[k]||CARD_LINKS.fr;document.getElementById('downloadCard').innerText=c[0];document.getElementById('saveContact').innerText=c[1];document.getElementById('qrHint').innerText=c[2];Object.keys(names).forEach(x=>document.getElementById('lang-'+x).setAttribute('aria-pressed',String(x===k)));}
-setLanguage('fr');
+const requestedLang=new URLSearchParams(window.location.search).get('lang')||'fr';
+setLanguage(Object.prototype.hasOwnProperty.call(T,requestedLang)?requestedLang:'fr');
 </script></body></html>
