@@ -187,7 +187,16 @@
       "digiy_commission_percent": 0
     }
   ],
-  "excluded_or_unconfirmed_profiles": [],
+  "excluded_or_unconfirmed_profiles": [
+    {
+      "id": "jb-baptiste-build",
+      "name": "JB Baptiste",
+      "status": "requires_validation",
+      "public_listing": false,
+      "source": "digiy_build_public_profiles",
+      "reason": "Ancienne ligne publiée comme électricien mais description et liens dirigent vers DIGIY SOLAIRE. Identité et fiche métier non vérifiées : ne pas afficher comme artisan BUILD avant validation humaine."
+    }
+  ],
   "assistant_usage_notes": [
     "Route first by department_id, then by service area and service.",
     "Display as active departments only departments that contain at least one active artisan.",
@@ -280,28 +289,6 @@
         "Petite Côte"
       ],
       "profile_url": "https://mane-gning.digiylyfe.com/",
-      "published_price": "sur devis",
-      "payment": "direct_to_professional",
-      "digiy_commission_percent": 0
-    },
-    {
-      "id": "jb-baptiste-build",
-      "status": "published",
-      "membership_status": "not_confirmed",
-      "source": "digiy_build_public_profiles",
-      "department_id": "electricite",
-      "name": "JB Baptiste",
-      "trade": "Électricien · dépannage · installation",
-      "services": [
-        "électricité",
-        "dépannage",
-        "installation"
-      ],
-      "service_areas": [
-        "Saly",
-        "Petite Côte"
-      ],
-      "profile_url": "https://build.digiylyfe.com/fiche.html?slug=jb-baptiste-build",
       "published_price": "sur devis",
       "payment": "direct_to_professional",
       "digiy_commission_percent": 0
