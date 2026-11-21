@@ -59,7 +59,13 @@ function makeProfile(item,kind,source){
 }
 function buildRegistry(seed,buildRows=[],annuaireRows=[],professionalRows=[]){
  const profiles=[];
+ // A publication flag in a legacy table does not validate identity, trade or destination.
+ // Quarantined entries stay in the database; they must not reappear via API enrichment.
+ const excludedIds=new Set((seed.excluded_or_unconfirmed_profiles||[])
+  .filter(x=>x.public_listing===false)
+  .map(x=>norm(x.id||x.slug)));
  function add(item,kind,source){
+  if(excludedIds.has(norm(item.slug||item.slug_key||item.id||"")))return;
   const p=makeProfile(item,kind,source);
   if(!p)return;
   const duplicate=profiles.find(x=>norm(x.name)===norm(p.name)||(urlKey(x.url)&&urlKey(x.url)===urlKey(p.url)));
