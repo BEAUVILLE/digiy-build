@@ -13,13 +13,13 @@ vm.runInNewContext(script,context,{timeout:1000});
 const API=context.window.DIGIY_BUILD_DIRECTORY_V1;
 assert.ok(API&&typeof API.buildRegistry==='function');
 
-const names=['Babacar Plombier Pro','Helage','JB Baptiste','Kourant Électricien','MANÉ & GNING','Mbaye Diouf','PAP Piscine','René Rebiez','SODIOR BTP'];
+const names=['Babacar Plombier Pro','Helage','Kourant Électricien','MANÉ & GNING','Mbaye Diouf','PAP Piscine','René Rebiez','SODIOR BTP'];
 
-test('Nine distinctly published cards, no fictional paid memberships',()=>{
+test('Eight confirmed public profiles, one quarantined record, no fictional paid memberships',()=>{
  const list=API.buildRegistry(json);
- assert.equal(list.length,9);
+ assert.equal(list.length,8);
  assert.deepEqual(Array.from(list,x=>x.name).sort(),names.slice().sort());
- assert.deepEqual(list.reduce((out,x)=>(out[x.kind]=(out[x.kind]||0)+1,out),{}),{published:6,partner:1,guest:2});
+ assert.deepEqual(list.reduce((out,x)=>(out[x.kind]=(out[x.kind]||0)+1,out),{}),{published:5,partner:1,guest:2});
  assert.ok(list.every(x=>x.url.startsWith('https://')));
  assert.ok(list.every(x=>!/(adhérent|verified member|membre payant)/i.test(x.kind)));
  assert.ok(list.every(x=>x.department&&x.name));
@@ -36,13 +36,14 @@ test('PAP Piscine and SODIOR BTP retain their existing official publications',()
  assert.equal(sodior.department,'ingenierie');
 });
 
-test('Correct canonical links for Helage and JB Baptiste, not legacy unrelated sites',()=>{
+test('Helage canonical URL and no unverified JB Baptiste in public directory',()=>{
  const list=API.buildRegistry(json);
  assert.equal(list.find(x=>x.name==='Helage').url,'https://helage-plombier.digiylyfe.com/');
- assert.equal(list.find(x=>x.name==='JB Baptiste').url,'https://build.digiylyfe.com/fiche.html?slug=jb-baptiste-build');
+ assert.ok(!list.some(x=>x.name==='JB Baptiste'));
+ assert.ok(json.excluded_or_unconfirmed_profiles.some(x=>x.id==='jb-baptiste-build'&&x.public_listing===false));
 });
 
-test('Combining all three public sources never duplicates the nine professionals',()=>{
+test('Combining all three sources does not reinstate quarantined records or duplicate professionals',()=>{
  const build=[
   {display_name:'Babacar Plombier Pro',slug:'babacar-plombier-pro',trade:'Plombier',is_published:true,is_active:true},
   {display_name:'Helage',slug:'helage-plombier',trade:'Plombier',is_published:true,is_active:true},
@@ -65,8 +66,8 @@ test('Combining all three public sources never duplicates the nine professionals
   {name:'PAP Piscine',category:'service-artisan',is_published:true,is_active:true,website:'https://digiylyfe.com/fiches/pap-piscine-saly.html',card_url:'https://digiylyfe.com/assets/pap-piscine-fiche-officielle.webp'}
  ];
  const combined=API.buildRegistry(json,build,annuaire,professionals);
- assert.equal(combined.length,9);
- assert.ok(!combined.some(x=>x.name==='Not Published'||x.name==='Hidden Artisan'||x.name==='Shop'));
+ assert.equal(combined.length,8);
+ assert.ok(!combined.some(x=>x.name==='Not Published'||x.name==='Hidden Artisan'||x.name==='Shop'||x.name==='JB Baptiste'));
  assert.equal(combined.filter(x=>x.name==='Helage').length,1);
  assert.equal(combined.filter(x=>x.name==='Mbaye Diouf').length,1);
  assert.equal(combined.find(x=>x.name==='SODIOR BTP').kind,'guest');
@@ -80,7 +81,7 @@ test('New published BUILD and invited artisan appear automatically, without gran
  ];
  const annuaire=[{display_name:'Invité nouvel atelier',activity_label:'Construction',category:'artisan',entry_type:'professional',status:'invite',public_url:'https://digiylyfe.com/atelier.html',is_active:true,is_public:true}];
  const list=API.buildRegistry(json,extra,annuaire);
- assert.equal(list.length,11);
+ assert.equal(list.length,10);
  assert.equal(list.find(x=>x.name==='Futur artisan peintre').kind,'published');
  assert.equal(list.find(x=>x.name==='Futur artisan peintre').department,'peinture');
  assert.equal(list.find(x=>x.name==='Invité nouvel atelier').kind,'guest');
@@ -126,4 +127,14 @@ test('Trade title fallback and all ten locale keys on category pages',()=>{
  assert.match(script,/document\.documentElement\.lang=lang==="zh"\?"zh-CN":lang/);
  assert.match(script,/document\.documentElement\.dir=lang==="ar"\?"rtl":"ltr"/);
  assert.match(script,/WORDS\[lang\]\.trades\[DEPTS\.indexOf\(filter\)\]/);
+});
+
+test('Quarantine remains effective for the slug even if an old API row stays active',()=>{
+ const oldRow={display_name:'JB Baptiste',slug:'jb-baptiste-build',trade:'Électricien · dépannage',sector:'électricité',is_published:true,is_active:true,profile_url:'https://digiy-solaire.digiylyfe.com/'};
+ const rows=API.buildRegistry(json,[oldRow],[],[]);
+ assert.equal(rows.length,8);
+ assert.equal(rows.filter(x=>x.name==='JB Baptiste').length,0);
+ assert.ok(rows.some(x=>x.name==='PAP Piscine'));
+ assert.ok(rows.some(x=>x.name==='SODIOR BTP'));
+ assert.ok(rows.some(x=>x.name==='MANÉ & GNING'));
 });
