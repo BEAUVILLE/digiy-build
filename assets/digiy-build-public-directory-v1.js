@@ -25,7 +25,7 @@ ar:{title:"جميع المهنيين المنشورين",lead:"البناء وا
 const DEPTS=["plomberie","electricite","construction","peinture","nettoyage","piscine","ingenierie","autres"];
 const ICONS={plomberie:"🔧",electricite:"⚡",construction:"🧱",peinture:"🎨",nettoyage:"🧹",piscine:"💧",ingenierie:"🏗️",autres:"🛠️"};
 function norm(value){return String(value||"").normalize("NFD").replace(/[\u0300-\u036f]/g,"").toLowerCase().replace(/[^a-z0-9]+/g," ").trim();}
-function safeUrl(value){try{const u=new URL(String(value||""),"https://build.digiylyfe.com/");if(u.protocol!=="https:"&&u.protocol!=="http:")return"";return u.href;}catch(_){return"";}}
+function safeUrl(value){if(!String(value||"").trim())return"";try{const u=new URL(String(value),"https://build.digiylyfe.com/");if(u.protocol!=="https:"&&u.protocol!=="http:")return"";return u.href;}catch(_){return"";}}
 function urlKey(value){const safe=safeUrl(value);if(!safe)return"";const u=new URL(safe);let suffix=u.pathname.replace(/\/+$/,"")||"/";if(suffix.endsWith("/fiche.html"))suffix+="?slug="+(u.searchParams.get("slug")||"");return u.hostname.toLowerCase()+suffix.toLowerCase();}
 function tradeFor(item){
  const code=norm(item.department_id||"");
