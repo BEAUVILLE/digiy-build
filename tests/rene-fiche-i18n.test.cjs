@@ -38,7 +38,7 @@ test('Ten language buttons translate headings, notice, footer, meta and directio
   if(!nodes.has(id))nodes.set(id,{id,textContent:'',innerText:'',href:'',alt:'',dir:'',dataset:{},attrs:{},setAttribute(k,v){this.attrs[k]=v;},addEventListener(type,cb){if(type==='click')this.click=cb;},appendChild(child){nodes.set(child.id,child);}});
   return nodes.get(id);
  }
- const translatedNodes=Object.keys(UI.fr).filter(k=>!['title','meta','downloadAria','imageAlt'].includes(k)).map(k=>({...node('ui-'+k),dataset:{reneUi:k}}));
+ const translatedNodes=Object.keys(UI.fr).filter(k=>!['title','meta','downloadAria','imageAlt'].includes(k)).map(k=>{const el=node('ui-'+k);el.dataset.reneUi=k;return el;});
  const meta=node('meta');
  const document={
    documentElement:{lang:'fr',dir:'ltr'},
